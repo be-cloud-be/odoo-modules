@@ -75,8 +75,11 @@ openerp.document_gdrive = function(instance, m) {
                 self.on_gdrive_doc();
             });
         },
-        on_url_doc: function() {
-            var self = this;
+        on_drive_doc: function() {
+            
+        	createPicker();
+        	
+        	/*var self = this;
             var view = self.getParent();
             var ids = ( view.fields_view.type != "form" )? view.groups.get_selection().ids : [ view.datarecord.id ];
             if( !_.isEmpty(ids) ){
@@ -90,7 +93,7 @@ openerp.document_gdrive = function(instance, m) {
                             },
                         }); 
                     });
-                });
+                });*/
             }
         },
     });
