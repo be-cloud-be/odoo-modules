@@ -27,7 +27,6 @@ openerp.document_gdrive = function(instance, m) {
                         'active_id': [ids[0]],
                         'active_model': view.dataset.model,
                     },
-                }); 
             });
         },
         on_gdrive_doc: function() {
