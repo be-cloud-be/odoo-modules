@@ -4,11 +4,12 @@
 
         <template id="assets_backend" name="google_drive documents" inherit_id="web.assets_backend">
             <xpath expr="." position="inside">
+            	<script type="text/javascript" src="https://apis.google.com/js/api.js?onload=onApiLoad"></script>
                 <script type="text/javascript" src="/document_url/static/src/js/gdrive.js"></script>
             </xpath>
         </template>
 
-        <record model='ir.actions.act_window' id='action_ir_attachment_add_url'>
+        <record model='ir.actions.act_window' id='action_ir_attachment_add_gdrive'>
             <field name='name'>Add Google Drive</field>
             <field name='res_model'>ir.attachment.add_gdrive</field>
             <field name='type'>ir.actions.act_window</field>
