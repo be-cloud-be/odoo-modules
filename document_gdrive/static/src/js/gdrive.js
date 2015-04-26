@@ -9,7 +9,7 @@ openerp.document_gdrive = function(instance, m) {
       }
       if (pickerApiLoaded && oauthToken) {
         var picker = new google.picker.PickerBuilder().
-            addView(google.picker.​ViewId.DOCS).
+            addView(google.picket.ViewId.DOCS).
             setOAuthToken(oauthToken).
             setCallback(pickerCallback).
             build();
