@@ -1,8 +1,11 @@
-// The Client ID obtained from the Google Developers Console. Replace with your own Client ID.
-var clientId = "433547367780-i3aj00prkmgl3eg6nn7e3g1n8b11m04l.apps.googleusercontent.com"
+// The Browser API key obtained from the Google Developers Console.
+// Replace with your own Browser API key, or your own key.
+var developerKey = 'xxxxxxxYYYYYYYY-12345678';
 
-// Scope to use to access user's photos.
-var scope = ['https://www.googleapis.com/auth/photos'];
+// The Client ID obtained from the Google Developers Console. Replace with your own Client ID.
+var clientId = "433547367780-nsia17th36b4vfb43lu04f6r7m1o0s6e.apps.googleusercontent.com"
+
+var scope = ['https://www.googleapis.com/auth/drive'];
 
 var pickerApiLoaded = false;
 var oauthToken;
