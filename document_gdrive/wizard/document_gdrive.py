@@ -34,7 +34,7 @@ class AddGDriveWizard(orm.TransientModel):
         'doc_id': fields.char('doc_id', required=True),
     }
 
-    def action_add_url(self, cr, uid, ids, context=None):
+    def action_add_gdrive(self, cr, uid, ids, context=None):
         """Adds the Google Drive Document with as an ir.attachment record."""
         if context is None:
             context = {}

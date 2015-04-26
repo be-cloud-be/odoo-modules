@@ -24,8 +24,15 @@ openerp.document_gdrive = function(instance, m) {
         var doc = data[google.picker.Response.DOCUMENTS][0];
         url = doc[google.picker.Document.URL];
       }
-      var message = 'You picked: ' + url;
-      document.getElementById('result').innerHTML = message;
+      self.rpc("/web/action/load", { action_id: "document_gdrive.action_ir_attachment_add_gdrive" }).done(function(result) {
+          self.getParent().do_action(result, {
+              additional_context: {
+                  'active_ids': ids,
+                  'active_id': [ids[0]],
+                  'active_model': view.dataset.model,
+              },
+          }); 
+      });
     }
     
     instance.web.Sidebar.include({
