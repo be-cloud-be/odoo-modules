@@ -28,7 +28,6 @@ function onAuthApiLoad() {
 
 function onPickerApiLoad() {
   pickerApiLoaded = true;
-  createPicker();
 }
 
 function handleAuthResult(authResult) {
