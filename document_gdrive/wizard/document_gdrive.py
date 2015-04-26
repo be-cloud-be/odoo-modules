@@ -31,7 +31,7 @@ class AddGDriveWizard(orm.TransientModel):
 
     _columns = {
         'name': fields.char('Name', required=True),
-        'url': fields.char('URL', required=True),
+        'doc_id': fields.char('doc_id', required=True),
     }
 
     def action_add_url(self, cr, uid, ids, context=None):

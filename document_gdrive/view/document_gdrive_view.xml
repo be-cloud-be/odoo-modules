@@ -21,7 +21,7 @@
             <field name="name">ir.attachment.add_gdrive.form</field>
             <field name="model">ir.attachment.add_gdrive</field>
             <field name="arch" type="xml">
-                <form string="Add URL" version="7.0">
+                <form string="Add Google Drive Doc" version="7.0">
                     <group>
                         <field name="name"/>
                         <field name="url" widget="url"/>
