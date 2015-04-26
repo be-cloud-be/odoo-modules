@@ -10,12 +10,6 @@ var scope = ['https://www.googleapis.com/auth/photos'];
 var pickerApiLoaded = false;
 var oauthToken;
 
-// Use the API Loader script to load google.picker and gapi.auth.
-function onApiLoad() {
-  gapi.load('auth', {'callback': onAuthApiLoad});
-  gapi.load('picker', {'callback': onPickerApiLoad});
-}
-
 function onAuthApiLoad() {
   window.gapi.auth.authorize(
       {
@@ -36,3 +30,7 @@ function handleAuthResult(authResult) {
     oauthToken = authResult.access_token;
   }
 }
+
+//Use the API Loader script to load google.picker and gapi.auth.
+gapi.load('auth', {'callback': onAuthApiLoad});
+gapi.load('picker', {'callback': onPickerApiLoad});
