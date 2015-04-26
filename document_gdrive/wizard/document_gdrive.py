@@ -18,7 +18,7 @@
 #    along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #
 ##############################################################################
-from openerp.osv import fields, orm
+from openerp import models, fields, api, _
 try:
     # Python 3
     from urllib import parse as urlparse
@@ -26,33 +26,32 @@ except:
     from urlparse import urlparse
 
 
-class AddGDriveWizard(orm.TransientModel):
+class AddGDriveWizard(models.TransientModel):
     _name = 'ir.attachment.add_gdrive'
 
     _columns = {
         'name': fields.char('Name', required=True),
-        'doc_id': fields.char('doc_id', required=True),
+        'url': fields.char('doc_id', required=True),
     }
 
-    def action_add_gdrive(self, cr, uid, ids, context=None):
-        """Adds the Google Drive Document with as an ir.attachment record."""
+    @api.model
+    def action_add_gdrive(self, name, url, context=None):
+        """Adds the Google Drive Document with an ir.attachment record."""
         if context is None:
             context = {}
         if not context.get('active_model'):
             return
         attachment_obj = self.pool['ir.attachment']
-        for form in self.browse(cr, uid, ids, context=context):
-            url = urlparse(form.url)
-            if not url.scheme:
-                url = urlparse('%s%s' % ('http://', form.url))
-            for active_id in context.get('active_ids', []):
-                attachment = {
-                    'name': form.name,
-                    'type': 'url',
-                    'url': url.geturl(),
-                    'user_id': uid,
-                    'res_id': active_id,
-                    'res_model': context['active_model'],
-                }
-                attachment_obj.create(cr, uid, attachment, context=context)
-        return {'type': 'ir.actions.act_close_wizard_and_reload_view'}
+        url = urlparse(url)
+        if not url.scheme:
+            url = urlparse('%s%s' % ('http://', url))
+        for active_id in context.get('active_ids', []):
+            attachment = {
+                'name': name,
+                'type': 'url',
+                'url': url.geturl(),
+                'res_id': active_id,
+                'res_model': context['active_model'],
+            }
+            attachment_obj.create(attachment)
+        return {}

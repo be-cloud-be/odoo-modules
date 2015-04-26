@@ -2,39 +2,6 @@ openerp.document_gdrive = function(instance, m) {
     var _t = instance.web._t,
         QWeb = instance.web.qweb;
 
-    // Create and render a Picker object for picking user Photos.
-    function createPicker() {
-      if(!pickerApiLoaded || !oauthToken) {
-    	  onApiLoad();
-      }
-      if (pickerApiLoaded && oauthToken) {
-        var picker = new google.picker.PickerBuilder().
-            addView(google.picker.ViewId.DOCS).
-            setOAuthToken(oauthToken).
-            setCallback(pickerCallback).
-            build();
-        picker.setVisible(true);
-      }
-    }
-
-    // A simple callback implementation.
-    function pickerCallback(data) {
-      var url = 'nothing';
-      if (data[google.picker.Response.ACTION] == google.picker.Action.PICKED) {
-        var doc = data[google.picker.Response.DOCUMENTS][0];
-        url = doc[google.picker.Document.URL];
-      }
-      self.rpc("/web/action/load", { action_id: "document_gdrive.action_ir_attachment_add_gdrive" }).done(function(result) {
-          self.getParent().do_action(result, {
-              additional_context: {
-                  'active_ids': ids,
-                  'active_id': [ids[0]],
-                  'active_model': view.dataset.model,
-              },
-          }); 
-      });
-    }
-    
     instance.web.Sidebar.include({
         redraw: function() {
             var self = this;
@@ -44,26 +11,37 @@ openerp.document_gdrive = function(instance, m) {
                 self.on_gdrive_doc();
             });
         },
-        on_gdrive_doc: function() {
-            
-        	createPicker();
-        	
-        	/*var self = this;
+        pickerCallback: function(data) {
+        	var url = 'nothing';
+            if (data[google.picker.Response.ACTION] == google.picker.Action.PICKED) {
+              var doc = data[google.picker.Response.DOCUMENTS][0];
+              url = doc[google.picker.Document.URL];
+            }
+            var self = this;
             var view = self.getParent();
             var ids = ( view.fields_view.type != "form" )? view.groups.get_selection().ids : [ view.datarecord.id ];
-            if( !_.isEmpty(ids) ){
-                view.sidebar_eval_context().done(function (context) {
-                    self.rpc("/web/action/load", { action_id: "document_gdrive.action_ir_attachment_add_gdrive" }).done(function(result) {
-                        self.getParent().do_action(result, {
-                            additional_context: {
-                                'active_ids': ids,
-                                'active_id': [ids[0]],
-                                'active_model': view.dataset.model,
-                            },
-                        }); 
-                    });
-                });
-            }*/
+            var model = new instance.web.Model("ir.attachment.add_gdrive");
+            model.do_action(result, {
+                    additional_context: {
+                        'active_ids': ids,
+                        'active_id': [ids[0]],
+                        'active_model': view.dataset.model,
+                    },
+                }); 
+            });
+        },
+        on_gdrive_doc: function() {
+        	if(!pickerApiLoaded || !oauthToken) {
+          	  onApiLoad();
+            }
+            if (pickerApiLoaded && oauthToken) {
+              var picker = new google.picker.PickerBuilder().
+                  addView(google.picker.ViewId.DOCS).
+                  setOAuthToken(oauthToken).
+                  setCallback(self.pickerCallback).
+                  build();
+              picker.setVisible(true);
+            }
         },
     });
 
