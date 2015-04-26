@@ -75,7 +75,7 @@ openerp.document_gdrive = function(instance, m) {
                 self.on_gdrive_doc();
             });
         },
-        on_drive_doc: function() {
+        on_gdrive_doc: function() {
             
         	createPicker();
         	
