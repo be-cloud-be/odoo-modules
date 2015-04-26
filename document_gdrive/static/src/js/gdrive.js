@@ -4,7 +4,7 @@ openerp.document_gdrive = function(instance, m) {
 
     // Create and render a Picker object for picking user Photos.
     function createPicker() {
-      if(!pickerApiLoaded) {
+      if(!pickerApiLoaded || !oauthToken) {
     	  onApiLoad();
       }
       if (pickerApiLoaded && oauthToken) {
