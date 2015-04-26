@@ -4,6 +4,9 @@ openerp.document_gdrive = function(instance, m) {
 
     // Create and render a Picker object for picking user Photos.
     function createPicker() {
+      if(!pickerApiLoaded) {
+    	  onApiLoad();
+      }
       if (pickerApiLoaded && oauthToken) {
         var picker = new google.picker.PickerBuilder().
             addView(google.picker.ViewId.PHOTOS).
