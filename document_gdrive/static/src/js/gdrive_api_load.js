@@ -1,7 +1,3 @@
-// The Browser API key obtained from the Google Developers Console.
-// Replace with your own Browser API key, or your own key.
-var developerKey = 'AIzaSyAz19qRFuyPIEsKtDmSWlcGwAsgzBSJ5u4';
-
 // The Client ID obtained from the Google Developers Console. Replace with your own Client ID.
 var clientId = "433547367780-7tc38g697r7aoov2oqglb6s1bafktich.apps.googleusercontent.com"
 

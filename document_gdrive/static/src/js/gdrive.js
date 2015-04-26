@@ -11,7 +11,6 @@ openerp.document_gdrive = function(instance, m) {
         var picker = new google.picker.PickerBuilder().
             addView(google.picker.ViewId.PHOTOS).
             setOAuthToken(oauthToken).
-            setDeveloperKey(developerKey).
             setCallback(pickerCallback).
             build();
         picker.setVisible(true);
