@@ -16,13 +16,13 @@ openerp.document_gdrive = function(instance, m) {
             if (data[google.picker.Response.ACTION] == google.picker.Action.PICKED) {
               var doc = data[google.picker.Response.DOCUMENTS][0];
               url = doc[google.picker.Document.URL];
+	            var self = this;
+	            var model = new openerp.web.Model("ir.attachment.add_gdrive");
+	            model.call('action_add_gdrive', [url],
+	                    {context: openerp.session.user_context}).then(function (result) {
+			      // do something with change_password result
+			    });
             }
-            var self = this;
-            var model = new openerp.web.Model("ir.attachment.add_gdrive");
-            model.call('action_add_gdrive', [url],
-                    {context: openerp.session.user_context}).then(function (result) {
-		      // do something with change_password result
-		    });
         },
         on_gdrive_doc: function() {
         	if(!pickerApiLoaded || !oauthToken) {

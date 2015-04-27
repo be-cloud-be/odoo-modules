@@ -34,9 +34,10 @@ class AddGDriveWizard(models.TransientModel):
         'url': fields.char('doc_id', required=True),
     }
 
-    @api.model
-    def action_add_gdrive(self, name, url, context=None):
+    @api.multi
+    def action_add_gdrive(self, name, url):
         """Adds the Google Drive Document with an ir.attachment record."""
+        context = self.env
         if context is None:
             context = {}
         if not context.get('active_model'):
