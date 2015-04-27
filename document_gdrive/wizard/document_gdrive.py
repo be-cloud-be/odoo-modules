@@ -29,12 +29,11 @@ except:
 class AddGDriveWizard(models.TransientModel):
     _name = 'ir.attachment.add_gdrive'
 
-    _columns = {
-        'name': fields.Char('Name', required=True),
-        'url': fields.Char('doc_id', required=True),
-    }
+    name = fields.Char(string = 'Document Name')
+    url = fields.Char(string = 'Document Url')
 
-    def action_add_gdrive(self, cr, uid, name, url):
+    @api.multi
+    def action_add_gdrive(self, name, url):
         """Adds the Google Drive Document with an ir.attachment record."""
         context = self.env
         if context is None:
