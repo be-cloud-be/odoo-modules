@@ -25,9 +25,6 @@ try:
 except:
     from urlparse import urlparse
 
-import wdb
-wdb.set_trace()
-
 class AddGDriveWizard(models.TransientModel):
     _name = 'ir.attachment.add_gdrive'
 
