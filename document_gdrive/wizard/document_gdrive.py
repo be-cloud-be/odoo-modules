@@ -30,8 +30,8 @@ class AddGDriveWizard(models.TransientModel):
     _name = 'ir.attachment.add_gdrive'
 
     _columns = {
-        'name': fields.char('Name', required=True),
-        'url': fields.char('doc_id', required=True),
+        'name': fields.Char('Name', required=True),
+        'url': fields.Char('doc_id', required=True),
     }
 
     def action_add_gdrive(self, cr, uid, name, url):
