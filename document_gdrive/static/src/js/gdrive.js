@@ -37,7 +37,7 @@ openerp.document_gdrive = function(instance, m) {
                   setOAuthToken(oauthToken).
                   setCallback(this.pickerCallback).
                   build();
-              picker.context = new session.web.CompoundContext(this.session.user_context, {
+              picker.context = new openerp.web.CompoundContext(this.session.user_context, {
                       'active_ids': ids,
                       'active_id': [ids[0]],
                       'active_model': view.dataset.model,
