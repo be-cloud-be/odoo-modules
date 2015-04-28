@@ -18,7 +18,8 @@ openerp.document_gdrive = function(instance, m) {
               url = doc[google.picker.Document.URL];
 	            var self = this;
 	            var model = new openerp.web.Model("ir.attachment.add_gdrive");
-	            model.call('action_add_gdrive', [{context: openerp.session.user_context}, "",url]).then(function (result) {
+	            var context = new session.web.CompoundContext(this.build_context(), {});
+	            model.call('action_add_gdrive',["",url,context]).then(function (result) {
 			      // do something with change_password result
 			    });
             }
