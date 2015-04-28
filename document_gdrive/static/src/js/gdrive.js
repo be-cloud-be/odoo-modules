@@ -28,12 +28,20 @@ openerp.document_gdrive = function(instance, m) {
         	if(!pickerApiLoaded || !oauthToken) {
           	  onApiLoad();
             }
+        	var self = this;
+            var view = self.getParent();
+            var ids = ( view.fields_view.type != "form" )? view.groups.get_selection().ids : [ view.datarecord.id ];
             if (pickerApiLoaded && oauthToken) {
               var picker = new google.picker.PickerBuilder().
                   addView(google.picker.ViewId.DOCS).
                   setOAuthToken(oauthToken).
                   setCallback(this.pickerCallback).
                   build();
+              picker.context = {
+                      'active_ids': ids,
+                      'active_id': [ids[0]],
+                      'active_model': view.dataset.model,
+                  };
               picker.setVisible(true);
             }
         },
