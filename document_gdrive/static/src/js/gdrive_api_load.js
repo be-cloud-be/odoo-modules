@@ -10,6 +10,7 @@ var oauthToken;
 function onApiLoad() {
   gapi.load('auth', {'callback': onAuthApiLoad});
   gapi.load('picker', {'callback': onPickerApiLoad});
+  gapi.auth.init(function() {}) 
 }
 
 function onAuthApiLoad() {
@@ -17,7 +18,7 @@ function onAuthApiLoad() {
       {
         'client_id': clientId,
         'scope': scope,
-        'immediate': true
+        'immediate': false
       },
       handleAuthResult);
 }
