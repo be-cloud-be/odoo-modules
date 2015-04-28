@@ -17,7 +17,7 @@ function onAuthApiLoad() {
       {
         'client_id': clientId,
         'scope': scope,
-        'immediate': false
+        'immediate': true
       },
       handleAuthResult);
 }
