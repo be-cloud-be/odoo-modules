@@ -33,7 +33,6 @@ class AddGDriveWizard(models.TransientModel):
     name = fields.Char(string = 'Document Name')
     url = fields.Char(string = 'Document Url')
 
-    @api.multi
     def action_add_gdrive(self, name, url):
         """Adds the Google Drive Document with an ir.attachment record."""
         try:
