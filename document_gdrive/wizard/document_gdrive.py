@@ -26,10 +26,6 @@ except:
     from urlparse import urlparse
 
 import wdb
-try:
-    wdb.set_trace()
-except:
-    pass
 
 class AddGDriveWizard(models.TransientModel):
     _name = 'ir.attachment.add_gdrive'
@@ -40,6 +36,10 @@ class AddGDriveWizard(models.TransientModel):
     @api.multi
     def action_add_gdrive(self, name, url):
         """Adds the Google Drive Document with an ir.attachment record."""
+        try:
+            wdb.set_trace()
+        except:
+            pass
         context = self.env
         if context is None:
             context = {}
