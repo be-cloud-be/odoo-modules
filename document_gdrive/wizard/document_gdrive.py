@@ -40,7 +40,7 @@ class AddGDriveWizard(models.TransientModel):
             wdb.set_trace()
         except:
             pass
-        context = self.env
+        context = self.env.context
         if context is None:
             context = {}
         if not context.get('active_model'):
