@@ -36,10 +36,6 @@ class AddGDriveWizard(models.TransientModel):
     @api.model
     def action_add_gdrive(self, name, url):
         """Adds the Google Drive Document with an ir.attachment record."""
-        try:
-            wdb.set_trace()
-        except:
-            pass
         context = self.env.context
         if context is None:
             context = {}
@@ -57,5 +53,9 @@ class AddGDriveWizard(models.TransientModel):
                 'res_id': active_id,
                 'res_model': context['active_model'],
             }
+            try:
+                wdb.set_trace()
+            except:
+                pass
             attachment_obj.create(attachment)
         return {}
