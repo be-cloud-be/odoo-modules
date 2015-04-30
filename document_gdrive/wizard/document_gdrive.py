@@ -57,5 +57,5 @@ class AddGDriveWizard(models.TransientModel):
                 wdb.set_trace()
             except:
                 pass
-            attachment_obj.create(attachment)
+            attachment_obj.create(self.env.cr, context['uid'], attachment, context=context)
         return {}
