@@ -1,6 +1,6 @@
 openerp.document_gdrive = function(instance, m) {
     var _t = instance.web._t,
-        QWeb = instance.web.qweb;
+    QWeb = instance.web.qweb;
 
     instance.web.Sidebar.include({
         redraw: function() {
@@ -20,7 +20,7 @@ openerp.document_gdrive = function(instance, m) {
 	            var self = this;
 	            var model = new openerp.web.Model("ir.attachment.add_gdrive");
 	            model.call('action_add_gdrive',[name,url],{context: this.context}).then(function (result) {
-	            	
+	            	self.view.ViewManager.views[self.view.ViewManager.active_view].controller.reload();
 			    });
             }
         },
@@ -42,6 +42,7 @@ openerp.document_gdrive = function(instance, m) {
                       'active_id': [ids[0]],
                       'active_model': view.dataset.model,
                   });
+              picker.view = view;
               picker.setVisible(true);
             }
         },
