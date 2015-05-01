@@ -33,7 +33,7 @@ openerp.document_gdrive = function(instance, m) {
             var ids = ( view.fields_view.type != "form" )? view.groups.get_selection().ids : [ view.datarecord.id ];
             if (pickerApiLoaded && oauthToken) {
               var picker = new google.picker.PickerBuilder().
-              	  addView(google.picker.​ViewId.FOLDERS).
+              	  addView(google.picker.ViewId.FOLDERS).
                   addView(google.picker.ViewId.DOCS).
                   setOAuthToken(oauthToken).
                   setLocale('fr').
