@@ -3,21 +3,19 @@
 # Author : Jerome Sonnet - jerome.sonnet@be-cloud.be
 #
 #
-from osv import fields, osv
+from openerp import models, fields, api,
 
 import logging
-
 _logger = logging.getLogger(__name__)
 
-class BuildingLand(osv.osv):
+class BuildingLand(models.Model):
     '''Building Land'''
-    
-    _columns = {
-
-        'owner_id': fields.many2one('hr.employee', 'Manager'),                
-        'address_id': fields.many2one('res.partner', 'Working Address'),
-        'land_division':fields.char('Land Division', size = 20, help = "The land division reference."),
-        'area':fields.integer('Sequence', size = 20, help = "Area in ares."),   
+    _name = 'property_managemnt.building_land'
         
-    }
+    owner_id = fields.Many2one('res.partner', string = 'The land owner.')
+    address_id = fields.Many2one('res.partner', string = 'The land address')
+    land_division = fields.Char(string = "The land division reference.")
+    size = fields.Integer(string = "Size in ares.")   
+    price = fields.Integer(string = "Size in ares.")  
+        
 BuildingLand()
