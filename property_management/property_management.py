@@ -3,7 +3,7 @@
 # Author : Jerome Sonnet - jerome.sonnet@be-cloud.be
 #
 #
-from openerp import models, fields, api,
+from openerp import models, fields, api, _
 
 import logging
 _logger = logging.getLogger(__name__)
