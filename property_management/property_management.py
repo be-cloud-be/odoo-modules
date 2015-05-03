@@ -4,13 +4,12 @@
 #
 #
 from openerp import models, fields, api, _
-from openerp.addons.base.res.res_partner import format_address
 from openerp import osv
 
 import logging
 _logger = logging.getLogger(__name__)
 
-class real_estate_lead (format_address, osv.osv):
+class real_estate_lead (osv.osv):
     """ Real Estate Lead Case """
     _name = "property_managemnt.real_estate_lead"
     _description = "Lead/Opportunity"
