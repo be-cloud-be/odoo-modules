@@ -4,11 +4,27 @@
 #
 #
 from openerp import models, fields, api, _
+from openerp.addons.base.res.res_partner import format_address
+from openerp import osv
 
 import logging
 _logger = logging.getLogger(__name__)
 
-class BuildingLand(models.Model):
+class real_estate_lead (format_address, osv.osv):
+    """ Real Estate Lead Case """
+    _name = "property_managemnt.real_estate_lead"
+    _description = "Lead/Opportunity"
+    _order = "priority desc,date_action,id desc"
+    _inherit = ['crm.lead']
+    
+    _columns = {
+        'item_of_interest_id' : osv.fields.many2one('property_managemnt.building_land', 'Item of Interest', ondelete='set null', track_visibility='onchange',
+            select=True, help="Linked item of interest (optional). Usually created when converting the lead."),
+    }
+
+real_estate_lead()
+
+class building_land(models.Model):
     '''Building Land'''
     _name = 'property_managemnt.building_land'
         
@@ -19,5 +35,7 @@ class BuildingLand(models.Model):
     
     public_price = fields.Integer(string = "The public price.")
     estimated_price = fields.Integer(string = "The estimated price.")
+    
+    parent_id = fields.Many2one('property_managemnt.building_land', string = 'The parent land.')
        
-BuildingLand()
+building_land()
