@@ -4,22 +4,19 @@
 #
 #
 from openerp import models, fields, api, _
-from openerp import osv
 
 import logging
 _logger = logging.getLogger(__name__)
 
-class real_estate_lead (osv.osv):
+class real_estate_lead (models.Model):
     """ Real Estate Lead Case """
     _name = "property_managemnt.real_estate_lead"
     _description = "Lead/Opportunity"
     _order = "priority desc,date_action,id desc"
     _inherit = ['crm.lead']
     
-    _columns = {
-        'item_of_interest_id' : osv.fields.many2one('property_managemnt.building_land', 'Item of Interest', ondelete='set null', track_visibility='onchange',
-            select=True, help="Linked item of interest (optional). Usually created when converting the lead."),
-    }
+    item_of_interest_id = fields.Many2one('property_managemnt.building_land', string='Item of Interest', ondelete='set null', track_visibility='onchange',
+            select=True, help="Linked item of interest (optional). Usually created when converting the lead.")
 
 real_estate_lead()
 
