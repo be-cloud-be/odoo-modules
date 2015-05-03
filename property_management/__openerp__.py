@@ -5,7 +5,7 @@
     'author': 'be-Cloud.be (Jerome Sonnet)',
     'website': '',
     'category': 'CRM',
-    'depends': [],
+    'depends': ['crm'],
     'init_xml': [],
     'update_xml': [
         'property_management_view.xml',
