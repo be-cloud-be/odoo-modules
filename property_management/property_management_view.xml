@@ -1,6 +1,26 @@
 <?xml version="1.0"?>
 <openerp>
     <data>
+    
+    	<record model="ir.actions.act_window" id="crm_realestate_acquisition_leads_all">
+	        <field name="name">Leads</field>
+	        <field name="res_model">crm.lead</field>
+	        <field name="view_mode">tree,form</field>
+	        <field name="view_id" ref="crm_case_tree_view_leads"/>
+        	<field name="search_view_id" ref="crm.view_crm_case_leads_filter"/>
+        	<field name="help" type="html">
+	            <p>
+	                Use leads if you need a qualification step before creating an
+	                opportunity or a partner. It can be a business card you received,
+	                a contact form filled in your website, or a file of unqualified
+	                prospects you import, etc.
+	            </p><p>
+	                Once qualified, the lead can be converted into a business
+	                opportunity and/or a new partner in your address book.
+	            </p>
+	        </field>
+    	</record>
+    
     	<menuitem name="RealEstate" id="base.menu_realestate" sequence="5"/>
     	<menuitem name="Acquisition" id="menu_realestate_acquisition" parent="base.menu_realestate" sequence="5"/>
     	<menuitem name="Leads" id="menu_realestate_acquisition_leads" parent="base.menu_realestate" sequence="5" action="crm_realestate_acquisition_leads_all"/>
