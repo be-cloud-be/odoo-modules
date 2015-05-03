@@ -1,0 +1,8 @@
+<?xml version="1.0"?>
+<openerp>
+    <data>
+    	
+    	
+    	<menuitem name="RealEstate" id="base.menu_realestate" parent="base.menu_base_partner" sequence="1"/>
+    </data>
+</openerp>

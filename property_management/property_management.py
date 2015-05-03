@@ -15,7 +15,9 @@ class BuildingLand(models.Model):
     owner_id = fields.Many2one('res.partner', string = 'The land owner.')
     address_id = fields.Many2one('res.partner', string = 'The land address')
     land_division = fields.Char(string = "The land division reference.")
-    size = fields.Integer(string = "Size in ares.")   
-    price = fields.Integer(string = "Size in ares.")  
-        
+    land_size = fields.Integer(string = "Size in ares.")   
+    
+    public_price = fields.Integer(string = "The public price.")
+    estimated_price = fields.Integer(string = "The estimated price.")
+       
 BuildingLand()
