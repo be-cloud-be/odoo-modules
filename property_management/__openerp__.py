@@ -9,7 +9,7 @@
     'init_xml': [],
     'update_xml': [
         'property_management_view.xml',
-        'security/crm_security.xml',
+        'security/property_management_security.xml',
         'security/ir.model.access.csv',
     ],
     'demo_xml': [],
