@@ -23,6 +23,6 @@
     
     	<menuitem name="RealEstate" id="base.menu_realestate" sequence="12"/>
     	<menuitem name="Acquisition" id="menu_realestate_acquisition" parent="base.menu_realestate" sequence="5"/>
-    	<menuitem name="Leads" id="menu_realestate_acquisition_leads" parent="base.menu_realestate_acquisition" sequence="5" action="crm_realestate_acquisition_leads_all"/>
+    	<menuitem name="Leads" id="menu_realestate_acquisition_leads" parent="menu_realestate_acquisition" sequence="5" action="crm_realestate_acquisition_leads_all"/>
     </data>
 </openerp>
