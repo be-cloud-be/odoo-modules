@@ -18,7 +18,7 @@
 	                'type_of_lead':'acquisition',
 	                'stage_type':'lead',
 	                'needaction_menu_ref': 'realestate.menu_realestate_acquisition_leads',
-	                'search_default_unassigned':1,
+	                'search_default_unassigned':0,
 	            }
         	</field> 
         	<field name="help" type="html">
@@ -75,7 +75,7 @@
 	                'type_of_lead':'sale',
 	                'stage_type':'lead',
 	                'needaction_menu_ref': 'realestate.menu_realestate_sale_leads',
-	                'search_default_unassigned':1,
+	                'search_default_unassigned':0,
 	            }
         	</field> 
         	<field name="help" type="html">
