@@ -41,7 +41,7 @@
         </record>
         
         <record model="ir.actions.act_window.view" id="crm_realestate_acquisition_leads_all_form">
-		    <field name="sequence" eval="1" />
+		    <field name="sequence" eval="2" />
 		    <field name="view_mode">form</field>
 		    <field name="view_id" ref="view_lead_form"/>
 		    <field name="act_window_id" ref="crm_realestate_acquisition_leads_all"/>
