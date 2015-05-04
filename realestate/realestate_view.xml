@@ -30,7 +30,7 @@
     	</record>
 
         <!-- Real Estate Lead Form View  -->
-        <record model="ir.ui.view" id="view_partner_form">
+        <record model="ir.ui.view" id="view_lead_form">
 		    <field name="name">realestate.lead.form.inherit</field>
 		    <field name="model">realestate.real_estate_lead</field>
 		    <field name="inherit_id" ref="crm.crm_case_form_view_leads"/>
