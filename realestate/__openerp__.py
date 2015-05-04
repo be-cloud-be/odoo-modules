@@ -1,5 +1,5 @@
 {
-    'name': 'Property management',
+    'name': 'Real estate management',
     'version': '0.1',
     'license': 'GPL-3',
     'author': 'be-Cloud.be (Jerome Sonnet)',
@@ -8,13 +8,13 @@
     'depends': ['crm'],
     'init_xml': [],
     'update_xml': [
-        'property_management_view.xml',
-        'security/property_management_security.xml',
+        'realestate_view.xml',
+        'security/realestate_security.xml',
         'security/ir.model.access.csv',
     ],
     'demo_xml': [],
     'description': '''
-    This modules add a property management.
+    This modules add a real estate management.
     ''',
     'active': False,
     'installable': True,
