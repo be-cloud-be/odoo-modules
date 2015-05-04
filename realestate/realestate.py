@@ -21,6 +21,11 @@ class real_estate_lead (models.Model):
     def default_get(self, cr, uid, fields, context=None):
         res = super(real_estate_lead, self).default_get(cr, uid, fields, context=context)
         return res
+    
+    def __get__(self, record, owner):
+        import wdb
+        wdb.set_trace()
+        return super(real_estate_lead, self).__get__(self, record, owner)
 
 real_estate_lead()
 
