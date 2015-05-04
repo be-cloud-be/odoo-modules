@@ -5,7 +5,7 @@
     	<record model="ir.actions.act_window" id="crm_realestate_acquisition_leads_all">
 	        <field name="name">Acquisition Leads</field>
 	        <field name="res_model">realestate.real_estate_lead</field>
-	        <!-- <field name="domain">['|', ('type','=','lead'), ('type','=',False)]</field>
+	        <field name="domain">['|', ('type','=','lead'), ('type','=',False)]</field>
 	        <field name="view_mode">tree,form</field>
 	        <field name="view_id" ref="crm.crm_case_tree_view_leads"/>
         	<field name="search_view_id" ref="crm.view_crm_case_leads_filter"/>
@@ -26,7 +26,7 @@
 	                Once qualified, the lead can be converted into a business
 	                opportunity and/or a new partner in your address book.
 	            </p>
-	        </field> -->
+	        </field>
     	</record>
     
     	<menuitem name="RealEstate" id="base.menu_realestate" sequence="12"/>
