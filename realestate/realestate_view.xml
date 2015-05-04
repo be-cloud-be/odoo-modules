@@ -4,7 +4,7 @@
     
     	<record model="ir.actions.act_window" id="crm_realestate_acquisition_leads_all">
 	        <field name="name">Acquisition Leads</field>
-	        <field name="res_model">realestate.real_estate_lead</field>
+	        <field name="res_model">crm.lead</field>
 	        <field name="domain">['|', ('type','=','lead'), ('type','=',False)]</field>
 	        <field name="view_mode">tree,form</field>
 	        <field name="view_id" ref="crm.crm_case_tree_view_leads"/>
@@ -32,7 +32,7 @@
         <!-- Real Estate Lead Form View  -->
         <record model="ir.ui.view" id="view_lead_form">
 		    <field name="name">realestate.lead.form.inherit</field>
-		    <field name="model">realestate.real_estate_lead</field>
+		    <field name="model">crm.lead</field>
 		    <field name="inherit_id" ref="crm.crm_case_form_view_leads"/>
 		    <field name="arch" type="xml">
 			    <notebook position="inside">
