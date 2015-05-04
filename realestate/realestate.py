@@ -20,6 +20,7 @@ class crm_lead (models.Model):
     item_of_interest_id = fields.Many2one('realestate.building_land', string='Item of Interest', ondelete='set null', track_visibility='onchange',
             select=True, help="Linked item of interest (optional). Usually created when converting the lead.")
 
+    @api.model
     def default_get(self, fields):
         res = super(crm_lead, self).default_get(fields)
         context = self.env.context        
