@@ -4,7 +4,7 @@
     
     	<record model="ir.actions.act_window" id="crm_realestate_acquisition_leads_all">
 	        <field name="name">Acquisition Leads</field>
-	        <field name="res_model">property_managemnt.real_estate_lead</field>
+	        <field name="res_model">property_management.real_estate_lead</field>
 	        <field name="domain">['|', ('type','=','lead'), ('type','=',False)]</field>
 	        <field name="view_mode">tree,form</field>
 	        <field name="view_id" ref="crm.crm_case_tree_view_leads"/>
@@ -12,7 +12,7 @@
         	<field name="context">{
 	                'default_type':'lead',
 	                'stage_type':'lead',
-	                'needaction_menu_ref': 'property_managemnt.menu_realestate_acquisition_leads',
+	                'needaction_menu_ref': 'property_management.menu_realestate_acquisition_leads',
 	                'search_default_unassigned':1,
 	            }
         	</field>
