@@ -192,7 +192,7 @@
 	        <field name="view_id" ref="crm.crm_case_tree_view_oppor"/>
 	        <field name="act_window_id" ref="crm_realestate_sales_opp_all"/>
 	    </record>
-	
+
 	    <record model="ir.actions.act_window.view" id="action_realestate_tag_form_view_oppor11">
 	        <field name="sequence" eval="2"/>
 	        <field name="view_mode">form</field>
@@ -203,5 +203,10 @@
         <menuitem name="Sales" id="menu_realestate_sales" parent="base.menu_realestate" sequence="5"/>
     	<menuitem name="Leads" id="menu_realestate_sales_leads" parent="menu_realestate_sales" sequence="5" action="crm_realestate_sales_leads_all"/>
     	<menuitem name="Opportunities" id="menu_realestate_sales_opp" parent="menu_realestate_sales" sequence="5" action="crm_realestate_sales_opp_all"/>
+    	
+    	<!-- Real estate assets -->
+    	
+    	
+    	
     </data>
 </openerp>

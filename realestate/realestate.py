@@ -4,6 +4,7 @@
 #
 #
 from openerp import models, fields, api, _
+from openerp.exceptions import ValidationError
 
 import logging
 _logger = logging.getLogger(__name__)
@@ -30,18 +31,54 @@ class crm_lead (models.Model):
 
 crm_lead()
 
+class realestate_abstract_asset(models.AbstractModel):
+    '''Real Estate Asset Abstract Class'''
+    _name = 'realestate.realestate_abstract_asset'
+    
+    owner_id = fields.Many2one('res.partner', string = 'The land owner.')
+    address_id = fields.Many2one('res.partner', string = 'The land address')
+    
+    public_price = fields.Integer(string = "The public price.")
+    estimated_price = fields.Integer(string = "The estimated price.")
+
+realestate_abstract_asset()
+
+class realestate_asset(models.Model):
+    '''Real Estate Asset'''
+    _name = 'realestate.realestate_abstract_asset'
+    
+    _inherit = {'realestate.realestate_abstract_asset'} 
+
+    components = fields.Many2one('realestate.realestate_asset', string = 'The component of the asset.')
+    
+realestate_asset()
+
 class building_land(models.Model):
     '''Building Land'''
     _name = 'realestate.building_land'
         
-    owner_id = fields.Many2one('res.partner', string = 'The land owner.')
-    address_id = fields.Many2one('res.partner', string = 'The land address')
+    _inherit = {'realestate.realestate_abstract_asset'}
+    
     land_division = fields.Char(string = "The land division reference.")
     land_size = fields.Integer(string = "Size in ares.")   
     
-    public_price = fields.Integer(string = "The public price.")
-    estimated_price = fields.Integer(string = "The estimated price.")
-    
-    parent_id = fields.Many2one('realestate.building_land', string = 'The parent land.')
+    parent_id = fields.Many2one('realestate.building_land', string = 'The parent land in case it has been splitted.')
        
 building_land()
+
+class building(models.AbstractModel):
+    '''Building'''
+    _name ='realestate.building'
+    
+    _inherit = {'realestate.realestate_abstract_asset'}
+    
+    land_id = fields.Many2one('realestate.building_land', string = 'The land the building is built upon.')
+    land_portion = fields.Float(string='Portion of the land linked to the building.')
+
+    type = fields.Selection(string="The type of building",selection=[ ('house','House'), ('flat','Flat'), ], select=True)
+
+    rooms = fields.Integer(string="Number of rooms")
+    size = fields.Integer(string="Size in square meters")
+    parking = fields.Integer(string="Number of parkings")
+
+building()
