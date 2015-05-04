@@ -57,9 +57,57 @@
 		    <field name="view_id" ref="view_lead_form"/>
 		    <field name="act_window_id" ref="crm_realestate_acquisition_leads_all"/>
 		</record>
+		
+		<record model="ir.actions.act_window" id="crm_realestate_acquisition_opp_all">
+	        <field name="name">Opportunities</field>
+	        <field name="res_model">crm.lead</field>
+	        <field name="view_mode">kanban,tree,graph,form,calendar</field>
+	        <field name="domain">[('type_of_lead','=','acquisition'), ('type','=','opportunity')]</field>
+	        <field name="context">{
+	                'stage_type': 'opportunity',
+	                'type_of_lead':'acquisition',
+	                'default_type': 'opportunity',
+	                'default_user_id': uid
+	            }
+	        </field>
+	        <field name="view_id" eval="False"/>
+	        <field name="search_view_id" ref="crm.view_crm_case_opportunities_filter"/>
+	        <field name="help" type="html">
+	            <p>
+	                Odoo helps you keep track of your acquisition pipeline to follow
+	                up potential acquisition and better forecast your future cash flows.
+	            </p><p>
+	                You will be able to plan meetings and phone calls from
+	                opportunities, convert them into quotations, attach related
+	                documents, track all discussions, and much more.
+	            </p>
+	        </field>
+	    </record>
+	    
+	    <record model="ir.actions.act_window.view" id="action_realestate_tag_kanban_view_oppor11">
+	        <field name="sequence" eval="0"/>
+	        <field name="view_mode">kanban</field>
+	        <field name="view_id" ref="crm.crm_case_kanban_view_leads"/>
+	        <field name="act_window_id" ref="crm_realestate_acquisition_opp_all"/>
+	    </record>
+	
+	    <record model="ir.actions.act_window.view" id="action_realestate_tag_tree_view_oppor11">
+	        <field name="sequence" eval="1"/>
+	        <field name="view_mode">tree</field>
+	        <field name="view_id" ref="crm.crm_case_tree_view_oppor"/>
+	        <field name="act_window_id" ref="crm_realestate_acquisition_opp_all"/>
+	    </record>
+	
+	    <record model="ir.actions.act_window.view" id="action_realestate_tag_form_view_oppor11">
+	        <field name="sequence" eval="2"/>
+	        <field name="view_mode">form</field>
+	        <field name="view_id" ref="crm.crm_case_form_view_oppor"/>
+	        <field name="act_window_id" ref="crm_realestate_acquisition_opp_all"/>
+	    </record>
 
 		<menuitem name="Acquisition" id="menu_realestate_acquisition" parent="base.menu_realestate" sequence="5"/>
     	<menuitem name="Leads" id="menu_realestate_acquisition_leads" parent="menu_realestate_acquisition" sequence="5" action="crm_realestate_acquisition_leads_all"/>
+        <menuitem name="Opportunities" id="menu_realestate_acquisition_opp" parent="menu_realestate_acquisition" sequence="5" action="crm_realestate_acquisition_opp_all"/>
         
         <!-- Sales -->
         
