@@ -35,6 +35,11 @@
 		    <field name="model">realestate.real_estate_lead</field>
 		    <field name="inherit_id" ref="crm.crm_case_form_view_leads"/>
 		    <field name="arch" type="xml">
+			    <notebook position="inside">
+		            <page string="Relations">
+		                <field name="relation_ids" colspan="4" nolabel="1"/>
+		            </page>
+	        	</notebook>
 		    </field>
         </record>
         
