@@ -18,6 +18,12 @@ class real_estate_lead (models.Model):
     item_of_interest_id = fields.Many2one('realestate.building_land', string='Item of Interest', ondelete='set null', track_visibility='onchange',
             select=True, help="Linked item of interest (optional). Usually created when converting the lead.")
 
+    def default_get(self, cr, uid, fields, context=None):
+        import wdb 
+        wdb.set_trace()
+        res = super(real_estate_lead, self).default_get(cr, uid, fields, context=context)
+        return res
+
 real_estate_lead()
 
 class building_land(models.Model):
