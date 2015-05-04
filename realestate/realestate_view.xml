@@ -40,6 +40,13 @@
 		    </field>
         </record>
         
+        <record model="ir.actions.act_window.view" id="crm_realestate_acquisition_leads_all_form">
+		    <field name="sequence" eval="1" />
+		    <field name="view_mode">form</field>
+		    <field name="view_id" ref="view_lead_form"/>
+		    <field name="act_window_id" ref="crm_realestate_acquisition_leads_all"/>
+		</record>
+        
     	<menuitem name="RealEstate" id="base.menu_realestate" sequence="12"/>
     	<menuitem name="Acquisition" id="menu_realestate_acquisition" parent="base.menu_realestate" sequence="5"/>
     	<menuitem name="Leads" id="menu_realestate_acquisition_leads" parent="menu_realestate_acquisition" sequence="5" action="crm_realestate_acquisition_leads_all"/>
