@@ -63,7 +63,7 @@
         
         <!-- Sales -->
         
-        <record model="ir.actions.act_window" id="crm_realestate_acquisition_leads_all">
+        <record model="ir.actions.act_window" id="crm_realestate_sales_leads_all">
 	        <field name="name">Sales Leads</field>
 	        <field name="res_model">crm.lead</field>
 	        <field name="domain">[('type_of_lead','=','sale'), '|', ('type','=','lead'), ('type','=',False)]</field>
