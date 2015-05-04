@@ -24,7 +24,7 @@ class crm_lead (models.Model):
     def default_get(self, fields):
         res = super(crm_lead, self).default_get(fields)
         context = self.env.context        
-        if(context['type_of_lead']):
+        if context and 'type_of_lead' in context:
             res['type_of_lead'] = context['type_of_lead']
         return res
 
