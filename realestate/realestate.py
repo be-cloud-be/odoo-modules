@@ -25,7 +25,7 @@ class real_estate_lead (models.Model):
     def __get__(self, record, owner):
         import wdb
         wdb.set_trace()
-        return super(real_estate_lead, self).__get__(self, record, owner)
+        return super(real_estate_lead, self).__get__(record, owner)
 
 real_estate_lead()
 
