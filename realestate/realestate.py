@@ -8,18 +8,17 @@ from openerp import models, fields, api, _
 import logging
 _logger = logging.getLogger(__name__)
 
-class real_estate_lead (models.Model):
-    """ Real Estate Lead Case """
-    _name = "realestate.real_estate_lead"
+## Add real estate information to CRM Lead.
+class crm_lead (models.Model):
+    """ CRM Lead with Real Estate Extension """
+    _name = "crm.lead"
     _description = "Lead/Opportunity"
-    _order = "priority desc,date_action,id desc"
-    _inherits = {'crm.lead' : 'lead_id'}
+    _inherit = {'crm.lead'}
     
-    lead_id = fields.Many2one('crm.lead', string='The CRM Lead', ondelete='cascade', required=True, help="Linked CRM Lead.")
     item_of_interest_id = fields.Many2one('realestate.building_land', string='Item of Interest', ondelete='set null', track_visibility='onchange',
             select=True, help="Linked item of interest (optional). Usually created when converting the lead.")
 
-real_estate_lead()
+crm_lead()
 
 class building_land(models.Model):
     '''Building Land'''
