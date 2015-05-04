@@ -15,8 +15,17 @@ class crm_lead (models.Model):
     _description = "Lead/Opportunity"
     _inherit = {'crm.lead'}
     
+    type_of_lead = fields.Selection(selection = [ ('acquisition','Acquisition'), ('sale','Sale'), ], string = 'Type of lead', help="Type of lead is used to separate Acquisition and Sales"),
+    
     item_of_interest_id = fields.Many2one('realestate.building_land', string='Item of Interest', ondelete='set null', track_visibility='onchange',
             select=True, help="Linked item of interest (optional). Usually created when converting the lead.")
+
+    def default_get(self, fields):
+        res = super(crm_lead, self).default_get(fields)
+        context = self.env.context        
+        if(context['type_of_lead']):
+            res['type_of_lead'] = context['type_of_lead']
+        return res
 
 crm_lead()
 
