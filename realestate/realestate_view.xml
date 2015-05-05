@@ -200,13 +200,38 @@
 	        <field name="act_window_id" ref="crm_realestate_sales_opp_all"/>
 	    </record>
         
-        <menuitem name="Sales" id="menu_realestate_sales" parent="base.menu_realestate" sequence="5"/>
+        <menuitem name="Sales" id="menu_realestate_sales" parent="base.menu_realestate" sequence="10"/>
     	<menuitem name="Leads" id="menu_realestate_sales_leads" parent="menu_realestate_sales" sequence="5" action="crm_realestate_sales_leads_all"/>
     	<menuitem name="Opportunities" id="menu_realestate_sales_opp" parent="menu_realestate_sales" sequence="5" action="crm_realestate_sales_opp_all"/>
     	
     	<!-- Real estate assets -->
     	
+    	<record model="ir.actions.act_window" id="crm_realestate_lands_all">
+	        <field name="name">Building Lands</field>
+	        <field name="res_model">realestate.building_land</field>
+	        <field name="domain">[]</field>
+	        <field name="view_mode">tree,form</field>
+	        <!-- <field name="view_id" ref="crm.crm_case_tree_view_leads"/>
+        	<field name="search_view_id" ref="crm.view_crm_case_leads_filter"/>
+        	<field name="context">{
+	                'default_type':'lead',
+	                'type_of_lead':'acquisition',
+	                'stage_type':'lead',
+	                'needaction_menu_ref': 'realestate.menu_realestate_acquisition_leads',
+	                'search_default_unassigned':0,
+	            }
+        	</field>  -->
+        	<field name="help" type="html">
+	            <p>
+	                Use building land if you need to refer to a building land.
+	                It is a composite pattern that allows hierarchies and splits
+	                of building lands.
+	            </p>
+	        </field>
+    	</record>
     	
+    	<menuitem name="Real Estate Assets" id="menu_realestate_assets" parent="base.menu_realestate" sequence="15"/>
+    	<menuitem name="Building Land" id="menu_realestate_lands" parent="menu_realestate_assets" sequence="5" action="crm_realestate_lands_all"/>
     	
     </data>
 </openerp>

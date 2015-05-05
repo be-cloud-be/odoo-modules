@@ -49,6 +49,8 @@ class realestate_asset(models.Model):
     
     _inherit = {'realestate.realestate_abstract_asset'} 
 
+    to_buy = fields.Boolean(string='This asset can be bought')
+    to_sale = fields.Boolean(string='This asset can be sold')
     components = fields.Many2one('realestate.realestate_asset', string = 'The component of the asset.')
     
 realestate_asset()
