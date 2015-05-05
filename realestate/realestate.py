@@ -72,7 +72,7 @@ class building_land(models.Model):
     '''Building Land'''
     _name = 'realestate.building_land'
         
-    _inherit = {'realestate.realestate_abstract_asset'}
+    _inherit = {'realestate.realestate_asset'}
     
     land_division = fields.Char(string = "The land division reference.")
     land_size = fields.Integer(string = "Size in ares.")   
@@ -85,7 +85,7 @@ class building(models.AbstractModel):
     '''Building'''
     _name ='realestate.building'
     
-    _inherit = {'realestate.realestate_abstract_asset'}
+    _inherit = {'realestate.realestate_asset'}
     
     land_id = fields.Many2one('realestate.building_land', string = 'The land the building is built upon.')
     land_portion = fields.Float(string='Portion of the land linked to the building.')
