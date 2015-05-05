@@ -214,6 +214,12 @@
                 <form string="Building Lands">
 	                <sheet>
 						<group>
+						   <div class="oe_title">
+		                       <label for="name" class="oe_edit_only"/>
+		                       <h1><field name="name" default_focus="1" placeholder="Describe the land in a short sentence..."/></h1>
+		                   </div>
+		                   <label for="description" class="oe_edit_only"/>
+		                   <filed name="description"/>
                            <label for="street" string="Address"/>
                             <div>
                                 <field name="street" placeholder="Street..."  />

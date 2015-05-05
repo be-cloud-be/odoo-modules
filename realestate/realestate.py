@@ -37,6 +37,8 @@ class realestate_abstract_asset(models.AbstractModel):
     
     _inherits = { 'res.partner' : 'address_id'}
     
+    description = fields.Text(string="Description of the building land.")
+    
     owner_id = fields.Many2one('res.partner', string = 'The land owner.')
     address_id = fields.Many2one('res.partner', string = 'The land address',required=True, ondelete='cascade')
     
