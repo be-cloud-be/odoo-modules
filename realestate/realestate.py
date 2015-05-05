@@ -35,7 +35,7 @@ class realestate_abstract_asset(models.AbstractModel):
     '''Real Estate Asset Abstract Class'''
     _name = 'realestate.realestate_abstract_asset'
     
-    _inherits = { 'base.res_partner' : 'address_id'}
+    _inherits = { 'res.partner' : 'address_id'}
     
     owner_id = fields.Many2one('res.partner', string = 'The land owner.')
     address_id = fields.Many2one('res.partner', string = 'The land address',required=True, ondelete='cascade')
