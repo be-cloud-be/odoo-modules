@@ -1,5 +1,5 @@
 id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
 access_pm_building_land,access_pm_building_land,model_realestate_building_land,base.group_sale_manager,1,1,1,1
-access_pm_realestate_asset,access_pm_realestate_asset,model_realestate_asset,base.group_sale_manager,1,1,1,1
+access_pm_realestate_asset,access_pm_realestate_asset,model_realestate_realestate_asset,base.group_sale_manager,1,1,1,1
 access_pm_realestate_building,access_pm_realestate_building,model_realestate_building,base.group_sale_manager,1,1,1,1
 access_pm_re_lead,access_pm_real_estate_lead,model_realestate_real_estate_lead,base.group_sale_manager,1,1,1,1
