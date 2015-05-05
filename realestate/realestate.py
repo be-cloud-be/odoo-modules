@@ -45,6 +45,14 @@ class realestate_abstract_asset(models.AbstractModel):
     public_price = fields.Integer(string = "The public price.")
     estimated_price = fields.Integer(string = "The estimated price.")
 
+    # Better to delegate ;-)
+    @api.multi
+    def onchange_state(self, state_id):
+        if state_id:
+            state = self.env['res.country.state'].browse(state_id)
+            return {'value': {'country_id': state.country_id.id}}
+        return {}
+
 realestate_abstract_asset()
 
 class realestate_asset(models.Model):
