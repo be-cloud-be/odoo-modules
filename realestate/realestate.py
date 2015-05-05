@@ -63,8 +63,8 @@ class realestate_asset(models.Model):
     
     to_buy = fields.Boolean(string='This asset can be bought')
     to_sale = fields.Boolean(string='This asset can be sold')
-    components = fields.Many2one('realestate.realestate_asset', string = 'The component of the asset.')
-    
+    component_ids = fields.One2many('realestate.realestate_asset', string = 'The component of the asset.')
+
 realestate_asset()
 
 class building_land(models.Model):
