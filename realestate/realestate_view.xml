@@ -241,7 +241,7 @@
                         </group>
                         <notebook>
 							<page string="Subdivision of the land">
-								<!-- <field name="component_ids"/>  -->
+								<field name="component_ids"/>
 							</page>
 						</notebook>
 	                </sheet>
