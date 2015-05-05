@@ -218,18 +218,23 @@
 		                       <label for="name" class="oe_edit_only"/>
 		                       <h1><field name="name" default_focus="1" placeholder="Short description..."/></h1>
 		                   </div>
-		                   <field name="description" placeholder="More details about the building land..."/>
-                           <label for="street" string="Address"/>
-                            <div>
-                                <field name="street" placeholder="Street..."  />
-                                <field name="street2"  />
-                                <div class="address_format">
-                                    <field name="city" placeholder="City" style="width: 40%%" />
-                                    <field name="state_id" class="oe_no_button" placeholder="State" style="width: 37%%" options='{"no_open": True}' on_change="onchange_state(state_id)" />
-                                    <field name="zip" placeholder="ZIP" style="width: 20%%" />
-                                </div>
-                                <field name="country_id" placeholder="Country" class="oe_no_button" options='{"no_open": True, "no_create": True}' />
-                            </div>
+		                   <group>
+		                   		<label for="description" class="oe_edit_only"/>
+		                   	    <field name="description" placeholder="More details about the building land..."/>
+                           </group>
+                           <group>
+	                           <label for="street" string="Address"/>
+	                            <div>
+	                                <field name="street" placeholder="Street..."  />
+	                                <field name="street2"  />
+	                                <div class="address_format">
+	                                    <field name="city" placeholder="City" style="width: 40%%" />
+	                                    <field name="state_id" class="oe_no_button" placeholder="State" style="width: 37%%" options='{"no_open": True}' on_change="onchange_state(state_id)" />
+	                                    <field name="zip" placeholder="ZIP" style="width: 20%%" />
+	                                </div>
+	                                <field name="country_id" placeholder="Country" class="oe_no_button" options='{"no_open": True, "no_create": True}' />
+	                            </div>
+                            </group>
                         </group>
 	                </sheet>
              	</form>
