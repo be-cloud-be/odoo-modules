@@ -45,7 +45,7 @@ realestate_abstract_asset()
 
 class realestate_asset(models.Model):
     '''Real Estate Asset'''
-    _name = 'realestate.realestate_abstract_asset'
+    _name = 'realestate.realestate_asset'
     
     _inherit = {'realestate.realestate_abstract_asset'} 
 
