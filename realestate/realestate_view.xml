@@ -236,7 +236,6 @@
 	                        <div>
 		                      	<field name="land_division"/>
 		                      	<field name="land_size"/>
-		                      	<field name="company_currency" invisible="1"/>
 	                            <field name="public_price" class="oe_inline" widget='monetary'/>
 	                            <field name="estimated_price" class="oe_inline" widget='monetary'/>   
                             </div> 
