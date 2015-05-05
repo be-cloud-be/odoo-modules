@@ -213,7 +213,7 @@
             <field name="arch" type="xml">
                 <form string="Building Lands">
 	                <sheet>
-					   <div class="oe_title" style="width:100%">
+					   <div class="oe_title" style="width : 100%">
 	                       <label for="name" class="oe_edit_only"/>
 	                       <h1><field name="name" default_focus="1" placeholder="Short description..."/></h1>
 	                       <field name="description" placeholder="More details about the building land..."/>
@@ -233,11 +233,12 @@
 	                        </div>
 	                      </group>
 	                      <group>
+	                        <label for="land_division" string="Land Information"/>
 	                        <div>
-		                      	<field name="land_division"/>
-		                      	<field name="land_size"/>
-	                            <field name="public_price" class="oe_inline" widget='monetary'/>
-	                            <field name="estimated_price" class="oe_inline" widget='monetary'/>   
+		                      	<field name="land_division" placeholder="Land Division" />
+		                      	<field name="land_size" placeholder="Land Size (in m2)" />
+	                            <field name="public_price" class="oe_inline" widget='monetary' placeholder="Public Price"/>
+	                            <field name="estimated_price" class="oe_inline" widget='monetary' placeholder="Estimated Price"/>   
                             </div> 
 	                      </group>
                         </group> 
