@@ -35,8 +35,10 @@ class realestate_abstract_asset(models.AbstractModel):
     '''Real Estate Asset Abstract Class'''
     _name = 'realestate.realestate_abstract_asset'
     
+    _inherits = { 'base.res_partner' : 'address_id'}
+    
     owner_id = fields.Many2one('res.partner', string = 'The land owner.')
-    address_id = fields.Many2one('res.partner', string = 'The land address')
+    address_id = fields.Many2one('res.partner', string = 'The land address',required=True, ondelete='cascade')
     
     public_price = fields.Integer(string = "The public price.")
     estimated_price = fields.Integer(string = "The estimated price.")
@@ -48,7 +50,7 @@ class realestate_asset(models.Model):
     _name = 'realestate.realestate_asset'
     
     _inherit = {'realestate.realestate_abstract_asset'} 
-
+    
     to_buy = fields.Boolean(string='This asset can be bought')
     to_sale = fields.Boolean(string='This asset can be sold')
     components = fields.Many2one('realestate.realestate_asset', string = 'The component of the asset.')
