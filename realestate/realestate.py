@@ -62,16 +62,17 @@ class realestate_abstract_asset(models.AbstractModel):
 realestate_abstract_asset()
 
 class realestate_asset(models.Model):
-    '''Real Estate Asset'''
-    _name = 'realestate.realestate_asset'
+    '''Real Estate Single Asset'''
+    _name = 'realestate.realestate_single_asset'
     
     _inherit = {'realestate.realestate_abstract_asset'} 
     
     to_buy = fields.Boolean(string='This asset can be bought')
     to_sale = fields.Boolean(string='This asset can be sold')
+        
     parent_id = fields.Many2one('realestate.realestate_asset', string = 'Procurement Group')
     component_ids = fields.One2many('realestate.realestate_asset', 'parent_id', string = 'The component of the asset.')
-
+    
 realestate_asset()
 
 class building_land(models.Model):
@@ -87,6 +88,7 @@ class building_land(models.Model):
     quotity = fields.Integer(string="Quotity in 1/1,000th")
     
     parent_id = fields.Many2one('realestate.building_land', string = 'The parent land in case it has been splitted.')
+    subdivision_ids = fields.One2many('realestate.realestate_asset', 'parent_id', string = 'The component of the asset.')
        
 building_land()
 
