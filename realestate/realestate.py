@@ -63,7 +63,7 @@ realestate_abstract_asset()
 
 class realestate_asset(models.Model):
     '''Real Estate Single Asset'''
-    _name = 'realestate.realestate_single_asset'
+    _name = 'realestate.realestate_asset'
     
     _inherit = {'realestate.realestate_abstract_asset'} 
     
@@ -87,8 +87,8 @@ class building_land(models.Model):
     is_subdivision = fields.Boolean(string="Set true if it is a subdivision of a land through quotities")
     quotity = fields.Integer(string="Quotity in 1/1,000th")
     
-    parent_id = fields.Many2one('realestate.building_land', string = 'The parent land in case it has been splitted.')
-    subdivision_ids = fields.One2many('realestate.realestate_asset', 'parent_id', string = 'The component of the asset.')
+    parent_land_id = fields.Many2one('realestate.building_land', string = 'The parent land in case it has been splitted.')
+    subdivision_ids = fields.One2many('realestate.building_land', 'parent_land_id', string = 'The parent land.')
        
 building_land()
 
