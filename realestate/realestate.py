@@ -35,8 +35,6 @@ class realestate_abstract_asset(models.AbstractModel):
     '''Real Estate Asset Abstract Class'''
     _name = 'realestate.realestate_abstract_asset'
     
-    _inherits = { 'res.partner' : 'address_id'}
-    
     description = fields.Text(string="Description of the building land.")
     
     owner_id = fields.Many2one('res.partner', string = 'The land owner.')
@@ -45,7 +43,15 @@ class realestate_abstract_asset(models.AbstractModel):
     public_price = fields.Integer(string = "The public price.")
     estimated_price = fields.Integer(string = "The estimated price.")
 
-    # Better to delegate ;-)
+    street = fields.Char(string = 'Street'),
+    street2 = fields.Char(string = 'Street2'),
+    zip = fields.Char(string = 'Zip', size=24, change_default=True),
+    city = fields.Char(string = 'City'),
+    state_id = fields.Many2one("res.country.state", string = 'State', ondelete='restrict'),
+    country_id = fields.Many2one('res.country', string = 'Country', ondelete='restrict'),
+    
+    active = fields.Boolean(string = 'Set to false if the assets is not available (destroyed, splitted, lost,...)')
+    
     @api.multi
     def onchange_state(self, state_id):
         if state_id:
@@ -75,7 +81,10 @@ class building_land(models.Model):
     _inherit = {'realestate.realestate_asset'}
     
     land_division = fields.Char(string = "The land division reference.")
-    land_size = fields.Integer(string = "Size in ares.")   
+    land_size = fields.Integer(string = "Size in ares.")
+
+    is_subdivision = fields.Boolean(string="Set true if it is a subdivision of a land through quotities")
+    quotity = fields.Integer(string="Quotity in 1/1,000th")
     
     parent_id = fields.Many2one('realestate.building_land', string = 'The parent land in case it has been splitted.')
        

@@ -240,8 +240,16 @@
                           </group>
                         </group>
                         <notebook>
-							<page string="Subdivision of the land">
-								<field name="component_ids"/>
+							<page string="Subdivisions of the land">
+								<field name="component_ids" widget="one2many_list" mode="tree">
+	                                <tree string="Subdivisions" editable="bottom">
+	                                    <field name="name"/>
+	                                    <field name="land_division"/>
+	                                    <field name="land_size"/>
+	                                    <field name="public_price"/>
+	                                    <field name="quotity"/>
+	                                </tree>
+                            	</field>
 							</page>
 						</notebook>
 	                </sheet>
@@ -252,7 +260,7 @@
     	<record model="ir.actions.act_window" id="crm_realestate_lands_all">
 	        <field name="name">Building Lands</field>
 	        <field name="res_model">realestate.building_land</field>
-	        <field name="domain">[]</field>
+	        <field name="domain">[('is_subdivision','=','false')
 	        <field name="view_mode">tree,form</field>
 	        <!-- <field name="view_id" ref="crm.crm_case_tree_view_leads"/>
         	<field name="search_view_id" ref="crm.view_crm_case_leads_filter"/>
