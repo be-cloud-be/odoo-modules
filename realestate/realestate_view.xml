@@ -247,7 +247,7 @@
 	                                    <field name="land_division"/>
 	                                    <field name="land_size"/>
 	                                    <field name="public_price"/>
-	                                    <field name="quotity"/>
+	                                    <!-- <field name="quotity"/> -->
 	                                </tree>
                             	</field>
 							</page>
