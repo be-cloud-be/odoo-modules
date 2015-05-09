@@ -213,7 +213,7 @@
             <field name="arch" type="xml">
                 <form string="Building Lands">
 	                <sheet>
-					   <!-- <div class="oe_title" style="width : 100%">
+					   <div class="oe_title" style="width : 100%">
 	                       <label for="name" class="oe_edit_only"/>
 	                       <h1><field name="name" default_focus="1" placeholder="Short description..."/></h1>
 	                       <field name="description" placeholder="More details about the building land..."/>
@@ -239,7 +239,7 @@
                             <field name="estimated_price" class="oe_inline" widget='monetary' string="Estimated Price"/>
                           </group>
                         </group>
-                        <notebook>
+                       <!--  <notebook>
 							<page string="Subdivisions of the land">
 								<field name="component_ids" widget="one2many_list" mode="tree">
 	                                <tree string="Subdivisions" editable="bottom">
