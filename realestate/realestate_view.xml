@@ -241,7 +241,7 @@
                         </group>
                         <notebook>
 							<page string="Subdivisions of the land">
-								<field name="component_ids" widget="one2many_list" mode="tree">
+								<field name="subdivision_ids" widget="one2many_list" mode="tree">
 	                                <tree string="Subdivisions" editable="bottom">
 	                                    <field name="name"/>
 	                                    <field name="land_division"/>

@@ -100,7 +100,6 @@ class building(models.AbstractModel):
     _inherit = {'realestate.realestate_asset'}
     
     land_id = fields.Many2one('realestate.building_land', string = 'The land the building is built upon.')
-    land_portion = fields.Float(string='Portion of the land linked to the building.')
 
     type = fields.Selection(string="The type of building",selection=[ ('house','House'), ('flat','Flat'), ], select=True)
 
