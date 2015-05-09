@@ -35,7 +35,8 @@ class realestate_abstract_asset(models.AbstractModel):
     '''Real Estate Asset Abstract Class'''
     _name = 'realestate.realestate_abstract_asset'
     
-    description = fields.Text(string="Description of the building land.")
+    name = fields.Text(string="Short description of the asset.")
+    description = fields.Text(string="Description of the asset.")
     
     owner_id = fields.Many2one('res.partner', string = 'The land owner.')
     address_id = fields.Many2one('res.partner', string = 'The land address',required=True, ondelete='cascade')
@@ -43,12 +44,12 @@ class realestate_abstract_asset(models.AbstractModel):
     public_price = fields.Integer(string = "The public price.")
     estimated_price = fields.Integer(string = "The estimated price.")
 
-    street = fields.Char(string = 'Street'),
-    street2 = fields.Char(string = 'Street2'),
-    zip = fields.Char(string = 'Zip', size=24, change_default=True),
-    city = fields.Char(string = 'City'),
-    state_id = fields.Many2one("res.country.state", string = 'State', ondelete='restrict'),
-    country_id = fields.Many2one('res.country', string = 'Country', ondelete='restrict'),
+    street = fields.Char(string = 'Street')
+    street2 = fields.Char(string = 'Street2')
+    zip = fields.Char(string = 'Zip', size=24, change_default=True)
+    city = fields.Char(string = 'City')
+    state_id = fields.Many2one("res.country.state", string = 'State', ondelete='restrict')
+    country_id = fields.Many2one('res.country', string = 'Country', ondelete='restrict')
     
     active = fields.Boolean(string = 'Set to false if the assets is not available (destroyed, splitted, lost,...)')
     
