@@ -35,14 +35,14 @@ class realestate_abstract_asset(models.AbstractModel):
     '''Real Estate Asset Abstract Class'''
     _name = 'realestate.realestate_abstract_asset'
     
-    name = fields.Text(string="Short description of the asset.")
-    description = fields.Text(string="Description of the asset.")
+    name = fields.Char(string="Name", description="Short description of the asset.")
+    description = fields.Text(string="Description", description="Description of the asset.")
     
-    owner_id = fields.Many2one('res.partner', string = 'The land owner.')
-    address_id = fields.Many2one('res.partner', string = 'The land address',required=True, ondelete='cascade')
+    owner_id = fields.Many2one('res.partner', string ="Owner", description="The land owner")
+    address_id = fields.Many2one('res.partner', string = "Address",description="The land address",required=True, ondelete='cascade')
     
-    public_price = fields.Integer(string = "The public price.")
-    estimated_price = fields.Integer(string = "The estimated price.")
+    public_price = fields.Integer(string = "Price", description="The public price.")
+    estimated_price = fields.Integer(string = "Estimation", description="The estimated price.")
 
     street = fields.Char(string = 'Street')
     street2 = fields.Char(string = 'Street2')
@@ -51,7 +51,7 @@ class realestate_abstract_asset(models.AbstractModel):
     state_id = fields.Many2one("res.country.state", string = 'State', ondelete='restrict')
     country_id = fields.Many2one('res.country', string = 'Country', ondelete='restrict')
     
-    active = fields.Boolean(string = 'Set to false if the assets is not available (destroyed, splitted, lost,...)')
+    active = fields.Boolean(string = "Is Active", description="Set to false if the assets is not available (destroyed, splitted, lost,...)")
     
     @api.multi
     def onchange_state(self, state_id):
@@ -68,11 +68,11 @@ class realestate_asset(models.Model):
     
     _inherit = {'realestate.realestate_abstract_asset'} 
     
-    to_buy = fields.Boolean(string='This asset can be bought')
-    to_sale = fields.Boolean(string='This asset can be sold')
+    to_buy = fields.Boolean(string="To Buy", description="This asset can be bought")
+    to_sale = fields.Boolean(string="To Sale", description="This asset can be sold")
         
     parent_id = fields.Many2one('realestate.realestate_asset', string = 'Procurement Group')
-    component_ids = fields.One2many('realestate.realestate_asset', 'parent_id', string = 'The component of the asset.')
+    component_ids = fields.One2many('realestate.realestate_asset', 'parent_id', string = "Components", description="The component of the asset.")
     
 realestate_asset()
 
@@ -82,14 +82,14 @@ class building_land(models.Model):
         
     _inherit = {'realestate.realestate_asset'}
     
-    land_division = fields.Char(string = "The land division reference.")
-    land_size = fields.Integer(string = "Size in ares.")
+    land_division = fields.Char(string = "Land Division", description="The land division reference.")
+    land_size = fields.Integer(string = "Size", description="Size in ares.")
 
-    is_subdivision = fields.Boolean(string="Set true if it is a subdivision of a land through quotities")
-    quotity = fields.Integer(string="Quotity in 1/1,000th")
+    is_subdivision = fields.Boolean(string="Is Subdivision", description="Set true if it is a subdivision of a land through quotities")
+    quotity = fields.Integer(string="Quotity", description="Quotity in 1/1,000th")
     
-    parent_land_id = fields.Many2one('realestate.building_land', string = 'The parent land in case it has been splitted.')
-    subdivision_ids = fields.One2many('realestate.building_land', 'parent_land_id', string = 'The parent land.')
+    parent_land_id = fields.Many2one('realestate.building_land', string = "Parent", description="The parent land in case it has been splitted.")
+    subdivision_ids = fields.One2many('realestate.building_land', 'parent_land_id', string = "Subdivisions", description='The subdivision of the land.')
        
 building_land()
 
@@ -99,12 +99,12 @@ class building(models.AbstractModel):
     
     _inherit = {'realestate.realestate_asset'}
     
-    land_id = fields.Many2one('realestate.building_land', string = 'The land the building is built upon.')
+    land_id = fields.Many2one('realestate.building_land', string = "Land", description="The land the building is built upon.")
 
-    type = fields.Selection(string="The type of building",selection=[ ('house','House'), ('flat','Flat'), ], select=True)
+    type = fields.Selection(string="Building Type", description="The type of building",selection=[ ('house','House'), ('flat','Flat'), ('parking','Parking'),], select=True)
 
-    rooms = fields.Integer(string="Number of rooms")
-    size = fields.Integer(string="Size in square meters")
-    parking = fields.Integer(string="Number of parkings")
+    rooms = fields.Integer(string="Rooms", description="Number of rooms")
+    size = fields.Integer(string="Size", description="Size in square meters")
+    parking = fields.Integer(string="Parkings", description="Number of parkings")
 
 building()
