@@ -206,6 +206,46 @@
     	
     	<!-- Real estate assets -->
     	
+    	<record id="view_realestate_asset_form" model="ir.ui.view">
+            <field name="name">realestate.realestate_asset.form</field>
+            <field name="model">realestate.realestate_asset</field>   
+            <field eval="1" name="priority"/>
+            <field name="arch" type="xml">
+                <form string="Real Estate Asset">
+                	<sheet>
+					   <div class="oe_title" style="width : 100%">
+	                       <label for="name" class="oe_edit_only"/>
+	                       <h1><field name="name" default_focus="1" placeholder="Short description..."/></h1>
+	                       <field name="description" placeholder="More details about the building land..."/>
+	                   </div>
+	                   
+	               	</sheet>
+                </form>
+            </field> 	
+    	</record>
+    	
+    	<record model="ir.actions.act_window" id="crm_realestate_assets_all">
+	        <field name="name">Real Estate Assets</field>
+	        <field name="res_model">realestate.realestate_asset</field>
+	        <field name="domain">[('type','=','composite'),]</field>
+	        <field name="view_mode">tree,form</field>
+	        <!-- <field name="view_id" ref="crm.crm_case_tree_view_leads"/>
+        	<field name="search_view_id" ref="crm.view_crm_case_leads_filter"/>-->
+        	<field name="context">{
+	                'default_type':'composite',
+	            }
+        	</field>
+        	<field name="help" type="html">
+	            <p>
+	                Use real estate assets to define what is available to buy
+	                or to sale. Wizards are available to help you build these
+	                composites.
+	            </p>
+	        </field>
+    	</record>
+    	
+    	<!-- Lands -->
+    	
     	<record id="view_realestate_land_form" model="ir.ui.view">
             <field name="name">realestate.building_land.form</field>
             <field name="model">realestate.building_land</field>
@@ -260,18 +300,14 @@
     	<record model="ir.actions.act_window" id="crm_realestate_lands_all">
 	        <field name="name">Building Lands</field>
 	        <field name="res_model">realestate.building_land</field>
-	        <field name="domain">[('is_subdivision','=','false')]</field>
+	        <field name="domain">[('type','=','land'),('is_subdivision','=','false')]</field>
 	        <field name="view_mode">tree,form</field>
 	        <!-- <field name="view_id" ref="crm.crm_case_tree_view_leads"/>
-        	<field name="search_view_id" ref="crm.view_crm_case_leads_filter"/>
+        	<field name="search_view_id" ref="crm.view_crm_case_leads_filter"/>-->
         	<field name="context">{
-	                'default_type':'lead',
-	                'type_of_lead':'acquisition',
-	                'stage_type':'lead',
-	                'needaction_menu_ref': 'realestate.menu_realestate_acquisition_leads',
-	                'search_default_unassigned':0,
+	                'default_type':'land',
 	            }
-        	</field>  -->
+        	</field>
         	<field name="help" type="html">
 	            <p>
 	                Use building land if you need to refer to a building land.
@@ -282,7 +318,8 @@
     	</record>
     	
     	<menuitem name="Real Estate Assets" id="menu_realestate_assets" parent="base.menu_realestate" sequence="15"/>
-    	<menuitem name="Building Land" id="menu_realestate_lands" parent="menu_realestate_assets" sequence="5" action="crm_realestate_lands_all"/>
+    	<menuitem name="Real Estate Asset" id="menu_realestate_assets_composite" parent="menu_realestate_assets" sequence="5" action="crm_realestate_assets_all"/>
+    	<menuitem name="Building Land" id="menu_realestate_lands" parent="menu_realestate_assets" sequence="10" action="crm_realestate_lands_all"/>
     	
     </data>
 </openerp>
