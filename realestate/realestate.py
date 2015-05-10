@@ -85,6 +85,7 @@ class building_land(models.Model):
     
     land_division = fields.Char(string = "Land Division", description="The land division reference.")
     land_size = fields.Integer(string = "Size", description="Size in ares.")
+    public_price = fields.Integer(string = "Public Price", description="The public price.")
 
     is_subdivision = fields.Boolean(string="Is Subdivision", description="Set true if it is a subdivision of a land through quotities")
     quotity = fields.Integer(string="Quotity", description="Quotity in 1/1,000th")
