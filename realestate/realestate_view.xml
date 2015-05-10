@@ -276,7 +276,6 @@
 	                      	<field name="land_division" placeholder="Land Division" />
 	                      	<field name="land_size" string="Land Size" /> m²
                             <field name="public_price" class="oe_inline" widget='monetary' string="Public Price"/>
-                            <field name="estimated_price" class="oe_inline" widget='monetary' string="Estimated Price"/>
                           </group>
                         </group>
                         <notebook>
