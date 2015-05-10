@@ -64,9 +64,8 @@ class realestate_asset(models.Model):
         
     buy_price = fields.Integer(string = "Buy Price", description="The public buy price.")
     sale_price = fields.Integer(string = "Sale Price", description="The public sale price.")
-        
-    parent_id = fields.Many2one('realestate.realestate_asset', string = 'Procurement Group')
-    component_ids = fields.One2many('realestate.realestate_asset', 'parent_id', string = "Components", description="The component of the asset.")
+    
+    component_ids = fields.Many2many(comodel_name='realestate.realestate_abstract_asset', string = "Components", description="The component of the asset.")
     
 realestate_asset()
 
