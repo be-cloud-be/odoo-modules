@@ -46,7 +46,7 @@ class realestate_abstract_asset(models.AbstractModel):
     
     @api.model
     def default_get(self, fields):
-        res = super(realestate_asset, self).default_get(fields)
+        res = super(realestate_abstract_asset, self).default_get(fields)
         if 'type' in fields and 'default_type' in self.env.context:
             res['type'] = self.env.context['default_type']
         return res
