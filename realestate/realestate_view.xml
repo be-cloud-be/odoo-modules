@@ -218,7 +218,26 @@
 	                       <h1><field name="name" default_focus="1" placeholder="Short description..."/></h1>
 	                       <field name="description" placeholder="More details about the building land..."/>
 	                   </div>
-	                   
+	                   <group>
+               	          <group>
+               	          	<field name="to_buy"/>
+               	          	<field name="to_sale"/>
+               	          </group>
+               	          <group>
+               	          	<field name="buy_price"/>
+               	          	<field name="sale_price"/>
+               	          </group>
+               	       </group>
+               	       <notebook>
+               	       	 <page string="Components">
+								<field name="component_ids" widget="one2many_list" mode="tree">
+	                                <tree string="Components" editable="bottom">
+	                                    <field name="name"/>
+	                                    <field name="type"/>
+	                                </tree>
+                            	</field>
+							</page>
+               	       </notebook>
 	               	</sheet>
                 </form>
             </field> 	
