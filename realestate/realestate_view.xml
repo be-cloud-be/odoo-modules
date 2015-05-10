@@ -230,7 +230,7 @@
                	       </group>
                	       <notebook>
                	       	 <page string="Components">
-								<field name="component_ids" widget="one2many_list" mode="tree">
+								<field name="component_ids" widget="many2many_list" mode="tree">
 	                                <tree string="Components" editable="bottom">
 	                                    <field name="name"/>
 	                                    <field name="type"/>
