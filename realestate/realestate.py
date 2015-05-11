@@ -31,7 +31,7 @@ class crm_lead (models.Model):
 
 crm_lead()
 
-class realestate_abstract_asset(models.AbstractModel):
+class realestate_abstract_asset(models.Model):
     '''Real Estate Asset Abstract Class'''
     _name = 'realestate.realestate_abstract_asset'
     
