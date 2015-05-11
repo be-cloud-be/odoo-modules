@@ -57,7 +57,7 @@ class realestate_asset(models.Model):
     '''Real Estate Single Asset'''
     _name = 'realestate.realestate_asset'
     
-    _inherit = {'realestate.realestate_abstract_asset'} 
+    _inherits = {'realestate.realestate_abstract_asset':'asset_id'} 
     
     to_buy = fields.Boolean(string="To Buy", description="This asset can be bought.", select=True)
     to_sale = fields.Boolean(string="To Sale", description="This asset can be sold.", select=True)
@@ -73,7 +73,7 @@ class building_land(models.Model):
     '''Building Land'''
     _name = 'realestate.building_land'
         
-    _inherit = {'realestate.realestate_abstract_asset'}
+    _inherits = {'realestate.realestate_abstract_asset':'asset_id'}
     
     street = fields.Char(string = 'Street')
     street2 = fields.Char(string = 'Street2')
@@ -105,7 +105,7 @@ class building(models.AbstractModel):
     '''Building'''
     _name ='realestate.building'
     
-    _inherit = {'realestate.realestate_abstract_asset'}
+    _inherits = {'realestate.realestate_abstract_asset':'asset_id'}
     
     land_id = fields.Many2one('realestate.building_land', string = "Land", description="The land the building is built upon.")
 
