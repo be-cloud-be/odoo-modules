@@ -270,6 +270,19 @@
             <field name="model">realestate.building_land</field>
             <field eval="1" name="priority"/>
             <field name="arch" type="xml">
+            	<tree string="Building Lands">
+            		<field name="name"/>
+            		<field name="type"/>
+            		<field name="land_division"/>
+            	</tree>
+       		</field>
+       	</record>
+    	
+    	<record id="view_realestate_land_form" model="ir.ui.view">
+            <field name="name">realestate.building_land.form</field>
+            <field name="model">realestate.building_land</field>
+            <field eval="1" name="priority"/>
+            <field name="arch" type="xml">
                 <form string="Building Lands">
 	                <sheet>
 					   <div class="oe_title" style="width : 100%">
@@ -318,7 +331,7 @@
     	<record model="ir.actions.act_window" id="crm_realestate_lands_all">
 	        <field name="name">Building Lands</field>
 	        <field name="res_model">realestate.building_land</field>
-	        <field name="domain">[('type','=','land'),('is_subdivision','=','false')]</field>
+	        <!-- <field name="domain">[('type','=','land'),('is_subdivision','=','false')]</field>-->
 	        <field name="view_mode">tree,form</field>
 	        <!-- <field name="view_id" ref="crm.crm_case_tree_view_leads"/>
         	<field name="search_view_id" ref="crm.view_crm_case_leads_filter"/>-->
@@ -335,6 +348,20 @@
 	        </field>
     	</record>
     	
+    	<record model="ir.actions.act_window.view" id="action_realestate_tag_tree_view_land">
+	        <field name="sequence" eval="1"/>
+	        <field name="view_mode">tree</field>
+	        <field name="view_id" ref="realestate.building_land.tree"/>
+	        <field name="act_window_id" ref="crm_realestate_lands_all"/>
+	    </record>
+
+	    <record model="ir.actions.act_window.view" id="action_realestate_tag_form_view_land">
+	        <field name="sequence" eval="2"/>
+	        <field name="view_mode">form</field>
+	        <field name="view_id" ref="realestate.building_land.form"/>
+	        <field name="act_window_id" ref="crm_realestate_lands_all"/>
+	    </record>
+      
     	<menuitem name="Real Estate Assets" id="menu_realestate_assets" parent="base.menu_realestate" sequence="15"/>
     	<menuitem name="Real Estate Asset" id="menu_realestate_assets_composite" parent="menu_realestate_assets" sequence="5" action="crm_realestate_assets_all"/>
     	<menuitem name="Building Land" id="menu_realestate_lands" parent="menu_realestate_assets" sequence="10" action="crm_realestate_lands_all"/>

@@ -112,5 +112,5 @@ class building(models.AbstractModel):
     rooms = fields.Integer(string="Rooms", description="Number of rooms", select=True)
     size = fields.Integer(string="Size", description="Size in square meters", select=True)
     parkings = fields.Integer(string="Parkings", description="Number of parkings", select=True)
-
+j
 building()
