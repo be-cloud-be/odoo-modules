@@ -220,6 +220,7 @@
 	                   </div>
 	                   <group>
                	          <group>
+               	            <field name="active"/>
                	          	<field name="to_buy"/>
                	          	<field name="to_sale"/>
                	          </group>
@@ -289,6 +290,7 @@
 	                       <label for="name" class="oe_edit_only"/>
 	                       <h1><field name="name" default_focus="1" placeholder="Short description..."/></h1>
 	                       <field name="description" placeholder="More details about the building land..."/>
+	                       <field name="active"/>
 	                   </div>
 	                   <group>
                	          <group>
