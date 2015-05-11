@@ -265,7 +265,7 @@
     	
     	<!-- Lands -->
     	
-    	<record id="view_realestate_land_form" model="ir.ui.view">
+    	<record id="view_realestate_land_tree" model="ir.ui.view">
             <field name="name">realestate.building_land.tree</field>
             <field name="model">realestate.building_land</field>
             <field eval="1" name="priority"/>
@@ -351,14 +351,14 @@
     	<record model="ir.actions.act_window.view" id="action_realestate_tag_tree_view_land">
 	        <field name="sequence" eval="1"/>
 	        <field name="view_mode">tree</field>
-	        <field name="view_id" ref="realestate.building_land.tree"/>
+	        <field name="view_id" ref="view_realestate_land_tree"/>
 	        <field name="act_window_id" ref="crm_realestate_lands_all"/>
 	    </record>
 
 	    <record model="ir.actions.act_window.view" id="action_realestate_tag_form_view_land">
 	        <field name="sequence" eval="2"/>
 	        <field name="view_mode">form</field>
-	        <field name="view_id" ref="realestate.building_land.form"/>
+	        <field name="view_id" ref="view_realestate_land_form"/>
 	        <field name="act_window_id" ref="crm_realestate_lands_all"/>
 	    </record>
       
