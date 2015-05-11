@@ -361,7 +361,8 @@
 	        <field name="view_id" ref="view_realestate_land_form"/>
 	        <field name="act_window_id" ref="crm_realestate_lands_all"/>
 	    </record>
-      
+
+     
     	<menuitem name="Real Estate Assets" id="menu_realestate_assets" parent="base.menu_realestate" sequence="15"/>
     	<menuitem name="Real Estate Asset" id="menu_realestate_assets_composite" parent="menu_realestate_assets" sequence="5" action="crm_realestate_assets_all"/>
     	<menuitem name="Building Land" id="menu_realestate_lands" parent="menu_realestate_assets" sequence="10" action="crm_realestate_lands_all"/>
