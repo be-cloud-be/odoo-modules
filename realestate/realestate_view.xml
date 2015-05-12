@@ -290,7 +290,8 @@
 	                       <label for="name" class="oe_edit_only"/>
 	                       <h1><field name="name" default_focus="1" placeholder="Short description..."/></h1>
 	                       <field name="description" placeholder="More details about the building land..."/>
-	                       <field name="active"/>
+	                       Active : <field name="active"/>
+	                       Is Subdivision <field name="is_subdivision"/>
 	                   </div>
 	                   <group>
                	          <group>
