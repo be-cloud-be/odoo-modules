@@ -333,7 +333,7 @@
     	<record model="ir.actions.act_window" id="crm_realestate_lands_all">
 	        <field name="name">Building Lands</field>
 	        <field name="res_model">realestate.building_land</field>
-	        <field name="domain">[('type','=','land'),('is_subdivision','=','false')]</field>
+	        <!-- <field name="domain">[('type','=','land'),('is_subdivision','=','false')]</field> -->
 	        <field name="view_mode">tree,form</field>
 	        <!-- <field name="view_id" ref="crm.crm_case_tree_view_leads"/>
         	<field name="search_view_id" ref="crm.view_crm_case_leads_filter"/>-->
