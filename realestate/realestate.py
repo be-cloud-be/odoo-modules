@@ -106,6 +106,20 @@ class building_land(models.Model):
            
 building_land()
 
+class parking(models.Model):
+    '''Building'''
+    _name ='realestate.parking'
+    
+    _inherits = {'realestate.realestate_abstract_asset':'asset_id'}
+    
+    asset_id = fields.Many2one(comodel_name='realestate.realestate_abstract_asset', ondelete='cascade')
+    
+    land_id = fields.Many2one('realestate.building_land', string = "Land", description="The land the parking is upon.")
+
+    public_price = fields.Integer(string = "Public Price", description="The public price.")
+
+parking()
+
 class building(models.Model):
     '''Building'''
     _name ='realestate.building'
@@ -119,5 +133,7 @@ class building(models.Model):
     rooms = fields.Integer(string="Rooms", description="Number of rooms", select=True)
     size = fields.Integer(string="Size", description="Size in square meters", select=True)
     parkings = fields.Integer(string="Parkings", description="Number of parkings", select=True)
+
+    public_price = fields.Integer(string = "Public Price", description="The public price.")
 
 building()
