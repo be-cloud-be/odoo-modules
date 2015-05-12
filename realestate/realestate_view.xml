@@ -334,7 +334,7 @@
     	<record model="ir.actions.act_window" id="crm_realestate_lands_all">
 	        <field name="name">Building Lands</field>
 	        <field name="res_model">realestate.building_land</field>
-	        <!-- <field name="domain">[('type','=','land'),('is_subdivision','=','false')]</field> -->
+	        <field name="domain">[('type','=','land'),('is_subdivision','=',False)]</field>
 	        <field name="view_mode">tree,form</field>
 	        <!-- <field name="view_id" ref="crm.crm_case_tree_view_leads"/>
         	<field name="search_view_id" ref="crm.view_crm_case_leads_filter"/>-->
@@ -376,7 +376,7 @@
             		<field name="name"/>
             		<field name="type"/>
 					<field name="rooms"/>
-					<!-- <field name="land_id.city"/>  -->
+					<field name="city"/>
             	</tree>
        		</field>
        	</record>
@@ -387,11 +387,26 @@
             <field eval="1" name="priority"/>
             <field name="arch" type="xml">
                 <form string="Houses">
-	                <sheet>
-	                	<field name="name"/>
-            			<field name="type"/>
-						<field name="rooms"/>
-						<field name="land_id"/>
+                  <sheet>
+	                <div class="oe_title" style="width : 100%">
+	                       <label for="name" class="oe_edit_only"/>
+	                       <h1><field name="name" default_focus="1" placeholder="Short description..."/></h1>
+	                       <field name="description" placeholder="More details about the building land..."/>
+	                       Active : <field name="active"/>
+	                   </div>
+	                   <group>
+               	          <group>
+               	          	<field name="land_id"/>
+               	          	<notebook>
+               	          	  <page string="House Characteristics">
+								<field name="rooms"/>
+								<field name="parkings"/>
+								<field name="size"/>
+								<field name="public_price"/>
+							  </page>
+							</notebook>
+						  </group>	
+						</group>
 	                </sheet>
 	            </form>
 	        </field>

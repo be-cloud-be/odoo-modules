@@ -115,7 +115,8 @@ class parking(models.Model):
     asset_id = fields.Many2one(comodel_name='realestate.realestate_abstract_asset', ondelete='cascade')
     
     land_id = fields.Many2one('realestate.building_land', string = "Land", description="The land the parking is upon.")
-
+    city = fields.Char(related='land_id.city', store=True, select=True)
+    
     public_price = fields.Integer(string = "Public Price", description="The public price.")
 
 parking()
@@ -129,7 +130,8 @@ class building(models.Model):
     asset_id = fields.Many2one(comodel_name='realestate.realestate_abstract_asset', ondelete='cascade')
     
     land_id = fields.Many2one('realestate.building_land', string = "Land", description="The land the building is built upon.")
-
+    city = fields.Char(related='land_id.city', store=True, select=True)
+    
     rooms = fields.Integer(string="Rooms", description="Number of rooms", select=True)
     size = fields.Integer(string="Size", description="Size in square meters", select=True)
     parkings = fields.Integer(string="Parkings", description="Number of parkings", select=True)
