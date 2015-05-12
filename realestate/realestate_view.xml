@@ -374,8 +374,8 @@
             	<tree string="Building">
             		<field name="name"/>
             		<field name="type"/>
-					<field name="rooms"/>
-					<!-- <field name="land_id.city"/> -->
+					<!-- <field name="rooms"/>
+					<field name="land_id.city"/> -->
             	</tree>
        		</field>
        	</record>
