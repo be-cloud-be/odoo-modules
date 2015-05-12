@@ -366,7 +366,7 @@
 
 		<!-- Building -->
 
-		<record id="view_realestate_building_tree" model="ir.ui.view">
+		<record id="view_realestate_house_tree" model="ir.ui.view">
             <field name="name">realestate.building.tree</field>
             <field name="model">realestate.building</field>
             <field eval="1" name="priority"/>
