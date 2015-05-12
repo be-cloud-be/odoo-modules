@@ -374,8 +374,8 @@
             	<tree string="Building">
             		<field name="name"/>
             		<field name="type"/>
-					<!-- <field name="rooms"/>
-					<field name="land_id.city"/> -->
+					<<field name="rooms"/>
+					<field name="land_id.city"/>
             	</tree>
        		</field>
        	</record>
@@ -398,7 +398,7 @@
        	
        	<record model="ir.actions.act_window" id="crm_realestate_houses_all">
 	        <field name="name">Building houses</field>
-	        <field name="res_model">realestate.building_land</field>
+	        <field name="res_model">realestate.building</field>
 	        <field name="domain">[('type','=','house')]</field>
 	        <field name="view_mode">tree,form</field>
 	        <!-- <field name="view_id" ref="crm.crm_case_tree_view_leads"/>
