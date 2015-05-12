@@ -399,11 +399,17 @@
                	          	<field name="land_id"/>
                	          	<notebook>
                	          	  <page string="House Characteristics">
-								<field name="rooms"/>
-								<field name="parkings"/>
-								<field name="size"/>
-								<field name="public_price"/>
-							  </page>
+               	          	  	<group>
+               	          	  		<group>
+               	          	  			<field name="rooms"/>
+										<field name="parkings"/>
+               	          	  		</group>
+               	          	  		<group>
+               	          	  			<field name="size"/>
+										<field name="public_price"/>
+               	          	  		</group>
+               	          	  	</group>
+               	          	  </page>
 							</notebook>
 						  </group>	
 						</group>
