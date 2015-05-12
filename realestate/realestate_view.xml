@@ -382,7 +382,7 @@
        	
        	<record id="view_realestate_house_form" model="ir.ui.view">
             <field name="name">realestate.building_house.form</field>
-            <field name="model">realestate.building_land</field>
+            <field name="model">realestate.building</field>
             <field eval="1" name="priority"/>
             <field name="arch" type="xml">
                 <form string="Houses">
