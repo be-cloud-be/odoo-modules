@@ -395,24 +395,22 @@
 	                       Active : <field name="active"/>
 	                   </div>
 	                   <group>
-               	          <group>
                	          	<field name="land_id"/>
                	          	<notebook>
                	          	  <page string="House Characteristics">
                	          	  	<group>
-               	          	  		<group>
+               	          	  		<group string="Characteristics">
                	          	  			<field name="rooms"/>
 										<field name="parkings"/>
+               	          	  			<field name="size"/> m²
                	          	  		</group>
-               	          	  		<group class="oe_right">
-               	          	  			<field name="size"/>
+               	          	  		<group>
                	          	  			<field name="currency_id" invisible="1" />
 										<field name="public_price" widget="monetary" options="{'currency_field': 'currency_id'}"/>
                	          	  		</group>
                	          	  	</group>
                	          	  </page>
 							</notebook>
-						  </group>	
 						</group>
 	                </sheet>
 	            </form>
