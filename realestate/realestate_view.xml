@@ -393,25 +393,23 @@
 	                       <h1><field name="name" default_focus="1" placeholder="Short description..."/></h1>
 	                       <field name="description" placeholder="More details about the building land..."/>
 	                       Active : <field name="active"/>
+	                   		<field name="land_id"/>
 	                   </div>
-	                   <group>
-               	          	<field name="land_id"/>
-               	          	<notebook>
-               	          	  <page string="House Characteristics">
-               	          	  	<group>
-               	          	  		<group string="Characteristics">
-               	          	  			<field name="rooms"/>
-										<field name="parkings"/>
-               	          	  			<field name="size"/> m²
-               	          	  		</group>
-               	          	  		<group>
-               	          	  			<field name="currency_id" invisible="1" />
-										<field name="public_price" widget="monetary" options="{'currency_field': 'currency_id'}"/>
-               	          	  		</group>
-               	          	  	</group>
-               	          	  </page>
-							</notebook>
-						</group>
+                       <notebook>
+              	          	  <page string="House Characteristics">
+              	          	  	<group>
+              	          	  		<group string="Characteristics">
+              	          	  			<field name="rooms"/>
+									<field name="parkings"/>
+              	          	  			<field name="size"/> m²
+              	          	  		</group>
+              	          	  		<group>
+              	          	  			<field name="currency_id" invisible="1" />
+									<field name="public_price" widget="monetary" options="{'currency_field': 'currency_id'}"/>
+              	          	  		</group>
+              	          	  	</group>
+              	          	  </page>
+						</notebook>
 	                </sheet>
 	            </form>
 	        </field>
