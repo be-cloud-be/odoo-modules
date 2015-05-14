@@ -406,6 +406,7 @@
                	          	  		</group>
                	          	  		<group class="oe_right">
                	          	  			<field name="size"/>
+               	          	  			<field name="currency_id" invisible="1" />
 										<field name="public_price" widget="monetary" options="{'currency_field': 'currency_id'}"/>
                	          	  		</group>
                	          	  	</group>
