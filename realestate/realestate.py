@@ -72,6 +72,14 @@ class realestate_asset(models.Model):
     
     asset_id = fields.Many2one(comodel_name='realestate.realestate_abstract_asset', ondelete='cascade')
     
+    @api.multi
+    def unlink(self):
+        abstract_ids = []
+        for asset in self:
+            abstract_ids.append(asset.asset_id)
+        super(realestate_asset, self).unlink()
+        return self.pool.get('realestate.realestate_asset').unlink(abstract_ids)
+    
     to_buy = fields.Boolean(string="To Buy", description="This asset can be bought.", select=True)
     to_sale = fields.Boolean(string="To Sale", description="This asset can be sold.", select=True)
         
@@ -91,6 +99,14 @@ class building_land(models.Model):
     _inherits = {'realestate.realestate_abstract_asset':'asset_id'}
     
     asset_id = fields.Many2one(comodel_name='realestate.realestate_abstract_asset', ondelete='cascade')
+    
+    @api.multi
+    def unlink(self):
+        abstract_ids = []
+        for asset in self:
+            abstract_ids.append(asset.asset_id)
+        super(realestate_asset, self).unlink()
+        return self.pool.get('realestate.realestate_asset').unlink(abstract_ids)
     
     street = fields.Char(string = 'Street')
     street2 = fields.Char(string = 'Street2')
@@ -128,6 +144,14 @@ class parking(models.Model):
     
     asset_id = fields.Many2one(comodel_name='realestate.realestate_abstract_asset', ondelete='cascade')
     
+    @api.multi
+    def unlink(self):
+        abstract_ids = []
+        for asset in self:
+            abstract_ids.append(asset.asset_id)
+        super(realestate_asset, self).unlink()
+        return self.pool.get('realestate.realestate_asset').unlink(abstract_ids)
+    
     land_id = fields.Many2one('realestate.building_land', string = "Land", description="The land the parking is upon.")
     city = fields.Char(related='land_id.city', store=True, select=True)
     
@@ -144,6 +168,14 @@ class building(models.Model):
     _inherits = {'realestate.realestate_abstract_asset':'asset_id'}
     
     asset_id = fields.Many2one(comodel_name='realestate.realestate_abstract_asset', ondelete='cascade')
+    
+    @api.multi
+    def unlink(self):
+        abstract_ids = []
+        for asset in self:
+            abstract_ids.append(asset.asset_id)
+        super(realestate_asset, self).unlink()
+        return self.pool.get('realestate.realestate_asset').unlink(abstract_ids)
     
     land_id = fields.Many2one('realestate.building_land', string = "Land", description="The land the building is built upon.")
     city = fields.Char(related='land_id.city', store=True, select=True)
