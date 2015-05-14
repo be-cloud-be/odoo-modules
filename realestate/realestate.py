@@ -78,7 +78,7 @@ class realestate_asset(models.Model):
         for asset in self:
             abstract_ids.append(asset.asset_id)
         super(realestate_asset, self).unlink()
-        return self.pool.get('realestate.realestate_asset').unlink(abstract_ids)
+        return self.env['realestate.realestate_asset'].unlink(abstract_ids)
     
     to_buy = fields.Boolean(string="To Buy", description="This asset can be bought.", select=True)
     to_sale = fields.Boolean(string="To Sale", description="This asset can be sold.", select=True)
@@ -106,7 +106,7 @@ class building_land(models.Model):
         for asset in self:
             abstract_ids.append(asset.asset_id)
         super(building_land, self).unlink()
-        return self.pool.get('realestate.realestate_asset').unlink(abstract_ids)
+        return self.env['realestate.realestate_asset'].unlink(abstract_ids)
     
     street = fields.Char(string = 'Street')
     street2 = fields.Char(string = 'Street2')
@@ -150,7 +150,7 @@ class parking(models.Model):
         for asset in self:
             abstract_ids.append(asset.asset_id)
         super(parking, self).unlink()
-        return self.pool.get('realestate.realestate_asset').unlink(abstract_ids)
+        return self.env['realestate.realestate_asset'].unlink(abstract_ids)
     
     land_id = fields.Many2one('realestate.building_land', string = "Land", description="The land the parking is upon.")
     city = fields.Char(related='land_id.city', store=True, select=True)
@@ -175,7 +175,7 @@ class building(models.Model):
         for asset in self:
             abstract_ids.append(asset.asset_id)
         super(building, self).unlink()
-        return self.pool.get('realestate.realestate_asset').unlink(abstract_ids)
+        return self.env['realestate.realestate_asset'].unlink(abstract_ids)
     
     land_id = fields.Many2one('realestate.building_land', string = "Land", description="The land the building is built upon.")
     city = fields.Char(related='land_id.city', store=True, select=True)
