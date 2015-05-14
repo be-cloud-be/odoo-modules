@@ -75,7 +75,7 @@ class realestate_asset(models.Model):
     @api.multi
     def unlink(self):
         for asset in self:
-            asset.asset_id.id.unlink()
+            asset.asset_id.unlink()
         return super(realestate_asset, self).unlink()
     
     to_buy = fields.Boolean(string="To Buy", description="This asset can be bought.", select=True)
@@ -101,7 +101,7 @@ class building_land(models.Model):
     @api.multi
     def unlink(self):
         for asset in self:
-            asset.asset_id.id.unlink()
+            asset.asset_id.unlink()
         return super(building_land, self).unlink()
         
     street = fields.Char(string = 'Street')
@@ -143,7 +143,7 @@ class parking(models.Model):
     @api.multi
     def unlink(self):
         for asset in self:
-            asset.asset_id.id.unlink()
+            asset.asset_id.unlink()
         return super(parking, self).unlink()
     
     land_id = fields.Many2one('realestate.building_land', string = "Land", description="The land the parking is upon.")
@@ -166,7 +166,7 @@ class building(models.Model):
     @api.multi
     def unlink(self):
         for asset in self:
-            asset.asset_id.id.unlink()
+            asset.asset_id.unlink()
         return super(building, self).unlink()
     
     land_id = fields.Many2one('realestate.building_land', string = "Land", description="The land the building is built upon.")
