@@ -76,7 +76,7 @@ class realestate_asset(models.Model):
     def unlink(self):
         for asset in self:
             asset.asset_id.unlink()
-        return super(realestate_asset, self).unlink()
+        return super(realestate_asset, self.sudo()).unlink()
     
     to_buy = fields.Boolean(string="To Buy", description="This asset can be bought.", select=True)
     to_sale = fields.Boolean(string="To Sale", description="This asset can be sold.", select=True)
@@ -102,9 +102,7 @@ class building_land(models.Model):
     def unlink(self):
         for asset in self:
             asset.asset_id.unlink()
-        import wdb
-        wdb.set_trace()
-        return super(building, self.sudo()).unlink()
+        return super(building_land, self.sudo()).unlink()
         
     street = fields.Char(string = 'Street')
     street2 = fields.Char(string = 'Street2')
@@ -146,7 +144,7 @@ class parking(models.Model):
     def unlink(self):
         for asset in self:
             asset.asset_id.unlink()
-        return super(parking, self).unlink()
+        return super(parking, self.sudo()).unlink()
     
     land_id = fields.Many2one('realestate.building_land', string = "Land", description="The land the parking is upon.")
     city = fields.Char(related='land_id.city', store=True, select=True)
