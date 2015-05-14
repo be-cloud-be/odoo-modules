@@ -404,9 +404,9 @@
                	          	  			<field name="rooms"/>
 										<field name="parkings"/>
                	          	  		</group>
-               	          	  		<group>
+               	          	  		<group class="oe_right">
                	          	  			<field name="size"/>
-										<field name="public_price"/>
+										<field name="public_price" widget="monetary" options="{'currency_field': 'currency_id'}"/>
                	          	  		</group>
                	          	  	</group>
                	          	  </page>

@@ -44,12 +44,20 @@ class realestate_abstract_asset(models.Model):
     
     active = fields.Boolean(string = "Is Active", description="Set to false if the assets is not available (destroyed, splitted, lost,...)", select=True)
     
+    currency_id = fields.Many2one('res.currency', string='Currency', readonly=True)
+    
+    @api.model
+    def _get_currency(self):
+        if self.env.user.company_id:
+            return self.env.user.company_id.currency_id.id
+    
     @api.model
     def default_get(self, fields):
         res = super(realestate_abstract_asset, self).default_get(fields)
         if 'type' in fields and 'default_type' in self.env.context:
             res['type'] = self.env.context['default_type']
-        res['active'] = True;
+        res['active'] = True
+        res['currency_id'] = self._get_currency()
         return res
 
 realestate_abstract_asset()
