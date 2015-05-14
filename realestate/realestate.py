@@ -35,8 +35,6 @@ class realestate_abstract_asset(models.Model):
     '''Real Estate Asset Abstract Class'''
     _name = 'realestate.realestate_abstract_asset'
     
-    _inherit = ['mail.thread']
-    
     name = fields.Char(string="Name", description="Short description of the asset.", select=True)
     description = fields.Text(string="Description", description="Description of the asset.")
     
@@ -68,6 +66,8 @@ class realestate_asset(models.Model):
     '''Real Estate Single Asset'''
     _name = 'realestate.realestate_asset'
     
+    _inherit = ['mail.thread']
+    
     _inherits = {'realestate.realestate_abstract_asset':'asset_id'} 
     
     asset_id = fields.Many2one(comodel_name='realestate.realestate_abstract_asset', ondelete='cascade')
@@ -85,6 +85,8 @@ realestate_asset()
 class building_land(models.Model):
     '''Building Land'''
     _name = 'realestate.building_land'
+        
+    _inherit = ['mail.thread']
         
     _inherits = {'realestate.realestate_abstract_asset':'asset_id'}
     
@@ -120,6 +122,8 @@ class parking(models.Model):
     '''Building'''
     _name ='realestate.parking'
     
+    _inherit = ['mail.thread']
+    
     _inherits = {'realestate.realestate_abstract_asset':'asset_id'}
     
     asset_id = fields.Many2one(comodel_name='realestate.realestate_abstract_asset', ondelete='cascade')
@@ -134,6 +138,8 @@ parking()
 class building(models.Model):
     '''Building'''
     _name ='realestate.building'
+    
+    _inherit = ['mail.thread']
     
     _inherits = {'realestate.realestate_abstract_asset':'asset_id'}
     
