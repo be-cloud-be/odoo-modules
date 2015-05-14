@@ -167,7 +167,9 @@ class building(models.Model):
     def unlink(self):
         for asset in self:
             asset.asset_id.unlink()
-        return super(building, self).unlink()
+        import wdb
+        wdb.set_trace()
+        return super(building, self.sudo()).unlink()
     
     land_id = fields.Many2one('realestate.building_land', string = "Land", description="The land the building is built upon.")
     city = fields.Char(related='land_id.city', store=True, select=True)
