@@ -105,7 +105,7 @@ class building_land(models.Model):
         abstract_ids = []
         for asset in self:
             abstract_ids.append(asset.asset_id)
-        super(realestate_asset, self).unlink()
+        super(building_land, self).unlink()
         return self.pool.get('realestate.realestate_asset').unlink(abstract_ids)
     
     street = fields.Char(string = 'Street')
@@ -149,7 +149,7 @@ class parking(models.Model):
         abstract_ids = []
         for asset in self:
             abstract_ids.append(asset.asset_id)
-        super(realestate_asset, self).unlink()
+        super(parking, self).unlink()
         return self.pool.get('realestate.realestate_asset').unlink(abstract_ids)
     
     land_id = fields.Many2one('realestate.building_land', string = "Land", description="The land the parking is upon.")
@@ -174,7 +174,7 @@ class building(models.Model):
         abstract_ids = []
         for asset in self:
             abstract_ids.append(asset.asset_id)
-        super(realestate_asset, self).unlink()
+        super(building, self).unlink()
         return self.pool.get('realestate.realestate_asset').unlink(abstract_ids)
     
     land_id = fields.Many2one('realestate.building_land', string = "Land", description="The land the building is built upon.")
