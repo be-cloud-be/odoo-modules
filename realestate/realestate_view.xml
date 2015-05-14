@@ -401,7 +401,9 @@
               	          	  		<group string="Characteristics">
               	          	  			<field name="rooms"/>
 										<field name="parkings"/>
-              	          	  			<field name="size" class="oe_inline"/> m²
+              	          	  			<div>
+              	          	  				<field name="size" class="oe_inline"/> m²
+              	          	  			</div>
               	          	  		</group>
               	          	  		<group>
               	          	  			<field name="currency_id" invisible="1" />
