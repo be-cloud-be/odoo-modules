@@ -35,6 +35,8 @@ class realestate_abstract_asset(models.Model):
     '''Real Estate Asset Abstract Class'''
     _name = 'realestate.realestate_abstract_asset'
     
+    _inherit = ['mail.thread']
+    
     name = fields.Char(string="Name", description="Short description of the asset.", select=True)
     description = fields.Text(string="Description", description="Description of the asset.")
     
