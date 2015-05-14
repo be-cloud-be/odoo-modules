@@ -401,6 +401,7 @@
               	          	  		<group string="Characteristics">
               	          	  			<field name="rooms"/>
 										<field name="parkings"/>
+              	          	  			<label for="size"/>
               	          	  			<div>
               	          	  				<field name="size" class="oe_inline"/> m²
               	          	  			</div>
