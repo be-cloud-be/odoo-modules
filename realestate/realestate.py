@@ -13,7 +13,6 @@ _logger = logging.getLogger(__name__)
 class crm_lead (models.Model):
     """ CRM Lead with Real Estate Extension """
     _name = "crm.lead"
-    _description = "Lead/Opportunity"
     _inherit = {'crm.lead'}
     
     type_of_lead = fields.Selection(selection = [ ('acquisition','Acquisition'), ('sale','Sale'), ], select=True, string = 'Type of lead', help="Type of lead is used to separate Acquisition and Sales")
@@ -31,7 +30,14 @@ class crm_lead (models.Model):
 
 crm_lead()
 
+class product (models.Model):
+    """ Product with Real Estate Extension """
+    _name = "product.product"
+    _inherit = {"product.product"}
 
+    asset_id = fields.Many2one(string='Real Estate Asset Reference',comodel_name='realestate.realestate_asset', ondelete='set null')
+
+product()
 
 class realestate_abstract_asset(models.Model):
     '''Real Estate Asset Abstract Class'''
