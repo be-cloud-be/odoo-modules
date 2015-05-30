@@ -12,7 +12,7 @@ _logger = logging.getLogger(__name__)
 ## Add real estate information to CRM Lead.
 class crm_lead (models.Model):
     """ CRM Lead with Real Estate Extension """
-    _name = "crm.lead"
+    _name = 'crm.lead'
     _inherit = {'crm.lead'}
     
     type_of_lead = fields.Selection(selection = [ ('acquisition','Acquisition'), ('sale','Sale'), ], select=True, string = 'Type of lead', help="Type of lead is used to separate Acquisition and Sales")
@@ -31,9 +31,9 @@ class crm_lead (models.Model):
 crm_lead()
 
 class sale_order_line(models.Model):
-    """ Product with Real Estate Extension """
-    _name = "sale.order.line"
-    _inherit = {"sale.order.line"}
+    """ Sale Order Line with Real Estate Extension """
+    _name = 'sale.order.line'
+    _inherit = {'sale.order.line'}
 
     asset_id = fields.Many2one(string='Real Estate Asset Reference',comodel_name='realestate.realestate_asset', ondelete='set null')
 
