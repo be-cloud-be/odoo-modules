@@ -30,14 +30,14 @@ class crm_lead (models.Model):
 
 crm_lead()
 
-class sale_order_line(models.Model):
-    """ Sale Order Line with Real Estate Extension """
-    _name = 'sale.order.line'
-    _inherit = {'sale.order.line'}
-
-    asset_id = fields.Many2one(string='Real Estate Asset Reference',comodel_name='realestate.realestate_asset', ondelete='set null')
-
-sale_order_line()
+# class sale_order_line(models.Model):
+#     """ Sale Order Line with Real Estate Extension """
+#     _name = 'sale.order.line'
+#     _inherit = {'sale.order.line'}
+#
+#     asset_id = fields.Many2one(string='Real Estate Asset Reference',comodel_name='realestate.realestate_asset', ondelete='set null')
+#
+# sale_order_line()
 
 class realestate_abstract_asset(models.Model):
     '''Real Estate Asset Abstract Class'''
