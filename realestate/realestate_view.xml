@@ -2,6 +2,19 @@
 <openerp>
 	<data>
 
+        <!-- Sale Order Extention -->
+
+        <record model="ir.ui.view" id="view_order_line_form2">
+            <field name="name">sale.order.line.form.inherit.realestate</field>
+            <field name="model">sale.order.line</field>
+            <field name="inherit_id" ref="sale.view_order_line_form2"/>
+		    <field name="arch" type="xml">
+		        <field name="product_id" position="after">
+		            <field name="asset_id" widget="many2one_list"/>
+		        </field>
+		    </field>
+		</record>
+
 		<menuitem name="RealEstate" id="base.menu_realestate"
 			sequence="12" />
 
