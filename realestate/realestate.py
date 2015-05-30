@@ -24,12 +24,14 @@ class crm_lead (models.Model):
     @api.model
     def default_get(self, fields):
         res = super(crm_lead, self).default_get(fields)
-        context = self.env.context        
+        context = self.env.context
         if context and 'type_of_lead' in context:
             res['type_of_lead'] = context['type_of_lead']
         return res
 
 crm_lead()
+
+
 
 class realestate_abstract_asset(models.Model):
     '''Real Estate Asset Abstract Class'''
@@ -111,6 +113,7 @@ class building_land(models.Model):
     state_id = fields.Many2one("res.country.state", string = 'State', ondelete='restrict')
     country_id = fields.Many2one('res.country', string = 'Country', ondelete='restrict')
     
+    municipality = fields.Char(string = "Municipality", description="The municipality where the land is.", select=True)
     land_division = fields.Char(string = "Land Division", description="The land division reference.", select=True)
     land_size = fields.Float(string = "Size", description="Size in ares.")
     public_price = fields.Integer(string = "Public Price", description="The public price.")
