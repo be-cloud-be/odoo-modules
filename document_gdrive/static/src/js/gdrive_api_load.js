@@ -30,6 +30,6 @@ function handleAuthResult(authResult) {
   if (authResult && !authResult.error) {
     oauthToken = authResult.access_token;
   } else {
-	//alert('Cannot get authorization token for Google Drive:'+authResult && !authResult.error);
+	alert('Cannot get authorization token for Google Drive:'+ authResult && authResult.error_subtype + " - " + authResult.error);
   }
 }
