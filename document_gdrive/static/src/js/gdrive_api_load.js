@@ -27,9 +27,9 @@ function onPickerApiLoad() {
 }
 
 function handleAuthResult(authResult) {
-  if (authResult && !authResult.error) {
+  /*if (authResult && !authResult.error) {
     oauthToken = authResult.access_token;
   } else {
 	alert('Cannot get authorization token for Google Drive:'+authResult && !authResult.error);
-  }
+  }*/
 }
