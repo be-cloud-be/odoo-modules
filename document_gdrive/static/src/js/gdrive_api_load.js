@@ -1,5 +1,5 @@
 // The Client ID of Imply.lu
-var clientId = "AIzaSyAQNBnQFyFuUJdpTtdIosJyTVJ1ocYQFJA"
+var clientId = "433547367780-r5c3iju0u3q2fv2ae5kfld76hi0i1o5c.apps.googleusercontent.com"
 
 var scope = ['https://www.googleapis.com/auth/drive'];
 
