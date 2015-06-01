@@ -31,7 +31,7 @@ openerp.document_gdrive = function(instance, m) {
         	var self = this;
             var view = self.getParent();
             var ids = ( view.fields_view.type != "form" )? view.groups.get_selection().ids : [ view.datarecord.id ];
-            if (pickerApiLoaded && oauthToken) {
+            if (pickerApiLoaded) { // && oauthToken) {
               var picker = new google.picker.PickerBuilder().
               	  addView(google.picker.ViewId.FOLDERS).
                   addView(google.picker.ViewId.DOCS).
