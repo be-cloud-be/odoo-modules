@@ -7,7 +7,7 @@ import StringIO
 import csv
 import dateutil.parser
 
-from openerp.osv import osv
+from openerp.osv import osv, fields
 from openerp.tools.translate import _
 from openerp.exceptions import UserError
 
