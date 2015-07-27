@@ -108,9 +108,14 @@ class account_bank_statement_import(osv.TransientModel):
                         #'partner_id': partner_id,
                     }
                     if (currency , account_num ,statement_id) in all_statements:
-                        all_statements[currency , account_num ,statement_id].append(vals_line)
+                        all_statements[currency , account_num ,statement_id]['transactions'].append(vals_line)
                     else:
-                        all_statements[currency , account_num ,statement_id] = [vals_line]
+                        all_statements[currency , account_num ,statement_id] = {
+                            'name': line['Account'] + '-' + line['Statement number'],
+                            'balance_start': float(line['Opening balance'].replace(',','.')),
+                            'balance_end_real': float(line['Closing balance'].replace(',','.')),
+                            'transactions' : [vals_line],
+                        }
         except Exception, e:
             raise UserError(_("The following problem occurred during import. The file might not be valid.\n\n %s" % e.message))
         return all_statements
