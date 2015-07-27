@@ -52,7 +52,7 @@ class account_bank_statement_import(osv.TransientModel):
             currency_code, account_number, statement_id = statement_key
             stmts_vals = all_statements[statement_key]
             # Check raw data
-            self._check_parsed_data(cr, uid, stmts_vals, context=ctx)
+            self._check_parsed_data(cr, uid, [stmts_vals], context=ctx)
             # Try to find the bank account and currency in odoo
             currency_id, bank_account_id = self._find_additional_data(cr, uid, currency_code, account_number, context=ctx)
             # Try to find the journal
@@ -61,9 +61,9 @@ class account_bank_statement_import(osv.TransientModel):
             if not journal_id:
                 return self._journal_creation_wizard(cr, uid, currency_id, account_number, bank_account_id, context=ctx)
             # Prepare statement data to be used for bank statements creation
-            stmts_vals = super(account_bank_statement_import, self)._complete_stmts_vals(cr, uid, stmts_vals, journal_id, account_number, context=context)
+            stmts_vals = super(account_bank_statement_import, self)._complete_stmts_vals(cr, uid, [stmts_vals], journal_id, account_number, context=context)
             # Create the bank statements
-            statement_ids, notifications = super(account_bank_statement_import, self)._create_bank_statements(cr, uid, stmts_vals, context=context)
+            statement_ids, notifications = super(account_bank_statement_import, self)._create_bank_statements(cr, uid, [stmts_vals], context=context)
             all_statement_ids.append(statement_ids)
             all_notifications.append(notifications)
 
