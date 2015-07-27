@@ -48,7 +48,9 @@ class account_bank_statement_import(osv.TransientModel):
         all_statements = self._parse_file(cr, uid, base64.b64decode(data_file)[3:], context=ctx)
         all_statement_ids = []
         all_notifications = []
-        for currency_code, account_number, stmts_vals in currency_codes, account_numbers, stmts_vals_list:
+        for statement_key in all_statements.keys:
+            currency_code, account_number, statement_id = statement_key
+            stmts_vals = all_statements[statement_key]
             # Check raw data
             self._check_parsed_data(cr, uid, stmts_vals, context=ctx)
             # Try to find the bank account and currency in odoo
@@ -112,13 +114,3 @@ class account_bank_statement_import(osv.TransientModel):
         except Exception, e:
             raise UserError(_("The following problem occurred during import. The file might not be valid.\n\n %s" % e.message))
         return all_statements
-
-
-        vals_bank_statement = {
-            'name': ofx.account.routing_number,
-            'transactions': transactions,
-            # WARNING: the provided ledger balance is not necessarily the ending balance of the statement
-            # see https://github.com/odoo/odoo/issues/3003
-            'balance_start': float(ofx.account.statement.balance) - total_amt,
-            'balance_end_real': ofx.account.statement.balance,
-        }
