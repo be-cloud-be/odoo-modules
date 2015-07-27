@@ -92,22 +92,23 @@ class account_bank_statement_import(osv.TransientModel):
         all_statements = {}
         try:
             for line in csv:
-                currency = line['Statement currency']
-                account_num = line['Account']
-                statement_id = line['Statement number']
-                vals_line = {
-                    'date': dateutil.parser.parse(line['Entry date'], fuzzy=True).date(),
-                    'name': line['Counterparty name']+line['Transaction motivation'],
-                    'ref': line['Bank reference'],
-                    'amount': float(line['Transaction amount'].replace(',','.')),
-                    'unique_import_id': line['Bank reference'],
-                    #'bank_account_id': bank_account_id,
-                    #'partner_id': partner_id,
-                }
-                if (currency , account_num ,statement_id) in all_statements:
-                    all_statements[currency , account_num ,statement_id].append(vals_line)
-                else:
-                    all_statements[currency , account_num ,statement_id] = [vals_line]
+                if not line['Bank reference'] is None:
+                    currency = line['Statement currency']
+                    account_num = line['Account']
+                    statement_id = line['Statement number']
+                    vals_line = {
+                        'date': dateutil.parser.parse(line['Entry date'], fuzzy=True).date(),
+                        'name': line['Counterparty name']+line['Transaction motivation'],
+                        'ref': line['Bank reference'],
+                        'amount': float(line['Transaction amount'].replace(',','.')),
+                        'unique_import_id': line['Bank reference'],
+                        #'bank_account_id': bank_account_id,
+                        #'partner_id': partner_id,
+                    }
+                    if (currency , account_num ,statement_id) in all_statements:
+                        all_statements[currency , account_num ,statement_id].append(vals_line)
+                    else:
+                        all_statements[currency , account_num ,statement_id] = [vals_line]
         except Exception, e:
             raise UserError(_("The following problem occurred during import. The file might not be valid.\n\n %s" % e.message))
         return all_statements
