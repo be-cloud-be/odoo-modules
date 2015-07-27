@@ -4,7 +4,7 @@
 
 import logging
 import StringIO
-import csv
+import unicodecsv
 import dateutil.parser
 import base64
 
@@ -80,7 +80,7 @@ class account_bank_statement_import(osv.TransientModel):
 
     def _check_csv(self, cr, uid, file, context=None):
         try:
-            dict = csv.DictReader(file, delimiter=';', quotechar='"')
+            dict = unicodecsv.DictReader(file, delimiter=';', quotechar='"')
         except:
             return False
         return dict
