@@ -48,7 +48,7 @@ class account_bank_statement_import(osv.TransientModel):
         all_statements = self._parse_file(cr, uid, base64.b64decode(data_file)[3:], context=ctx)
         all_statement_ids = []
         all_notifications = []
-        for statement_key in all_statements.keys:
+        for statement_key in all_statements.keys():
             currency_code, account_number, statement_id = statement_key
             stmts_vals = all_statements[statement_key]
             # Check raw data
