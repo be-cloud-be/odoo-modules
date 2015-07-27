@@ -31,6 +31,10 @@ class account_bank_statement_import(osv.TransientModel):
 
     def import_file(self, cr, uid, ids, context=None):
         """ Process the file chosen in the wizard, create bank statement(s) and go to reconciliation. """
+
+        import wdb
+        wdb.set_trace()
+
         if context is None:
             context = {}
         #set the active_id in the context, so that any extension module could
