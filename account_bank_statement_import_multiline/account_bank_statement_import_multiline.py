@@ -45,7 +45,7 @@ class account_bank_statement_import(osv.TransientModel):
         data_file = self.browse(cr, uid, ids[0], context=ctx).data_file
 
         # Parse the file and build a list of statement organised as a tree [currency_code][account_number][statement_id]
-        all_statements = self._parse_file(cr, uid, base64.b64decode(data_file).decode("latin-1")[3:], context=ctx)
+        all_statements = self._parse_file(cr, uid, base64.b64decode(data_file).decode("ISO_8859")[3:], context=ctx)
         all_statement_ids = []
         all_notifications = []
         for currency_code, account_number, stmts_vals in currency_codes, account_numbers, stmts_vals_list:
