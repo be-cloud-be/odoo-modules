@@ -63,7 +63,7 @@ class account_bank_statement_import(osv.TransientModel):
             # Prepare statement data to be used for bank statements creation
             stmts_vals = super(account_bank_statement_import, self)._complete_stmts_vals(cr, uid, [stmts_vals], journal_id, account_number, context=context)
             # Create the bank statements
-            statement_ids, notifications = super(account_bank_statement_import, self)._create_bank_statements(cr, uid, [stmts_vals], context=context)
+            statement_ids, notifications = super(account_bank_statement_import, self)._create_bank_statements(cr, uid, stmts_vals, context=context)
             all_statement_ids.append(statement_ids)
             all_notifications.append(notifications)
 
