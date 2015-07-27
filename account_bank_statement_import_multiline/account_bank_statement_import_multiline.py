@@ -80,8 +80,7 @@ class account_bank_statement_import(osv.TransientModel):
 
     def _check_csv(self, cr, uid, file, context=None):
         try:
-            with open(file) as csvfile:
-                dict = csv.DictReader(csvfile)
+            dict = csv.DictReader(file)
         except:
             return False
         return dict
