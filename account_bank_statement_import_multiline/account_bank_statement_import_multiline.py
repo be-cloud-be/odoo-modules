@@ -101,7 +101,7 @@ class account_bank_statement_import(osv.TransientModel):
                     vals_line = {
                         'date': dateutil.parser.parse(line['Entry date'], fuzzy=True).date(),
                         'name': line['Counterparty name']+line['Transaction motivation'],
-                        'ref': line['Bank reference'],
+                        'ref': line['Account'] + '-' + line['Statement number']+'-'+line['Bank reference'],
                         'amount': float(line['Transaction amount'].replace(',','.')),
                         'unique_import_id': line['Bank reference'],
                         #'bank_account_id': bank_account_id,
