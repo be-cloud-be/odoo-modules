@@ -33,8 +33,8 @@ class account_bank_statement_import(osv.TransientModel):
     def import_file(self, cr, uid, ids, context=None):
         """ Process the file chosen in the wizard, create bank statement(s) and go to reconciliation. """
 
-        import wdb
-        wdb.set_trace()
+        #import wdb
+        #wdb.set_trace()
 
         if context is None:
             context = {}
@@ -102,7 +102,7 @@ class account_bank_statement_import(osv.TransientModel):
                     m = hashlib.sha512()
                     m.update(str(line))
                     vals_line = {
-                        'date': dateutil.parser.parse(line['Entry date'], fuzzy=True).date(),
+                        'date': dateutil.parser.parse(line['Entry date'], dayfirst=True, fuzzy=True).date(),
                         'name': line['Counterparty name']+line['Transaction motivation'],
                         'ref': line['Account'] + '-' + line['Statement number']+'-'+line['Bank reference'],
                         'amount': float(line['Transaction amount'].replace(',','.')),
