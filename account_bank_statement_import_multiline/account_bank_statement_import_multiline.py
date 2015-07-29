@@ -7,6 +7,7 @@ import StringIO
 import unicodecsv
 import dateutil.parser
 import base64
+import hashlib
 
 from openerp.osv import osv, fields
 from openerp.tools.translate import _
@@ -98,12 +99,14 @@ class account_bank_statement_import(osv.TransientModel):
                     currency = line['Statement currency']
                     account_num = line['Account']
                     statement_id = line['Statement number']
+                    m = hashlib.sha512()
+                    m.update(line)
                     vals_line = {
                         'date': dateutil.parser.parse(line['Entry date'], fuzzy=True).date(),
                         'name': line['Counterparty name']+line['Transaction motivation'],
                         'ref': line['Account'] + '-' + line['Statement number']+'-'+line['Bank reference'],
                         'amount': float(line['Transaction amount'].replace(',','.')),
-                        'unique_import_id': line['Statement number']+'-'+line['Bank reference'],
+                        'unique_import_id': m.digest(),
                         #'bank_account_id': bank_account_id,
                         #'partner_id': partner_id,
                     }
