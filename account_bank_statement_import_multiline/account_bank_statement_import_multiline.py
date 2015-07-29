@@ -100,7 +100,7 @@ class account_bank_statement_import(osv.TransientModel):
                     account_num = line['Account']
                     statement_id = line['Statement number']
                     m = hashlib.sha512()
-                    m.update(line)
+                    m.update(str(line))
                     vals_line = {
                         'date': dateutil.parser.parse(line['Entry date'], fuzzy=True).date(),
                         'name': line['Counterparty name']+line['Transaction motivation'],
