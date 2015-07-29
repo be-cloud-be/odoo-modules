@@ -6,6 +6,7 @@ import logging
 import StringIO
 import unicodecsv
 import chardet
+import codecs
 import dateutil.parser
 import base64
 import hashlib
@@ -48,6 +49,8 @@ class account_bank_statement_import(osv.TransientModel):
         data = base64.b64decode(data_file)
         encoding = chardet.detect(data)
         data.decode(encoding['encoding'])
+        if data[:3] == codecs.BOM_UTF8:
+            data = data[3:]
 
         # Parse the file and build a list of statement organised as a tree [currency_code][account_number][statement_id]
         all_statements = self._parse_file(cr, uid, data, context=ctx)
