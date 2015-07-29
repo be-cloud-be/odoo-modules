@@ -106,7 +106,7 @@ class account_bank_statement_import(osv.TransientModel):
                         'name': line['Counterparty name']+line['Transaction motivation'],
                         'ref': line['Account'] + '-' + line['Statement number']+'-'+line['Bank reference'],
                         'amount': float(line['Transaction amount'].replace(',','.')),
-                        'unique_import_id': m.digest(),
+                        'unique_import_id': m.hexdigest(),
                         #'bank_account_id': bank_account_id,
                         #'partner_id': partner_id,
                     }
