@@ -5,6 +5,7 @@
 import logging
 import StringIO
 import unicodecsv
+import chardet
 import dateutil.parser
 import base64
 import hashlib
@@ -44,9 +45,12 @@ class account_bank_statement_import(osv.TransientModel):
         ctx['active_id'] = ids[0]
 
         data_file = self.browse(cr, uid, ids[0], context=ctx).data_file
+        data = base64.b64decode(data_file)
+        encoding = chardet.detect(data)
+        data.decode(encoding['encoding'])
 
         # Parse the file and build a list of statement organised as a tree [currency_code][account_number][statement_id]
-        all_statements = self._parse_file(cr, uid, base64.b64decode(data_file)[3:], context=ctx)
+        all_statements = self._parse_file(cr, uid, data, context=ctx)
         all_statement_ids = []
         all_notifications = []
         for statement_key in all_statements.keys():
