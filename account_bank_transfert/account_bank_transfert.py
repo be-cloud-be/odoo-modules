@@ -182,7 +182,7 @@ class account_bank_transfert(models.Model):
             }
             aml_obj.create(from_line_counterpart)
             
-            self.write({'journal_from_entry_id': move_id})
+            self.write({'journal_from_entry_id': move_id.id})
             
             move_vals = self._prepare_move(tr.to_account_id.journal_id)
             move_id = am_obj.create(move_vals)
@@ -220,7 +220,7 @@ class account_bank_transfert(models.Model):
             }
             aml_obj.create(to_line_counterpart)
         
-            self.write({'journal_to_entry_id': move_id})
+            self.write({'journal_to_entry_id': move_id.id})
         
     @api.multi
     def action_cancel(self):
