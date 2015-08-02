@@ -23,6 +23,8 @@ class account_bank_transfert(models.Model):
         },
     }
     
+    name = fields.Char()
+    
     number = fields.Char(related='move_id.name', store=True, readonly=True, copy=False)
     
     sent = fields.Boolean(readonly=True, default=False, copy=False,
