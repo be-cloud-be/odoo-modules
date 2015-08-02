@@ -16,6 +16,17 @@
 		        </tree>
 		    </field>
 		</record>
+		
+		<record model="ir.ui.view" id="bank_transfert_form">
+		    <field name="name">account.bank_transfert.view</field>
+		    <field name="model">account.bank_transfert</field>
+		    <field name="type">form</field>
+		    <field name="arch" type="xml">
+		        <form string="Bank Transfert">
+		            
+		        </form>
+		    </field>
+		</record>
         
         <record model="ir.actions.act_window" id="action_bank_transfert">
             <field name="name">Bank Transfert</field>
