@@ -159,8 +159,8 @@ class account_bank_transfert(models.Model):
                 #'currency_id': tr.from_account_id.currency_id.id,
                 #'amount_currency': tr.amount,
                 'quantity': tr.amount,
-                'credit': 0,
-                'debit': tr.amount,
+                'credit': tr.amount,
+                'debit': 0,
                 'date': tr.trade_date,
                 #'counterpart_move_line_id': mv_line.id,
             }
@@ -197,8 +197,8 @@ class account_bank_transfert(models.Model):
                 #'currency_id': tr.to_account_id.currency_id.id,
                 #'amount_currency': tr.amount,
                 'quantity': tr.amount,
-                'credit': 0,
-                'debit': tr.amount,
+                'credit': tr.amount,
+                'debit': 0,
                 'date': tr.trade_date,
                 #'counterpart_move_line_id': mv_line.id,
             }
