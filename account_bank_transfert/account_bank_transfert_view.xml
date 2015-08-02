@@ -8,7 +8,8 @@
 		    <field name="type">tree</field>
 		    <field name="arch" type="xml">
 		    	<tree toolbar="1" string="Transferts" editable="bottom" colors="blue:state == 'draft';black:state in ('paid','confirmed');gray:state == 'cancel'">
-		    		<field name="from_account_id"/>
+		    		<field name="name"/>
+		        	<field name="from_account_id"/>
 		        	<field name="to_account_id"/>
 		        	<field name="trade_date" on_change="onchange_trade_date_transfert(trade_date)"/>
 		        	<field name="value_date"/>
@@ -31,6 +32,7 @@
     		        </header>
 		            <sheet>
     	              <group col="4">
+    	                  <field name="name"/>
                           <field name="from_account_id" placeholder="Transfered from..."/>
                           <field name="to_account_id" placeholder="...to"/>
                           <field name="trade_date"/>
