@@ -92,7 +92,7 @@ class account_bank_transfert(models.Model):
     @api.multi
     def action_date_assign(self):
         for tr in self:
-            res = tr.onchange_trade_date_transfert(tr.date_invoice)
+            res = tr.onchange_trade_date_transfert(tr.trade_date)
             if res and res.get('value'):
                 tr.write(res['value'])
         return True
