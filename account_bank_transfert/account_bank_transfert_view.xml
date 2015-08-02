@@ -27,7 +27,7 @@
 		            <header>
     		            <button name="transfert_confirm" states="draft" string="Validate" class="oe_highlight" groups="account.group_account_invoice"/>
     		            <button name="transfert_cancel" states="draft,confirmed" string="Cancel Transfert" groups="account.group_account_invoice"/>
-    		            <field name="state" widget="statusbar" statusbar_visible="draft,open,paid" statusbar_colors='{"proforma":"blue","proforma2":"blue"}'/>
+    		            <field name="state" widget="statusbar" statusbar_visible="draft,open,paid"/>
     		        </header>
 		            <sheet>
     	              <group col="4">

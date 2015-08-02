@@ -72,7 +72,9 @@ class account_bank_transfert(models.Model):
     amount = fields.Float(string='Amount which will be transfered.', digits=dp.get_precision('Account'),
         readonly=True, states={'draft': [('readonly', False)]}, default=0.0)
 
-    journal_entry_id = fields.Many2one('account.move', string='Journal Entry', copy=False)
+    journal_from_entry_id = fields.Many2one('account.move', string='Journal Entry', copy=False)
+
+    journal_to_entry_id = fields.Many2one('account.move', string='Journal Entry', copy=False)
 
     note = fields.Text(string='Notes')
     
@@ -98,7 +100,7 @@ class account_bank_transfert(models.Model):
         return True
         
     @api.model
-    def _prepare_move(self):
+    def _prepare_move(self, journal_id):
         """Prepare the dict of values to create the move from a
            statement line. This method may be overridden to implement custom
            move generation (making sure to call super() to establish
@@ -109,7 +111,7 @@ class account_bank_transfert(models.Model):
            :return: dict of value to create() the account.move
         """
         return {
-            'journal_id': self.journal_id.id,
+            'journal_id': journal_id,
             'period_id': self.period_id.id,
             'company_id': self.company_id.id,
             'date': self.trade_date,
@@ -135,7 +137,7 @@ class account_bank_transfert(models.Model):
             if tr.move_id:
                 continue
             
-            move_vals = self._prepare_move()
+            move_vals = self._prepare_move(tr.from_account_id)
             move_id = am_obj.create(move_vals)
             
             from_line = {
@@ -171,6 +173,11 @@ class account_bank_transfert(models.Model):
             }
             aml_obj.create(from_line_counterpart)
             
+            self.write({'journal_from_entry_id': move_id})
+            
+            move_vals = self._prepare_move(tr.from_account_id)
+            move_id = am_obj.create(move_vals)
+            
             to_line = {
                 'journal_id': tr.to_account_id.journal_id,
                 'period_id': tr.period_id.id,
@@ -204,7 +211,7 @@ class account_bank_transfert(models.Model):
             }
             aml_obj.create(to_line_counterpart)
         
-            self.write({'journal_entry_id': move_id})
+            self.write({'journal_to_entry_id': move_id})
         
     @api.multi
     def action_cancel(self):
