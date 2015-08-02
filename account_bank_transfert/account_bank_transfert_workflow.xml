@@ -19,8 +19,6 @@
             <field name="action">
                 action_date_assign()
                 action_move_create()
-                action_number()
-                invoice_validate()
             </field>
             <field name="kind">function</field>
         </record>
