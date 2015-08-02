@@ -111,7 +111,7 @@ class account_bank_transfert(models.Model):
            :return: dict of value to create() the account.move
         """
         return {
-            'journal_id': journal_id,
+            'journal_id': journal_id.id,
             'period_id': self.period_id.id,
             'company_id': self.company_id.id,
             'date': self.trade_date,
@@ -137,7 +137,7 @@ class account_bank_transfert(models.Model):
             if tr.move_id:
                 continue
             
-            move_vals = self._prepare_move(tr.from_account_id)
+            move_vals = self._prepare_move(tr.from_account_id.journal_id)
             move_id = am_obj.create(move_vals)
             
             from_line = {
@@ -175,7 +175,7 @@ class account_bank_transfert(models.Model):
             
             self.write({'journal_from_entry_id': move_id})
             
-            move_vals = self._prepare_move(tr.from_account_id)
+            move_vals = self._prepare_move(tr.to_account_id.journal_id)
             move_id = am_obj.create(move_vals)
             
             to_line = {
