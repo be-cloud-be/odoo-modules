@@ -115,8 +115,8 @@ class account_bank_transfert(models.Model):
             'period_id': self.period_id.id,
             'company_id': self.company_id.id,
             'date': self.trade_date,
-            'name': None,
-            'ref': None,
+            'name': self.number or '/',
+            'ref': self.number,
         }
         
     @api.multi
