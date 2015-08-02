@@ -13,6 +13,7 @@
 		        	<field name="trade_date"/>
 		        	<field name="value_date"/>
 		        	<field name="amount"/>
+		        	<field name="state"/>
 		        </tree>
 		    </field>
 		</record>
@@ -29,6 +30,7 @@
                       <field name="trade_date"/>
                       <field name="value_date"/>
                       <field name="amount"/>
+                      <field name="state"/>
                   </group>
                   <separator string="Notes"/>
                   <field name="note"/>

@@ -54,7 +54,7 @@ class account_bank_transfert(models.Model):
         help="Will be set to D+2 as a default")
     
     period_id = fields.Many2one('account.period', string='Force Period',
-        domain=[('state', '!=', 'done')], copy=False,
+        domain=[('state', '==', 'draft')], copy=False,
         help="Keep empty to use the period of the trade date.",
         readonly=True, states={'draft': [('readonly', False)]})
         
