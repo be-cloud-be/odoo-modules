@@ -142,7 +142,7 @@ class account_bank_transfert(models.Model):
             if not period:
                 period = period.with_context().find(self.trade_date)[:1]
             
-            self.write({'period_id': period})
+            self.write({'period_id': period.id})
             
             move_vals = self._prepare_move(tr.from_account_id.journal_id)
             move_id = am_obj.create(move_vals)
