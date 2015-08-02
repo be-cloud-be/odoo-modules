@@ -3,8 +3,8 @@
     <data>
         
         <record model="ir.ui.view" id="bank_transfert_tree">
-		    <field name="name">account_bank_transfert.transfert.view</field>
-		    <field name="model">account_bank_transfert.transfert</field>
+		    <field name="name">account.bank_transfert.view</field>
+		    <field name="model">account.bank_transfert</field>
 		    <field name="type">tree</field>
 		    <field name="arch" type="xml">
 		    	<tree toolbar="1" string="Transferts" editable="bottom">
@@ -19,7 +19,7 @@
         
         <record model="ir.actions.act_window" id="action_bank_transfert">
             <field name="name">Bank Transfert</field>
-            <field name="res_model">account_bank_tranfert.bank_transfert</field>
+            <field name="res_model">account.bank_transfert</field>
         </record>
 
         <record model="ir.actions.act_window.view" id="action_bank_transfert_view_tree">
