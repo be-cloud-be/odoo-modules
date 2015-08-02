@@ -23,16 +23,12 @@ class account_bank_transfert(models.Model):
     
     @api.model
     def _default_journal(self):
-        #inv_type = self._context.get('type', 'out_invoice')
-        #inv_types = inv_type if isinstance(inv_type, list) else [inv_type]
-        #company_id = self._context.get('company_id', self.env.user.company_id.id)
-        #domain = [
-        #    ('type', 'in', filter(None, map(TYPE2JOURNAL.get, inv_types))),
-        #    ('company_id', '=', company_id),
-        #]
-        #return self.env['account.journal'].search(domain, limit=1)
-        return None
-
+        company_id = self._context.get('company_id', self.env.user.company_id.id)
+        domain = [
+            ('company_id', '=', company_id),
+        ]
+        return self.env['account.journal'].search(domain, limit=1)
+        
     @api.model
     def _default_currency(self):
         journal = self._default_journal()
@@ -104,3 +100,19 @@ class account_bank_transfert(models.Model):
         ('number_uniq', 'unique(number, company_id)',
             'Transfert Number must be unique per Company!'),
     ]
+    
+    @api.multi
+    def onchange_trade_date_transfert(self, trade_date):
+        if not trade_date:
+            date_invoice = fields.Date.context_today(self)
+        return {'value': {'date_due': date_invoice + 2}}
+    
+    @api.multi
+    def action_date_assign(self):
+        for tr in self:
+            res = tr.onchange_trade_date_transfert(tr.date_invoice)
+            if res and res.get('value'):
+                tr.write(res['value'])
+        return True
+        
+    
