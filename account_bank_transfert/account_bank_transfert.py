@@ -169,7 +169,7 @@ class account_bank_transfert(models.Model):
             from_line_counterpart = {
                 'journal_id': tr.from_account_id.journal_id.id,
                 'period_id': tr.period_id.id,
-                'name': _('change') + ': ' + (st_line.name or '/'),
+                'name': _('change') + ': ' + (tr.name or '/'),
                 'account_id': tr.from_account_id.journal_id.internal_account_id.id,
                 'move_id': move_id.id,
                 'amount_currency': tr.amount,
@@ -207,7 +207,7 @@ class account_bank_transfert(models.Model):
             to_line_counterpart = {
                 'journal_id': tr.to_account_id.journal_id.id,
                 'period_id': tr.period_id.id,
-                'name': _('change') + ': ' + (st_line.name or '/'),
+                'name': _('change') + ': ' + (tr.name or '/'),
                 'account_id': tr.from_account_id.journal_id.default_debit_account_id.id,
                 'move_id': move_id.id,
                 'amount_currency': tr.amount,
