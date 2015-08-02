@@ -162,7 +162,7 @@ class account_bank_transfert(models.Model):
                 'credit': 0,
                 'debit': tr.amount,
                 'date': tr.trade_date,
-                'counterpart_move_line_id': mv_line.id,
+                #'counterpart_move_line_id': mv_line.id,
             }
             aml_obj.create(from_line)
             
@@ -200,7 +200,7 @@ class account_bank_transfert(models.Model):
                 'credit': 0,
                 'debit': tr.amount,
                 'date': tr.trade_date,
-                'counterpart_move_line_id': mv_line.id,
+                #'counterpart_move_line_id': mv_line.id,
             }
             aml_obj.create(to_line)
             
