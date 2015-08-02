@@ -135,7 +135,7 @@ class account_bank_transfert(models.Model):
             if tr.move_id:
                 continue
             
-            move_vals = bs_obj._prepare_move(tr)
+            move_vals = self._prepare_move(tr)
             move_id = am_obj.create(move_vals)
             
             from_line = {
