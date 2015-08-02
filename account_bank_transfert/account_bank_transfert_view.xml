@@ -23,8 +23,23 @@
 		    <field name="type">form</field>
 		    <field name="arch" type="xml">
 		        <form string="Bank Transfert">
-		            
-		        </form>
+		            <form string="Statement Line">
+                      <group col="4">
+                          <field name="statement_id"/>
+                          <field name="journal_id"/>
+                          <field name="date"/>
+                          <field name="val_date"/>
+                          <field name="name"/>
+                          <field name="ref" readonly="0"/>
+                          <field name="partner_id"/>
+                          <field name="amount"/>
+                          <field name="globalisation_id"/>
+                          <field name="sequence" readonly="0"/>
+                          <field name="state"/>
+                      </group>
+                      <separator string="Notes"/>
+                      <field name="note"/>
+                </form>
 		    </field>
 		</record>
         

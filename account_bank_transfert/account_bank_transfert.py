@@ -95,11 +95,12 @@ class account_bank_transfert(models.Model):
         help='Bank Account Number from which the transfert will be done. Must be a company bank account number.',
         readonly=True, states={'draft': [('readonly', False)]})
 
-    _sql_constraints = [
-        ('number_uniq', 'unique(number, company_id)',
-            'Invoice Number must be unique per Company!'),
-    ]
-        
     amount = fields.Float(string='Amount which will be transfered.', digits=dp.get_precision('Account'),
         readonly=True, states={'draft': [('readonly', False)]}, default=0.0)
-        
+
+    note = fields.Text(string='Notes')
+    
+    _sql_constraints = [
+        ('number_uniq', 'unique(number, company_id)',
+            'Transfert Number must be unique per Company!'),
+    ]

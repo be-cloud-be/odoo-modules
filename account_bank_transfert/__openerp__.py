@@ -9,7 +9,8 @@ Module to create bank transfer voucher.
 =======================================
 
     """,
-    'data': ['account_bank_transfert_view.xml'],
+    'data': ['account_bank_transfert_view.xml',
+            'security/ir.model.access.csv',],
     'depends': ['account','account_voucher'],
     'demo': [],
     'auto_install': True,
