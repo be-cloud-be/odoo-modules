@@ -24,17 +24,11 @@
 		    <field name="arch" type="xml">
 		        <form string="Bank Transfert">
 	              <group col="4">
-                      <field name="statement_id"/>
-                      <field name="journal_id"/>
-                      <field name="date"/>
-                      <field name="val_date"/>
-                      <field name="name"/>
-                      <field name="ref" readonly="0"/>
-                      <field name="partner_id"/>
+                      <field name="from_account_id"/>
+                      <field name="to_account_id"/>
+                      <field name="trade_date"/>
+                      <field name="value_date"/>
                       <field name="amount"/>
-                      <field name="globalisation_id"/>
-                      <field name="sequence" readonly="0"/>
-                      <field name="state"/>
                   </group>
                   <separator string="Notes"/>
                   <field name="note"/>
