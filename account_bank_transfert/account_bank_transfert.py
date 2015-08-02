@@ -107,8 +107,8 @@ class account_bank_transfert(models.Model):
     @api.multi
     def onchange_trade_date_transfert(self, trade_date):
         if not trade_date:
-            date_invoice = fields.Date.context_today(self)
-        datetime_today = datetime.datetime.strptime(date_invoice, tools.DEFAULT_SERVER_DATE_FORMAT)
+            trade_date = fields.Date.context_today(self)
+        datetime_today = datetime.datetime.strptime(trade_date, tools.DEFAULT_SERVER_DATE_FORMAT)
         value_date = str((datetime_today + relativedelta(days=+2)).strftime(tools.DEFAULT_SERVER_DATE_FORMAT))
         return {'value': {'value_date': value_date}}
     
