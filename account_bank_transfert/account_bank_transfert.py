@@ -150,13 +150,13 @@ class account_bank_transfert(models.Model):
             move_id = am_obj.create(move_vals)
             
             from_line = {
-                'journal_id': tr.from_account_id.journal_id,
+                'journal_id': tr.from_account_id.journal_id.id,
                 'period_id': tr.period_id.id,
                 'name': _('change') + ': ' + (tr.name or '/'),
                 'account_id': tr.from_account_id.journal_id.default_debit_account_id.id,
                 'move_id': move_id,
-                'partner_id': tr.company_id,
-                'currency_id': tr.from_account_id.journal_id.currency_id,
+                'partner_id': tr.company_id.id,
+                'currency_id': tr.from_account_id.currency_id.id,
                 'amount_currency': tr.amount,
                 'quantity': tr.amount,
                 'credit': 0,
@@ -167,14 +167,14 @@ class account_bank_transfert(models.Model):
             aml_obj.create(from_line)
             
             from_line_counterpart = {
-                'journal_id': tr.from_account_id.journal_id,
+                'journal_id': tr.from_account_id.journal_id.id,
                 'period_id': tr.period_id.id,
                 'name': _('change') + ': ' + (st_line.name or '/'),
                 'account_id': tr.from_account_id.journal_id.internal_account_id.id,
                 'move_id': move_id,
                 'amount_currency': tr.amount,
-                'partner_id': tr.company_id,
-                'currency_id': tr.from_account_id.journal_id.currency_id,
+                'partner_id': tr.company_id.id,
+                'currency_id': tr.from_account_id.currency_id.id,
                 'quantity': tr.amount,
                 'debit': tr.amount,
                 'credit': 0,
@@ -188,13 +188,13 @@ class account_bank_transfert(models.Model):
             move_id = am_obj.create(move_vals)
             
             to_line = {
-                'journal_id': tr.to_account_id.journal_id,
+                'journal_id': tr.to_account_id.journal_id.id,
                 'period_id': tr.period_id.id,
                 'name': _('change') + ': ' + (tr.name or '/'),
                 'account_id': tr.from_account_id.journal_id.internal_account_id.id,
                 'move_id': move_id,
-                'partner_id': tr.company_id,
-                'currency_id': tr.to_account_id.journal_id.currency_id,
+                'partner_id': tr.company_id.id,
+                'currency_id': tr.to_account_id.currency_id.id,
                 'amount_currency': tr.amount,
                 'quantity': tr.amount,
                 'credit': 0,
@@ -205,14 +205,14 @@ class account_bank_transfert(models.Model):
             aml_obj.create(to_line)
             
             to_line_counterpart = {
-                'journal_id': tr.to_account_id.journal_id,
+                'journal_id': tr.to_account_id.journal_id.id,
                 'period_id': tr.period_id.id,
                 'name': _('change') + ': ' + (st_line.name or '/'),
                 'account_id': tr.from_account_id.journal_id.default_debit_account_id.id,
                 'move_id': move_id,
                 'amount_currency': tr.amount,
-                'partner_id': tr.company_id,
-                'currency_id': tr.to_account_id.journal_id.currency_id,
+                'partner_id': tr.company_id.id,
+                'currency_id': tr.to_account_id.currency_id.id,
                 'quantity': tr.amount,
                 'debit': tr.amount,
                 'credit': 0,
