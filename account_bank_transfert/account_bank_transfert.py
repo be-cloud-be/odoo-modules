@@ -23,16 +23,6 @@ class account_bank_transfert(models.Model):
         },
     }
     
-    @api.model
-    def _default_currency(self):
-        import wdb
-        wdb.set_trace()
-        
-        journal = self.from_account_id.journal_id
-        if journal:
-            return journal.currency or journal.company_id.currency_id
-        return self.company_id.currency_id
-    
     number = fields.Char(related='move_id.name', store=True, readonly=True, copy=False)
     
     sent = fields.Boolean(readonly=True, default=False, copy=False,
@@ -55,10 +45,6 @@ class account_bank_transfert(models.Model):
         readonly=True, index=True, ondelete='restrict', copy=False,
         help="Link to the automatically generated Journal Items.")
     
-    currency_id = fields.Many2one('res.currency', string='Currency',
-        required=True, readonly=True, states={'draft': [('readonly', False)]},
-        default=_default_currency, track_visibility='always')
-        
     company_id = fields.Many2one('res.company', string='Company', change_default=True,
         required=True, readonly=True, states={'draft': [('readonly', False)]},
         default=lambda self: self.env['res.company']._company_default_get('account.bank_transfert'))
@@ -159,7 +145,7 @@ class account_bank_transfert(models.Model):
                 'account_id': tr.from_account_id.journal_id.default_debit_account_id.id,
                 'move_id': move_id,
                 'partner_id': tr.company_id,
-                'currency_id': tr.currency_id,
+                'currency_id': tr.from_account_id.journal_id.currency_id,
                 'amount_currency': tr.amount,
                 'quantity': tr.amount,
                 'credit': 0,
@@ -177,7 +163,7 @@ class account_bank_transfert(models.Model):
                 'move_id': move_id,
                 'amount_currency': tr.amount,
                 'partner_id': tr.company_id,
-                'currency_id': tr.currency_id,
+                'currency_id': tr.from_account_id.journal_id.currency_id,
                 'quantity': tr.amount,
                 'debit': tr.amount,
                 'credit': 0,
@@ -192,7 +178,7 @@ class account_bank_transfert(models.Model):
                 'account_id': tr.from_account_id.journal_id.internal_account_id.id,
                 'move_id': move_id,
                 'partner_id': tr.company_id,
-                'currency_id': tr.currency_id,
+                'currency_id': tr.to_account_id.journal_id.currency_id,
                 'amount_currency': tr.amount,
                 'quantity': tr.amount,
                 'credit': 0,
@@ -210,7 +196,7 @@ class account_bank_transfert(models.Model):
                 'move_id': move_id,
                 'amount_currency': tr.amount,
                 'partner_id': tr.company_id,
-                'currency_id': tr.currency_id,
+                'currency_id': tr.to_account_id.journal_id.currency_id,
                 'quantity': tr.amount,
                 'debit': tr.amount,
                 'credit': 0,
