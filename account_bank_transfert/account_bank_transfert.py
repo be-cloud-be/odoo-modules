@@ -25,6 +25,9 @@ class account_bank_transfert(models.Model):
     
     @api.model
     def _default_currency(self):
+        import wdb
+        wdb.set_trace()
+        
         journal = self.from_account_id.journal_id
         if journal:
             return journal.currency or journal.company_id.currency_id
