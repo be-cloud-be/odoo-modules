@@ -25,7 +25,7 @@ class account_bank_transfert(models.Model):
     
     @api.model
     def _default_currency(self):
-        journal = self._default_journal()
+        journal = self.from_account_id.journal_id
         if journal:
             return journal.currency or journal.company_id.currency_id
         return None
