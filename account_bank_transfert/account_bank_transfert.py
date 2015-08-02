@@ -122,6 +122,7 @@ class account_bank_transfert(models.Model):
     @api.multi
     def action_move_create(self):
         """ Creates transfert related analytics and financial move lines """
+        
         am_obj = self.env['account.move']
         aml_obj = self.env['account.move.line']
         
@@ -136,6 +137,12 @@ class account_bank_transfert(models.Model):
                 raise except_orm(_('Error!'), _('Please define sequence on the journal related to the destination account.'))
             if tr.move_id:
                 continue
+        
+            period = tr.period_id
+            if not period:
+                period = period.with_context(ctx).find(date_invoice)[:1]
+            
+            self.write({'period_id': period})
             
             move_vals = self._prepare_move(tr.from_account_id.journal_id)
             move_id = am_obj.create(move_vals)
