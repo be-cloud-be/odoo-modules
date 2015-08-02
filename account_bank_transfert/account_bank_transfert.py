@@ -54,7 +54,7 @@ class account_bank_transfert(models.Model):
         help="Will be set to D+2 as a default")
     
     period_id = fields.Many2one('account.period', string='Force Period',
-        domain=[('state', '==', 'draft')], copy=False,
+        domain=[('state', '!=', 'done')], copy=False,
         help="Keep empty to use the period of the trade date.",
         readonly=True, states={'draft': [('readonly', False)]})
         
@@ -69,7 +69,7 @@ class account_bank_transfert(models.Model):
     journal_id = fields.Many2one('account.journal', string='Journal',
         required=True, readonly=True, states={'draft': [('readonly', False)]},
         default=_default_journal,
-        domain="[('type', 'in', {'out_invoice': ['sale'], 'out_refund': ['sale_refund'], 'in_refund': ['purchase_refund'], 'in_invoice': ['purchase']}.get(type, [])), ('company_id', '=', company_id)]")
+        domain="[('company_id', '=', company_id)]")
     
     company_id = fields.Many2one('res.company', string='Company', change_default=True,
         required=True, readonly=True, states={'draft': [('readonly', False)]},
@@ -87,11 +87,11 @@ class account_bank_transfert(models.Model):
              " * The 'Paid' status is set automatically when the transfert is executed.\n"
              " * The 'Cancelled' status is used when user cancel a transfert.")
              
-    from_account_id = fields.Many2one('res.partner.bank', string='Bank Account',
+    from_account_id = fields.Many2one('res.partner.bank', string='From Bank Account',
         help='Bank Account Number from which the transfert will be done. Must be a company bank account number.',
         readonly=True, states={'draft': [('readonly', False)]})
         
-    to_account_id = fields.Many2one('res.partner.bank', string='Bank Account',
+    to_account_id = fields.Many2one('res.partner.bank', string='To Bank Account',
         help='Bank Account Number from which the transfert will be done. Must be a company bank account number.',
         readonly=True, states={'draft': [('readonly', False)]})
 
