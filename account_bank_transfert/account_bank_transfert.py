@@ -28,7 +28,7 @@ class account_bank_transfert(models.Model):
         journal = self.from_account_id.journal_id
         if journal:
             return journal.currency or journal.company_id.currency_id
-        return None
+        return self.company_id.currency_id
     
     number = fields.Char(related='move_id.name', store=True, readonly=True, copy=False)
     
