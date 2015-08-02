@@ -1,9 +1,12 @@
 # -*- coding: utf-8 -*-
 # Author be-cloud (Jerome Sonnet)
 
+import datetime
+from dateutil.relativedelta import relativedelta
+
 from openerp import models, fields, api, _
 from openerp.exceptions import except_orm, Warning, RedirectWarning
-from openerp.tools import float_compare
+from openerp import tools
 import openerp.addons.decimal_precision as dp
 
 class account_bank_transfert(models.Model):
@@ -105,7 +108,9 @@ class account_bank_transfert(models.Model):
     def onchange_trade_date_transfert(self, trade_date):
         if not trade_date:
             date_invoice = fields.Date.context_today(self)
-        return {'value': {'date_due': date_invoice + 2}}
+        datetime_today = datetime.datetime.strptime(date_invoice, tools.DEFAULT_SERVER_DATE_FORMAT)
+        value_date = str((datetime_today + relativedelta(days=+2)).strftime(tools.DEFAULT_SERVER_DATE_FORMAT))
+        return {'value': {'value_date': value_date}}
     
     @api.multi
     def action_date_assign(self):
