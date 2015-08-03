@@ -90,12 +90,14 @@ class account_bank_transfert(models.Model):
     
     @api.one
     @api.depends(
-        'move_id.line_id.reconcile_id.line_id',
-        'move_id.line_id.reconcile_partial_id.line_partial_ids',
+        'journal_from_entry_id.line_id.reconcile_id.line_id',
+        'journal_from_entry_id.line_id.reconcile_partial_id.line_partial_ids',
+        'journal_to_entry_id.line_id.reconcile_id.line_id',
+        'journal_to_entry_id.line_id.reconcile_partial_id.line_partial_ids',
     )
     def _compute_payments(self):
         partial_lines = lines = self.env['account.move.line']
-        for line in self.move_id.line_id:
+        for line in [self.journal_from_entry_id.line_id self.journal_to_entry_id.line_id]:
             if line.account_id != self.account_id:
                 continue
             if line.reconcile_id:
