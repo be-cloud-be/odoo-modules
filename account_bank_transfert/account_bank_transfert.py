@@ -78,7 +78,8 @@ class account_bank_transfert(models.Model):
 
     journal_to_entry_id = fields.Many2one('account.move', string='Journal Entry', copy=False)
 
-    #payment_ids = fields.Many2many('account.move.line', string='Payments', compute='_compute_payments')
+    payment_ids = fields.Many2many('account.move.line',
+        'bank_transfert_payment_rel', 'bank_transfert_id', 'payment_id', string='Payments', compute='_compute_payments')
 
     note = fields.Text(string='Notes')
     
