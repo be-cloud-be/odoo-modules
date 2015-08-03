@@ -23,7 +23,9 @@ class account_bank_transfert(models.Model):
         },
     }
     
-    name = fields.Char()
+    name = fields.Char(string='Name',
+        readonly=True, states={'draft': [('readonly', False)]}, index=True,
+        help="The name of the transfert.", copy=False)
     
     number = fields.Char(related='journal_from_entry_id.name', store=True, readonly=True, copy=False)
     
