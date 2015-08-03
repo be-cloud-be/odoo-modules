@@ -167,7 +167,7 @@ class account_bank_transfert(models.Model):
                 raise except_orm(_('Error!'), _('Please define sequence on the journal related to the origin account.'))
             if not tr.to_account_id.journal_id.sequence_id:
                 raise except_orm(_('Error!'), _('Please define sequence on the journal related to the destination account.'))
-            if tr.move_id:
+            if tr.journal_from_entry_id:
                 continue
         
             period = tr.period_id
