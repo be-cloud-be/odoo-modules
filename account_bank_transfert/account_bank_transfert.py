@@ -268,3 +268,8 @@ class account_bank_transfert(models.Model):
             moves.unlink()
         self._log_event(-1.0, 'Cancel Transfert')
         return True
+
+    @api.multi
+    def _log_event(self, factor=1.0, name='Open Invoice'):
+        #TODO: implement messages system
+        return True
