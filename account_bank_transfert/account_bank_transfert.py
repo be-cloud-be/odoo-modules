@@ -95,6 +95,8 @@ class account_bank_transfert(models.Model):
     
     @api.multi
     def action_date_assign(self):
+        import wdb
+        wdb.set_trace()
         for tr in self:
             res = tr.onchange_trade_date_transfert(tr.trade_date)
             if res and res.get('value'):
