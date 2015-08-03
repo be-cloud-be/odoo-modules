@@ -19,6 +19,7 @@
             <field name="action">
                 action_date_assign()
                 action_move_create()
+                transfert_confirm()
             </field>
             <field name="kind">function</field>
         </record>

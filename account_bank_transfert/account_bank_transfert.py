@@ -223,6 +223,10 @@ class account_bank_transfert(models.Model):
             self.write({'journal_to_entry_id': move_id.id})
         
     @api.multi
+    def transfert_confirm(self):
+        return self.write({'state': 'confirmed'})
+        
+    @api.multi
     def action_cancel(self):
         moves = self.env['account.move']
         for inv in self:
