@@ -9,6 +9,9 @@ from openerp.exceptions import except_orm, Warning, RedirectWarning
 from openerp import tools
 import openerp.addons.decimal_precision as dp
 
+import wdb
+wdb.set_trace()
+
 class account_bank_transfert(models.Model):
     _name = "account.bank_transfert"
     _inherit = ['mail.thread']
@@ -95,8 +98,6 @@ class account_bank_transfert(models.Model):
     
     @api.multi
     def action_date_assign(self):
-        import wdb
-        wdb.set_trace()
         for tr in self:
             res = tr.onchange_trade_date_transfert(tr.trade_date)
             if res and res.get('value'):
