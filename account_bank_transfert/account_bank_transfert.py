@@ -88,22 +88,22 @@ class account_bank_transfert(models.Model):
             'Transfert Number must be unique per Company!'),
     ]
     
-    # @api.one
-    # @api.depends(
-    #     'move_id.line_id.reconcile_id.line_id',
-    #     'move_id.line_id.reconcile_partial_id.line_partial_ids',
-    # )
-    # def _compute_payments(self):
-    #     partial_lines = lines = self.env['account.move.line']
-    #     for line in self.move_id.line_id:
-    #         if line.account_id != self.account_id:
-    #             continue
-    #         if line.reconcile_id:
-    #             lines |= line.reconcile_id.line_id
-    #         elif line.reconcile_partial_id:
-    #             lines |= line.reconcile_partial_id.line_partial_ids
-    #         partial_lines += line
-    #     self.payment_ids = (lines - partial_lines).sorted()
+    @api.one
+    @api.depends(
+        'move_id.line_id.reconwcile_id.line_id',
+        'move_id.line_id.reconcile_partial_id.line_partial_ids',
+    )
+    def _compute_payments(self):
+        partial_lines = lines = self.env['account.move.line']
+        for line in self.move_id.line_id:
+            if line.account_id != self.account_id:
+                continue
+            if line.reconcile_id:
+                lines |= line.reconcile_id.line_id
+            elif line.reconcile_partial_id:
+                lines |= line.reconcile_partial_id.line_partial_ids
+            partial_lines += line
+        self.payment_ids = (lines - partial_lines).sorted()
     
     @api.multi
     def onchange_trade_date_transfert(self, trade_date):
