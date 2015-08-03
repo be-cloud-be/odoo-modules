@@ -90,7 +90,7 @@ class account_bank_transfert(models.Model):
     
     @api.one
     @api.depends(
-        'move_id.line_id.reconwcile_id.line_id',
+        'move_id.line_id.reconcile_id.line_id',
         'move_id.line_id.reconcile_partial_id.line_partial_ids',
     )
     def _compute_payments(self):
