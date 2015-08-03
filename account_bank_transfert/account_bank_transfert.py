@@ -97,8 +97,16 @@ class account_bank_transfert(models.Model):
     )
     def _compute_payments(self):
         partial_lines = lines = self.env['account.move.line']
-        for line in [self.journal_from_entry_id.line_id self.journal_to_entry_id.line_id]:
-            if line.account_id != self.account_id:
+        for line in self.journal_from_entry_id.line_id:
+            if line.account_id != self.from_account_id:
+                continue
+            if line.reconcile_id:
+                lines |= line.reconcile_id.line_id
+            elif line.reconcile_partial_id:
+                lines |= line.reconcile_partial_id.line_partial_ids
+            partial_lines += line
+        for line in self.journal_to_entry_id.line_id:
+            if line.account_id != self.to_account_id:
                 continue
             if line.reconcile_id:
                 lines |= line.reconcile_id.line_id
