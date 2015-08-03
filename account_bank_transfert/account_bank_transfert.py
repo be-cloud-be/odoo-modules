@@ -9,9 +9,6 @@ from openerp.exceptions import except_orm, Warning, RedirectWarning
 from openerp import tools
 import openerp.addons.decimal_precision as dp
 
-import wdb
-wdb.set_trace()
-
 class account_bank_transfert(models.Model):
     _name = "account.bank_transfert"
     _inherit = ['mail.thread']
@@ -80,6 +77,8 @@ class account_bank_transfert(models.Model):
     journal_from_entry_id = fields.Many2one('account.move', string='Journal Entry', copy=False)
 
     journal_to_entry_id = fields.Many2one('account.move', string='Journal Entry', copy=False)
+
+    payment_ids = fields.Many2many('account.move.line', string='Payments', compute='_compute_payments')
 
     note = fields.Text(string='Notes')
     
