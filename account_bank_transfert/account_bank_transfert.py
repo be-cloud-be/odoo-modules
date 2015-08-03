@@ -43,10 +43,6 @@ class account_bank_transfert(models.Model):
         help="Keep empty to use the period of the trade date.",
         readonly=True, states={'draft': [('readonly', False)]})
         
-    move_id = fields.Many2one('account.move', string='Journal Entry',
-        readonly=True, index=True, ondelete='restrict', copy=False,
-        help="Link to the automatically generated Journal Items.")
-    
     company_id = fields.Many2one('res.company', string='Company', change_default=True,
         required=True, readonly=True, states={'draft': [('readonly', False)]},
         default=lambda self: self.env['res.company']._company_default_get('account.bank_transfert'))
@@ -74,9 +70,13 @@ class account_bank_transfert(models.Model):
     amount = fields.Float(string='Amount which will be transfered.', digits=dp.get_precision('Account'),
         readonly=True, states={'draft': [('readonly', False)]}, default=0.0)
 
-    journal_from_entry_id = fields.Many2one('account.move', string='Journal Entry', copy=False)
+    journal_from_entry_id = fields.Many2one('account.move', string='Journal Entry', 
+        readonly=True, index=True, ondelete='restrict', copy=False,
+        help="Link to the automatically generated Journal Items.")
 
-    journal_to_entry_id = fields.Many2one('account.move', string='Journal Entry', copy=False)
+    journal_to_entry_id = fields.Many2one('account.move', string='Journal Entry', 
+        readonly=True, index=True, ondelete='restrict', copy=False,
+        help="Link to the automatically generated Journal Items.")
 
     payment_ids = fields.Many2many('account.move.line',
         'bank_transfert_payment_rel', 'bank_transfert_id', 'payment_id', string='Payments', compute='_compute_payments')
@@ -249,16 +249,18 @@ class account_bank_transfert(models.Model):
     @api.multi
     def action_cancel(self):
         moves = self.env['account.move']
-        for inv in self:
-            if inv.move_id:
-                moves += inv.move_id
-            if inv.payment_ids:
-                for move_line in inv.payment_ids:
+        for tr in self:
+            if tr.journal_from_entry_id:
+                moves += tr.journal_from_entry_id
+            if tr.journal_to_entry_id:
+                moves += tr.journal_to_entry_id
+            if tr.payment_ids:
+                for move_line in tr.payment_ids:
                     if move_line.reconcile_partial_id.line_partial_ids:
                         raise except_orm(_('Error!'), _('You cannot cancel a transfert which is partially paid. You need to unreconcile related payment entries first.'))
 
         # First, set the invoices as cancelled and detach the move ids
-        self.write({'state': 'cancel', 'move_id': False})
+        self.write({'state': 'cancel', 'journal_from_entry_id': False, 'journal_to_entry_id': False})
         if moves:
             # second, invalidate the move(s)
             moves.button_cancel()
