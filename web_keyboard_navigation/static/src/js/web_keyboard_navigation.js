@@ -27,6 +27,15 @@ $.ctrl('S', function() {
 	});
 });
 
+//Cancel the current object edition
+$.ctrl('Z', function() {
+	$('.oe_form_button_cancel').each(function() {
+		if($(this).parents('div:hidden').length == 0){
+			$(this).trigger('click');
+		}
+	});
+});
+
 //Delete the current object
 /*$.ctrl('46', function() {
 	$('.oe_form_button_delete').each(function() {
