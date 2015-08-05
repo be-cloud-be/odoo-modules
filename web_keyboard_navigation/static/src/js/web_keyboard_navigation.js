@@ -1,6 +1,7 @@
 $.ctrl = function(key, callback, args) {
     $(document).keydown(function(e) {
         if(!args) args=[]; // IE barks when args is null 
+        console.log(e.keyCode)
         if((e.keyCode == key.charCodeAt(0) || e.keyCode == key) && e.ctrlKey) {
             callback.apply(this, args);
             return false;
@@ -18,13 +19,13 @@ $.ctrl('S', function() {
 });
 
 //Delete the current object
-$.ctrl('46', function() {
+/*$.ctrl('46', function() {
 	$('.oe_form_button_delete').each(function() {
 		if($(this).parents('div:hidden').length == 0){
 			$(this).trigger('click');
 		}
 	});
-});
+});*/
 
 //New object
 $.ctrl('N', function() {
@@ -36,26 +37,17 @@ $.ctrl('N', function() {
 });
 
 //Duplicate the current object
-$.ctrl('D', function() {
+/*$.ctrl('D', function() {
 	$('.oe_form_button_duplicate').each(function() {
 		if($(this).parents('div:hidden').length == 0){
 			$(this).trigger('click');
 		}
 	});
-});
-
-//First object
-$.ctrl('33', function() {
-	$('.oe_button_pager[data-pager-action="first"]').each(function() {
-		if($(this).parents('div:hidden').length == 0){
-			$(this).trigger('click');
-		}
-	});
-});
+});*/
 
 //Previous object
 $.ctrl('38', function() {
-	$('.oe_button_pager[data-pager-action="previous"]').each(function() {
+	$('. oe-pager-buttontion="previous"]').each(function() {
 		if($(this).parents('div:hidden').length == 0){
 			$(this).trigger('click');
 		}
@@ -64,7 +56,7 @@ $.ctrl('38', function() {
 
 //Next object
 $.ctrl('40', function() {
-	$('.oe_button_pager[data-pager-action="next"]').each(function() {
+	$('.oe-pager-button[data-pager-action="next"]').each(function() {
 		if($(this).parents('div:hidden').length == 0){
 			$(this).trigger('click');
 		}
@@ -72,10 +64,10 @@ $.ctrl('40', function() {
 });
 
 //Last object
-$.ctrl('34', function() {
+/*$.ctrl('34', function() {
 	$('.oe_button_pager[data-pager-action="last"]').each(function() {
 		if($(this).parents('div:hidden').length == 0){
 			$(this).trigger('click');
 		}
 	});
-});
+});*/
