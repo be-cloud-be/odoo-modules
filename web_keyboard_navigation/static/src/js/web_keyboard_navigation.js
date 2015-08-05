@@ -52,7 +52,7 @@ $.ctrl('N', function() {
 
 //Previous object
 $.ctrl('38', function() {
-	$('. oe-pager-button[data-pager-action="previous"]').each(function() {
+	$('.oe-pager-button[data-pager-action="previous"]').each(function() {
 		if($(this).parents('div:hidden').length == 0){
 			$(this).trigger('click');
 		}
