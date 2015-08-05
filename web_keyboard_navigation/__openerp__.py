@@ -44,10 +44,7 @@
     "website": "http://www.openerp.net.cn",
     'depends': ['web'],
     'init_xml': [],
-    'data': [],
-    "js" : [
-        "static/src/js/web_keyboard_shortcuts.js",
-    ],
+    'data': ['web_keyboard_navigation_view.xml'],
     'installable': True,
     'active': True,
 }
