@@ -34,6 +34,11 @@ $.ctrl('N', function() {
 			$(this).trigger('click');
 		}
 	});
+	$('.oe_list_add').each(function() {
+		if($(this).parents('div:hidden').length == 0){
+			$(this).trigger('click');
+		}
+	});
 });
 
 //Duplicate the current object
