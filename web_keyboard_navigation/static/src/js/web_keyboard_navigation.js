@@ -9,6 +9,15 @@ $.ctrl = function(key, callback, args) {
     });        
 };
 
+//Edit the current object
+$.ctrl('E', function() {
+	$('.oe_form_button_edit').each(function() {
+		if($(this).parents('div:hidden').length == 0){
+			$(this).trigger('click');
+		}
+	});
+});
+
 //Save the current object
 $.ctrl('S', function() {
 	$('.oe_form_button_save').each(function() {
