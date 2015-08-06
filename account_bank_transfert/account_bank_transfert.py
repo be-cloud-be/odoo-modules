@@ -10,7 +10,8 @@ from openerp import tools
 import openerp.addons.decimal_precision as dp
 
 class account_account(models.Model):
-    _name = "account.account"
+    
+    _inherit = 'account.account'
     
     type = fields.Selection([
             ('view', 'View'),
