@@ -35,13 +35,13 @@
     Ctrl + Delete      :  Delete the current object
     Ctrl + N           :  New object
     Ctrl + D           :  Duplicate the current object
-    Ctrl + Page Up     :  First object
-    Ctrl + Arrow Up    :  Previous object
+    Ctrl + Z           :  Cancel the modification of current object
+    Ctrl + Elico       :  Edit the current object
     Ctrl + Arrow Down  :  Next object
     Ctrl + Page Down   :  Last object
     """,
-    "author": "Elico Corp",
-    "website": "http://www.openerp.net.cn",
+    "author": "be-cloud.be (Jerome Sonnet)",
+    "website": "http://www.be-cloud.be",
     'depends': ['web'],
     'init_xml': [],
     'data': ['web_keyboard_navigation_view.xml'],
