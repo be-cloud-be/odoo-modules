@@ -9,6 +9,25 @@ from openerp.exceptions import except_orm, Warning, RedirectWarning
 from openerp import tools
 import openerp.addons.decimal_precision as dp
 
+class account_account(models.Model):
+    _name = "account.account"
+    
+    type = fields.Selection([
+            ('view', 'View'),
+            ('other', 'Regular'),
+            ('receivable', 'Receivable'),
+            ('payable', 'Payable'),
+            ('liquidity','Liquidity'),
+            ('consolidation', 'Consolidation'),
+            ('closed', 'Closed'),
+            ('transfert','Internal Transfert'),
+        ], string='Internal Type', required=True, help="The 'Internal Type' is used for features available on "\
+            "different types of accounts: view can not have journal items, consolidation are accounts that "\
+            "can have children accounts for multi-company consolidations, payable/receivable are for "\
+            "partners accounts (for debit/credit computations), closed for depreciated accounts.")
+
+    test = fields.Char()
+
 class account_bank_transfert(models.Model):
     _name = "account.bank_transfert"
     _inherit = ['mail.thread']
