@@ -26,8 +26,6 @@ class account_account(models.Model):
             "can have children accounts for multi-company consolidations, payable/receivable are for "\
             "partners accounts (for debit/credit computations), closed for depreciated accounts.")
 
-    test = fields.Char()
-
 class account_bank_transfert(models.Model):
     _name = "account.bank_transfert"
     _inherit = ['mail.thread']
