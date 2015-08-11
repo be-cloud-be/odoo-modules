@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <templates id="template" xml:space="preserve">
 <t t-name="AddGDriveDocumentItem">
-     <li class="oe_sidebar_add_gdrive"><span style="cursor: pointer;">Add Google Drive...</span></li>
+     <li class="oe_sidebar_add_gdrive oe_form_binary_form"><span style="cursor: pointer;">From GDrive...</span></li>
 </t>
 </templates>
