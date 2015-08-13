@@ -35,11 +35,10 @@ openerp.document_gdrive = function(instance, m) {
               var picker = new google.picker.PickerBuilder().
                   addView(google.picker.ViewId.RECENTLY_PICKED).
               	  addView(google.picker.ViewId.DOCS).
-              	  addView(new google.picker.DocsUploadView()).
+              	  addView(new google.picker.DocsUploadView().setParent('0B-bLy40Prl36fkRpLTJELXUydU0ybkU0MVZQZ3kybXVqSzJDYVg4T2paeEwwR25RMWM0RTQ')). //TODO set as a parameter
                   setOAuthToken(oauthToken).
                   setLocale('fr').
                   setCallback(this.pickerCallback).
-                  enableFeature(google.picker.Feature.MULTISELECT_ENABLED).
                   build();
               picker.context = new openerp.web.CompoundContext(this.session.user_context, {
                       'active_ids': ids,
