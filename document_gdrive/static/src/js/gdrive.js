@@ -20,7 +20,11 @@ openerp.document_gdrive = function(instance, m) {
 	            var self = this;
 	            var model = new openerp.web.Model("ir.attachment.add_gdrive");
 	            model.call('action_add_gdrive',[name,url],{context: this.context}).then(function (result) {
-	            	self.view.ViewManager.views[self.view.ViewManager.active_view].controller.reload();
+	            	if(self.view.ViewManager.views[self.view.ViewManager.active_view]){
+	            	    self.view.ViewManager.views[self.view.ViewManager.active_view]).controller.reload();
+	            	} else {
+	            	    self.view.ViewManager.active_view.controller.reload();
+	            	} // TODO Check why this API changed in saas-6 ??
 			    });
             }
         },
