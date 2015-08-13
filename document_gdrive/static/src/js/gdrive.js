@@ -39,6 +39,7 @@ openerp.document_gdrive = function(instance, m) {
                   setOAuthToken(oauthToken).
                   setLocale('fr').
                   setCallback(this.pickerCallback).
+                  enableFeature(google.picker.Feature.MULTISELECT_ENABLED).
                   build();
               picker.context = new openerp.web.CompoundContext(this.session.user_context, {
                       'active_ids': ids,
