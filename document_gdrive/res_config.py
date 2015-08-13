@@ -1,6 +1,6 @@
 from openerp.osv import fields, osv
 
-class document_gdrive_config_settings(osv.osv_memory):
+class knowledge_config_settings(osv.osv_memory):
     _inherit = 'knowledge.config.settings'
     _columns = {
         'document_gdrive_upload_dir': fields.string('Google Drive Upload Directory',
