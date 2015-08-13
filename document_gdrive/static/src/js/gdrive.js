@@ -35,7 +35,7 @@ openerp.document_gdrive = function(instance, m) {
               var picker = new google.picker.PickerBuilder().
                   addView(google.picker.ViewId.RECENTLY_PICKED).
               	  addView(google.picker.ViewId.DOCS).
-              	  addView(google.picker.DocsUploadView()).
+              	  addView(new google.picker.DocsUploadView()).
                   setOAuthToken(oauthToken).
                   setLocale('fr').
                   setCallback(this.pickerCallback).
