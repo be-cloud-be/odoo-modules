@@ -34,6 +34,7 @@ Module that allows to attach a Google Drive Document.
         'document',
     ],
     'data': [
+        'res_config.xml',
         'view/document_gdrive_view.xml',
     ],
     'qweb': [
