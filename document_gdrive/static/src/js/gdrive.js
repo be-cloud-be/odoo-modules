@@ -37,8 +37,9 @@ openerp.document_gdrive = function(instance, m) {
             var ids = ( view.fields_view.type != "form" )? view.groups.get_selection().ids : [ view.datarecord.id ];
             if (pickerApiLoaded) { // && oauthToken) {
               var picker = new google.picker.PickerBuilder().
-                  addView(google.picker.ViewId.RECENTLY_PICKED).
-              	  addView(google.picker.ViewId.DOCS).
+                  addView(google.picker.ViewId.DOCS).
+              	  addView(google.picker.ViewId.RECENTLY_PICKED).
+              	  enableFeature(google.picker.Feature.MULTISELECT_ENABLED).
               	  addView(new google.picker.DocsUploadView().setParent('0B-bLy40Prl36fkRpLTJELXUydU0ybkU0MVZQZ3kybXVqSzJDYVg4T2paeEwwR25RMWM0RTQ')). //TODO set as a parameter
                   setOAuthToken(oauthToken).
                   setLocale('fr').
