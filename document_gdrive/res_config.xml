@@ -8,7 +8,7 @@
             <field name="priority" eval="20"/>
             <field name="inherit_id" ref="knowledge.view_knowledge_configuration" />
             <field name="arch" type="xml">
-                <xpath expr="//div/field[@name='module_document']" position="after">
+                <xpath expr="//div/field[@name='module_document']/.." position="after">
                     <div>
                       <label for="document_gdrive_upload_dir" />
                       <field name="document_gdrive_upload_dir"/>
