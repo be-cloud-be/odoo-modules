@@ -27,13 +27,14 @@
     'description': """
 Module that allows to attach a Google Drive Document.
     """,
-    'author': "Jerome Sonnet (be-cloud.be)",
+    'author': "be-cloud.be (Jerome Sonnet)",
     'website': 'http://www.be-cloud.be',
     'license': 'AGPL-3',
     'depends': [
         'document',
     ],
     'data': [
+        'res_config.xml',
         'view/document_gdrive_view.xml',
     ],
     'qweb': [

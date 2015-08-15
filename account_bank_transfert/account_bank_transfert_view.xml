@@ -1,0 +1,92 @@
+<?xml version="1.0" ?>
+<openerp>
+    <data>
+        
+        <record model="ir.ui.view" id="bank_transfert_tree">
+		    <field name="name">account.bank_transfert.view</field>
+		    <field name="model">account.bank_transfert</field>
+		    <field name="type">tree</field>
+		    <field name="arch" type="xml">
+		    	<tree toolbar="1" string="Transferts" editable="bottom" colors="blue:state == 'draft';black:state in ('paid','confirmed');gray:state == 'cancel'">
+		    		<field name="name"/>
+		        	<field name="from_account_id"/>
+		        	<field name="to_account_id"/>
+		        	<field name="trade_date" on_change="onchange_trade_date_transfert(trade_date)"/>
+		        	<field name="value_date"/>
+		        	<field name="amount"/>
+		        	<field name="state"/>
+		        </tree>
+		    </field>
+		</record>
+		
+		<record model="ir.ui.view" id="bank_transfert_form">
+		    <field name="name">account.bank_transfert.view</field>
+		    <field name="model">account.bank_transfert</field>
+		    <field name="type">form</field>
+		    <field name="arch" type="xml">
+		        <form string="Bank Transfert">
+		            <header>
+    		            <button name="transfert_confirm" states="draft" string="Validate" class="oe_highlight" groups="account.group_account_invoice"/>
+    		            <button name="transfert_cancel" states="draft,confirmed" string="Cancel Transfert" groups="account.group_account_invoice"/>
+    		            <field name="state" widget="statusbar" statusbar_visible="draft,confirmed,paid"/>
+    		        </header>
+		            <sheet>
+    	              <group col="4">
+    	                  <field name="name"/>
+                          <field name="from_account_id" placeholder="Transfered from..."/>
+                          <field name="to_account_id" placeholder="...to"/>
+                          <field name="trade_date"/>
+                          <field name="value_date"/>
+                          <field name="amount"/>
+                      </group>
+                      <notebook>
+                        <page string="Notes">
+                            <field name="note"/>
+                        </page>
+                        <page string="Payments">
+                            <field name="payment_ids">
+                                <tree string="Payments">
+                                    <field name="date" string="Payment Date"/>
+                                    <field name="move_id"/>
+                                    <field name="ref"/>
+                                    <field name="name"/>
+                                    <field name="journal_id"/>
+                                    <field name="debit"/>
+                                    <field name="credit"/>
+                                    <field name="amount_currency"/>
+                                    <field name="currency_id" groups="base.group_multi_currency"/>
+                                </tree>
+                            </field>
+                        </page>
+                      </notebook>
+                  </sheet>
+                  <div class="oe_chatter">
+	                    <field name="message_follower_ids" widget="mail_followers"/>
+	                    <field name="message_ids" widget="mail_thread"/>
+	              </div>
+                </form>
+		    </field>
+		</record>
+        
+        <record model="ir.actions.act_window" id="action_bank_transfert">
+            <field name="name">Bank Transfert</field>
+            <field name="res_model">account.bank_transfert</field>
+        </record>
+
+        <record model="ir.actions.act_window.view" id="action_bank_transfert_view_tree">
+            <field name="sequence" eval="1"/>
+            <field name="view_mode">tree</field>
+            <field name="view_id" ref="bank_transfert_tree"/>
+            <field name="act_window_id" ref="action_bank_transfert"/>
+        </record>
+
+        <record model="ir.actions.act_window.view" id="action_bank_transfert_view_form">
+            <field name="sequence" eval="2"/>
+            <field name="view_mode">form</field>
+            <field name="view_id" ref="bank_transfert_form"/>
+            <field name="act_window_id" ref="action_bank_transfert"/>
+        </record>
+        
+        <menuitem name="Bank Transfert" parent="account.menu_finance_bank_and_cash" id="menu_bank_transfert" sequence="50" action="action_bank_transfert"/>
+	</data>
+</openerp>

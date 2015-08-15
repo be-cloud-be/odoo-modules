@@ -4,8 +4,6 @@
     'category' : 'Accounting & Finance',
     'version': '0.1',
     'author': 'be-cloud.be (Jerome Sonnet)',
-    'depends': ['account_bank_statement_import'],
-    'demo': [],
     'description' : """
 Module to import Multiline bank statements.
 ======================================

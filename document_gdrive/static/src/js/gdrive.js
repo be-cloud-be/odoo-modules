@@ -20,7 +20,11 @@ openerp.document_gdrive = function(instance, m) {
 	            var self = this;
 	            var model = new openerp.web.Model("ir.attachment.add_gdrive");
 	            model.call('action_add_gdrive',[name,url],{context: this.context}).then(function (result) {
-	            	self.view.ViewManager.views[self.view.ViewManager.active_view].controller.reload();
+	            	if(self.view.ViewManager.views[self.view.ViewManager.active_view]){
+	            	    self.view.ViewManager.views[self.view.ViewManager.active_view].controller.reload();
+	            	} else {
+	            	    self.view.ViewManager.active_view.controller.reload();
+	            	} // TODO Check why this API changed in saas-6 ??
 			    });
             }
         },
@@ -33,8 +37,10 @@ openerp.document_gdrive = function(instance, m) {
             var ids = ( view.fields_view.type != "form" )? view.groups.get_selection().ids : [ view.datarecord.id ];
             if (pickerApiLoaded) { // && oauthToken) {
               var picker = new google.picker.PickerBuilder().
-              	  addView(google.picker.ViewId.FOLDERS).
                   addView(google.picker.ViewId.DOCS).
+              	  addView(google.picker.ViewId.RECENTLY_PICKED).
+              	  enableFeature(google.picker.Feature.MULTISELECT_ENABLED).
+              	  addView(new google.picker.DocsUploadView().setParent('0B-bLy40Prl36fkRpLTJELXUydU0ybkU0MVZQZ3kybXVqSzJDYVg4T2paeEwwR25RMWM0RTQ')). //TODO set as a parameter
                   setOAuthToken(oauthToken).
                   setLocale('fr').
                   setCallback(this.pickerCallback).

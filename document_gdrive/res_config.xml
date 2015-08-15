@@ -1,0 +1,21 @@
+<?xml version="1.0" ?>
+<openerp>
+    <data>
+
+        <record id="view_knowledge_configuration_inherited" model="ir.ui.view">
+            <field name="name">Configure Knowledge Inherited</field>
+            <field name="model">knowledge.config.settings</field>
+            <field name="priority" eval="20"/>
+            <field name="inherit_id" ref="knowledge.view_knowledge_configuration" />
+            <field name="arch" type="xml">
+                <xpath expr="//div/field[@name='module_document']/.." position="after">
+                    <div>
+                      <label for="document_gdrive_upload_dir" />
+                      <field name="document_gdrive_upload_dir"/>
+                    </div>
+                </xpath>
+            </field>
+        </record>
+
+    </data>
+</openerp>
