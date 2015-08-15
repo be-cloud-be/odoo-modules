@@ -49,6 +49,7 @@ openerp.document_gdrive = function(instance, m) {
                       setOAuthToken(oauthToken).
                       setLocale('fr'). // TODO set local of the user
                       setCallback(this.pickerCallback).
+                      setOrigin(origin).
                       build();
                   picker.context = new openerp.web.CompoundContext(context, {
                           'active_ids': ids,
