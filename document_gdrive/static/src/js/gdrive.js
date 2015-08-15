@@ -35,24 +35,42 @@ openerp.document_gdrive = function(instance, m) {
         	var self = this;
             var view = self.getParent();
             var ids = ( view.fields_view.type != "form" )? view.groups.get_selection().ids : [ view.datarecord.id ];
-            if (pickerApiLoaded) { // && oauthToken) {
-              var picker = new google.picker.PickerBuilder().
-                  addView(google.picker.ViewId.DOCS).
-              	  addView(google.picker.ViewId.RECENTLY_PICKED).
-              	  enableFeature(google.picker.Feature.MULTISELECT_ENABLED).
-              	  addView(new google.picker.DocsUploadView().setParent('0B-bLy40Prl36fkRpLTJELXUydU0ybkU0MVZQZ3kybXVqSzJDYVg4T2paeEwwR25RMWM0RTQ')). //TODO set as a parameter
-                  setOAuthToken(oauthToken).
-                  setLocale('fr').
-                  setCallback(this.pickerCallback).
-                  build();
-              picker.context = new openerp.web.CompoundContext(this.session.user_context, {
-                      'active_ids': ids,
-                      'active_id': [ids[0]],
-                      'active_model': view.dataset.model,
-                  });
-              picker.view = view;
-              picker.setVisible(true);
+            
+            var P = new instance.web.Model('ir.config_parameter');
+            P.call('get_param', ['document.gdrive.upload.dir']).then(function(dir) {
+                if (pickerApiLoaded && oauthToken) {
+                  var picker = new google.picker.PickerBuilder().
+                      addView(google.picker.ViewId.DOCS).
+                  	  addView(google.picker.ViewId.RECENTLY_PICKED).
+                  	  enableFeature(google.picker.Feature.MULTISELECT_ENABLED).
+                  	  addView(new google.picker.DocsUploadView().setParent(dir)).
+                      setOAuthToken(oauthToken).
+                      setLocale('fr'). // TODO set local of the user
+                      setCallback(this.pickerCallback).
+                      build();
+                  picker.context = new openerp.web.CompoundContext(this.session.user_context, {
+                          'active_ids': ids,
+                          'active_id': [ids[0]],
+                          'active_model': view.dataset.model,
+                      });
+                  picker.view = view;
+                  picker.setVisible(true);
+                }
+            }).fail(this.on_select_file_error);
+        },
+        on_select_file_error: function(response){
+            var self = this;
+            var msg = _t("Sorry, the attachement could not be imported. Please check your configuration parameters.");
+            if (response.data.message) {
+                msg += "\n " + _t("Reason:") + response.data.message;
             }
+            var params = {error: response, message: msg};
+            new instance.web.Dialog(this,{
+                    title: _t("Attachement Error Notification"),
+                    buttons: {
+                        Ok: function() { this.parents('.modal').modal('hide');}
+                    }
+                },$(instance.web.qweb.render("CrashManager.warning", params))).open();
         },
     });
 
