@@ -17,7 +17,7 @@ function onAuthApiLoad() {
       {
         'client_id': clientId,
         'scope': scope,
-        'immediate': false,
+        'immediate': true,
         'include_granted_scopes' : true
       },
       handleAuthResult);
@@ -31,6 +31,22 @@ function handleAuthResult(authResult) {
   if (authResult && !authResult.error) {
     oauthToken = authResult.access_token;
   } else {
-	alert("Cannot get authorization token for Google Drive: " + authResult.error_subtype + " - " + authResult.error);
+	  window.gapi.auth.authorize(
+      {
+        'client_id': clientId,
+        'scope': scope,
+        'immediate': false,
+        'include_granted_scopes' : true
+      },
+      handleAuthResult2);
   }
 }
+
+function handleAuthResult2(authResult) {
+  if (authResult && !authResult.error) {
+    oauthToken = authResult.access_token;
+  } else {
+	  alert("Cannot get authorization token for Google Drive: " + authResult.error_subtype + " - " + authResult.error);
+  }
+}  
+	  
