@@ -36,6 +36,7 @@ openerp.document_gdrive = function(instance, m) {
             var view = self.getParent();
             var ids = ( view.fields_view.type != "form" )? view.groups.get_selection().ids : [ view.datarecord.id ];
             var context = this.session.user_context;
+            var callback =this.pickerCallback;
             
             var P = new instance.web.Model('ir.config_parameter');
             P.call('get_param', ['document.gdrive.upload.dir']).then(function(dir) {
@@ -48,7 +49,7 @@ openerp.document_gdrive = function(instance, m) {
                   	  addView(new google.picker.DocsUploadView().setParent(dir)).
                       setOAuthToken(oauthToken).
                       setLocale('fr'). // TODO set local of the user
-                      setCallback(this.pickerCallback).
+                      setCallback(callback).
                       setOrigin(origin).
                       build();
                   picker.context = new openerp.web.CompoundContext(context, {
