@@ -40,6 +40,7 @@ openerp.document_gdrive = function(instance, m) {
             var P = new instance.web.Model('ir.config_parameter');
             P.call('get_param', ['document.gdrive.upload.dir']).then(function(dir) {
                 if (pickerApiLoaded && oauthToken) {
+                  var origin = window.location.protocol + '//' + window.location.host;
                   var picker = new google.picker.PickerBuilder().
                       addView(google.picker.ViewId.DOCS).
                   	  addView(google.picker.ViewId.RECENTLY_PICKED).
