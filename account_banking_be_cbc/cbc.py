@@ -46,7 +46,7 @@ class transaction_line(object):
     Numéro de compte    Nom rubrique    Nom    Devise    Numéro extrait    Date    Description    Date valeur    Montant    Solde
     '''
     attrnames = [
-        'local_account', 'rubrique',  'entity', 'local_currency', 'statement_id', 'execution_date', 'message', 'effective_date',
+        'local_account', 'rubrique',  'entity', 'local_currency', 'statement_id', 'execution_date', 'message', 'effective_date','value_date',
         'transferred_amount', 'balance', 'remark',
     ]
 
