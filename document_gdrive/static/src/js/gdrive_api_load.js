@@ -31,8 +31,6 @@ function getClientId() {
       return "433547367780-b8758n8k6ridvai3tcf31dfnic438h5e.apps.googleusercontent.com";
 }
 
-var clientId = getClientId();
-
 var scope = ['https://www.googleapis.com/auth/drive'];
 
 var pickerApiLoaded = false;
@@ -45,6 +43,7 @@ function onApiLoad() {
 }
 
 function onAuthApiLoad() {
+  var clientId = getClientId();
   window.gapi.auth.authorize(
       {
         'client_id': clientId,
@@ -60,6 +59,7 @@ function onPickerApiLoad() {
 }
 
 function handleAuthResult(authResult) {
+  var clientId = getClientId();
   if (authResult && !authResult.error) {
     oauthToken = authResult.access_token;
   } else {
