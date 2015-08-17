@@ -49,9 +49,13 @@ openerp.document_gdrive = function(instance, m) {
             }
         },
         on_gdrive_doc: function() {
-        	if((!pickerApiLoaded) || (!oauthToken)) {
+        	if(!pickerApiLoaded) {
           	  onApiLoad();
             }
+            if(!oauthToken) {
+              onAuthApiLoad();
+            }
+            
         	var self = this;
             var view = self.getParent();
             var ids = ( view.fields_view.type != "form" )? view.groups.get_selection().ids : [ view.datarecord.id ];
