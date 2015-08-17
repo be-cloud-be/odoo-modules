@@ -35,7 +35,7 @@ class knowledge_config_settings(osv.osv_memory):
     def set_document_gdrive_upload_dir(self, cr, uid, ids, context=None):
         config = self.browse(cr, uid, ids[0], context=context)
         icp = self.pool.get('ir.config_parameter')
-        icp.set_param(cr, uid, 'document.gdrive.upload.dir', repr(config.document_gdrive_upload_dir))
+        icp.set_param(cr, uid, 'document.gdrive.upload.dir', config.document_gdrive_upload_dir)
     
     _defaults = {
         'document_gdrive_upload_dir': _document_gdrive_upload_dir,
