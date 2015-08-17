@@ -30,6 +30,9 @@ openerp.document_gdrive = function(instance, m) {
             self.$el.find('.oe_sidebar_add_gdrive').on('click', function (e) {
                 self.on_gdrive_doc();
             });
+            if(!oauthToken) {
+            	onApiLoad();
+            }
         },
         pickerCallback: function(data) {
         	var url = 'nothing';
