@@ -21,20 +21,20 @@
 
 // The Client ID of Imply.lu
 
-function getClientId() {
-      var P = new openerp.web.Model('ir.config_parameter');
-      P.call('get_param', ['document.gdrive.client.id']).then(function(id) {
-          return id;
-        }).fail(function(error) {
-          console.log(error);
-        });
-      return "";
-}
-
 var scope = ['https://www.googleapis.com/auth/drive'];
 
 var pickerApiLoaded = false;
 var oauthToken = false;
+var clientId = false;
+
+function getClientId() {
+      var P = new openerp.web.Model('ir.config_parameter');
+      P.call('get_param', ['document.gdrive.client.id']).then(function(id) {
+          clientId = id;
+        }).fail(function(error) {
+          console.log(error);
+        });
+}
 
 // Use the API Loader script to load google.picker and gapi.auth.
 function onApiLoad() {
@@ -43,7 +43,7 @@ function onApiLoad() {
 }
 
 function onAuthApiLoad() {
-  var clientId = getClientId();
+  if(!clientId) {getClientId();}
   window.gapi.auth.authorize(
       {
         'client_id': clientId,
@@ -59,7 +59,7 @@ function onPickerApiLoad() {
 }
 
 function handleAuthResult(authResult) {
-  var clientId = getClientId();
+  if(!clientId) {getClientId();}
   if (authResult && !authResult.error) {
     oauthToken = authResult.access_token;
   } else {
