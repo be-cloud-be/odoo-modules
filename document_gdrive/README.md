@@ -1,6 +1,8 @@
+This module is considered in Beta stage.
+
 #Google Drive Attachement Module for Odoo
 
-This module allows the attachement of Google Drive document to all records and
+This module allows the attachment of Google Drive document to all records and
 also to directly upload new document to a dedicated folder on gdrive.
 
 This will considerably reduce the size required for your attachement.
@@ -8,7 +10,7 @@ This will considerably reduce the size required for your attachement.
 #Configuration
 
 The folder where the files will be uploaded must be set in the 
-Configuation/Knowledge section. Just browse your GDrive to the directory and
+Configuration/Knowledge section. Just browse your GDrive to the directory and
 the id is in the url "https://...../folders/XXXXXXXXXXXXXX just copy everything
 after /folders/ to the "Google Drive Upload Directory" parameter.
 
