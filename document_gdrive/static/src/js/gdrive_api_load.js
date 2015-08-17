@@ -24,11 +24,10 @@
 function getClientId() {
       var P = new openerp.web.Model('ir.config_parameter');
       P.call('get_param', ['document.gdrive.client.id']).then(function(id) {
-        return id;
-      }).fail(function(error) {
-        console.log(error);
-      })
-      return "433547367780-b8758n8k6ridvai3tcf31dfnic438h5e.apps.googleusercontent.com";
+          return id;
+        }).fail(function(error) {
+          console.log(error);
+        });
 }
 
 var scope = ['https://www.googleapis.com/auth/drive'];
