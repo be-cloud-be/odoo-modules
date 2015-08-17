@@ -28,6 +28,7 @@ function getClientId() {
         }).fail(function(error) {
           console.log(error);
         });
+      return "";
 }
 
 var scope = ['https://www.googleapis.com/auth/drive'];
