@@ -26,7 +26,18 @@ class knowledge_config_settings(osv.osv_memory):
     _columns = {
         'document_gdrive_upload_dir': fields.char('Google Drive Upload Directory',
             help='Directory where the files will be uploaded using the Google File Picker.'),
+        'document_gdrive_client_id': fields.char('Google Drive Client Id',
+            help='Generate a Client ID key from the Google Console and paste it here.'),
     }
+    
+    def _document_gdrive_client_id(self, cr, uid, ids, context=None):
+        icp = self.pool.get('ir.config_parameter')
+        return icp.get_param(cr, uid, 'document.gdrive.client.id')
+    
+    def set_document_gdrive_client_id(self, cr, uid, ids, context=None):
+        config = self.browse(cr, uid, ids[0], context=context)
+        icp = self.pool.get('ir.config_parameter')
+        icp.set_param(cr, uid, 'document.gdrive.client.id', config.document_gdrive_client_id)
     
     def _document_gdrive_upload_dir(self, cr, uid, ids, context=None):
         icp = self.pool.get('ir.config_parameter')
@@ -38,5 +49,6 @@ class knowledge_config_settings(osv.osv_memory):
         icp.set_param(cr, uid, 'document.gdrive.upload.dir', config.document_gdrive_upload_dir)
     
     _defaults = {
+        'document_gdrive_client_id': _document_gdrive_client_id,
         'document_gdrive_upload_dir': _document_gdrive_upload_dir,
-    }    
+    }

@@ -20,7 +20,15 @@
 // ##############################################################################
 
 // The Client ID of Imply.lu
-var clientId = "433547367780-b8758n8k6ridvai3tcf31dfnic438h5e.apps.googleusercontent.com"
+
+function getClientId() {
+      var P = new instance.web.Model('ir.config_parameter');
+      P.call('get_param', ['document.gdrive.client.id']).then(function(id) {
+        return id;
+      });
+}
+
+var clientId = getClientId();
 
 var scope = ['https://www.googleapis.com/auth/drive'];
 

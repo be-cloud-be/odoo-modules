@@ -34,6 +34,10 @@
                       <label for="document_gdrive_upload_dir" />
                       <field name="document_gdrive_upload_dir"/>
                     </div>
+                    <div>
+                      <label for="document_gdrive_client_id" />
+                      <field name="document_gdrive_client_id"/>
+                    </div>
                 </xpath>
             </field>
         </record>
