@@ -49,7 +49,7 @@ openerp.document_gdrive = function(instance, m) {
             }
         },
         on_gdrive_doc: function() {
-        	if(!pickerApiLoaded) {ypo // || !oauthToken) {
+        	if(!pickerApiLoaded) || !oauthToken) {
           	  onApiLoad();
             }
         	var self = this;
