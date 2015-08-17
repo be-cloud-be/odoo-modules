@@ -22,7 +22,7 @@
 // The Client ID of Imply.lu
 
 function getClientId() {
-      var P = new instance.web.Model('ir.config_parameter');
+      var P = new openerp.web.Model('ir.config_parameter');
       P.call('get_param', ['document.gdrive.client.id']).then(function(id) {
         return id;
       });
