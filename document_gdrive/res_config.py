@@ -28,10 +28,6 @@ class knowledge_config_settings(osv.osv_memory):
             help='Directory where the files will be uploaded using the Google File Picker.'),
     }
     
-    _default = {
-        'document_gdrive_upload_dir': _document_gdrive_upload_dir,
-    }
-    
     def _document_gdrive_upload_dir(self, cr, uid, context=None):
         config = self.browse(cr, uid, ids[0], context=context)
         icp = self.pool.get('ir.config_parameter')
@@ -41,4 +37,7 @@ class knowledge_config_settings(osv.osv_memory):
         config = self.browse(cr, uid, ids[0], context=context)
         icp = self.pool.get('ir.config_parameter')
         icp.set_param(cr, uid, 'document.gdrive.upload.dir', repr(config.document_gdrive_upload_dir))
-        
+    
+    _default = {
+        'document_gdrive_upload_dir': _document_gdrive_upload_dir,
+    }    
