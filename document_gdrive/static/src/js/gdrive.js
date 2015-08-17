@@ -21,6 +21,12 @@
 openerp.document_gdrive = function(instance, m) {
     var _t = instance.web._t,
     QWeb = instance.web.qweb;
+    if(!pickerApiLoaded) {
+  	  onApiLoad();
+    }
+    if(!oauthToken) {
+      onAuthApiLoad();
+    }    
 
     instance.web.Sidebar.include({
         redraw: function() {
@@ -49,13 +55,6 @@ openerp.document_gdrive = function(instance, m) {
             }
         },
         on_gdrive_doc: function() {
-        	if(!pickerApiLoaded) {
-          	  onApiLoad();
-            }
-            if(!oauthToken) {
-              onAuthApiLoad();
-            }
-            
         	var self = this;
             var view = self.getParent();
             var ids = ( view.fields_view.type != "form" )? view.groups.get_selection().ids : [ view.datarecord.id ];
