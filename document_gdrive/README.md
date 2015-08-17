@@ -1,5 +1,3 @@
-This module is considered in Beta stage.
-
 #Google Drive Attachement Module for Odoo
 
 This module allows the attachment of Google Drive document to all records and
