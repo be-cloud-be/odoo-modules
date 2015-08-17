@@ -20,9 +20,6 @@
 ##############################################################################
 from openerp.osv import fields, osv
 
-import wdb
-wdb.set_trace()
-
 class knowledge_config_settings(osv.osv_memory):
     _inherit = 'knowledge.config.settings'
     
