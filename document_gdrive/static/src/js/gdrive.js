@@ -21,12 +21,6 @@
 openerp.document_gdrive = function(instance, m) {
     var _t = instance.web._t,
     QWeb = instance.web.qweb;
-    if(!pickerApiLoaded) {
-  	  onApiLoad();
-    }
-    if(!oauthToken) {
-      onAuthApiLoad();
-    }    
 
     instance.web.Sidebar.include({
         redraw: function() {
