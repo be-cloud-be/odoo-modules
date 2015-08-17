@@ -25,7 +25,7 @@ function getClientId() {
       var P = new openerp.web.Model('ir.config_parameter');
       P.call('get_param', ['document.gdrive.client.id']).then(function(id) {
         return id;
-      }).error(function(error) {
+      }).fail(function(error) {
         error
       })
 }
