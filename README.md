@@ -1,3 +1,5 @@
+![be-cloud.be](http://www.be-cloud.be/images/logo-226x110.png)
+
 # odoo-modules
 
 These modules are tested on Odoo saas-6.
