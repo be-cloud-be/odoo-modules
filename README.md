@@ -2,8 +2,6 @@
 
 # odoo-modules
 
-These modules are tested on Odoo saas-6.
-
 ##beta
 
 - document_gdrive : use GDrive to store attachements
