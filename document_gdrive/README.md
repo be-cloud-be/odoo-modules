@@ -8,14 +8,15 @@ This will considerably reduce the size required for your attachement.
 #Configuration
 
 You must create a Google API ClientID using your Google account :
-- Go to the Google APIs console
+- Go to the Google Cloud Console
 - Ceate a new project
-- Go to Api Access
-- Create an oauth client_id
-- Edit settings and set both Authorized Redirect URIs and Authorized JavaScript Origins to your hostname.
+- Go to APIs & Auth/Credentials
+- Add a credentials of type OAuth 2.0 client ID
+- Select Web application 
+- Fill in both Authorized Redirect URIs and Authorized JavaScript Origins to your Odoo hostname.
+- Copy paste the client_id in the Configuration/Knowledge section. 
 
-Now copy paste the client_id in the Configuration/Knowledge section. If you are 
-also using the Google Authentication module you can use the same id, just 
+If you are also using the Google Authentication module you can use the same id, just 
 copy/paste it.
 
 The folder where the files will be uploaded must be set in the 
