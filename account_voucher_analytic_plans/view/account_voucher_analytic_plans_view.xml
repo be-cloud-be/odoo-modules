@@ -22,6 +22,17 @@
 -->
 <openerp>
     <data>
-        
+        <!-- Replace analytic_id with analytics_id in voucher.form -->
+
+        <record model="ir.ui.view" id="view_voucher_form_form_inherit">
+            <field name="name">account.voucher.form.inherit</field>
+            <field name="model">account.voucher</field>
+            <field name="inherit_id" ref="account_voucher.view_voucher_form"/>
+            <field name="arch" type="xml">
+                <field name="account_analytic_id" position="replace">
+                    <field name="analytics_id" context="{'journal_id':parent.journal_id}" domain="[('plan_id','&lt;&gt;',False)]" groups="analytic.group_analytic_accounting"/>
+                </field>
+            </field>
+        </record>
     </data>
 </openerp>
