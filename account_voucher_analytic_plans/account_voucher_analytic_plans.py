@@ -28,18 +28,18 @@ class account_voucher(osv.osv):
     }
 
     def voucher_move_line_create(self, cr, uid, voucher_id, line_total, move_id, company_currency, current_currency, context=None):
-    import wdb
-    wdb.set_trace()
-    
-    line_total, rec_list_ids = super(account_voucher_line, self).voucher_move_line_create(cr, uid, voucher_id, line_total, move_id, company_currency, current_currency, context=context)
-    
-    voucher = self.pool.get('account.voucher').browse(cr, uid, voucher_id, context=ctx)
-    move_line_obj = self.pool.get('account.move.line')
-    for line in voucher.line_ids:
-        if line.move_line_id.id:
-            move_line = move_line_obj.browse(cr, uid, line.move_line_id.id, context=ctx)
-            move_line.write({'analytics_id' : line.analytics_id and line.analytics_id.id or False})
-    return (line_total, rec_list_ids)
+        import wdb
+        wdb.set_trace()
+        
+        line_total, rec_list_ids = super(account_voucher_line, self).voucher_move_line_create(cr, uid, voucher_id, line_total, move_id, company_currency, current_currency, context=context)
+        
+        voucher = self.pool.get('account.voucher').browse(cr, uid, voucher_id, context=ctx)
+        move_line_obj = self.pool.get('account.move.line')
+        for line in voucher.line_ids:
+            if line.move_line_id.id:
+                move_line = move_line_obj.browse(cr, uid, line.move_line_id.id, context=ctx)
+                move_line.write({'analytics_id' : line.analytics_id and line.analytics_id.id or False})
+        return (line_total, rec_list_ids)
 
 class account_voucher_line(osv.osv):
     _inherit = 'account.voucher.line'
