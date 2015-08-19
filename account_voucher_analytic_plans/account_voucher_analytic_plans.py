@@ -26,6 +26,9 @@ class account_voucher(osv.osv):
     _columns = {
         'analytics_id': fields.many2one('account.analytic.plan.instance', 'Analytic Distribution'),
     }
+
+import wdb
+wdb.set_trace()
     
 class account_voucher_line(osv.osv):
     _inherit = 'account.voucher.line'
@@ -40,9 +43,6 @@ class account_voucher_line(osv.osv):
         return super(account_voucher_line, self).create(cr, uid, vals, context=context)
 
     def voucher_move_line_create(self, cr, uid, voucher_id, line_total, move_id, company_currency, current_currency, context=None):
-        import wdb
-        wdb.set_trace()
-        
         line_total, rec_list_ids = super(account_voucher_line, self).voucher_move_line_create(cr, uid, voucher_id, line_total, move_id, company_currency, current_currency, context=context)
         
         voucher = self.pool.get('account.voucher').browse(cr, uid, voucher_id, context=ctx)
