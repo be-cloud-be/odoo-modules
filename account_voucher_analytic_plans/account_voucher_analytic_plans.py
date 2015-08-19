@@ -31,7 +31,7 @@ class account_voucher(osv.osv):
         import wdb
         wdb.set_trace()
         
-        line_total, rec_list_ids = super(account_voucher_line, self).voucher_move_line_create(cr, uid, voucher_id, line_total, move_id, company_currency, current_currency, context=context)
+        line_total, rec_list_ids = super(account_voucher, self).voucher_move_line_create(cr, uid, voucher_id, line_total, move_id, company_currency, current_currency, context=context)
         
         voucher = self.pool.get('account.voucher').browse(cr, uid, voucher_id, context=ctx)
         move_line_obj = self.pool.get('account.move.line')
