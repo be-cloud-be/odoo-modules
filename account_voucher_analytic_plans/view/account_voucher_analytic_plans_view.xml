@@ -51,7 +51,7 @@
         <!-- Replace analytic_id with analytics_id in voucher.sale.form -->
 
         <record model="ir.ui.view" id="view_voucher_purchase_form_inherit">
-            <field name="name"">account.voucher.purchase.form</field>
+            <field name="name">account.voucher.purchase.form</field>
             <field name="model">account.voucher</field>
             <field name="inherit_id" ref="account_voucher.view_voucher_purchase_form"/>
             <field name="arch" type="xml">
