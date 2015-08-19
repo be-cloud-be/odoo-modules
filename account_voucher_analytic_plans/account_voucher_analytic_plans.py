@@ -28,6 +28,9 @@ class account_voucher(osv.osv):
     }
 
     def first_move_line_get(self, cr, uid, voucher_id, move_id, company_currency, current_currency, context=None):
+        import wdb
+        wdb.set_trace()
+
         move_line = super(account_voucher, self).first_move_line_get(cr, uid, voucher_id, move_id, company_currency, current_currency, context=context)
         voucher = self.pool.get('account.voucher').browse(cr, uid, voucher_id, context=context)
         line = voucher.line_ids[0]
