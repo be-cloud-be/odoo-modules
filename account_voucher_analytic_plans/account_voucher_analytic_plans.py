@@ -33,11 +33,11 @@ class account_voucher(osv.osv):
         
         line_total, rec_list_ids = super(account_voucher, self).voucher_move_line_create(cr, uid, voucher_id, line_total, move_id, company_currency, current_currency, context=context)
         
-        voucher = self.pool.get('account.voucher').browse(cr, uid, voucher_id, context=ctx)
+        voucher = self.pool.get('account.voucher').browse(cr, uid, voucher_id, context=context)
         move_line_obj = self.pool.get('account.move.line')
         for line in voucher.line_ids:
             if line.move_line_id.id:
-                move_line = move_line_obj.browse(cr, uid, line.move_line_id.id, context=ctx)
+                move_line = move_line_obj.browse(cr, uid, line.move_line_id.id, context=context)
                 move_line.write({'analytics_id' : line.analytics_id and line.analytics_id.id or False})
         return (line_total, rec_list_ids)
 
