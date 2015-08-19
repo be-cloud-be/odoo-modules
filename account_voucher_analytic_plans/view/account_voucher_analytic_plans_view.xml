@@ -40,7 +40,7 @@
         <record model="ir.ui.view" id="view_voucher_sale_form_inherit">
             <field name="name">account.voucher.sale.form"</field>
             <field name="model">account.voucher</field>
-            <field name="inherit_id" ref="account_voucher.view_voucher_sale_form"/>
+            <field name="inherit_id" ref="account_voucher.view_sale_receipt_form"/>
             <field name="arch" type="xml">
                 <field name="account_analytic_id" position="replace">
                     <field name="analytics_id" context="{'journal_id':parent.journal_id}" domain="[('plan_id','&lt;&gt;',False)]" groups="analytic.group_analytic_accounting"/>
@@ -53,7 +53,7 @@
         <record model="ir.ui.view" id="view_voucher_purchase_form_inherit">
             <field name="name">account.voucher.purchase.form</field>
             <field name="model">account.voucher</field>
-            <field name="inherit_id" ref="account_voucher.view_voucher_purchase_form"/>
+            <field name="inherit_id" ref="account_voucher.view_purchase_receipt_form"/>
             <field name="arch" type="xml">
                 <field name="account_analytic_id" position="replace">
                     <field name="analytics_id" context="{'journal_id':parent.journal_id}" domain="[('plan_id','&lt;&gt;',False)]" groups="analytic.group_analytic_accounting"/>
