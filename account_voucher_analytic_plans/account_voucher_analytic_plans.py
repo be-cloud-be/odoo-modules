@@ -27,6 +27,13 @@ class account_voucher(osv.osv):
         'analytics_id': fields.many2one('account.analytic.plan.instance', 'Analytic Distribution'),
     }
 
+    def first_move_line_get(self, cr, uid, voucher_id, move_id, company_currency, current_currency, context=None):
+        move_line = super(account_voucher, self).first_move_line_get(cr, uid, voucher_id, move_id, company_currency, current_currency, context=context)
+        voucher = self.pool.get('account.voucher').browse(cr, uid, voucher_id, context=context)
+        line = voucher.line_ids[0]
+        move_line['analytics_id'] = line.analytics_id and line.analytics_id.id or False
+        return move_line
+
     def voucher_move_line_create(self, cr, uid, voucher_id, line_total, move_id, company_currency, current_currency, context=None):
         import wdb
         wdb.set_trace()
