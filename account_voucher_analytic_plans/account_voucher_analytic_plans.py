@@ -49,9 +49,10 @@ class account_voucher(osv.osv):
         i = 0
         
         for v_line in voucher.line_ids:
-            move_line_brw = self.pool.get('account.move.line').browse(cr, uid, move_brw.line_id[i++], context=context)
+            move_line_brw = self.pool.get('account.move.line').browse(cr, uid, move_brw.line_id[i], context=context)
             if move_line_brw.account_id.type != 'payable':
                 move_line_brw.write({'analytics_id' : v_line.analytics_id and v_line.analytics_id.id or False})
+            i = i + 1
         return (line_total, rec_list_ids)
 
 class account_voucher_line(osv.osv):
