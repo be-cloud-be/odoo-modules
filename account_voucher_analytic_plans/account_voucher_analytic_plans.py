@@ -27,15 +27,29 @@ class account_voucher(osv.osv):
         'analytics_id': fields.many2one('account.analytic.plan.instance', 'Analytic Distribution'),
     }
 
-    def voucher_move_line_create(self, cr, uid, voucher_id, line_total, move_id, company_currency, current_currency, context=None):
+    def first_move_line_get(self, cr, uid, voucher_id, move_id, company_currency, current_currency, context=None):
+        move_line = super(account_voucher, self).first_move_line_get(cr, uid, voucher_id, move_id, company_currency, current_currency, context=context)
+        
         import wdb
         wdb.set_trace()
         
+        voucher = self.pool.get('account.voucher').browse(cr, uid, voucher_id, context=context)
+        v_line = voucher.line_ids[0]
+        if move_line_brw.account_id.type != 'payable':
+            move_line_brw.write({'analytics_id' : v_line.analytics_id and v_line.analytics_id.id or False})
+
+    def voucher_move_line_create(self, cr, uid, voucher_id, line_total, move_id, company_currency, current_currency, context=None):
         line_total, rec_list_ids = super(account_voucher, self).voucher_move_line_create(cr, uid, voucher_id, line_total, move_id, company_currency, current_currency, context=context)
         
+        import wdb
+        wdb.set_trace()
+        
+        move_brw = self.pool.get('account.move').browse(cr, uid, move_id, context=context)
         voucher = self.pool.get('account.voucher').browse(cr, uid, voucher_id, context=context)
+        i = 0
+        
         for v_line in voucher.line_ids:
-            move_line_brw = self.pool.get('account.move.line').browse(cr, uid, v_line.move_line_id, context=context)
+            move_line_brw = self.pool.get('account.move.line').browse(cr, uid, move_brw.line_id[i++], context=context)
             if move_line_brw.account_id.type != 'payable':
                 move_line_brw.write({'analytics_id' : v_line.analytics_id and v_line.analytics_id.id or False})
         return (line_total, rec_list_ids)
