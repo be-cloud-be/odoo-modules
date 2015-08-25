@@ -30,12 +30,9 @@ class account_voucher(osv.osv):
     def first_move_line_get(self, cr, uid, voucher_id, move_id, company_currency, current_currency, context=None):
         move_line = super(account_voucher, self).first_move_line_get(cr, uid, voucher_id, move_id, company_currency, current_currency, context=context)
         
-        import wdb
-        wdb.set_trace()
-        
         voucher = self.pool.get('account.voucher').browse(cr, uid, voucher_id, context=context)
         v_line = voucher.line_ids[0]
-        if move_line.account_id.type != 'payable':
+        if v_line.account_id.type != 'payable':
             move_line.write({'analytics_id' : v_line.analytics_id and v_line.analytics_id.id or False})
         return move_line
 
