@@ -33,7 +33,7 @@ class account_voucher(osv.osv):
         voucher = self.pool.get('account.voucher').browse(cr, uid, voucher_id, context=context)
         v_line = voucher.line_ids[0]
         if v_line.account_id.type != 'payable':
-            move_line.write({'analytics_id' : v_line.analytics_id and v_line.analytics_id.id or False})
+            move_line['analytics_id'] = v_line.analytics_id and v_line.analytics_id.id or False
         return move_line
 
     def voucher_move_line_create(self, cr, uid, voucher_id, line_total, move_id, company_currency, current_currency, context=None):
