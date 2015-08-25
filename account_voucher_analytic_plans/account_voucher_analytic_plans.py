@@ -44,7 +44,7 @@ class account_voucher(osv.osv):
         
         move_brw = self.pool.get('account.move').browse(cr, uid, move_id, context=context)
         voucher = self.pool.get('account.voucher').browse(cr, uid, voucher_id, context=context)
-        i = 1
+        i = 0
         for v_line in voucher.line_ids:
             move_line = move_brw.line_id[i]
             if move_line.account_id.type != 'payable':
