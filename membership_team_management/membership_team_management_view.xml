@@ -202,7 +202,7 @@
 		   	<field name="type">search</field>      
 		   	<field name="inherit_id" ref="membership.view_res_partner_member_filter"/>
 		   	<field name="arch" type="xml">
-		   		<xpath expr="//filter[@string='End Date']" position="after">
+		   		<xpath expr="//filter[@string='End Membership Date']" position="after">
 		   			<separator orientation="vertical"/>
 		            <filter string="Team" name="team" icon="terp-partner" domain="[]" context="{'group_by':'team'}" />
 		      	</xpath>
