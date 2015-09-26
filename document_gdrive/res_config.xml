@@ -29,14 +29,16 @@
             <field name="priority" eval="16"/>
             <field name="inherit_id" ref="base_setup.view_general_configuration" />
             <field name="arch" type="xml">
-                <xpath expr="//div/field[@name='google_drive']/.." position="after">
-                    <div>
-                      <label for="document_gdrive_upload_dir" />
-                      <field name="document_gdrive_upload_dir"/>
-                    </div>
-                    <div>
-                      <label for="document_gdrive_client_id" />
-                      <field name="document_gdrive_client_id"/>
+                <xpath expr="//div[@name='google_drive']/.." position="after">
+                    <div name="google_drive_document">
+                        <div name="document_gdrive_upload_dir">
+                          <label for="document_gdrive_upload_dir" />
+                          <field name="document_gdrive_upload_dir"/>
+                        </div>
+                        <div name="document_gdrive_client_id">
+                          <label for="document_gdrive_client_id" />
+                          <field name="document_gdrive_client_id"/>
+                        </div>
                     </div>
                 </xpath>
             </field>
