@@ -23,13 +23,13 @@
 <openerp>
     <data>
 
-        <record id="view_knowledge_configuration_inherited" model="ir.ui.view">
-            <field name="name">Configure Knowledge Inherited</field>
-            <field name="model">knowledge.config.settings</field>
-            <field name="priority" eval="20"/>
-            <field name="inherit_id" ref="knowledge.view_knowledge_configuration" />
+        <record id="view_general_configuration_inherited" model="ir.ui.view">
+            <field name="name">Configure Base Inherited</field>
+            <field name="model">base.config.settings</field>
+            <field name="priority" eval="16"/>
+            <field name="inherit_id" ref="base_setup.view_general_configuration" />
             <field name="arch" type="xml">
-                <xpath expr="//div/field[@name='module_document']/.." position="after">
+                <xpath expr="//div/field[@name='google_drive']/.." position="after">
                     <div>
                       <label for="document_gdrive_upload_dir" />
                       <field name="document_gdrive_upload_dir"/>
