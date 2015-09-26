@@ -98,7 +98,7 @@ class account_bank_statement_import(osv.TransientModel):
     def _parse_file(self, cr, uid, data_file, context=None):
         csv = self._check_csv(cr, uid, StringIO.StringIO(data_file), context=context)
         if not csv:
-            return super(account_bank_statement_import, self)._parse_file(cr, uid, data_file, context=context)
+            return super(account_bank_statement_import, self)._parse_file(data_file)
         all_statements = {}
         try:
             for line in csv:
