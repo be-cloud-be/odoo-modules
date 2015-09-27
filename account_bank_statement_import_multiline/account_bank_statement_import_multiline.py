@@ -11,49 +11,37 @@ import dateutil.parser
 import base64
 import hashlib
 
-from openerp.osv import osv, fields
-from openerp.tools.translate import _
+from openerp import api, fields, models, _
 from openerp.exceptions import UserError
 
 _logger = logging.getLogger(__name__)
 
-class account_bank_statement_import(osv.TransientModel):
+class AccountBankStatementImport(models.TransientModel):
     _inherit = "account.bank.statement.import"
 
-    _columns = {
-        'journal_id': fields.many2one('account.journal', string='Journal', help='Accounting journal related to the bank statement you\'re importing. It has be be manually chosen for statement formats which doesn\'t allow automatic journal detection (QIF for example).'),
-        'hide_journal_field': fields.boolean('Hide the journal field in the view'),
-    }
+    @api.one
+    def _get_hide_journal_field(self):
+        return self.env.context and 'journal_id' in self.env.context or False
 
-    def _get_hide_journal_field(self, cr, uid, context=None):
-        return context and 'journal_id' in context or False
 
-    _defaults = {
-        'hide_journal_field': _get_hide_journal_field,
-    }
+    journal_id = fields.Many2One('account.journal', string='Journal', help='Accounting journal related to the bank statement you\'re importing. It has be be manually chosen for statement formats which doesn\'t allow automatic journal detection (QIF for example).',
+                                 default=_get_hide_journal_field)
+    hide_journal_field = fields.Boolean('Hide the journal field in the view')
 
-    def import_file(self, cr, uid, ids, context=None):
+    @api.multi
+    def import_file(self):
         """ Process the file chosen in the wizard, create bank statement(s) and go to reconciliation. """
 
-        #import wdb
-        #wdb.set_trace()
-
-        if context is None:
-            context = {}
-        #set the active_id in the context, so that any extension module could
-        #reuse the fields chosen in the wizard if needed (see .QIF for example)
-        ctx = dict(context)
-        ctx['active_id'] = ids[0]
-
-        data_file = self.browse(cr, uid, ids[0], context=ctx).data_file
+        data_file = self.with_context(active_id=self.ids[0]).data_file
         data = base64.b64decode(data_file)
         encoding = chardet.detect(data)
         data.decode(encoding['encoding'])
+        # REMOVE BOM if present because it depends of the platform use to access multiline.
         if data[:3] == codecs.BOM_UTF8:
             data = data[3:]
 
         # Parse the file and build a list of statement organised as a tree [currency_code][account_number][statement_id]
-        all_statements = self._parse_file(cr, uid, data, context=ctx)
+        all_statements = self.with_context(active_id=self.ids[0])._parse_file(data)
         all_statement_ids = []
         all_notifications = []
         for statement_key in all_statements.keys():
@@ -67,17 +55,16 @@ class account_bank_statement_import(osv.TransientModel):
             journal_id = self._get_journal(currency_id, bank_account_id, account_number)
             # If no journal found, ask the user about creating one
             if not journal_id:
-                return self._journal_creation_wizard(cr, uid, currency_id, account_number, bank_account_id, context=ctx)
+                return self._journal_creation_wizard(currency_id, account_number, bank_account_id)
             # Prepare statement data to be used for bank statements creation
-            stmts_vals = super(account_bank_statement_import, self)._complete_stmts_vals(cr, uid, [stmts_vals], journal_id, account_number, context=context)
+            stmts_vals = self._complete_stmts_vals(stmts_vals, journal, account_number)
             # Create the bank statements
-            statement_ids, notifications = super(account_bank_statement_import, self)._create_bank_statements(cr, uid, stmts_vals, context=context)
+            statement_ids, notifications = self._create_bank_statements(stmts_vals)
             all_statement_ids.append(statement_ids)
             all_notifications.append(notifications)
 
         # Finally dispatch to reconciliation interface
-        model, action_id = self.pool.get('ir.model.data').get_object_reference(cr, uid, 'account', 'action_bank_reconcile_bank_statements')
-        action = self.pool[model].browse(cr, uid, action_id, context=context)
+        action = self.env.ref('account.action_bank_reconcile_bank_statements')
         return {
             'name': action.name,
             'tag': action.tag,
@@ -88,17 +75,17 @@ class account_bank_statement_import(osv.TransientModel):
             'type': 'ir.actions.client',
         }
 
-    def _check_csv(self, cr, uid, file, context=None):
+    def _check_csv(file):
         try:
             dict = unicodecsv.DictReader(file, delimiter=';', quotechar='"',encoding="iso-8859-1")
         except:
             return False
         return dict
 
-    def _parse_file(self, cr, uid, data_file, context=None):
-        csv = self._check_csv(cr, uid, StringIO.StringIO(data_file), context=context)
+    def _parse_file(data_file):
+        csv = self._check_csv(StringIO.StringIO(data_file))
         if not csv:
-            return super(account_bank_statement_import, self)._parse_file(data_file)
+            return super(AccountBankStatementImport, self)._parse_file(data_file)
         all_statements = {}
         try:
             for line in csv:
