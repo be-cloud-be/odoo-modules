@@ -31,6 +31,9 @@ class AccountBankStatementImport(models.TransientModel):
     def import_file(self):
         """ Process the file chosen in the wizard, create bank statement(s) and go to reconciliation. """
 
+        import wdb
+        wdb.set_trace()
+
         # Fix data charset and other small things
         data_file = self.with_context(active_id=self.ids[0]).data_file
         data = base64.b64decode(data_file)
