@@ -27,10 +27,7 @@ class AccountBankStatementImport(models.TransientModel):
         return dict
 
     def _parse_file(self,data_file):
-        
-        import wdb
-        wdb.set_trace()
-        
+
         # decode Charset and remove BOM if needed
         encoding = chardet.detect(data_file)
         data_file.decode(encoding['encoding'])
