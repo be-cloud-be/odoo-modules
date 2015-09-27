@@ -39,7 +39,7 @@ class AccountBankStatementImport(models.TransientModel):
         # REMOVE BOM if present because it depends of the platform use to access multiline.
         if data[:3] == codecs.BOM_UTF8:
             data = data[3:]
-        self.data_file = base64.encode(data)
+        self.data_file = base64.b64encode(data)
 
         return super(AccountBankStatementImport, self).import_file()
 
