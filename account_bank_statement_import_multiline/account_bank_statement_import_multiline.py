@@ -23,7 +23,6 @@ class AccountBankStatementImport(models.TransientModel):
     def _get_hide_journal_field(self):
         return self.env.context and 'journal_id' in self.env.context or False
 
-
     journal_id = fields.Many2one('account.journal', string='Journal', help='Accounting journal related to the bank statement you\'re importing. It has be be manually chosen for statement formats which doesn\'t allow automatic journal detection (QIF for example).',
                                  default=_get_hide_journal_field)
     hide_journal_field = fields.Boolean('Hide the journal field in the view')
@@ -31,6 +30,9 @@ class AccountBankStatementImport(models.TransientModel):
     @api.multi
     def import_file(self):
         """ Process the file chosen in the wizard, create bank statement(s) and go to reconciliation. """
+
+        import wdb
+        wdb.set_trace()
 
         data_file = self.with_context(active_id=self.ids[0]).data_file
         data = base64.b64decode(data_file)
