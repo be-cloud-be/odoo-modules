@@ -58,15 +58,33 @@ class AccountBankStatementImport(models.TransientModel):
                         #'bank_account_id': bank_account_id,
                         #'partner_id': partner_id,
                     }
-                    if (currency , account_num ,statement_id) in all_statements:
-                        all_statements[currency , account_num ,statement_id]['transactions'].append(vals_line)
+                    if (currency , account_num ) in all_statements:
+                        account_statements = all_statements[currency , account_num ]
+                        processed = False
+                        for statement in account_statements :
+                            if statement.name == line['Account'] + '-' + line['Statement number']:
+                                # There is already a statement with this number add the transaction
+                                statement['transactions'].append(vals_line)
+                                processed = True
+                                break
+                        if not processed :
+                            # There is no statement with this number, create one with this transaction
+                            statement = {
+                                'name': line['Account'] + '-' + line['Statement number'],
+                                'balance_start': float(line['Opening balance'].replace(',','.')),
+                                'balance_end_real': float(line['Closing balance'].replace(',','.')),
+                                'transactions' : [vals_line],
+                            }
+                            account_statements.append(statement)
                     else:
-                        all_statements[currency , account_num ,statement_id] = {
-                            'name': line['Account'] + '-' + line['Statement number'],
-                            'balance_start': float(line['Opening balance'].replace(',','.')),
-                            'balance_end_real': float(line['Closing balance'].replace(',','.')),
-                            'transactions' : [vals_line],
+                        statement = {
+                                'name': line['Account'] + '-' + line['Statement number'],
+                                'balance_start': float(line['Opening balance'].replace(',','.')),
+                                'balance_end_real': float(line['Closing balance'].replace(',','.')),
+                                'transactions' : [vals_line],
                         }
+                        all_statements[currency , account_num ] = [statement]
+                        
         except Exception, e:
             raise UserError(_("The following problem occurred during import. The file might not be valid.\n\n %s" % e.message))
         return all_statements
