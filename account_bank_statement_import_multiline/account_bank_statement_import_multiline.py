@@ -19,33 +19,6 @@ _logger = logging.getLogger(__name__)
 class AccountBankStatementImport(models.TransientModel):
     _inherit = "account.bank.statement.import"
 
-    @api.one
-    def _get_hide_journal_field(self):
-        return self.env.context and 'journal_id' in self.env.context or False
-
-    journal_id = fields.Many2one('account.journal', string='Journal', help='Accounting journal related to the bank statement you\'re importing. It has be be manually chosen for statement formats which doesn\'t allow automatic journal detection (QIF for example).',
-                                 default=_get_hide_journal_field)
-    hide_journal_field = fields.Boolean('Hide the journal field in the view')
-
-    @api.multi
-    def import_file(self):
-        """ Process the file chosen in the wizard, create bank statement(s) and go to reconciliation. """
-
-        import wdb
-        wdb.set_trace()
-
-        # Fix data charset and other small things
-        data_file = self.with_context(active_id=self.ids[0]).data_file
-        data = base64.b64decode(data_file)
-        encoding = chardet.detect(data)
-        data.decode(encoding['encoding'])
-        # REMOVE BOM if present because it depends of the platform use to access multiline.
-        if data[:3] == codecs.BOM_UTF8:
-            data = data[3:]
-        self.data_file = base64.b64encode(data)
-
-        return super(AccountBankStatementImport, self).import_file()
-
     def _check_csv(self,file):
         try:
             dict = unicodecsv.DictReader(file, delimiter=';', quotechar='"',encoding="iso-8859-1")
@@ -54,6 +27,13 @@ class AccountBankStatementImport(models.TransientModel):
         return dict
 
     def _parse_file(self,data_file):
+        
+        # decode Charset and remove BOM if needed
+        encoding = chardet.detect(data_file)
+        data_file.decode(encoding['encoding'])
+        if data_file[:3] == codecs.BOM_UTF8:
+            data_file = data_file[3:]
+        
         csv = self._check_csv(StringIO.StringIO(data_file))
         if not csv:
             return super(AccountBankStatementImport, self)._parse_file(data_file)
