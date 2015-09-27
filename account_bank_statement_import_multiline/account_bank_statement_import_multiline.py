@@ -50,10 +50,10 @@ class AccountBankStatementImport(models.TransientModel):
             # Check raw data
             self._check_parsed_data([stmts_vals])
             # Try to find the journal and currency in odoo
-            currency_id, journal_id = self._find_additional_data(currency_code, account_number)
+            currency_id, journal = self._find_additional_data(currency_code, account_number)
             # If no journal found, ask the user about creating one
-            if not journal_id:
-                return self._journal_creation_wizard(currency_id, account_number, bank_account_id)
+            if not journal:
+                return self.with_context(active_id=self.ids[0])._journal_creation_wizard(currency, account_number)
             # Prepare statement data to be used for bank statements creation
             stmts_vals = self._complete_stmts_vals(stmts_vals, journal, account_number)
             # Create the bank statements
