@@ -75,14 +75,14 @@ class AccountBankStatementImport(models.TransientModel):
             'type': 'ir.actions.client',
         }
 
-    def _check_csv(file):
+    def _check_csv(self,file):
         try:
             dict = unicodecsv.DictReader(file, delimiter=';', quotechar='"',encoding="iso-8859-1")
         except:
             return False
         return dict
 
-    def _parse_file(data_file):
+    def _parse_file(self,data_file):
         csv = self._check_csv(StringIO.StringIO(data_file))
         if not csv:
             return super(AccountBankStatementImport, self)._parse_file(data_file)
