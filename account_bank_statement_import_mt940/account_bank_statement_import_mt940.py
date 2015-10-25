@@ -38,10 +38,10 @@ class AccountBankStatementImport(models.TransientModel):
             # we iterate through each transaction
             for t in transactions:
                 st_line = {
-                    'date' = t.data['entry_date'],    
-                    'amount' = t.data['amount'].amount,
-                    'name' = t.data['bank_reference'] || t.data['extra_details'],
-                    'note' = t.data['transaction_details'],
+                    'date' : t.data['entry_date'],    
+                    'amount' : t.data['amount'].amount,
+                    'name' : t.data['bank_reference'] || t.data['extra_details'],
+                    'note' : t.data['transaction_details'],
                 }
                 statement['transactions'].append(st_line)
             
