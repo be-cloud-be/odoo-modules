@@ -27,7 +27,7 @@ class AccountBankStatementImport(models.TransientModel):
                 return super(AccountBankStatementImport, self)._parse_file(data_file)
             
             statement = {
-                'name' : transactions.data['transaction_reference'],
+                'name' : transactions.data['account_identification'] + "-" + transactions.data['statement_number'] + "-" + transactions.data['sequence_number'],
                 'balance_start': transactions.data['final_opening_balance'].amount.amount,
                 'balance_end_real': transactions.data['final_closing_balance'].amount.amount,
                 'date': transactions.data['final_opening_balance'].date,
