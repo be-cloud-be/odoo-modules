@@ -40,7 +40,7 @@ class AccountBankStatementImport(models.TransientModel):
             # we iterate through each transaction
             for t in transactions:
                 st_line = {
-                    'date' : t.data['entry_date'],    
+                    'date' : t.data.get('entry_date') or t.data.get('date'),    
                     'amount' : t.data['amount'].amount,
                     'ref' : t.data.get('bank_reference') or t.data.get('extra_details'),
                     'name' : t.data['transaction_details'],
