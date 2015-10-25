@@ -47,7 +47,7 @@ class AccountBankStatementImport(models.TransientModel):
                 }
                 statement['transactions'].append(st_line)
             
-            return currency, account, statement
+            return currency, account, [statement]
                     
         except Exception, e:
             raise UserError(_("The following problem occurred during import. The file might not be valid.\n\n %s" % e.message))
