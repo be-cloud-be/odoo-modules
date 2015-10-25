@@ -1,3 +1,3 @@
 # -*- encoding: utf-8 -*-
 
-import account_bank_statement_import_multiline
+import account_bank_statement_import_mt940
