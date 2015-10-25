@@ -6,6 +6,7 @@ from openerp import api, fields, models, _
 from openerp.exceptions import UserError
 import mt940
 import logging
+import StringIO
 
 _logger = logging.getLogger(__name__)
 
@@ -19,14 +20,14 @@ class AccountBankStatementImport(models.TransientModel):
         statements = []
         
         try:
-            transactions = mt940.parse(data_file)
+            transactions = mt940.parse(StringIO.StringIO(data_file))
             # if no statements found
             if not transactions:
                 _logger.debug("Statement file was not recognized as an MT940 file, trying next parser", exc_info=True)
                 return super(AccountBankStatementImport, self)._parse_file(data_file)
             
             statement = {
-                'name' : transactions.transaction_reference,
+                'name' : transactions.data['transaction_reference'],
                 'balance_start': transactions.data['final_opening_balance'].amount.amount,
                 'balance_end_real': transactions.data['final_closing_balance'].amount.amount,
                 'date': transactions.data['final_opening_balance'].date,
