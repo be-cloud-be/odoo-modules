@@ -46,7 +46,7 @@
                                 <t t-call="web.menu_link"/>
                             </li>
                             <li id="menu_more_container" class="dropdown" style="display: none;">
-                                <a href="#" class="dropdown-button" href="#!" data-activates="dropdown1">More <b class="caret"></b></a>
+                                <a class="dropdown-button" href="#!" data-activates="dropdown1">More <b class="caret"></b></a>
                                 <ul id="dropdown1" class="dropdown-content"></ul>
                             </li>
                         </ul>
