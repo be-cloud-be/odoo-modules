@@ -37,7 +37,7 @@
             </xpath>
         </template>
         
-        <template id="menu_materialize" name="web_menu_materialize assets" inherit_id="web.menu">
+        <!-- <template id="menu_materialize" name="web_menu_materialize assets" inherit_id="web.menu">
             <xpath expr="." position="replace">
                 <nav>
                     <div class="nav-wrapper">
@@ -70,6 +70,6 @@
                     </span>
                 </a>
             </xpath>
-        </template>
+        </template>-->
     </data>
 </openerp>
