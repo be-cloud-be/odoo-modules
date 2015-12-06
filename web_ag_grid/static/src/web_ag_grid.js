@@ -20,7 +20,9 @@ var QWeb = core.qweb;
 var AgGridView = View.extend({
     template: "AgGridView",
     display_name: _lt('AgGrid'),
-    icon: 'fa-grid',
+    view_type: "ag_grid",
+    searchview_hidden: true,
+    icon: 'fa-th-list',
     
     init: function (parent, dataset, view_id, options) {
         this._super(parent);
