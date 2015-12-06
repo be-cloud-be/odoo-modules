@@ -36,5 +36,40 @@
                 <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.97.3/js/materialize.min.js"></script>
             </xpath>
         </template>
+        
+        <template id="menu_materialize" name="web_menu_materialize assets" inherit_id="web.menu">
+            <xpath expr="/" position="replace">
+                <nav>
+                    <div class="nav-wrapper">
+                        <ul id="nav-mobile" class="left hide-on-med-and-down">
+                            <li t-foreach="menu_data['children']" t-as="menu">
+                                <t t-call="web.menu_link"/>
+                            </li>
+                            <li id="menu_more_container" class="dropdown" style="display: none;">
+                                <a href="#" class="dropdown-button" href="#!" data-activates="dropdown1">More <b class="caret"></b></a>
+                                <ul id="dropdown1" class="dropdown-content"></ul>
+                            </li>
+                        </ul>
+                        <ul class="nav navbar-nav navbar-right oe_user_menu_placeholder" style="display: none;"/>
+                        <ul class="nav navbar-nav navbar-right oe_systray" style="display: none;"/>
+                    </div>
+                </nav>
+            </xpath>
+        </template>
+        
+        <template id="menu_link_materialize" name="web_menu_link_materialize assets" inherit_id="web.menu_link">
+            <xpath expr="/" position="replace">
+                <t t-set="debug_param" t-value="'?&amp;debug=' if debug else ''"/>
+                <a t-att-href="'/web%s#menu_id=%s&amp;action=%s' % (debug_param, menu['id'], menu['action'] and menu['action'].split(',')[1] or '')"
+                    t-att-class="'oe_menu_toggler' if menu.get('children') else 'oe_menu_leaf'"
+                    t-att-data-menu="menu['id']"
+                    t-att-data-action-model="menu['action'] and menu['action'].split(',')[0] or ''"
+                    t-att-data-action-id="menu['action'] and menu['action'].split(',')[1] or ''">
+                    <span class="oe_menu_text">
+                        <t t-esc="menu['name']"/>
+                    </span>
+                </a>
+            </xpath>
+        </template>
     </data>
 </openerp>
