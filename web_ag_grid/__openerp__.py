@@ -24,7 +24,7 @@
 
 
 {
-    'name': 'Web support for ag-Grid (http://www.ag-grid.com/)',
+    'name': 'Web support for ag-grid (http://www.ag-grid.com/)',
     'version': '0.1',
     'category': 'Widget',
     'description': """
