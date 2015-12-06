@@ -38,7 +38,7 @@
         </template>
         
         <template id="menu_materialize" name="web_menu_materialize assets" inherit_id="web.menu">
-            <xpath expr="/" position="replace">
+            <xpath expr="." position="replace">
                 <nav>
                     <div class="nav-wrapper">
                         <ul id="nav-mobile" class="left hide-on-med-and-down">
@@ -58,7 +58,7 @@
         </template>
         
         <template id="menu_link_materialize" name="web_menu_link_materialize assets" inherit_id="web.menu_link">
-            <xpath expr="/" position="replace">
+            <xpath expr="." position="replace">
                 <t t-set="debug_param" t-value="'?&amp;debug=' if debug else ''"/>
                 <a t-att-href="'/web%s#menu_id=%s&amp;action=%s' % (debug_param, menu['id'], menu['action'] and menu['action'].split(',')[1] or '')"
                     t-att-class="'oe_menu_toggler' if menu.get('children') else 'oe_menu_leaf'"
