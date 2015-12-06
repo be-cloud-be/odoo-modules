@@ -25,7 +25,7 @@
 -->
 <openerp>
     <data>
-        <template id="assets_backend" name="web_materialize assets" inherit_id="web.assets_backend">
+        <template id="assets_backend" name="web_ag_grid assets" inherit_id="web.assets_backend">
             <xpath expr="." position="inside">
                 <!-- This is the javascript code for ag-Grid -->
                 <script src="/web_ag_grid/static/lib/ag-grid/ag-grid.min.js"></script>
