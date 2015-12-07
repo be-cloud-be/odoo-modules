@@ -14,6 +14,6 @@
     'description': '''
         This modules add a ag-grid view on account move line.
     ''',
-    'active': False,
+    'active': True,
     'installable': True,
 }
