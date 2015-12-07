@@ -13,6 +13,8 @@ var QWeb = core.qweb;
 var AgGrid = Widget.extend({
     // QWeb template to use when rendering the object
     //template: "ag_grid",
+    className: 'ag-account',
+    
     events: {
         // events binding example
         //'click .my-button': 'handle_click',
