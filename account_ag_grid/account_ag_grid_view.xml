@@ -7,6 +7,7 @@
                 <script type="text/javascript" src="/account_ag_grid/static/lib/ag-grid/ag-grid.min.js"></script>
                 <!-- This is the core css required for ag-Grid, manages the layout -->
                 <link rel="stylesheet" type="text/css" href="/account_ag_grid/static/lib/ag-grid/ag-grid.min.css"></link>
+                <link rel="stylesheet" type="text/css" href="/account_ag_grid/static/src/css/account.css"></link>
                 <script type="text/javascript" src="/account_ag_grid/static/src/js/widgets.js"></script>
             </xpath>
         </template>
