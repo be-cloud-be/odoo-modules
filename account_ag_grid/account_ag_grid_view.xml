@@ -11,6 +11,14 @@
                 <script type="text/javascript" src="/account_ag_grid/static/src/js/widgets.js"></script>
             </xpath>
         </template>
+        
+        <templates>
+            <t t-name="ag_grid">
+                <div class="oe_ag_grid">
+                    <div class="ag_account"/>
+                </div>
+            </t>
+        </templates>
 		
         <record id="action_account_move_line_aggrid" model="ir.actions.client">
             <field name="name">Account Chart AgGrid</field>
