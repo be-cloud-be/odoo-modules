@@ -24,4 +24,7 @@
         'static/lib/ag-grid/ag-grid.min.js',
         'static/src/js/widgets.js',
     ],
+    'qweb: [
+        'static/src/xml/account_ag_grid.xml',
+    ],
 }
