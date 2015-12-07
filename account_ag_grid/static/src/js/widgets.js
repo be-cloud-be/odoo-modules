@@ -39,13 +39,13 @@ var AgGrid = Widget.extend({
             rowData: rowData
         };
         
-        window.agGridGlobalFunc(this.el, gridOptions);
+        this.gridOptions = gridOptions;
     },
     
     start: function() {
         var sup = this._super();
         // post-rendering initialization code, at this point
-
+        window.agGridGlobalFunc(this.el, this.gridOptions);
     }
 });
 
