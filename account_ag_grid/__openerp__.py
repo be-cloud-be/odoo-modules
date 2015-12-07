@@ -16,4 +16,12 @@
     ''',
     'active': True,
     'installable': True,
+    'web':True,
+    'css': [
+        'static/lib/ag-grid/ag-grid.min.css',
+    ],
+    'js': [
+        'static/lib/ag-grid/ag-grid.min.js',
+        'static/src/js/widgets.js',
+    ],
 }
