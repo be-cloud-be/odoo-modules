@@ -29,7 +29,7 @@
 
         <record model="ir.actions.act_window.view" id="action_account_move_line_aggrid_view">
             <field name="sequence" eval="1"/>
-            <field name="view_mode">qweb</field>
+            <field name="view_mode">form</field>
             <field name="view_id" ref="account_move_line_aggrid"/>
             <field name="act_window_id" ref="action_account_move_line_aggrid"/>
         </record>
