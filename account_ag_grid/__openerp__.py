@@ -5,7 +5,7 @@
     'author': 'be-Cloud.be (Jerome Sonnet)',
     'website': '',
     'category': 'Accounting',
-    'depends': ['account_accountant'],
+    'depends': ['web','account_accountant'],
     'init_xml': [],
     'data': [
         'account_ag_grid_view.xml',
