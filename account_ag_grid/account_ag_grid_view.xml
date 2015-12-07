@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+	<data>
+		<template id="assets_backend" name="web_ag_grid assets" inherit_id="web.assets_backend">
+            <xpath expr="." position="inside">
+                <!-- This is the javascript code for ag-Grid -->
+                <script src="/web_ag_grid/static/lib/ag-grid/ag-grid.min.js"></script>
+                <!-- This is the core css required for ag-Grid, manages the layout -->
+                <link rel="stylesheet" type="text/css" href="/web_ag_grid/static/lib/ag-grid/ag-grid.min.css"></link>
+                <script src="/web_ag_grid/static/src/widgets.js"></script>
+            </xpath>
+        </template>
+        
+        <record model="ir.ui.view" id="account_move_line_aggrid">
+		    <field name="name">account.move.line.aggrid.view</field>
+		    <field name="model">account.move.line</field>
+		    <field name="type">qweb</field>
+		    <field name="arch" type="xml">
+		    	<template>
+				    <t t-name="AgGrid"/>
+				</template>
+		    </field>
+		</record>
+		
+		<record model="ir.actions.act_window" id="action_account_move_line_aggrid">
+            <field name="name">Account Chart AgGrid</field>
+            <field name="res_model">account.move.line</field>
+        </record>
+
+        <record model="ir.actions.act_window.view" id="action_account_move_line_aggrid_view">
+            <field name="sequence" eval="1"/>
+            <field name="view_mode">qweb</field>
+            <field name="view_id" ref="account_move_line_aggrid"/>
+            <field name="act_window_id" ref="action_account_move_line_aggrid"/>
+        </record>
+		
+		<menuitem name=">Account Chart AgGrid" parent="account.menu_finance_entries" id="menu_account_move_line_aggrid" sequence="25" action="action_account_move_line_aggrid"/>
+    </data>
+</openerp>

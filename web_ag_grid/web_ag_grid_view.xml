@@ -34,5 +34,17 @@
                 
             </xpath>
         </template>
+        <record model="ir.ui.view" id="membership_teams_form">
+		    <field name="name">membership.team.view</field>
+		    <field name="model">membership.team</field>
+		    <field name="type">form</field>
+		    <field name="arch" type="xml">
+		    	<form string="Team">
+		    		<field name="sequence"/>
+		        	<field name="name"/>
+		        	<field name="default_analytic_account"/>
+		        </form>
+		    </field>
+		</record>
     </data>
 </openerp>
