@@ -1,4 +1,4 @@
-odoo.define('web_calendar.widgets', function(require) {
+odoo.define('account_ag_grid.widgets', function(require) {
 "use strict";
 
 var core = require('web.core');
