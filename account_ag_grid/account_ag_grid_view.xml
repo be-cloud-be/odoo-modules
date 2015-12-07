@@ -10,30 +10,13 @@
                 <script src="/web_ag_grid/static/src/widgets.js"></script>
             </xpath>
         </template>
-        
-        <record model="ir.ui.view" id="account_move_line_aggrid">
-		    <field name="name">account.move.line.aggrid.view</field>
-		    <field name="model">account.move.line</field>
-		    <field name="type">qweb</field>
-		    <field name="arch" type="xml">
-		    	<template>
-				    <t t-name="AgGrid"/>
-				</template>
-		    </field>
-		</record>
 		
-		<record model="ir.actions.act_window" id="action_account_move_line_aggrid">
+        <record id="action_account_move_line_aggrid" model="ir.actions.client">
             <field name="name">Account Chart AgGrid</field>
-            <field name="res_model">account.move.line</field>
+            <field name="tag">account_move_line_aggrid_view</field>
+            <field name="context">{}</field>
         </record>
 
-        <record model="ir.actions.act_window.view" id="action_account_move_line_aggrid_view">
-            <field name="sequence" eval="1"/>
-            <field name="view_mode">form</field>
-            <field name="view_id" ref="account_move_line_aggrid"/>
-            <field name="act_window_id" ref="action_account_move_line_aggrid"/>
-        </record>
-		
-		<menuitem name=">Account Chart AgGrid" parent="account.menu_finance_entries" id="menu_account_move_line_aggrid" sequence="25" action="action_account_move_line_aggrid"/>
+		<menuitem name="Account Chart AgGrid" parent="account.menu_finance_entries" id="menu_account_move_line_aggrid" sequence="25" action="action_account_move_line_aggrid"/>
     </data>
 </openerp>

@@ -49,6 +49,17 @@ var AgGrid = Widget.extend({
     }
 });
 
+core.action_registry.add('account_move_line_aggrid_view', AgGrid);
+/* This widget takes its parameters from the action context. They are :
+     - statement_ids: list of bank statements to reconcile (if not passed, all unreconciled bank
+            statement lines will be displayed)
+     - notifications: list of {
+            type: one of bootstrap alert types (success, info, warning, danger)
+            message: the message to display,
+            details: a dict containing 'name', 'model' and 'ids' used to call a window action
+        }
+*/
+
 return {
     AgGrid: AgGrid
 };
