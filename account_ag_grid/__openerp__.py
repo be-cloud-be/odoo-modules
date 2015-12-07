@@ -7,7 +7,7 @@
     'category': 'Accounting',
     'depends': ['account_accountant'],
     'init_xml': [],
-    'update_xml': [
+    'data': [
         'account_ag_grid_view.xml',
     ],
     'demo_xml': [],
