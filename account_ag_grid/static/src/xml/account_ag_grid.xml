@@ -1,6 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<templates>
+<template>
     <t t-name="ag_grid">
-        <div class="oe_ag_grid"/>
+        <div class="oe_ag_grid">
+            <div id="account_ag_grid" class="ag_account"/>
+        </div>
     </t>
-</templates>
+</template>

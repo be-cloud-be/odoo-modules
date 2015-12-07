@@ -16,5 +16,7 @@
     ''',
     'active': True,
     'installable': True,
-    'qweb': ['static/src/xml/*.xml'],
+    'qweb': [
+        'static/src/xml/*.xml',
+    ],
 }
