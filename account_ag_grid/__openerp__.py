@@ -16,15 +16,5 @@
     ''',
     'active': True,
     'installable': True,
-    'web':True,
-    'css': [
-        'static/lib/ag-grid/ag-grid.min.css',
-    ],
-    'js': [
-        'static/lib/ag-grid/ag-grid.min.js',
-        'static/src/js/widgets.js',
-    ],
-    'qweb': [
-        'static/src/xml/account_ag_grid.xml',
-    ],
+    'qweb': ['static/src/xml/*.xml'],
 }
