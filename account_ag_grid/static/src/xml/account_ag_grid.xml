@@ -3,4 +3,4 @@
     <div t-name="ag_grid" class="oe_ag_grid">
         <div id="account_ag_grid" class="ag_account"/>
     </div>
-</template>
+</templates>
