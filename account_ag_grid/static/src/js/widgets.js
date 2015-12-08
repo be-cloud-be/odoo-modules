@@ -46,7 +46,7 @@ var AgGrid = Widget.extend({
     start: function() {
         var sup = this._super();
         // post-rendering initialization code, at this point
-        window.agGridGlobalFunc(this.$el.select("account_ag_grid").get(0), this.gridOptions);
+        window.agGridGlobalFunc(this.$("#account_ag_grid").get(0), this.gridOptions);
     }
 });
 
