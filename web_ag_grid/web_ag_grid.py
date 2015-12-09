@@ -3,18 +3,18 @@
 # Author : Jerome Sonnet - jerome.sonnet@be-cloud.be
 #
 #
-from osv import fields, osv
+from openerp import api, fields, models, _
 
 import logging
 
 _logger = logging.getLogger(__name__)
 
-class view(osv.osv):
+class view(models.Model):
 
     _name = 'ir.ui.view'
     
-    def __init__(self, cr, uid, name, context=None):
-        super(view, self).__init__(cr, uid, name, context)
+    def __init__(self):
+        super(view, self).__init__()
         option = ('ag_grid', 'AG Grid')
         type_selection = self._columns['type'].selection
         if option not in type_selection:
