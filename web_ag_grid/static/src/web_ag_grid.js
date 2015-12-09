@@ -61,7 +61,7 @@ var AgGridView = KanbanView.extend({
 
 
         super_render.call(self);
-        window.agGridGlobalFunc(self.$el, gridOptions);
+        window.agGridGlobalFunc(self.$el.get(0), gridOptions);
     },
     
 });
