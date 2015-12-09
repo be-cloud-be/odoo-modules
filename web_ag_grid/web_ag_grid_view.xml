@@ -34,7 +34,7 @@
         </xpath>
     </template>
 
-    <record id="web_ag_grid_view_kanban" model="ir.ui.view" >
+    <record id="web_ag_grid_view" model="ir.ui.view" >
         <field name="name">web_ag_grid.kanban</field>
         <field name="model">res.company</field>
         <field name="arch" type="xml">
@@ -48,4 +48,19 @@
             </ag_grid>
         </field>
     </record>
+    
+	<record model="ir.actions.act_window" id="action_ag_grid">
+        <field name="name">AG Grid</field>
+        <field name="res_model"res.company</field>
+    </record>
+
+    <record model="ir.actions.act_window.view" id="action_ag_grid_view">
+        <field name="sequence" eval="1"/>
+        <field name="view_mode">ag_grid</field>
+        <field name="view_id" ref="web_ag_grid_view"/>
+        <field name="act_window_id" ref="action_ag_grid"/>
+    </record>
+	
+	<menuitem name="AG Grid" parent="account.menu_finance_entries" id="menu_ag_grid" sequence="25" action="action_ag_grid"/>
+	
 </odoo>
