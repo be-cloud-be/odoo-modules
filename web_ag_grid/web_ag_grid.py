@@ -14,7 +14,7 @@ class view(models.Model):
     _name = 'ir.ui.view'
     
     def __init__(self, pool, cr):
-        init_res = super(Users, self).__init__(pool, cr)
+        init_res = super(view, self).__init__(pool, cr)
         option = ('ag_grid', 'AG Grid')
         type_selection = self._columns['type'].selection
         if option not in type_selection:
