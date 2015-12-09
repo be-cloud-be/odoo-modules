@@ -57,8 +57,7 @@ var AgGridView = KanbanView.extend({
             rowData: rowData
         };
 
-        this.$ag-grid = this.$(".o_ag_grid_widget");
-        window.agGridGlobalFunc(this.$ag-grid, gridOptions);
+        window.agGridGlobalFunc(this.$(".o_ag_grid_widget"), gridOptions);
     },
     
 });
