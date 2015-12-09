@@ -16,6 +16,7 @@ class view(models.Model):
     def __init__(self, pool, cr):
         init_res = super(view, self).__init__(pool, cr)
         option = ('ag_grid', 'AG Grid')
+        _logger.info(self._columns)
         type_selection = self._columns['type'].selection
         if option not in type_selection:
             type_selection.append(option)
