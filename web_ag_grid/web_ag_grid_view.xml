@@ -39,7 +39,7 @@
         <field name="name">web_ag_grid.kanban</field>
         <field name="model">res.company</field>
         <field name="arch" type="xml">
-            <ag_grid class="oe_background_grey o_kanban_dashboard o_web_ag_grid ag-account oe_form_sheet oe_form_sheet_width" create="0" style="height: 100%;">
+            <ag_grid class="oe_background_grey o_kanban_dashboard o_web_ag_grid ag-account oe_form_sheet oe_form_sheet_width" create="0">
                 <field name="name"/>
                 <templates>
                     <t t-name="kanban-box">
