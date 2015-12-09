@@ -34,7 +34,7 @@ var AgGridView = KanbanView.extend({
         
         var rowData = [];
         
-        AccountLines.query(['account_id','debit','credit']).all().group_by(['account_id']).then(
+        AccountLines.query(['account_id','debit','credit']).all().then(
             function (lines) {
                 lines.forEach(function(line) {
                     rowData.push(
