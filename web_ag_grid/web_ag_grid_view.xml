@@ -42,7 +42,8 @@
             <ag_grid class="oe_background_grey o_kanban_dashboard o_web_ag_grid ag-account oe_form_sheet oe_form_sheet_width" create="0">
                 <field name="name"/>
                 <templates>
-                    Toto
+                    <t t-name="kanban-box">
+                    </t>
                 </templates>
             </ag_grid>
         </field>
