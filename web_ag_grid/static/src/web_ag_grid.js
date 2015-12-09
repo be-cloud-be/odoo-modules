@@ -22,20 +22,12 @@ var AgGridView = KanbanView.extend({
     render: function() {
         var super_render = this._super;
         var self = this;
-
-        var columnDefs = [
-            {headerName: "Account", field: "account"},
-            {headerName: "Credit", field: "credit"},
-            {headerName: "Debit", field: "debit"},
-            {headerName: "Balance", field: "balance"},
-        ];
         
         var AccountLines = new Model('account.move.line');
         
-        var rowData = [];
-        
         AccountLines.query(['account_id','debit','credit']).all().then(
             function (lines) {
+                var rowData = [];
                 lines.forEach(function(line) {
                     rowData.push(
                         {
@@ -46,17 +38,23 @@ var AgGridView = KanbanView.extend({
                         }
                     );
                 });
+                
+                var columnDefs = [
+                    {headerName: "Account", field: "account"},
+                    {headerName: "Credit", field: "credit"},
+                    {headerName: "Debit", field: "debit"},
+                    {headerName: "Balance", field: "balance"},
+                ];
+                
+                var gridOptions = {
+                    columnDefs: columnDefs,
+                    rowData: rowData
+                };
+                
+                super_render.call(self);
+                window.agGridGlobalFunc(this.$el.empty().get(0), gridOptions);
             }
         );
-        
-        var gridOptions = {
-            columnDefs: columnDefs,
-            rowData: rowData
-        };
-
-
-        super_render.call(self);
-        window.agGridGlobalFunc(this.$el.empty().get(0), gridOptions);
     },
     
 });
