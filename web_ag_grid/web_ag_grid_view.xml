@@ -56,6 +56,7 @@
 
     <record model="ir.actions.act_window.view" id="action_ag_grid_view">
         <field name="sequence" eval="1"/>
+        <field name="view_mode">kanban</field>
         <field name="view_id" ref="web_ag_grid_view"/>
         <field name="act_window_id" ref="action_ag_grid"/>
     </record>
