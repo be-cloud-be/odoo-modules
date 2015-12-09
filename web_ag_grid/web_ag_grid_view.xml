@@ -30,6 +30,7 @@
             <script src="/web_ag_grid/static/lib/ag-grid/ag-grid.min.js"></script>
             <!-- This is the core css required for ag-Grid, manages the layout -->
             <link rel="stylesheet" type="text/css" href="/web_ag_grid/static/lib/ag-grid/ag-grid.min.css"></link>
+            <link rel="stylesheet" type="text/css" href="/web_ag_grid/static/src/account.css"></script>
             <script type="text/javascript" src="/web_ag_grid/static/src/web_ag_grid.js"></script>
         </xpath>
     </template>
@@ -38,11 +39,10 @@
         <field name="name">web_ag_grid.kanban</field>
         <field name="model">res.company</field>
         <field name="arch" type="xml">
-            <ag_grid class="oe_background_grey o_kanban_dashboard o_web_ag_grid" create="0">
+            <ag_grid class="oe_background_grey o_kanban_dashboard o_web_ag_grid ag-account" create="0">
                 <field name="name"/>
                 <templates>
                     <t t-name="kanban-box">
-                        Test
                     </t>
                 </templates>
             </ag_grid>
