@@ -16,7 +16,7 @@ var AgGridView = KanbanView.extend({
 
     display_name: _lt('AgGrid'),
     view_type: "ag_grid",
-    searchview_hidden: true,
+    //searchview_hidden: true,
     icon: 'fa-th-list',
 
     render: function() {
