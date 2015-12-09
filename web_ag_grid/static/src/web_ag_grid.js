@@ -24,16 +24,21 @@ var AgGridView = KanbanView.extend({
         var self = this;
 
         var columnDefs = [
-            {headerName: "Make", field: "make"},
-            {headerName: "Model", field: "model"},
-            {headerName: "Price", field: "price"}
+            {headerName: "Account", field: "account"},
+            {headerName: "Credit", field: "credit"},
+            {headerName: "Debit", field: "debit"},
+            {headerName: "Balance", field: "balance"},
         ];
         
-        var rowData = [
-            {make: "Toyota", model: "Celica", price: 35000},
-            {make: "Ford", model: "Mondeo", price: 32000},
-            {make: "Porsche", model: "Boxter", price: 72000}
-        ];
+        var AccountLines = new Model('account.move.line');
+        
+        var rowData = [];
+        
+        AccountLines.query(['account_id','debit','credit']).all().then(
+            function (lines) { 
+                console.log(lines);
+            }
+        );
         
         var gridOptions = {
             columnDefs: columnDefs,
