@@ -32,13 +32,12 @@
     """,
     "author": "be-cloud.be (Jerome Sonnet)",
     "website": "http://www.be-cloud.be",
-    'depends': ['web'],
-    'init_xml': [],
+    'depends': ['web','account'],
     'data': ['web_ag_grid_view.xml'],
     'qweb' : [
         "static/src/xml/*.xml",
     ],
     'installable': True,
-    'active': True,
+    'active': False,
 }
 # vim:expandtab:smartindent:tabstop=4:softtabstop=4:shiftwidth=4:

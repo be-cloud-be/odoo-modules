@@ -23,28 +23,29 @@
 #
 ##############################################################################
 -->
-<openerp>
-    <data>
-        <template id="assets_backend" name="web_ag_grid assets" inherit_id="web.assets_backend">
-            <xpath expr="." position="inside">
-                <!-- This is the javascript code for ag-Grid -->
-                <script src="/web_ag_grid/static/lib/ag-grid/ag-grid.min.js"></script>
-                <!-- This is the core css required for ag-Grid, manages the layout -->
-                <link rel="stylesheet" type="text/css" href="/web_ag_grid/static/lib/ag-grid/ag-grid.min.css"></link>
-                
-            </xpath>
-        </template>
-        <record model="ir.ui.view" id="membership_teams_form">
-		    <field name="name">membership.team.view</field>
-		    <field name="model">membership.team</field>
-		    <field name="type">form</field>
-		    <field name="arch" type="xml">
-		    	<form string="Team">
-		    		<field name="sequence"/>
-		        	<field name="name"/>
-		        	<field name="default_analytic_account"/>
-		        </form>
-		    </field>
-		</record>
-    </data>
-</openerp>
+<odoo>
+    <template id="assets_backend" name="web_ag_grid assets" inherit_id="web.assets_backend">
+        <xpath expr="." position="inside">
+            <!-- This is the javascript code for ag-Grid -->
+            <script src="/web_ag_grid/static/lib/ag-grid/ag-grid.min.js"></script>
+            <!-- This is the core css required for ag-Grid, manages the layout -->
+            <link rel="stylesheet" type="text/css" href="/web_ag_grid/static/lib/ag-grid/ag-grid.min.css"></link>
+            <script type="text/javascript" src="/account_ag_grid/static/src/js/web_ag_grid.js"></script>
+        </xpath>
+    </template>
+
+    <record id="web_ag_grid_view_kanban" model="ir.ui.view" >
+        <field name="name">web_ag_grid.kanban</field>
+        <field name="model">res.company</field>
+        <field name="arch" type="xml">
+            <ag_grid class="oe_background_grey o_kanban_dashboard o_web_ag_grid" create="0">
+                <field name="name"/>
+                <templates>
+                    <t t-name="kanban-box">
+                        Test
+                    </t>
+                </templates>
+            </ag_grid>
+        </field>
+    </record>
+</odoo>

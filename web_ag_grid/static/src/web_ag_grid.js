@@ -1,32 +1,27 @@
 odoo.define('web_ag_grid.AgGridView', function (require) {
 "use strict";
-/*---------------------------------------------------------
- * OpenERP web_ag_grid
- *---------------------------------------------------------*/
 
 var core = require('web.core');
-var data = require('web.data');
-var form_common = require('web.form_common');
-var Model = require('web.DataModel');
-var time = require('web.time');
-var View = require('web.View');
+var formats = require('web.formats');
+var Model = require('web.Model');
+var session = require('web.session');
+var KanbanView = require('web_kanban.KanbanView');
 
-var CompoundDomain = data.CompoundDomain;
+var QWeb = core.qweb;
 
 var _t = core._t;
 var _lt = core._lt;
-var QWeb = core.qweb;
 
-var AgGridView = View.extend({
-    template: "AgGridView",
+var AgGridView = KanbanView.extend({
+
     display_name: _lt('AgGrid'),
     view_type: "ag_grid",
-    searchview_hidden: true,
+    //searchview_hidden: true,
     icon: 'fa-th-list',
     
     init: function (parent, dataset, view_id, options) {
         this._super(parent);
-        this.ready = $.Deferred();
+        /*this.ready = $.Deferred();
         this.set_default_options(options);
         this.dataset = dataset;
         this.model = dataset.model;
@@ -36,7 +31,7 @@ var AgGridView = View.extend({
         this.color_map = {};
         this.range_start = null;
         this.range_stop = null;
-        this.selected_filters = [];
+        this.selected_filters = [];*/
 
         this.title = (this.options.action)? this.options.action.name : '';
 
