@@ -30,7 +30,7 @@
             <script src="/web_ag_grid/static/lib/ag-grid/ag-grid.min.js"></script>
             <!-- This is the core css required for ag-Grid, manages the layout -->
             <link rel="stylesheet" type="text/css" href="/web_ag_grid/static/lib/ag-grid/ag-grid.min.css"></link>
-            <script type="text/javascript" src="/account_ag_grid/static/src/js/web_ag_grid.js"></script>
+            <script type="text/javascript" src="/web_ag_grid/static/src/js/web_ag_grid.js"></script>
         </xpath>
     </template>
 
