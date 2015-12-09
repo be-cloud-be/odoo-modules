@@ -19,9 +19,9 @@ var AgGridView = KanbanView.extend({
     //searchview_hidden: true,
     icon: 'fa-th-list',
     
-    init: function (parent, dataset, view_id, options) {
+    /*init: function (parent, dataset, view_id, options) {
         this._super(parent);
-        /*this.ready = $.Deferred();
+        this.ready = $.Deferred();
         this.set_default_options(options);
         this.dataset = dataset;
         this.model = dataset.model;
@@ -31,15 +31,17 @@ var AgGridView = KanbanView.extend({
         this.color_map = {};
         this.range_start = null;
         this.range_stop = null;
-        this.selected_filters = [];*/
+        this.selected_filters = [];
 
         this.title = (this.options.action)? this.options.action.name : '';
 
         this.shown = $.Deferred();
-    },
+    },*/
 
-    view_loading: function (fv) {
-        
+    render: function() {
+        var super_render = this._super;
+        var self = this;
+
         var columnDefs = [
             {headerName: "Make", field: "make"},
             {headerName: "Model", field: "model"},
@@ -57,7 +59,9 @@ var AgGridView = KanbanView.extend({
             rowData: rowData
         };
 
-        window.agGridGlobalFunc(this.$(".o_ag_grid_widget"), gridOptions);
+
+        super_render.call(self);
+        window.agGridGlobalFunc(self.$el, gridOptions);
     },
     
 });
