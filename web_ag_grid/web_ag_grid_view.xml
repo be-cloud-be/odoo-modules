@@ -51,7 +51,7 @@
     
 	<record model="ir.actions.act_window" id="action_ag_grid">
         <field name="name">AG Grid</field>
-        <field name="res_model"res.company</field>
+        <field name="res_model">res.company</field>
     </record>
 
     <record model="ir.actions.act_window.view" id="action_ag_grid_view">
