@@ -16,27 +16,8 @@ var AgGridView = KanbanView.extend({
 
     display_name: _lt('AgGrid'),
     view_type: "ag_grid",
-    //searchview_hidden: true,
+    searchview_hidden: true,
     icon: 'fa-th-list',
-    
-    /*init: function (parent, dataset, view_id, options) {
-        this._super(parent);
-        this.ready = $.Deferred();
-        this.set_default_options(options);
-        this.dataset = dataset;
-        this.model = dataset.model;
-        this.fields_view = {};
-        this.view_id = view_id;
-        this.view_type = 'ag-grid';
-        this.color_map = {};
-        this.range_start = null;
-        this.range_stop = null;
-        this.selected_filters = [];
-
-        this.title = (this.options.action)? this.options.action.name : '';
-
-        this.shown = $.Deferred();
-    },*/
 
     render: function() {
         var super_render = this._super;
