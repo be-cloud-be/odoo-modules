@@ -13,13 +13,6 @@ class view(models.Model):
 
     _name = 'ir.ui.view'
     
-    def __init__(self, pool, cr):
-        init_res = super(view, self).__init__(pool, cr)
-        _logger.info(init_res)
-        option = ('ag_grid', 'AG Grid')
-        _logger.info(self._columns)
-        type_selection = self._columns['type'].selection
-        if option not in type_selection:
-            type_selection.append(option)
+    type = fields.Selection(selection_add=[('ag_grid', 'AG Grid')])
     
 view()
