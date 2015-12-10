@@ -19,9 +19,7 @@ var AgGridView = KanbanView.extend({
     //searchview_hidden: true,
     icon: 'fa-th-list',
 
-    render: function() {
-        var super_render = this._super;
-        var self = this;
+    getRows: function(params) {
         
         var AccountLines = new Model('account.move.line');
         
@@ -38,23 +36,29 @@ var AgGridView = KanbanView.extend({
                         }
                     );
                 });
+            params.successCallback(rowData);
+        }).error(params.failCallback());
+    },
+
+
+    render: function() {
+        var super_render = this._super;
+        var self = this;
+        
+        var columnDefs = [
+            {headerName: "Account", field: "account"},
+            {headerName: "Credit", field: "credit"},
+            {headerName: "Debit", field: "debit"},
+            {headerName: "Balance", field: "balance"},
+        ];
+        
+        var gridOptions = {
+            columnDefs: columnDefs,
+            datasource: this,
+        };
                 
-                var columnDefs = [
-                    {headerName: "Account", field: "account"},
-                    {headerName: "Credit", field: "credit"},
-                    {headerName: "Debit", field: "debit"},
-                    {headerName: "Balance", field: "balance"},
-                ];
-                
-                var gridOptions = {
-                    columnDefs: columnDefs,
-                    rowData: rowData
-                };
-                
-                super_render.call(self);
-                window.agGridGlobalFunc(this.$el.empty().get(0), gridOptions);
-            }
-        );
+        super_render.call(self);
+        window.agGridGlobalFunc(this.$el.empty().get(0), gridOptions);
     },
     
 });
