@@ -37,7 +37,7 @@ var AgGridView = KanbanView.extend({
                     );
                 });
             params.successCallback(rowData);
-        }).error(params.failCallback());
+        });
     },
 
 
