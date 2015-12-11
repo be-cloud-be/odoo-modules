@@ -61,7 +61,6 @@ var AgGridView = View.extend({
         };
                 
         this.gridOptions = gridOptions;
-        console.log('ag_grid_view_loaded');
         this.trigger('ag_grid_view_loaded');
     },
 
@@ -88,10 +87,9 @@ var AgGridView = View.extend({
     },
 
 
-    render: function() {
-        super_render.call(self);
-        console.log("render");
-        window.agGridGlobalFunc(this.$el.empty().get(0), gridOptions);
+    render_pager: function($node, options) {
+        console.log("render_pager");
+        window.agGridGlobalFunc($node, gridOptions);
     },
     
 });
