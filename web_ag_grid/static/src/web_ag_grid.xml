@@ -1,10 +1,10 @@
 <template>
-    <!--<div t-name="AgGridView" class="container-fluid o_ag_grid_container">
+    <div t-name="AgGridView" class="container-fluid o_ag_grid_container">
         <div class="row">
             <div class="o_ag_grid_view col-sm-9">
                 <div style="height: 100%;" class="o_ag_grid_widget">
                 </div>
             </div>
         </div>
-    </div>-->
+    </div>
 </template>
