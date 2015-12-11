@@ -124,7 +124,7 @@ var AgGridView = View.extend({
         var field = this.fields_view.fields[this.group_by_field];
         
         this.render();
-        this.update_pager();
+        this.render_pager();
     },
 
     render: function() {
