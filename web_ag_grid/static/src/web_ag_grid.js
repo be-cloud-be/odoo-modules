@@ -59,7 +59,7 @@ var AgGridView = View.extend({
         var gridOptions = {
             columnDefs: columnDefs,
             datasource: this,
-            groupKeys = ['account'],
+            groupKeys: ['account'],
         };
                 
         this.gridOptions = gridOptions;
