@@ -90,7 +90,7 @@ var AgGridView = View.extend({
 
     render: function() {
         super_render.call(self);
-        console.log('render");
+        console.log("render");
         window.agGridGlobalFunc(this.$el.empty().get(0), gridOptions);
     },
     
