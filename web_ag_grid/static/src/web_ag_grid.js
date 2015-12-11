@@ -80,7 +80,7 @@ var AgGridView = View.extend({
         } else {
             return null;
         }
-    }
+    },
 
 
     getRows: function(params) {
