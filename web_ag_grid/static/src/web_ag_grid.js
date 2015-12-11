@@ -50,21 +50,39 @@ var AgGridView = View.extend({
         var self = this;
         
         var columnDefs = [
-            {headerName: "Account", field: "account"},
-            {headerName: "Credit", field: "credit"},
-            {headerName: "Debit", field: "debit"},
-            {headerName: "Balance", field: "balance"},
+            {headerName: '', field: 'item', width: 100%, cellRenderer: {
+                renderer: 'group'
+            }},
+            {headerName: "Credit", field: "credit", width: 70, cellRenderer: this.currencyRenderer},
+            {headerName: "Debit", field: "debit", width: 70, cellRenderer: this.currencyRenderer},
+            {headerName: "Balance", field: "balance", width: 70, cellRenderer: this.currencyRenderer},
         ];
         
         var gridOptions = {
             columnDefs: columnDefs,
             datasource: this,
             groupKeys: ['account'],
+            groupDefaultExpanded: false,
+            enableColResize: true,
+            icons: {
+                groupExpanded: '<i class="fa fa-minus-square-o"/>',
+                groupContracted: '<i class="fa fa-plus-square-o"/>'
+            },
+            groupAggFields: ['credit','tcredit','debit','tdebit','balance','tbalance'],
         };
                 
         this.gridOptions = gridOptions;
         this.trigger('ag_grid_view_loaded');
     },
+
+
+    currencyRenderer: function(params) {
+        if (params.value) {
+            return params.value.toLocaleString()+' € '
+        } else {
+            return null;
+        }
+    }
 
 
     getRows: function(params) {
