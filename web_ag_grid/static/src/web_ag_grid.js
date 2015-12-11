@@ -5,7 +5,7 @@ var core = require('web.core');
 var formats = require('web.formats');
 var Model = require('web.Model');
 var session = require('web.session');
-var KanbanView = require('web_kanban.KanbanView');
+var View = require('web.View');
 
 var QWeb = core.qweb;
 
