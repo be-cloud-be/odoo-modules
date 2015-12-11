@@ -62,6 +62,7 @@ var AgGridView = View.extend({
             groupKeys: ['account'],
             groupDefaultExpanded: false,
             enableColResize: true,
+            groupSuppressAutoColumn: true,
             icons: {
                 groupExpanded: '<i class="fa fa-minus-square-o"/>',
                 groupContracted: '<i class="fa fa-plus-square-o"/>'
