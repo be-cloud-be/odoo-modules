@@ -111,6 +111,10 @@ var AgGridView = View.extend({
         this.update_pager();
     },
 
+    update_pager: function() {
+        this.pager.do_hide();
+    },
+
     render: function() {
         console.log("render_pager");
         this.$el.empty();
