@@ -89,7 +89,7 @@ var AgGridView = View.extend({
 
     render_pager: function($node, options) {
         console.log("render_pager");
-        window.agGridGlobalFunc($node, this.gridOptions);
+        window.agGridGlobalFunc($node.get(0), this.gridOptions);
     },
     
 });
