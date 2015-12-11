@@ -31,7 +31,7 @@ var AgGridView = View.extend({
         this.grouped = undefined;
         this.group_by_field = undefined;
         this.default_group_by = undefined;
-    }
+    },
 
     view_loading: function(fvg) {
         this.$el.addClass(fvg.arch.attrs.class);
