@@ -40,18 +40,14 @@
         <field name="model">account.move.line</field>
         <field name="arch" type="xml">
             <ag_grid class="oe_background_grey o_kanban_dashboard o_web_ag_grid ag-account oe_form_sheet oe_form_sheet_width" create="0">
-                <field name="name"/>
-                <templates>
-                    <t t-name="kanban-box">
-                    </t>
-                </templates>
+                <field name="account_id"/>
             </ag_grid>
         </field>
     </record>
     
 	<record model="ir.actions.act_window" id="action_ag_grid">
         <field name="name">AG Grid</field>
-        <field name="res_model">res.company</field>
+        <field name="res_model">account.move.line</field>
     </record>
 
     <record model="ir.actions.act_window.view" id="action_ag_grid_view">
