@@ -12,12 +12,13 @@ var QWeb = core.qweb;
 var _t = core._t;
 var _lt = core._lt;
 
-var AgGridView = KanbanView.extend({
+var AgGridView = View.extend({
 
     display_name: _lt('AgGrid'),
     view_type: "ag_grid",
     //searchview_hidden: true,
     icon: 'fa-th-list',
+    className: "o_ag_grid_view",
 
     getRows: function(params) {
         
