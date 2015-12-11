@@ -59,7 +59,7 @@ var AgGridView = View.extend({
         var gridOptions = {
             columnDefs: columnDefs,
             datasource: this,
-            groupKeys: ['account'],
+            groupKeys: ['type','account'],
             groupDefaultExpanded: false,
             enableColResize: true,
             groupSuppressAutoColumn: true,
@@ -88,12 +88,13 @@ var AgGridView = View.extend({
         
         var AccountLines = new Model('account.move.line');
         
-        AccountLines.query(['account_id','debit','credit']).all().then(
+        AccountLines.query(['user_type_id','account_id','debit','credit']).all().then(
             function (lines) {
                 var rowData = [];
                 lines.forEach(function(line) {
                     rowData.push(
                         {
+                            'type' : line.user_type_id[1],
                             'account' : line.account_id[1],
                             'credit' : line.credit,
                             'debit' : line.debit,
