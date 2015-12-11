@@ -115,6 +115,18 @@ var AgGridView = View.extend({
         this.pager.do_hide();
     },
 
+    do_search: function(domain, context, group_by) {
+        this.search_domain = domain;
+        this.search_context = context;
+        this.group_by_field = group_by[0] || this.default_group_by;
+        this.grouped = group_by.length || this.default_group_by;
+
+        var field = this.fields_view.fields[this.group_by_field];
+        
+        this.proxy('render');
+        this.proxy('update_pager');
+    },
+
     render: function() {
         console.log("render_pager");
         this.$el.empty();
