@@ -20,6 +20,52 @@ var AgGridView = View.extend({
     icon: 'fa-th-list',
     className: "o_ag_grid_view",
 
+    init: function (parent, dataset, view_id, options) {
+        this._super(parent, dataset, view_id, options);
+        // qweb setup
+        this.qweb = new QWeb2.Engine();
+        this.qweb.debug = session.debug;
+        this.qweb.default_dict = _.clone(QWeb.default_dict);
+
+        this.model = this.dataset.model;
+        this.grouped = undefined;
+        this.group_by_field = undefined;
+        this.default_group_by = undefined;
+    }
+
+    view_loading: function(fvg) {
+        this.$el.addClass(fvg.arch.attrs.class);
+        this.fields_view = fvg;
+        this.default_group_by = fvg.arch.attrs.default_group_by;
+
+        this.fields_keys = _.keys(this.fields_view.fields);
+
+        // add qweb templates
+        for (var i=0, ii=this.fields_view.arch.children.length; i < ii; i++) {
+            
+        }
+        
+        var super_render = this._super;
+        var self = this;
+        
+        var columnDefs = [
+            {headerName: "Account", field: "account"},
+            {headerName: "Credit", field: "credit"},
+            {headerName: "Debit", field: "debit"},
+            {headerName: "Balance", field: "balance"},
+        ];
+        
+        var gridOptions = {
+            columnDefs: columnDefs,
+            datasource: this,
+        };
+                
+        this.gridOptions = gridOptions;
+        console.log('ag_grid_view_loaded');
+        this.trigger('ag_grid_view_loaded');
+    },
+
+
     getRows: function(params) {
         
         var AccountLines = new Model('account.move.line');
@@ -43,21 +89,7 @@ var AgGridView = View.extend({
 
 
     render: function() {
-        var super_render = this._super;
-        var self = this;
-        
-        var columnDefs = [
-            {headerName: "Account", field: "account"},
-            {headerName: "Credit", field: "credit"},
-            {headerName: "Debit", field: "debit"},
-            {headerName: "Balance", field: "balance"},
-        ];
-        
-        var gridOptions = {
-            columnDefs: columnDefs,
-            datasource: this,
-        };
-                
+        console.log('rednder);
         super_render.call(self);
         window.agGridGlobalFunc(this.$el.empty().get(0), gridOptions);
     },
