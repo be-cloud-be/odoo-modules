@@ -6,6 +6,7 @@ var formats = require('web.formats');
 var Model = require('web.Model');
 var session = require('web.session');
 var View = require('web.View');
+var Pager = require('web.Pager');
 
 var QWeb = core.qweb;
 
