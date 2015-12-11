@@ -50,10 +50,10 @@ var AgGridView = View.extend({
         var self = this;
         
         var columnDefs = [
-            {headerName: '', field: 'item', cellRenderer: {renderer: 'group'}},
-            {headerName: "Credit", field: "credit", width: 70, cellRenderer: this.currencyRenderer},
-            {headerName: "Debit", field: "debit", width: 70, cellRenderer: this.currencyRenderer},
-            {headerName: "Balance", field: "balance", width: 70, cellRenderer: this.currencyRenderer},
+            {headerName: '', field: 'item', width: 350, cellRenderer: {renderer: 'group'}},
+            {headerName: "Credit", field: "credit", width: 150, cellRenderer: this.currencyRenderer},
+            {headerName: "Debit", field: "debit", width: 150, cellRenderer: this.currencyRenderer},
+            {headerName: "Balance", field: "balance", width: 150, cellRenderer: this.currencyRenderer},
         ];
         
         var gridOptions = {
