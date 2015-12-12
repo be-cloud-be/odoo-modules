@@ -20,7 +20,7 @@ odoo.unleashed.module('account_ag_grid', function(aag, require, _, Backbone, bas
 
         /* Keep a reference to the collection */
         initialize: function(){
-            this.collection = this.model.collection;
+
             var columnDefs = [
                 {headerName: '', field: 'account', width: 450, cellRenderer: {renderer: 'group'}},
                 {headerName: "Credit", field: "credit", width: 150, cellRenderer: this.currencyRenderer},
