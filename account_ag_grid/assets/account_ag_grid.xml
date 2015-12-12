@@ -4,7 +4,7 @@
         <template id="assets_backend" name="demo_todo assets" inherit_id="web_unleashed_extra.assets_backend">
             <xpath expr="." position="inside">
                 
-                <link rel="stylesheet" href="/demo_todo/static/src/css/account_ag_grid.css"/>
+                <link rel="stylesheet" href="/account_ag_grid/static/src/css/account_ag_grid.css"/>
                 
                 <script type="text/javascript" src="/account_ag_grid/static/src/js/models/move.js"></script>
                 <script type="text/javascript" src="/account_ag_grid/static/src/js/collections/moves.js"></script>
