@@ -22,7 +22,7 @@
     'active': True,
     'installable': True,
     'qweb' : [
-        'static/src/templates/*.xml',
+        'static/src/xml/*.xml',
     ],
     'demo': [],
     'application': False,
