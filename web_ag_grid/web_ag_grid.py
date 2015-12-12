@@ -9,6 +9,9 @@ import logging
 
 _logger = logging.getLogger(__name__)
 
+VIEW_TYPE = ('ag_grid', _('AG Grid'))
+VIEW_TYPES.append(VIEW_TYPE)
+
 class view(models.Model):
 
     _name = 'ir.ui.view'
