@@ -1,0 +1,3 @@
+<odoo>
+    <menuitem name="Accounting Dashboard" parent="account.menu_finance_entries" id="menu_ag_grid" sequence="-99" action="action_account_ag_grid"/>
+</odoo>

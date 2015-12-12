@@ -1,22 +1,31 @@
 {
-    'name': 'Account ag-grid',
+    'name': 'Accounting Dashboard using AG Grid',
     'version': '0.1',
     'license': 'GPL-3',
     'author': 'be-Cloud.be (Jerome Sonnet)',
     'website': '',
     'category': 'Accounting',
-    'depends': ['web','account_accountant'],
-    'init_xml': [],
+    'depends': ['web_ag_grid','account_accountant','web_unleashed_extra'],
     'data': [
-        'account_ag_grid_view.xml',
+        # view
+        'view/account_ag_grid_view.xml',
+
+        # menu
+        'menu/account_ag_grid.xml',
+
+         # JS/CSS Assets files
+        'assets/account_ag_grid.xml',
     ],
-    'demo_xml': [],
     'description': '''
         This modules add a ag-grid view on account move line.
     ''',
     'active': True,
     'installable': True,
-    'qweb': [
-        'static/src/xml/*.xml',
+    'qweb' : [
+        'static/src/templates/*.xml',
     ],
+    'demo': [],
+    'application': False,
+    'installable': True,
+    'active': False,
 }
