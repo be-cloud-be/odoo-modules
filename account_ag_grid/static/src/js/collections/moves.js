@@ -17,7 +17,8 @@ odoo.unleashed.module('account_ag_grid', function(aag, require, _, Backbone, bas
 
         initialize: function(options){
             _super.initialize.apply(this, options);
-            this.disable();  
+            this.disable();
+            this.limit = '';
         },
 
         getRows : function (params) {
