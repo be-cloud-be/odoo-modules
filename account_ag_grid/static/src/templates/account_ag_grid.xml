@@ -13,10 +13,10 @@
     Todos composite view template, Todo items are injected into .todos,
     the edit form is included has an external template (DemoTodo.edit)
 -->
-<t t-name="AccountingDashboard.AgGrid">
-    <div id='ag_grid' class="ag-account">
-        
-    </div>
-</t>
+
+<div t-name="AccountingDashboard.AgGrid" id='ag_grid' class="ag-account">
+    
+</div>
+
 
 </template>
