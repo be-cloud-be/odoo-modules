@@ -6,13 +6,13 @@
                 
                 <link rel="stylesheet" href="/demo_todo/static/src/css/account_ag_grid.css"/>
                 
-                <script type="text/javascript" src="/demo_todo/static/src/js/models/move.js"></script>
-                <script type="text/javascript" src="/demo_todo/static/src/js/collections/moves.js"></script>
-                <!--<script type="text/javascript" src="/demo_todo/static/src/js/views/empty.js"></script>
-                <script type="text/javascript" src="/demo_todo/static/src/js/views/move.js"></script>
-                <script type="text/javascript" src="/demo_todo/static/src/js/views/moves.js"></script>-->
-                <script type="text/javascript" src="/demo_todo/static/src/js/views/dashboard.js"></script>
-                <script type="text/javascript" src="/demo_todo/static/src/js/account_ag_grid.js"></script>
+                <script type="text/javascript" src="/account_ag_grid/static/src/js/models/move.js"></script>
+                <script type="text/javascript" src="/account_ag_grid/static/src/js/collections/moves.js"></script>
+                <!--<script type="text/javascript" src="/account_ag_grid/static/src/js/views/empty.js"></script>
+                <script type="text/javascript" src="/account_ag_grid/static/src/js/views/move.js"></script>
+                <script type="text/javascript" src="/account_ag_grid/static/src/js/views/moves.js"></script>-->
+                <script type="text/javascript" src="/account_ag_grid/static/src/js/views/dashboard.js"></script>
+                <script type="text/javascript" src="/account_ag_grid/static/src/js/account_ag_grid.js"></script>
             </xpath>
         </template>
     </data>
