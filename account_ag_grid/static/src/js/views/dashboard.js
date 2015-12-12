@@ -48,7 +48,6 @@ odoo.unleashed.module('account_ag_grid', function(aag, require, _, Backbone, bas
         },
 
         render: function(){
-            this.$el.empty();
             window.agGridGlobalFunc(this.$el.get(0), this.gridOptions);
         },
 
