@@ -24,8 +24,8 @@ odoo.unleashed.module('account_ag_grid', function(aag, require, _, Backbone, bas
         start: function(){
 
             var PagerView = base.views('Pager'),
-                DashboardView = account_ag_grid.views('Dashboard'),
-                MovesCollection = account_ag_grid.collections('Moves');
+                DashboardView = aag.views('Dashboard'),
+                MovesCollection = aag.collections('Moves');
 
             // create MVC components
             this.collection = new MovesCollection();
