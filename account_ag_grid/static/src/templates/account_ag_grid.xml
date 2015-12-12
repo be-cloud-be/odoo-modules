@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<template>
+<!--
+    Main Web Module template, the Todos composite view
+    is injected into .todo-list region
+-->
+<t t-name="AccountingDashboard">
+    <div id="aag_main">
+    </div>
+</t>
+
+<!--
+    Todos composite view template, Todo items are injected into .todos,
+    the edit form is included has an external template (DemoTodo.edit)
+-->
+<t t-name="AccountingDashboard.AgGrid">
+    <div id='ag_grid' style="height: 100%;" class="ag-fresh">
+        
+    </div>
+</t>
+
+</template>
