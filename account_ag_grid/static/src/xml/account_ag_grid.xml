@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<template>
+<templates>
 <!--
     Main Web Module template, the Todos composite view
     is injected into .todo-list region
@@ -19,4 +19,4 @@
     </div>
 </t>
 
-</template>
+</templates>
