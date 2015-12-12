@@ -39,7 +39,7 @@
         <field name="name">web_ag_grid.ag_grid</field>
         <field name="model">account.move.line</field>
         <field name="arch" type="xml">
-            <ag_grid class="ag-account" create="0">
+            <ag_grid create="0">
                 <field name="account_id"/>
             </ag_grid>
         </field>

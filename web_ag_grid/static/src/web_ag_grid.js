@@ -107,33 +107,6 @@ var AgGridView = View.extend({
     },
 
 
-    render_pager: function($node, options) {
-        var self = this;
-        this.pager = new Pager(this, this.dataset.size(), 1, 1000, options);
-        this.pager.appendTo($node);
-        this.pager.on('pager_changed', this, function (state) {
-            var limit_changed = (self.limit !== state.limit);
-
-            self.limit = state.limit;
-            self.load_records(state.current_min - 1)
-                .then(function (data) {
-                    self.data = data;
-
-                    // Reset the scroll position to the top on page changed only
-                    if (!limit_changed) {
-                        self.scrollTop = 0;
-                        self.trigger_up('scrollTo', {offset: 0});
-                    }
-                })
-                .done(this.proxy('render'));
-        });
-        this.update_pager();
-    },
-
-    update_pager: function() {
-        this.pager.do_hide();
-    },
-
     do_search: function(domain, context, group_by) {
         this.search_domain = domain;
         this.search_context = context;
@@ -143,7 +116,6 @@ var AgGridView = View.extend({
         var field = this.fields_view.fields[this.group_by_field];
         
         this.render();
-        this.render_pager();
     },
 
     render: function() {
