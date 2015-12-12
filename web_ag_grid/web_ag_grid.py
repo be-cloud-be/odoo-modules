@@ -5,6 +5,8 @@
 #
 from openerp import api, fields, models, _
 
+from openerp.addons.base.ir.ir_actions import VIEW_TYPES
+
 import logging
 
 _logger = logging.getLogger(__name__)
