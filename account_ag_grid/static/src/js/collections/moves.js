@@ -21,24 +21,20 @@ odoo.unleashed.module('account_ag_grid', function(aag, require, _, Backbone, bas
         },
 
         getRows : function (params) {
-            var AccountLines = new Model('account.move.line');
-        
-            AccountLines.query(['user_type_id','account_id','debit','credit']).all().then(
-                function (lines) {
-                    var rowData = [];
-                    lines.forEach(function(line) {
-                        rowData.push(
-                            {
-                                'type' : line.user_type_id[1],
-                                'account' : line.account_id[1],
-                                'credit' : line.credit,
-                                'debit' : line.debit,
-                                'balance' : line.debit-line.credit,
-                            }
-                        );
-                    });
-                params.successCallback(rowData);
+            var rowData = [];
+            this.models.forEach(function(model) {
+                var line = model.attributes;
+                rowData.push(
+                    {
+                        'type' : line.user_type_id[1],
+                        'account' : line.account_id[1],
+                        'credit' : line.credit,
+                        'debit' : line.debit,
+                        'balance' : line.balance,
+                    }
+                );
             });
+            params.successCallback(rowData);
         },
 
     });
