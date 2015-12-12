@@ -5,15 +5,20 @@ odoo.unleashed.module('account_ag_grid', function(aag, require, _, Backbone, bas
 
     var Move = aag.models('Move');
 
-    var BaseCollection = base.collections('BaseCollection'),
-        _super = BaseCollection.prototype;
+    var PagerCollection = base.collections('Pager'),
+        _super = PagerCollection.prototype;
 
-    var Moves = BaseCollection.extend({
+    var Moves = PagerCollection.extend({
 
         // Odoo model name, allow auto-binding with JSON-RPC API
         model_name: 'account.move.line',
 
         model: Move,
+
+        initialize: function(options){
+            _super.initialize.apply(this, options);
+            this.disable();  
+        },
 
         getRows : function (params) {
             var AccountLines = new Model('account.move.line');

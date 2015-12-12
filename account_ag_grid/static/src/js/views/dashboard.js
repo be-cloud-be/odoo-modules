@@ -19,7 +19,8 @@ odoo.unleashed.module('account_ag_grid', function(aag, require, _, Backbone, bas
         },
 
         /* Keep a reference to the collection */
-        initialize: function(){
+        initialize: function(options){
+            _super.initialize.apply(this, options);
 
             var columnDefs = [
                 {headerName: '', field: 'account', width: 450, cellRenderer: {renderer: 'group'}},
