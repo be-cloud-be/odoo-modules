@@ -1,7 +1,7 @@
 /*
  * Module initialization, ready function is called when OpenERP framework is ready
  */
-odoo.unleashed.module('account_ag_grid, function(aag, require, _, Backbone, base) {
+odoo.unleashed.module('account_ag_grid', function(aag, require, _, Backbone, base) {
 
     // make a reference to view registry
     var core = require('web.core');
@@ -59,7 +59,7 @@ odoo.unleashed.module('account_ag_grid, function(aag, require, _, Backbone, base
                 // update application state
                 self.state.trigger("change");
             });
-        }
+        },
     });
 
      // standard way to add a view in Odoo
