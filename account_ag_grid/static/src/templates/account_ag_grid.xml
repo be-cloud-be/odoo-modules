@@ -5,7 +5,7 @@
     is injected into .todo-list region
 -->
 <t t-name="AccountingDashboard">
-    <div id="aag_main">
+    <div id="aag_main" style="height: 100%;">
     </div>
 </t>
 
@@ -14,7 +14,7 @@
     the edit form is included has an external template (DemoTodo.edit)
 -->
 <t t-name="AccountingDashboard.AgGrid">
-    <div id='ag_grid' style="height: 100%;" class="ag-fresh">
+    <div id='ag_grid' class="ag-account">
         
     </div>
 </t>
