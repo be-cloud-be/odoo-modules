@@ -27,13 +27,11 @@ _logger = logging.getLogger(__name__)
 class AccountInvoice(models.Model):
     _inherit = 'account.invoice'
 
-    @api.one
+    @api.multi
     def count_attachments(self):
-        obj_attachment = self.pool.get('ir.attachment')
-        for record in self:
-            record.attachment_count =0
-            attachment_ids = obj_attachment.search([('res_model','=','<<your model name>>'),('res_id','=',record.id)]).ids
-            if attachment_ids:
-                record.attachment_count =len(attachment_ids)
-                
+        attachment_data = self.env['ir.attachment'].read_group([('res_model', '=', 'account.invoice'), ('res_id', 'in', self.ids)], ['res_id'], ['res_id'])
+        attachment = dict((data['res_id'], data['res_id_count']) for data in attachment_data)
+        for invoice in self:
+            invoice.attachment_count = attachment.get(invoice.id, 0)
+
     attachment_count = fields.Integer(string="Attachment Count" ,compute="count_attachments")
