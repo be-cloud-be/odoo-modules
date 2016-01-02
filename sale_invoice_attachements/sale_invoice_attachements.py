@@ -20,6 +20,7 @@
 ##############################################################################
 from openerp import api, fields, models, _
 from openerp.exceptions import UserError
+import logging
 
 _logger = logging.getLogger(__name__)
 
