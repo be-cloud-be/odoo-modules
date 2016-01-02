@@ -19,4 +19,4 @@
 #
 ##############################################################################
 
-from . import sale_invoice_attachements
+#import sale_invoice_attachements
