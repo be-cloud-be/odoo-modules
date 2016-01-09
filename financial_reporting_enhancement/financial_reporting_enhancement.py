@@ -33,7 +33,7 @@ class AccountFinancialReport(models.Model):
         '''Returns the name of the Root Account which correspond to the 
             Report Name.'''
         for report in self:
-            name = self.name
+            name = report.name
             if report.parent_id:
                 name = report.parent_id.report_name
             report.report_name = name
