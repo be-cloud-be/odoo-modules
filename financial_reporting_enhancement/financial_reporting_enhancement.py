@@ -33,9 +33,9 @@ class AccountFinancialReport(models.Model):
         '''Returns the name of the Root Account which correspond to the 
             Report Name.'''
         for report in self:
+            name = self.name
             if report.parent_id:
-                report = report.parent_id.report_name
-            report.report_name = report.name
-            
+                name = report.parent_id.report_name
+            report.report_name = name
 
     report_name = fields.Char(string="Report Name" ,compute="_get_report_name")
