@@ -38,5 +38,4 @@ class AccountFinancialReport(models.Model):
                 name = report.parent_id.report_name
             report.report_name = name
 
-    report_name = fields.Char(string="Report Name" ,compute="_get_report_name",
-                    store=True)
+    report_name = fields.Char(string="Report Name" ,compute="_get_report_name")
