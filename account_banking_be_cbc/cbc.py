@@ -71,7 +71,7 @@ class transaction_line(object):
         self.id = str(subno).zfill(4)
 
 class transaction(models.mem_bank_transaction):
-    attrnames = ['local_account', 'local_currency', 'execution_date', 'effective_date', 'value_date',
+    attrnames = ['local_account', 'local_currency', 'execution_date', 'effective_date', #'value_date',
         'transferred_amount', 'id'
                 ]
     
