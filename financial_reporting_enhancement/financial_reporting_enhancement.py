@@ -39,3 +39,14 @@ class AccountFinancialReport(models.Model):
             report.report_name = name
 
     report_name = fields.Char(string="Report Name" ,compute="_get_report_name")
+    
+class AccountMoveLine(models.Model):
+    _inherit = "account.move.line"
+
+    @api.depends('debit', 'credit')
+    def _store_reversed_balance(self):
+        for line in self:
+            line.balance = line.credit - line.debit
+            
+    reversed_balance = fields.Monetary(compute='_store_reversed_balance', store=True, currency_field='company_currency_id', default=0.0, help="Technical field holding the credit - debit in order to open meaningful graph views from reports using reversed sign balance")
+    
