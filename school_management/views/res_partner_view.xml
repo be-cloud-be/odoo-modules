@@ -23,6 +23,21 @@
 <openerp>
 	<data>
 	
+	    <!-- Add boolean for teacher, student, employee on partner form view -->
+        <record id="view_partners_form_school" model="ir.ui.view">
+            <field name="name">view.res.partner.form.school</field>
+            <field name="model">res.partner</field>
+            <field name="inherit_id" ref="base.view_partner_form"/>
+            <field eval="18" name="priority"/>
+            <field name="arch" type="xml">
+                <xpath expr="//field[@name='website']" position="after">
+                    <field name='teacher'/>
+                    <field name='student'/>
+                    <field name='employee'/>
+                </xpath>
+            </field>
+        </record>
+	
 		<!-- Top menu item -->
         <menuitem name="Contacts"
             id="menu_main_contacts"
@@ -136,7 +151,7 @@
         <menuitem id="menu_teacher_form" parent="menu_contacts" action="action_teacher_form" sequence="10"/>
         
         <record id="action_employee_form" model="ir.actions.act_window">
-            <field name="name">employees</field>
+            <field name="name">Employees</field>
             <field name="type">ir.actions.act_window</field>
             <field name="res_model">res.partner</field>
             <field name="view_type">form</field>
