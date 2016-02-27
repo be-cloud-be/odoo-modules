@@ -35,6 +35,7 @@
                     <field name='teacher'/>
                     <field name='employee'/>
                 </xpath>
+                <xpath expr="//page[@name='sales_purchases']" position="replace"/>
             </field>
         </record>
 	

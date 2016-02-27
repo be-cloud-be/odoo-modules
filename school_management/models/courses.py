@@ -18,5 +18,20 @@
 #    along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #
 ##############################################################################
-import res_partner
-import courses
+import logging
+
+from openerp import api, fields, models, _
+from openerp.exceptions import UserError
+
+_logger = logging.getLogger(__name__)
+
+class Course(models.Model):
+    '''Course'''
+    _name = 'scool.course'
+    
+    code = fields.Text(required=True)
+    name = fields.Text(required=True)
+    description = fields.Text(required=True)
+    
+    credit_amount = fields.Integer(required=True)
+    hours_amount = fields.Integer(required=True)
