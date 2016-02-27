@@ -29,9 +29,35 @@ class Course(models.Model):
     '''Course'''
     _name = 'school.course'
     
-    code = fields.Char(required=True)
-    name = fields.Char(required=True)
-    description = fields.Text(required=True)
+    code = fields.Char(required=True, string='Code')
+    name = fields.Char(required=True, string='Name')
+    description = fields.Text(required=True, string='Description')
     
-    credit_amount = fields.Integer(required=True)
-    hours_amount = fields.Integer(required=True)
+    credits = fields.Integer(required=True, string = 'Credits')
+    hours = fields.Integer(required=True, string = 'Hours')
+    
+    program_ids = fields.many2many('school.program', 'school_course_program_rel', id1='course_id', id2='program_id', string='Programs'),
+    
+class Program(models.Model):
+    '''Progral'''
+    _name = 'school.program'
+    
+    @api.one
+    @api.depends('course_ids')
+    def _get_courses_total(self):
+        total_hours = 0.0
+        total_credits = 0.0
+        for course in self.course_ids:
+            total_hours += course.hours
+            total_credits += course.credits
+        self.total_hours = total_hours
+        self.total_credits = total_credits
+        
+    code = fields.Char(required=True, string='Code')
+    name = fields.Char(required=True, string='Name')
+    description = fields.Text(required=True, string='Description')
+    
+    total_credits = fields.Integer(compute='_get_courses_total', string='Total Credits')
+    total_hours = fields.Integer(compute='_get_courses_total', string='Total Hours')
+    
+    course_ids = fields.many2many('school.course', 'school_course_program_rel', id1='program_id', id2='course_id', string='Courses'),

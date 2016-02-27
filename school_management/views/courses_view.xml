@@ -35,7 +35,7 @@
         <field name="name">course.select</field>
         <field name="model">school.course</field>
         <field name="arch" type="xml">
-            <search string="Search Partner">
+            <search string="Search Course">
                <field name="name"
                    filter_domain="['|',('name','ilike',self),('code','=',self)]"/>
            </search>
@@ -43,21 +43,21 @@
     </record>
 		
 		<record id="action_course_form" model="ir.actions.act_window">
-        <field name="name">Course</field>
-        <field name="type">ir.actions.act_window</field>
-        <field name="res_model">school.course</field>
-        <field name="view_type">form</field>
-        <field name="view_mode">tree,form</field>
-        <field name="context">{}</field>
-        <field name="search_view_id" ref="view_course_filter"/>
-        <field name="help" type="html">
-          <p class="oe_view_nocontent_create">
-            Click to add a course.
-          </p><p>
-            Odoo helps you easily track all activities related to
-            a course.
-          </p>
-        </field>
+      <field name="name">Course</field>
+      <field name="type">ir.actions.act_window</field>
+      <field name="res_model">school.course</field>
+      <field name="view_type">form</field>
+      <field name="view_mode">tree,form</field>
+      <field name="context">{}</field>
+      <field name="search_view_id" ref="view_course_filter"/>
+      <field name="help" type="html">
+        <p class="oe_view_nocontent_create">
+          Click to add a course.
+        </p><p>
+          Odoo helps you easily track all activities related to
+          a course.
+        </p>
+      </field>
     </record>
 	
 		<!--<record id="action_course_form_view1" model="ir.actions.act_window.view">
@@ -78,6 +78,55 @@
             <field name="view_id" ref="base.view_partner_form"/>
             <field name="act_window_id" ref="action_course_form"/>
         </record>-->
-        <menuitem id="menu_course_form" parent="menu_program" action="action_course_form" sequence="5"/>
+    <menuitem id="menu_course_form" parent="menu_program" action="action_course_form" sequence="5"/>
+    
+    <record id="view_program_filter" model="ir.ui.view">
+        <field name="name">program.select</field>
+        <field name="model">school.program</field>
+        <field name="arch" type="xml">
+            <search string="Search Program">
+               <field name="name"
+                   filter_domain="['|',('name','ilike',self),('code','=',self)]"/>
+           </search>
+        </field>
+    </record>
+    
+    <record id="action_program_form" model="ir.actions.act_window">
+      <field name="name">Programs</field>
+      <field name="type">ir.actions.act_window</field>
+      <field name="res_model">school.program</field>
+      <field name="view_type">form</field>
+      <field name="view_mode">tree,form</field>
+      <field name="context">{}</field>
+      <field name="search_view_id" ref="view_program_filter"/>
+      <field name="help" type="html">
+        <p class="oe_view_nocontent_create">
+          Click to add a program.
+        </p><p>
+          Odoo helps you easily track all activities related to
+          a program.
+        </p>
+      </field>
+    </record>
+	
+		<!--<record id="action_course_form_view1" model="ir.actions.act_window.view">
+            <field name="sequence" eval="0"/>
+            <field name="view_mode">kanban</field>
+            <field name="view_id" ref="base.res_partner_kanban_view"/>
+            <field name="act_window_id" ref="action_course_form"/>
+        </record>
+        <record id="action_course_tree_view1" model="ir.actions.act_window.view">
+            <field name="sequence" eval="1"/>
+            <field name="view_mode">tree</field>
+            <field name="view_id" ref="base.view_partner_tree"/>
+            <field name="act_window_id" ref="action_course_form"/>
+        </record>
+        <record id="action_course_form_view2" model="ir.actions.act_window.view">
+            <field name="sequence" eval="2"/>
+            <field name="view_mode">form</field>
+            <field name="view_id" ref="base.view_partner_form"/>
+            <field name="act_window_id" ref="action_course_form"/>
+        </record>-->
+    <menuitem id="menu_program_form" parent="menu_program" action="action_program_form" sequence="10"/>
 	</data>
 </openerp>
