@@ -54,13 +54,13 @@
                         <page string="Programs">
                             <field name="program_ids">
                                 <tree string="Program">
+                                    <field name="code"/>
                                     <field name="name"/>
                                 </tree>
                             </field>
                         </page>
                         <page string="Notes">
-                          <field name="code"/>
-                          <field name="note"/>
+                          <field name="notes"/>
                         </page>
                       </notebook>
                   </sheet>
@@ -151,7 +151,7 @@
                             </field>
                         </page>
                         <page string="Notes">
-                            <field name="note"/>
+                            <field name="notes"/>
                         </page>
                       </notebook>
                   </sheet>
