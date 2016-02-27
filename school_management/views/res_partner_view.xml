@@ -104,7 +104,7 @@
             <field name="view_type">form</field>
             <field name="view_mode">kanban,tree,form</field>
             <field name="context">{"search_default_teacher":1,"default_teacher":1}</field>
-            <field name="search_view_id" ref="view_teacher_filter"/>
+            <field name="search_view_id" ref="view_res_partner_filter"/>
             <field name="help" type="html">
               <p class="oe_view_nocontent_create">
                 Click to add a teacher.
@@ -142,7 +142,7 @@
             <field name="view_type">form</field>
             <field name="view_mode">kanban,tree,form</field>
             <field name="context">{"search_default_employee":1,"default_employee":1}</field>
-            <field name="search_view_id" ref="view_employee_filter"/>
+            <field name="search_view_id" ref="view_res_partner_filter"/>
             <field name="help" type="html">
               <p class="oe_view_nocontent_create">
                 Click to add an Employee.
