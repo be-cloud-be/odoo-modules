@@ -27,7 +27,7 @@ _logger = logging.getLogger(__name__)
 
 class Course(models.Model):
     '''Course'''
-    _name = 'scool.course'
+    _name = 'school.course'
     
     code = fields.Text(required=True)
     name = fields.Text(required=True)
