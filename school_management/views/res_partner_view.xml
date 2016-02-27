@@ -31,8 +31,8 @@
             <field eval="18" name="priority"/>
             <field name="arch" type="xml">
                 <xpath expr="//field[@name='website']" position="after">
-                    <field name='teacher'/>
                     <field name='student'/>
+                    <field name='teacher'/>
                     <field name='employee'/>
                 </xpath>
             </field>
