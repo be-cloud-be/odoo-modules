@@ -25,7 +25,7 @@
     'author': 'be-Cloud.be (Jerome Sonnet)',
     'website': '',
     'category': 'Association',
-    'depends': ['base'],
+    'depends': ['mail'],
     'init_xml': [],
     'update_xml': [
         'views/res_partner_view.xml',
