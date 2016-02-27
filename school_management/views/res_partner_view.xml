@@ -80,19 +80,19 @@
 		<record id="action_student_form_view1" model="ir.actions.act_window.view">
             <field name="sequence" eval="0"/>
             <field name="view_mode">kanban</field>
-            <field name="view_id" ref="res_partner_kanban_view"/>
+            <field name="view_id" ref="base.res_partner_kanban_view"/>
             <field name="act_window_id" ref="action_student_form"/>
         </record>
         <record id="action_student_tree_view1" model="ir.actions.act_window.view">
             <field name="sequence" eval="1"/>
             <field name="view_mode">tree</field>
-            <field name="view_id" ref="view_partner_tree"/>
+            <field name="view_id" ref="base.view_partner_tree"/>
             <field name="act_window_id" ref="action_student_form"/>
         </record>
         <record id="action_student_form_view2" model="ir.actions.act_window.view">
             <field name="sequence" eval="2"/>
             <field name="view_mode">form</field>
-            <field name="view_id" ref="view_partner_form"/>
+            <field name="view_id" ref="base.view_partner_form"/>
             <field name="act_window_id" ref="action_student_form"/>
         </record>
         <menuitem id="menu_student_form" parent="menu_contacts" action="action_student_form" sequence="5"/>
@@ -115,22 +115,22 @@
             </field>
         </record>
 	
-		<record id="action_partner_form_view1" model="ir.actions.act_window.view">
+		<record id="action_teacher_form_view1" model="ir.actions.act_window.view">
             <field name="sequence" eval="0"/>
             <field name="view_mode">kanban</field>
-            <field name="view_id" ref="res_partner_kanban_view"/>
+            <field name="view_id" ref="base.res_partner_kanban_view"/>
             <field name="act_window_id" ref="action_teacher_form"/>
         </record>
-        <record id="action_partner_tree_view1" model="ir.actions.act_window.view">
+        <record id="action_teacher_tree_view1" model="ir.actions.act_window.view">
             <field name="sequence" eval="1"/>
             <field name="view_mode">tree</field>
-            <field name="view_id" ref="view_partner_tree"/>
+            <field name="view_id" ref="base.view_partner_tree"/>
             <field name="act_window_id" ref="action_teacher_form"/>
         </record>
-        <record id="action_partner_form_view2" model="ir.actions.act_window.view">
+        <record id="action_teacher_form_view2" model="ir.actions.act_window.view">
             <field name="sequence" eval="2"/>
             <field name="view_mode">form</field>
-            <field name="view_id" ref="view_partner_form"/>
+            <field name="view_id" ref="base.view_partner_form"/>
             <field name="act_window_id" ref="action_teacher_form"/>
         </record>
         <menuitem id="menu_teacher_form" parent="menu_contacts" action="action_teacher_form" sequence="10"/>
@@ -153,22 +153,22 @@
             </field>
         </record>
 	
-		<record id="action_partner_form_view1" model="ir.actions.act_window.view">
+		<record id="action_employee_form_view1" model="ir.actions.act_window.view">
             <field name="sequence" eval="0"/>
             <field name="view_mode">kanban</field>
-            <field name="view_id" ref="res_partner_kanban_view"/>
+            <field name="view_id" ref="base.res_partner_kanban_view"/>
             <field name="act_window_id" ref="action_employee_form"/>
         </record>
-        <record id="action_partner_tree_view1" model="ir.actions.act_window.view">
+        <record id="action_employee_tree_view1" model="ir.actions.act_window.view">
             <field name="sequence" eval="1"/>
             <field name="view_mode">tree</field>
-            <field name="view_id" ref="view_partner_tree"/>
+            <field name="view_id" ref="base.view_partner_tree"/>
             <field name="act_window_id" ref="action_employee_form"/>
         </record>
-        <record id="action_partner_form_view2" model="ir.actions.act_window.view">
+        <record id="action_employee_form_view2" model="ir.actions.act_window.view">
             <field name="sequence" eval="2"/>
             <field name="view_mode">form</field>
-            <field name="view_id" ref="view_partner_form"/>
+            <field name="view_id" ref="base.view_partner_form"/>
             <field name="act_window_id" ref="action_employee_form"/>
         </record>
         <menuitem id="menu_employee_form" parent="menu_contacts" action="action_employee_form" sequence="20"/>
