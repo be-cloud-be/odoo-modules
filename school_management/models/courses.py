@@ -29,8 +29,8 @@ class Course(models.Model):
     '''Course'''
     _name = 'school.course'
     
-    code = fields.Text(required=True)
-    name = fields.Text(required=True)
+    code = fields.Char(required=True)
+    name = fields.Char(required=True)
     description = fields.Text(required=True)
     
     credit_amount = fields.Integer(required=True)
