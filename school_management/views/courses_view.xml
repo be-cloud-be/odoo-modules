@@ -22,14 +22,55 @@
 -->
 <openerp>
 	<data>
-	    <!-- Top menu item -->
-        <menuitem name="Program"
-            id="menu_main_program"
-            icon="fa-book"
-            web_icon="school,static/description/icon.png"
-            sequence="60"/>
+    <!-- Top menu item -->
+    <menuitem name="Program"
+        id="menu_main_program"
+        icon="fa-book"
+        web_icon="school,static/description/icon.png"
+        sequence="60"/>
 		
 		<menuitem name="Program" parent="menu_main_program" id="menu_program" sequence="1"/>
+
+    <record model="ir.ui.view" id="course_form">
+		    <field name="name">school.course.view</field>
+		    <field name="model">school.course</field>
+		    <field name="type">form</field>
+		    <field name="arch" type="xml">
+		        <form string="Course">
+		            <!--<header>
+    		            <button name="transfert_confirm" states="draft" string="Validate" class="oe_highlight" groups="account.group_account_invoice"/>
+    		            <button name="transfert_cancel" states="draft,confirmed" string="Cancel Transfert" groups="account.group_account_invoice"/>
+    		            <field name="state" widget="statusbar" statusbar_visible="draft,confirmed,paid"/>
+    		        </header>-->
+		            <sheet>
+    	              <group col="4">
+    	                  <field name="code"/>
+                        <field name="name"/>
+                        <field name="description" placeholder="Course description..."/>
+                        <field name="hours"/>
+                        <field name="credits"/>
+                      </group>
+                      <notebook>
+                        <page string="Programs">
+                            <field name="program_ids">
+                                <tree string="Program">
+                                    <field name="name"/>
+                                </tree>
+                            </field>
+                        </page>
+                        <page string="Notes">
+                          <field name="code"/>
+                          <field name="note"/>
+                        </page>
+                      </notebook>
+                  </sheet>
+                  <div class="oe_chatter">
+	                    <field name="message_follower_ids" widget="mail_followers"/>
+	                    <field name="message_ids" widget="mail_thread"/>
+	              </div>
+                </form>
+		    </field>
+		</record>
 
     <record id="view_course_filter" model="ir.ui.view">
         <field name="name">course.select</field>
@@ -79,6 +120,48 @@
             <field name="act_window_id" ref="action_course_form"/>
         </record>-->
     <menuitem id="menu_course_form" parent="menu_program" action="action_course_form" sequence="5"/>
+    
+    
+    <record model="ir.ui.view" id="program_form">
+		    <field name="name">school.program.view</field>
+		    <field name="model">school.program</field>
+		    <field name="type">form</field>
+		    <field name="arch" type="xml">
+		        <form string="Program">
+		            <!--<header>
+    		            <button name="transfert_confirm" states="draft" string="Validate" class="oe_highlight" groups="account.group_account_invoice"/>
+    		            <button name="transfert_cancel" states="draft,confirmed" string="Cancel Transfert" groups="account.group_account_invoice"/>
+    		            <field name="state" widget="statusbar" statusbar_visible="draft,confirmed,paid"/>
+    		        </header>-->
+		            <sheet>
+    	              <group col="4">
+    	                  <field name="code"/>
+                        <field name="name"/>
+                        <field name="description" placeholder="Program description..."/>
+                        <field name="total_hours"/>
+                        <field name="total_credits"/>
+                      </group>
+                      <notebook>
+                        <page string="Courses">
+                            <field name="course_ids">
+                                <tree string="Course">
+                                    <field name="code"/>
+                                    <field name="name"/>
+                                </tree>
+                            </field>
+                        </page>
+                        <page string="Notes">
+                            <field name="note"/>
+                        </page>
+                      </notebook>
+                  </sheet>
+                  <div class="oe_chatter">
+	                    <field name="message_follower_ids" widget="mail_followers"/>
+	                    <field name="message_ids" widget="mail_thread"/>
+	              </div>
+                </form>
+		    </field>
+		</record>
     
     <record id="view_program_filter" model="ir.ui.view">
         <field name="name">program.select</field>

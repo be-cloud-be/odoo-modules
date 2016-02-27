@@ -28,6 +28,7 @@ _logger = logging.getLogger(__name__)
 class Course(models.Model):
     '''Course'''
     _name = 'school.course'
+    _inherit = ['mail.thread']
     
     code = fields.Char(required=True, string='Code')
     name = fields.Char(required=True, string='Name')
@@ -36,11 +37,14 @@ class Course(models.Model):
     credits = fields.Integer(required=True, string = 'Credits')
     hours = fields.Integer(required=True, string = 'Hours')
     
+    notes = fields.Text(string='Notes')
+    
     program_ids = fields.Many2many('school.program', 'school_course_program_rel', id1='course_id', id2='program_id', string='Programs')
     
 class Program(models.Model):
     '''Progral'''
     _name = 'school.program'
+    _inherit = ['mail.thread']
     
     @api.one
     @api.depends('course_ids')
@@ -59,5 +63,7 @@ class Program(models.Model):
     
     total_credits = fields.Integer(compute='_get_courses_total', string='Total Credits')
     total_hours = fields.Integer(compute='_get_courses_total', string='Total Hours')
+    
+    notes = fields.Text(string='Notes')
     
     course_ids = fields.Many2many('school.course', 'school_course_program_rel', id1='program_id', id2='course_id', string='Courses')
