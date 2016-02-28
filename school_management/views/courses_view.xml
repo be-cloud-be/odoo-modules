@@ -33,8 +33,8 @@
       <field name="model">school.course</field>
       <field name="arch" type="xml">
         <kanban class="o_program_kanban">
-          <field name="code" colspan="4"/>
-          <field name="name" colspan="4"/>
+          <field name="code"/>
+          <field name="name"/>
           <templates>
             <t t-name="kanban-box">
               <div class="oe_kanban_global_click o_program_kanban">
@@ -78,8 +78,8 @@
     		        </header>-->
           <sheet>
             <group col="4">
-              <field name="code" />
-              <field name="name" />
+              <field name="code" colspan="4"/>
+              <field name="name" colspan="4"/>
               <field name="description" placeholder="Course description..." colspan="4"/>
               <field name="hours" />
               <field name="credits" />
