@@ -80,7 +80,7 @@
             <group col="4">
               <field name="code" />
               <field name="name" />
-              <field name="description" placeholder="Course description..." />
+              <field name="description" placeholder="Course description..." colspan="4"/>
               <field name="hours" />
               <field name="credits" />
             </group>
@@ -217,7 +217,7 @@
             <group col="4">
               <field name="code" />
               <field name="name" />
-              <field name="description" placeholder="Program description..." />
+              <field name="description" placeholder="Program description..." colspan="4"/>
               <field name="total_hours" />
               <field name="total_credits" />
             </group>
