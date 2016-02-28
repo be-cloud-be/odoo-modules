@@ -30,7 +30,7 @@ class Course(models.Model):
     _name = 'school.course'
     _inherit = ['mail.thread']
     
-    code = fields.Char(required=True, string='Code')
+    code = fields.Char(required=True, string='Code', size=8)
     name = fields.Char(required=True, string='Name')
     description = fields.Text(required=True, string='Description')
     
@@ -57,7 +57,7 @@ class Program(models.Model):
         self.total_hours = total_hours
         self.total_credits = total_credits
         
-    code = fields.Char(required=True, string='Code')
+    code = fields.Char(required=True, string='Code', size=8)
     name = fields.Char(required=True, string='Name')
     description = fields.Text(required=True, string='Description')
     
