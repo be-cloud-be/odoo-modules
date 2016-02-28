@@ -187,10 +187,10 @@
                   <div class="container o_kanban_card_content o_visible">
                     <div class="row">
                       <div class="col-xs-6 o_kanban_primary_left">
-                        <field name="total_credits" />
+                        <b>Total Credits : </b><field name="total_credits" />
                       </div>
                       <div class="col-xs-6 o_kanban_primary_right">
-                        <field name="total_hours" />
+                        <b>Total Hours : </b><field name="total_hours" />
                       </div>
                     </div>
                   </div>
