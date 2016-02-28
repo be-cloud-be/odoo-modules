@@ -86,7 +86,7 @@
             </group>
             <notebook>
               <page string="Programs">
-                <field name="program_ids" mode="kanban">
+                <field name="program_ids" mode="kanban" readonly="1">
                   <kanban>
                     <field name="code" />
                     <field name="name" />
