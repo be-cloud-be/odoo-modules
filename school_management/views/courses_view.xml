@@ -38,9 +38,25 @@
           <templates>
             <t t-name="kanban-box">
               <div class="oe_kanban_global_click o_program_kanban">
-                <div class="oe_kanban_details">
-                  <strong class="oe_program_heading"><field name="code"/></strong>
-                  <field name="name" />
+                <div class="o_kanban_card_header">
+                  <div class="o_kanban_card_header_title">
+                    <div class="o_primary">
+                      <strong><field name="name" /></strong> - <field name="code" />
+                    </div>
+                  </div>
+                  <div class="container o_kanban_card_content o_visible">
+                    <div class="row">
+                      <div class="col-xs-6 o_kanban_primary_left">
+                        <b>Credits : </b><field name="credits" />
+                      </div>
+                      <div class="col-xs-6 o_kanban_primary_right">
+                        <b>Hours : </b><field name="hours" />
+                      </div>
+                    </div>
+                  </div>
+                  <!--<div class="o_kanban_manage_button_section">
+                    <a class="o_kanban_manage_toggle_button" href="#">More <i class="fa fa-caret-down"/></a>
+                  </div>-->
                 </div>
               </div>
             </t>
@@ -178,10 +194,7 @@
                 <div class="o_kanban_card_header">
                   <div class="o_kanban_card_header_title">
                     <div class="o_primary">
-                      <field name="code" />
-                    </div>
-                    <div class="o_secondary">
-                      <field name="name" />
+                      <strong><field name="name" /></strong> - <field name="code" />
                     </div>
                   </div>
                   <div class="container o_kanban_card_content o_visible">
