@@ -86,11 +86,21 @@
             </group>
             <notebook>
               <page string="Programs">
-                <field name="program_ids">
-                  <tree string="Program">
+                <field name="program_ids" mode="kanban">
+                  <kanban>
                     <field name="code" />
                     <field name="name" />
-                  </tree>
+                    <templates>
+                      <t t-name="kanban-box">
+                        <div class="oe_kanban_global_click o_program_kanban">
+                          <div class="oe_kanban_details">
+                            <strong class="oe_program_heading"><field name="code"/></strong>
+                            <field name="name" />
+                          </div>
+                        </div>
+                      </t>
+                    </templates>
+                  </kanban>
                 </field>
               </page>
               <page string="Notes">
