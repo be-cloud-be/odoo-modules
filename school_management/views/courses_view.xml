@@ -225,8 +225,10 @@
               <page string="Courses">
                 <field name="course_ids">
                   <tree string="Course">
-                    <field name="code" />
-                    <field name="name" />
+                    <field name="code"/>
+                    <field name="name"/>
+                    <field name="credits"/>
+                    <field name="hours"/>
                   </tree>
                 </field>
               </page>
