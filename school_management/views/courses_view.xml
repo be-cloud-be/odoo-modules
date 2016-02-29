@@ -285,8 +285,8 @@
               <page string="Description">
                 <field name="description" placeholder="Vade mecum..." colspan="4" />
               </page>
-              <page string="Course Groups">
-                <field name="course_group_ids" mode="kanban" readonly="1">
+              <page string="Programs">
+                <field name="program_ids" mode="kanban" readonly="1">
                   <kanban>
                     <field name="code" />
                     <field name="name" />
