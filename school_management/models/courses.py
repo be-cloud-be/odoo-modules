@@ -65,7 +65,7 @@ class Program(models.Model):
     name = fields.Char(required=True, string='Name')
     description = fields.Text(required=True, string='Description')
     
-    competency_ids = fields.Many2one('school.competency', string='Competencies')
+    competency_ids = fields.One2many('school.competency', string='Competencies')
     
     domain_id = fields.Many2one('school.domain', string='Domain')
     cycle_id = fields.Many2one('school.cycle', string='Cycle')
