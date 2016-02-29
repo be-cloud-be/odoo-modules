@@ -450,6 +450,14 @@
               <field name="total_hours" />
               <field name="total_credits" />
             </group>
+            <field name="course_group_ids">
+              <tree string="Course Groups">
+                <field name="code" />
+                <field name="name" />
+                <field name="total_credits" />
+                <field name="total_hours" />
+              </tree>
+            </field>
             <notebook>
               <page string="Description">
                 <field name="description" placeholder="Vade mecum..." colspan="4" />
@@ -459,16 +467,6 @@
                   <tree string="Competencies">
                     <field name="sequence" />
                     <field name="description" />
-                  </tree>
-                </field>
-              </page>
-              <page string="Course Groups">
-                <field name="course_group_ids">
-                  <tree string="Course Groups">
-                    <field name="code" />
-                    <field name="name" />
-                    <field name="total_credits" />
-                    <field name="total_hours" />
                   </tree>
                 </field>
               </page>
