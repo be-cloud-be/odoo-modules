@@ -108,8 +108,8 @@
               </group>
             </group>
             <notebook>
-              <page string="Programs">
-                <field name="program_ids" mode="kanban" readonly="1">
+              <page string="Course Groups">
+                <field name="course_group_ids" mode="kanban" readonly="1">
                   <kanban>
                     <field name="code" />
                     <field name="name" />
@@ -285,13 +285,13 @@
                 </field>
               </page>
               <page string="Courses">
-                <field name="course_ids">
+                <field name="course_group_ids">
                   <tree string="Course">
                     <field name="code" />
                     <field name="name" />
-                    <field name="credits" />
-                    <field name="hours" />
-                    <field name="weight" />
+                    <field name="total_credits" />
+                    <field name="total_hours" />
+                    <field name="total_weight" />
                   </tree>
                 </field>
               </page>

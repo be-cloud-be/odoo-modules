@@ -40,13 +40,13 @@ class Course(models.Model):
     
     notes = fields.Text(string='Notes')
     
-    program_ids = fields.Many2many('school.program', 'school_course_program_rel', id1='course_id', id2='program_id', string='Programs')
+    course_group_ids = fields.Many2many('school.program', 'school_course_course_group_rel', id1='course_id', id2='course_group_id', string='Course Groups')
     
-class Program(models.Model):
-    '''Progral'''
-    _name = 'school.program'
+class CourseGroup(models.Model):
+    '''Courses Group'''
+    _name = 'school.course_group'
     _inherit = ['mail.thread']
-    
+
     @api.one
     @api.depends('course_ids')
     def _get_courses_total(self):
@@ -57,6 +57,42 @@ class Program(models.Model):
             total_hours += course.hours
             total_credits += course.credits
             total_weight += course.weight
+        self.total_hours = total_hours
+        self.total_credits = total_credits
+        self.total_weight = total_weight
+
+    code = fields.Char(required=True, string='Code', size=8)
+    name = fields.Char(required=True, string='Name')
+    description = fields.Text(required=True, string='Description')
+    
+    credits = fields.Integer(required=True, string = 'Credits')
+    hours = fields.Integer(required=True, string = 'Hours')
+    weight =  fields.Integer(required=True, string = 'Weight')
+    
+    total_credits = fields.Integer(compute='_get_courses_total', string='Total Credits')
+    total_hours = fields.Integer(compute='_get_courses_total', string='Total Hours')
+    total_weight = fields.Integer(compute='_get_courses_total', string='Total Weight')
+    
+    notes = fields.Text(string='Notes')
+    
+    course_ids = fields.Many2many('school.course', 'school_course_course_group_rel', id1='course_group_id', id2='course_id', string='Courses')
+    program_ids = fields.Many2many('school.program', 'school_course_group_program_rel', id1='course_group_id', id2='program_id', string='Programs')
+    
+class Program(models.Model):
+    '''Progral'''
+    _name = 'school.program'
+    _inherit = ['mail.thread']
+    
+    @api.one
+    @api.depends('course_group_ids')
+    def _get_courses_total(self):
+        total_hours = 0.0
+        total_credits = 0.0
+        total_weight = 0.0
+        for course_group in self.course_group_ids:
+            total_hours += course_group.hours
+            total_credits += course_group.credits
+            total_weight += course_group.weight
         self.total_hours = total_hours
         self.total_credits = total_credits
         self.total_weight = total_weight
@@ -79,7 +115,7 @@ class Program(models.Model):
     
     notes = fields.Text(string='Notes')
     
-    course_ids = fields.Many2many('school.course', 'school_course_program_rel', id1='program_id', id2='course_id', string='Courses')
+    course_group_ids = fields.Many2many('school.course_group', 'school_course_group_program_rel', id1='program_id', id2='course_group_id', string='Courses Groups')
 
 class competency(models.Model):
     '''Competency'''
