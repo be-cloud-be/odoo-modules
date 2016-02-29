@@ -231,6 +231,25 @@
         </record>
         <menuitem id="menu_other_form" parent="menu_contacts" action="action_other_form" sequence="90"/>
 		
+		
+		<record id="action_archived_form" model="ir.actions.act_window">
+            <field name="name">Employees</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">res.partner</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">kanban,tree,form</field>
+            <field name="context">{"search_default_archived":1,"default_archived":1}</field>
+            <field name="search_view_id" ref="view_res_partner_filter"/>
+            <field name="help" type="html">
+              <p class="oe_view_nocontent_create">
+                This screen will contains the archived contacts.
+              </p>
+              <p>
+                  You can retrieve them from here if necessary.
+              </p>
+            </field>
+        </record>
+		
 		<record id="action_archived_form_view1" model="ir.actions.act_window.view">
             <field name="sequence" eval="0"/>
             <field name="view_mode">kanban</field>
