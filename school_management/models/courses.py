@@ -86,34 +86,34 @@ class competency(models.Model):
     _name = 'school.competency'
     _order = 'sequence asc'
     sequence = fields.Integer(required=True, string='Sequency')
-    description = fields.Text(required=True, string='Description')
+    description = fields.Text(string='Description')
     
 class domain(models.Model):
     '''Domain'''
     _name = 'school.domain'
     name = fields.Char(required=True, string='Name')
-    description = fields.Text(required=True, string='Description')
+    description = fields.Text(string='Description')
     
 class domain(models.Model):
     '''Cycle'''
     _name = 'school.cycle'
     name = fields.Char(required=True, string='Name')
-    description = fields.Text(required=True, string='Description')
+    description = fields.Text(string='Description')
     
 class domain(models.Model):
     '''Section'''
     _name = 'school.section'
     name = fields.Char(required=True, string='Name')
-    description = fields.Text(required=True, string='Description')
+    description = fields.Text(string='Description')
     
 class track(models.Model):
     '''Track'''
     _name = 'school.track'
     name = fields.Char(required=True, string='Name')
-    description = fields.Text(required=True, string='Description')
+    description = fields.Text(string='Description')
     
 class domain(models.Model):
     '''Speciality'''
     _name = 'school.speciality'
     name = fields.Char(required=True, string='Name')
-    description = fields.Text(required=True, string='Description')
+    description = fields.Text(string='Description')
