@@ -281,12 +281,12 @@ msgstr "Odoo vous aide à garder trace des employés; discussions, documents, et
 #. module: school_management
 #: model:ir.actions.act_window,help:school_management.action_course_form
 msgid "Odoo helps you easily track all activities related to a course."
-msgstr "Odoo hvous aide à garder trace de toutes les informations au sujet des cours."
+msgstr "Odoo vous aide à garder trace de toutes les informations au sujet des cours."
 
 #. module: school_management
 #: model:ir.actions.act_window,help:school_management.action_program_form
 msgid "Odoo helps you easily track all activities related to a program."
-msgstr "Odoo hvous aide à garder trace de toutes les informations au sujet des programmes de cours."
+msgstr "Odoo vous aide à garder trace de toutes les informations au sujet des programmes de cours."
 
 #. module: school_management
 #: model:ir.model,name:school_management.model_res_partner
