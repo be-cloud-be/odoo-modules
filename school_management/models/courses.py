@@ -65,6 +65,14 @@ class Program(models.Model):
     name = fields.Char(required=True, string='Name')
     description = fields.Text(required=True, string='Description')
     
+    competency_ids = fields.Many2one('school.competency', string='Competencies')
+    
+    domain_id = fields.Many2one('school.domain', string='Domain')
+    cycle_id = fields.Many2one('school.cycle', string='Cycle')
+    section_id = fields.Many2one('school.section', string='Section')
+    track_id = fields.Many2one('school.track', string='Track')
+    speciality_id = fields.Many2one('school.speciality', string='Speciality')
+    
     total_credits = fields.Integer(compute='_get_courses_total', string='Total Credits')
     total_hours = fields.Integer(compute='_get_courses_total', string='Total Hours')
     total_weight = fields.Integer(compute='_get_courses_total', string='Total Weight')
@@ -72,3 +80,51 @@ class Program(models.Model):
     notes = fields.Text(string='Notes')
     
     course_ids = fields.Many2many('school.course', 'school_course_program_rel', id1='program_id', id2='course_id', string='Courses')
+
+class competency(models.Model):
+    '''Competency'''
+    _name = 'school.competency'
+    _order = 'sequence asc'
+    
+    sequence = fields.Integed(required=True, string='Sequency')
+    description = fields.Text(required=True, string='Description')
+    
+class domain(models.Model):
+    '''Domain'''
+    _name = 'school.domain'
+    
+    code = fields.Char(required=True, string='Code', size=8)
+    name = fields.Char(required=True, string='Name')
+    description = fields.Text(required=True, string='Description')
+    
+class domain(models.Cycle):
+    '''Cycle'''
+    _name = 'school.cycle'
+    
+    code = fields.Char(required=True, string='Code', size=8)
+    name = fields.Char(required=True, string='Name')
+    description = fields.Text(required=True, string='Description')
+    
+class domain(models.Model):
+    '''Section'''
+    _name = 'school.section'
+    
+    code = fields.Char(required=True, string='Code', size=8)
+    name = fields.Char(required=True, string='Name')
+    description = fields.Text(required=True, string='Description')
+    
+class track(models.Model):
+    '''Track'''
+    _name = 'school.track'
+    
+    code = fields.Char(required=True, string='Code', size=8)
+    name = fields.Char(required=True, string='Name')
+    description = fields.Text(required=True, string='Description')
+    
+class domain(models.Model):
+    '''Speciality'''
+    _name = 'school.speciality'
+    
+    code = fields.Char(required=True, string='Code', size=8)
+    name = fields.Char(required=True, string='Name')
+    description = fields.Text(required=True, string='Description')
