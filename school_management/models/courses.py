@@ -85,7 +85,7 @@ class competency(models.Model):
     '''Competency'''
     _name = 'school.competency'
     _order = 'sequence asc'
-    sequence = fields.Integer(required=True, string='Sequency')
+    sequence = fields.Integer(required=True, string='Sequence')
     description = fields.Text(string='Description')
     
     program_ids = fields.Many2many('school.program','school_competency_program_rel', id1='competency_id', id2='program_id', string='Programs')

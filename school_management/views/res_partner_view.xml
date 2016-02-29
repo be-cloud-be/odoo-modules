@@ -34,6 +34,8 @@
                     <field name='student'/>
                     <field name='teacher'/>
                     <field name='employee'/>
+                    <field name="supplier" invisible="True"/>
+                    <field name="customer" invisible="True"/>
                 </xpath>
                 <xpath expr="//page[@name='sales_purchases']" position="replace"/>
             </field>
