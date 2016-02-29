@@ -495,6 +495,13 @@
         <search string="Search Program">
           <field name="name" filter_domain="[ '|',( 'name', 'ilike',self),( 'code', '=',self)]" />
         </search>
+        <group expand="1" string="Group By">
+          <filter string="Domain" context="{'group_by':'domain_id'}" />
+          <filter string="Cycle" context="{'group_by':'cycle_id'}"/>
+          <filter string="Section" context="{'group_by':'section_id'}" />
+          <filter string="Track" context="{'group_by':'track_id'}"/>
+          <filter string="Speciality" context="{'group_by':'speciality_id'}"/>
+        </group>
       </field>
     </record>
 
