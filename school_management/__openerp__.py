@@ -28,6 +28,7 @@
     'depends': ['mail'],
     'init_xml': [],
     'update_xml': [
+        'school_data.xml',
         'views/res_partner_view.xml',
         'views/courses_view.xml',
         'sequences/school_sequence.xml',
