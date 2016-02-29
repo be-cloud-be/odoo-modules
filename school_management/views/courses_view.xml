@@ -303,6 +303,17 @@
                   </kanban>
                 </field>
               </page>
+              <page string="Courses">
+                <field name="course_ids">
+                  <tree string="Courses">
+                    <field name="code" />
+                    <field name="name" />
+                    <field name="credits" />
+                    <field name="hours" />
+                    <field name="weight" />
+                  </tree>
+                </field>
+              </page>
               <page string="Notes">
                 <field name="notes" />
               </page>
