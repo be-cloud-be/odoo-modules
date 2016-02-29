@@ -65,7 +65,7 @@ class Program(models.Model):
     name = fields.Char(required=True, string='Name')
     description = fields.Text(required=True, string='Description')
     
-    competency_ids = fields.One2many('school.competency', string='Competencies')
+    competency_ids = fields.many2many('school.competency', string='Competencies','school_competency_program_rel', id1='program_id', id2='competency_id')
     
     domain_id = fields.Many2one('school.domain', string='Domain')
     cycle_id = fields.Many2one('school.cycle', string='Cycle')
@@ -87,6 +87,8 @@ class competency(models.Model):
     _order = 'sequence asc'
     sequence = fields.Integer(required=True, string='Sequency')
     description = fields.Text(string='Description')
+    
+    program_ids = fields.many2many('school.program', string='Competencies','school_competency_program_rel', id1='competency_id', id2='program_id')
     
 class domain(models.Model):
     '''Domain'''
