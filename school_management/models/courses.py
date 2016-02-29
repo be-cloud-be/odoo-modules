@@ -86,9 +86,9 @@ class Program(models.Model):
         total_credits = 0.0
         total_weight = 0.0
         for course_group in self.course_group_ids:
-            total_hours += course_group.hours
-            total_credits += course_group.credits
-            total_weight += course_group.weight
+            total_hours += course_group.total_hours
+            total_credits += course_group.total_credits
+            total_weight += course_group.total_weight
         self.total_hours = total_hours
         self.total_credits = total_credits
         self.total_weight = total_weight
