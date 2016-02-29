@@ -270,21 +270,20 @@
             <group col="2">
               <field name="code" />
               <field name="name" />
-
               <group col="4" colspan="2">
                 <field name="total_hours" />
                 <field name="total_credits" />
               </group>
-              <field name="course_ids" colspan="2">
-                  <tree string="Courses">
-                    <field name="code" />
-                    <field name="name" />
-                    <field name="credits" />
-                    <field name="hours" />
-                    <field name="weight" />
-                  </tree>
-                </field>
             </group>
+            <field name="course_ids">
+              <tree string="Courses">
+                <field name="code" />
+                <field name="name" />
+                <field name="credits" />
+                <field name="hours" />
+                <field name="weight" />
+              </tree>
+            </field>
             <notebook>
               <page string="Description">
                 <field name="description" placeholder="Vade mecum..." colspan="4" />
