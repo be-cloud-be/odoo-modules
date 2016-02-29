@@ -40,7 +40,7 @@ class Course(models.Model):
     
     notes = fields.Text(string='Notes')
     
-    course_group_ids = fields.Many2many('school.program', 'school_course_course_group_rel', id1='course_id', id2='course_group_id', string='Course Groups')
+    course_group_ids = fields.Many2many('school.course_group', 'school_course_course_group_rel', id1='course_id', id2='course_group_id', string='Course Groups')
     
 class CourseGroup(models.Model):
     '''Courses Group'''
