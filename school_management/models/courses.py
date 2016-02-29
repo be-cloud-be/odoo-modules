@@ -36,7 +36,7 @@ class Course(models.Model):
     
     credits = fields.Integer(required=True, string = 'Credits')
     hours = fields.Integer(required=True, string = 'Hours')
-    weight =  fields.Integer(required=True, string = 'Weight')
+    weight =  fields.Integer(string = 'Weight')
     
     notes = fields.Text(string='Notes')
     
