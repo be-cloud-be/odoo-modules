@@ -1,0 +1,396 @@
+# Translation of Odoo Server.
+# This file contains the translation of the following modules:
+#	* school_management
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: Odoo Server 9.0c-20160228\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2016-02-29 12:12+0000\n"
+"PO-Revision-Date: 2016-02-29 12:12+0000\n"
+"Last-Translator: <>\n"
+"Language-Team: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: \n"
+"Plural-Forms: \n"
+
+#. module: school_management
+#: model:ir.ui.view,arch_db:school_management.course_kanban_view
+msgid "<b>Credits : </b>"
+msgstr "<b>Crédits : </b>"
+
+#. module: school_management
+#: model:ir.ui.view,arch_db:school_management.course_kanban_view
+msgid "<b>Hours : </b>"
+msgstr "<b>Heures : </b>"
+
+#. module: school_management
+#: model:ir.ui.view,arch_db:school_management.program_kanban_view
+msgid "<b>Total Credits : </b>"
+msgstr "<b>Total des Crédits : </b>"
+
+#. module: school_management
+#: model:ir.ui.view,arch_db:school_management.program_kanban_view
+msgid "<b>Total Hours : </b>"
+msgstr "<b>Total des Heures : </b>"
+
+#. module: school_management
+#: model:ir.model.fields,field_description:school_management.field_school_course_message_needaction
+#: model:ir.model.fields,field_description:school_management.field_school_program_message_needaction
+msgid "Action Needed"
+msgstr "A besoin d'une action"
+
+#. module: school_management
+#: model:ir.ui.view,arch_db:school_management.view_res_partner_filter
+msgid "Archived"
+msgstr "Archivé"
+
+#. module: school_management
+#: model:ir.actions.act_window,help:school_management.action_course_form
+msgid "Click to add a course."
+msgstr "Cliquez pour ajouter un cours."
+
+#. module: school_management
+#: model:ir.actions.act_window,help:school_management.action_program_form
+msgid "Click to add a program."
+msgstr "Cliquez pour ajouter un programme."
+
+#. module: school_management
+#: model:ir.actions.act_window,help:school_management.action_student_form
+msgid "Click to add a student."
+msgstr "Cliquez pour ajouter un étudiant."
+
+#. module: school_management
+#: model:ir.actions.act_window,help:school_management.action_teacher_form
+msgid "Click to add a teacher."
+msgstr "Cliquez pour ajouter un enseignant."
+
+#. module: school_management
+#: model:ir.actions.act_window,help:school_management.action_employee_form
+msgid "Click to add an Employee."
+msgstr "Cliquez pour ajouter un employé."
+
+#. module: school_management
+#: model:ir.model.fields,field_description:school_management.field_school_course_code
+#: model:ir.model.fields,field_description:school_management.field_school_program_code
+msgid "Code"
+msgstr "Code"
+
+#. module: school_management
+#: model:ir.ui.view,arch_db:school_management.view_res_partner_filter
+msgid "Companies"
+msgstr "Sociétés"
+
+#. module: school_management
+#: model:ir.ui.menu,name:school_management.menu_contacts
+#: model:ir.ui.menu,name:school_management.menu_main_contacts
+#: model:ir.ui.view,arch_db:school_management.view_course_tree
+#: model:ir.ui.view,arch_db:school_management.view_program_tree
+msgid "Contacts"
+msgstr "Contacts"
+
+#. module: school_management
+#: model:ir.actions.act_window,name:school_management.action_course_form
+#: model:ir.ui.menu,name:school_management.menu_course_form
+#: model:ir.ui.view,arch_db:school_management.course_form
+#: model:ir.ui.view,arch_db:school_management.program_form
+msgid "Course"
+msgstr "Cours"
+
+#. module: school_management
+#: model:ir.ui.view,arch_db:school_management.course_form
+msgid "Course description..."
+msgstr "Description du cours..."
+
+#. module: school_management
+#: model:ir.model.fields,field_description:school_management.field_school_program_course_ids
+#: model:ir.ui.view,arch_db:school_management.program_form
+msgid "Courses"
+msgstr "Cours"
+
+#. module: school_management
+#: model:ir.model.fields,field_description:school_management.field_school_course_create_uid
+#: model:ir.model.fields,field_description:school_management.field_school_program_create_uid
+msgid "Created by"
+msgstr "Créé par"
+
+#. module: school_management
+#: model:ir.model.fields,field_description:school_management.field_school_course_create_date
+#: model:ir.model.fields,field_description:school_management.field_school_program_create_date
+msgid "Created on"
+msgstr "Créé le"
+
+#. module: school_management
+#: model:ir.model.fields,field_description:school_management.field_school_course_credits
+msgid "Credits"
+msgstr "Crédits"
+
+#. module: school_management
+#: model:ir.model.fields,help:school_management.field_school_course_message_last_post
+#: model:ir.model.fields,help:school_management.field_school_program_message_last_post
+msgid "Date of the last message posted on the record."
+msgstr "Date du dernier message publié sur cet enregistrement"
+
+#. module: school_management
+#: model:ir.model.fields,field_description:school_management.field_school_course_description
+#: model:ir.model.fields,field_description:school_management.field_school_program_description
+msgid "Description"
+msgstr "Description"
+
+#. module: school_management
+#: model:ir.model.fields,field_description:school_management.field_school_course_display_name
+#: model:ir.model.fields,field_description:school_management.field_school_program_display_name
+msgid "Display Name"
+msgstr "Afficher le nom"
+
+#. module: school_management
+#: model:ir.actions.act_window,name:school_management.action_employee_form
+#: model:ir.ui.menu,name:school_management.menu_employee_form
+#: model:ir.ui.view,arch_db:school_management.view_res_partner_filter
+msgid "Employees"
+msgstr "Employés"
+
+#. module: school_management
+#: model:ir.model.fields,field_description:school_management.field_school_course_message_follower_ids
+#: model:ir.model.fields,field_description:school_management.field_school_program_message_follower_ids
+msgid "Followers"
+msgstr "Abonnés"
+
+#. module: school_management
+#: model:ir.model.fields,field_description:school_management.field_school_course_message_channel_ids
+#: model:ir.model.fields,field_description:school_management.field_school_program_message_channel_ids
+msgid "Followers (Channels)"
+msgstr "Abonnés (Canaux)"
+
+#. module: school_management
+#: model:ir.model.fields,field_description:school_management.field_school_course_message_partner_ids
+#: model:ir.model.fields,field_description:school_management.field_school_program_message_partner_ids
+msgid "Followers (Partners)"
+msgstr "Abonnés (Partenaires)"
+
+#. module: school_management
+#: model:ir.model.fields,field_description:school_management.field_school_course_hours
+msgid "Hours"
+msgstr "Heures"
+
+#. module: school_management
+#: model:ir.model.fields,field_description:school_management.field_school_course_id
+#: model:ir.model.fields,field_description:school_management.field_school_program_id
+msgid "ID"
+msgstr "Identifiant"
+
+#. module: school_management
+#: model:ir.model.fields,help:school_management.field_school_course_message_unread
+#: model:ir.model.fields,help:school_management.field_school_program_message_unread
+msgid "If checked new messages require your attention."
+msgstr "Si coché, de nouveaux messages demandent votre attention."
+
+#. module: school_management
+#: model:ir.model.fields,help:school_management.field_school_course_message_needaction
+#: model:ir.model.fields,help:school_management.field_school_program_message_needaction
+msgid "If checked, new messages require your attention."
+msgstr "si elle est cochée, de nouveaux messages requièrent votre attention."
+
+#. module: school_management
+#: model:ir.model.fields,field_description:school_management.field_school_course_message_is_follower
+#: model:ir.model.fields,field_description:school_management.field_school_program_message_is_follower
+msgid "Is Follower"
+msgstr "Est un abonné"
+
+#. module: school_management
+#: model:ir.model.fields,field_description:school_management.field_school_course_message_last_post
+#: model:ir.model.fields,field_description:school_management.field_school_program_message_last_post
+msgid "Last Message Date"
+msgstr "Date du dernier message"
+
+#. module: school_management
+#: model:ir.model.fields,field_description:school_management.field_school_course___last_update
+#: model:ir.model.fields,field_description:school_management.field_school_program___last_update
+msgid "Last Modified on"
+msgstr "Dernière modification le"
+
+#. module: school_management
+#: model:ir.model.fields,field_description:school_management.field_school_course_write_uid
+#: model:ir.model.fields,field_description:school_management.field_school_program_write_uid
+msgid "Last Updated by"
+msgstr "Dernière mise à jour par"
+
+#. module: school_management
+#: model:ir.model.fields,field_description:school_management.field_school_course_write_date
+#: model:ir.model.fields,field_description:school_management.field_school_program_write_date
+msgid "Last Updated on"
+msgstr "Dernière mise à jour le"
+
+#. module: school_management
+#: model:ir.model.fields,field_description:school_management.field_school_course_message_ids
+#: model:ir.model.fields,field_description:school_management.field_school_program_message_ids
+msgid "Messages"
+msgstr "Messages"
+
+#. module: school_management
+#: model:ir.model.fields,field_description:school_management.field_school_course_name
+#: model:ir.model.fields,field_description:school_management.field_school_program_name
+msgid "Name"
+msgstr "Nom"
+
+#. module: school_management
+#: model:ir.model.fields,field_description:school_management.field_school_course_notes
+#: model:ir.model.fields,field_description:school_management.field_school_program_notes
+#: model:ir.ui.view,arch_db:school_management.course_form
+#: model:ir.ui.view,arch_db:school_management.program_form
+msgid "Notes"
+msgstr "Notes"
+
+#. module: school_management
+#: model:ir.model.fields,field_description:school_management.field_school_course_message_needaction_counter
+#: model:ir.model.fields,field_description:school_management.field_school_program_message_needaction_counter
+msgid "Number of Actions"
+msgstr "Nombre d'Actions"
+
+#. module: school_management
+#: model:ir.model.fields,help:school_management.field_school_course_message_needaction_counter
+#: model:ir.model.fields,help:school_management.field_school_program_message_needaction_counter
+msgid "Number of messages which requires an action"
+msgstr "Nombre de messages demandant une action"
+
+#. module: school_management
+#: model:ir.model.fields,help:school_management.field_school_course_message_unread_counter
+#: model:ir.model.fields,help:school_management.field_school_program_message_unread_counter
+msgid "Number of unread messages"
+msgstr "Nombre de messages non lus"
+
+#. module: school_management
+#: model:ir.actions.act_window,help:school_management.action_student_form
+msgid "Odoo helps you easily track all activities related to\n"
+"                a student; courses, discussions, documents, etc."
+msgstr "Odoo vous aide à garder trace des étudiants; cours, discussions, documents, etc."
+
+#. module: school_management
+#: model:ir.actions.act_window,help:school_management.action_teacher_form
+msgid "Odoo helps you easily track all activities related to\n"
+"                a teacher; courses, discussions, documents, etc."
+msgstr "Odoo vous aide à garder trace des enseignants; cours, discussions, documents, etc."
+
+#. module: school_management
+#: model:ir.actions.act_window,help:school_management.action_employee_form
+msgid "Odoo helps you easily track all activities related to\n"
+"                an employee; discussions, documents, etc."
+msgstr "Odoo vous aide à garder trace des employés; discussions, documents, etc."
+
+#. module: school_management
+#: model:ir.actions.act_window,help:school_management.action_course_form
+msgid "Odoo helps you easily track all activities related to a course."
+msgstr "Odoo hvous aide à garder trace de toutes les informations au sujet des cours."
+
+#. module: school_management
+#: model:ir.actions.act_window,help:school_management.action_program_form
+msgid "Odoo helps you easily track all activities related to a program."
+msgstr "Odoo hvous aide à garder trace de toutes les informations au sujet des programmes de cours."
+
+#. module: school_management
+#: model:ir.model,name:school_management.model_res_partner
+msgid "Partner"
+msgstr "Partenaire"
+
+#. module: school_management
+#: model:ir.ui.view,arch_db:school_management.view_res_partner_filter
+msgid "Persons"
+msgstr "Personnes"
+
+#. module: school_management
+#: model:ir.ui.menu,name:school_management.menu_main_program
+#: model:ir.ui.menu,name:school_management.menu_program
+#: model:ir.ui.view,arch_db:school_management.program_form
+msgid "Program"
+msgstr "Programme"
+
+#. module: school_management
+#: model:ir.ui.view,arch_db:school_management.program_form
+msgid "Program description..."
+msgstr "Description du programme..."
+
+#. module: school_management
+#: model:ir.actions.act_window,name:school_management.action_program_form
+#: model:ir.model.fields,field_description:school_management.field_school_course_program_ids
+#: model:ir.ui.menu,name:school_management.menu_program_form
+#: model:ir.ui.view,arch_db:school_management.course_form
+msgid "Programs"
+msgstr "Programmes"
+
+#. module: school_management
+#: model:ir.ui.view,arch_db:school_management.view_course_filter
+msgid "Search Course"
+msgstr "Rechercher un cours"
+
+#. module: school_management
+#: model:ir.ui.view,arch_db:school_management.view_res_partner_filter
+msgid "Search Partner"
+msgstr "Rechercher un partenaire"
+
+#. module: school_management
+#: model:ir.ui.view,arch_db:school_management.view_program_filter
+msgid "Search Program"
+msgstr "Rechercher un programme"
+
+#. module: school_management
+#: model:ir.model.fields,field_description:school_management.field_res_partner_student
+msgid "Student"
+msgstr "Etudiant"
+
+#. module: school_management
+#: model:ir.actions.act_window,name:school_management.action_student_form
+#: model:ir.ui.menu,name:school_management.menu_student_form
+#: model:ir.ui.view,arch_db:school_management.view_res_partner_filter
+msgid "Students"
+msgstr "Etudiants"
+
+#. module: school_management
+#: model:ir.model.fields,field_description:school_management.field_res_partner_teacher
+msgid "Teacher"
+msgstr "Enseignant"
+
+#. module: school_management
+#: model:ir.actions.act_window,name:school_management.action_teacher_form
+#: model:ir.ui.menu,name:school_management.menu_teacher_form
+#: model:ir.ui.view,arch_db:school_management.view_res_partner_filter
+msgid "Teachers"
+msgstr "Enseignants"
+
+#. module: school_management
+#: model:ir.model.fields,field_description:school_management.field_school_program_total_credits
+msgid "Total Credits"
+msgstr "Total des Crédits"
+
+#. module: school_management
+#: model:ir.model.fields,field_description:school_management.field_school_program_total_hours
+msgid "Total Hours"
+msgstr "Total des Heures"
+
+#. module: school_management
+#: model:ir.model.fields,field_description:school_management.field_school_course_message_unread
+#: model:ir.model.fields,field_description:school_management.field_school_program_message_unread
+msgid "Unread Messages"
+msgstr "Messages non lus"
+
+#. module: school_management
+#: model:ir.model.fields,field_description:school_management.field_school_course_message_unread_counter
+#: model:ir.model.fields,field_description:school_management.field_school_program_message_unread_counter
+msgid "Unread Messages Counter"
+msgstr "Compteur de messages non lus"
+
+#. module: school_management
+#: model:ir.model,name:school_management.model_school_course
+msgid "school.course"
+msgstr "school.course"
+
+#. module: school_management
+#: model:ir.model,name:school_management.model_school_program
+msgid "school.program"
+msgstr "school.program"
+
+#. module: school_management
+#: model:ir.model,name:school_management.model_scool_course
+msgid "scool.course"
+msgstr "scool.course"
+

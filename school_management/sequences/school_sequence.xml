@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+    <data noupdate="1">
+    
+        <record id="seq_student" model="ir.sequence">
+            <field name="name">Students</field>
+            <field name="code">school.student</field>
+            <field name="prefix">STUD/</field>
+            <field name="padding">6</field>
+        </record>
+        
+        <record id="seq_teacher" model="ir.sequence">
+            <field name="name">Teachers</field>
+            <field name="code">school.teacher</field>
+            <field name="prefix">TEACH/</field>
+            <field name="padding">6</field>
+        </record>
+        
+        <record id="seq_employee" model="ir.sequence">
+            <field name="name">Employees</field>
+            <field name="code">school.employee</field>
+            <field name="prefix">EMPL/</field>
+            <field name="padding">6</field>
+        </record>
+      
+    </data>
+</openerp>
