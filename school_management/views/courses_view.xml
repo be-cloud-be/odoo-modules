@@ -362,7 +362,7 @@
       <field name="view_id" ref="course_group_form" />
       <field name="act_window_id" ref="action_course_group_form" />
     </record>
-    <menuitem id="menu_course_group_form" parent="menu_course_group" action="action_course_group_form" sequence="10" />
+    <menuitem id="menu_course_group_form" parent="menu_program" action="action_course_group_form" sequence="10" />
 
     <!--
     
