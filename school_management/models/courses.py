@@ -85,46 +85,35 @@ class competency(models.Model):
     '''Competency'''
     _name = 'school.competency'
     _order = 'sequence asc'
-    
     sequence = fields.Integer(required=True, string='Sequency')
     description = fields.Text(required=True, string='Description')
     
 class domain(models.Model):
     '''Domain'''
     _name = 'school.domain'
-    
-    code = fields.Char(required=True, string='Code', size=8)
     name = fields.Char(required=True, string='Name')
     description = fields.Text(required=True, string='Description')
     
 class domain(models.Model):
     '''Cycle'''
     _name = 'school.cycle'
-    
-    code = fields.Char(required=True, string='Code', size=8)
     name = fields.Char(required=True, string='Name')
     description = fields.Text(required=True, string='Description')
     
 class domain(models.Model):
     '''Section'''
     _name = 'school.section'
-    
-    code = fields.Char(required=True, string='Code', size=8)
     name = fields.Char(required=True, string='Name')
     description = fields.Text(required=True, string='Description')
     
 class track(models.Model):
     '''Track'''
     _name = 'school.track'
-    
-    code = fields.Char(required=True, string='Code', size=8)
     name = fields.Char(required=True, string='Name')
     description = fields.Text(required=True, string='Description')
     
 class domain(models.Model):
     '''Speciality'''
     _name = 'school.speciality'
-    
-    code = fields.Char(required=True, string='Code', size=8)
     name = fields.Char(required=True, string='Name')
     description = fields.Text(required=True, string='Description')
