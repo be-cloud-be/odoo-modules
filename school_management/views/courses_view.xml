@@ -77,9 +77,11 @@
         <tree string="Contacts">
           <field name="code" />
           <field name="name" />
-          <field name="hours" />
-          <field name="credits" />
-          <field name="weight" />
+          <group col="6" colspan="4">
+            <field name="hours" />
+            <field name="credits" />
+            <field name="weight" />
+          </group>
         </tree>
       </field>
     </record>
@@ -101,9 +103,11 @@
               <field name="code" colspan="4" />
               <field name="name" colspan="4" />
               <field name="description" placeholder="Course description..." colspan="4" />
-              <field name="hours" />
-              <field name="credits" />
-              <field name="weight" />
+              <group col="6" colspan="4">
+                <field name="hours" />
+                <field name="credits" />
+                <field name="weight" />
+              </group>
             </group>
             <notebook>
               <page string="Programs">
@@ -207,7 +211,7 @@
                       <div class="col-xs-4 o_kanban_primary_left">
                         <b>Total Credits : </b><field name="total_credits" />
                       </div>
-                      <div class="col-xs-4 o_kanban_primary_right">
+                      <div class="col-xs-4">
                         <b>Total Hours : </b><field name="total_hours" />
                       </div>
                       <div class="col-xs-4 o_kanban_primary_right">
@@ -259,9 +263,11 @@
               <field name="code" colspan="4" />
               <field name="name" colspan="4" />
               <field name="description" placeholder="Program description..." colspan="4" />
-              <field name="total_hours" />
-              <field name="total_credits" />
-              <field name="total_weight" />
+              <group col="6" colspan="4">
+                <field name="total_hours" />
+                <field name="total_credits" />
+                <field name="total_weight" />
+              </group>
             </group>
             <notebook>
               <page string="Courses">
