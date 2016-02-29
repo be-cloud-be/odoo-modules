@@ -1,4 +1,10 @@
 id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
-school_program,school_program,model_school_program,school.group_teacher,1,0,0,0
-school_course_group,school_course_group,model_school_course_group,school.group_teacher,1,0,0,0
-school_course,school_course,model_school_course,school.group_teacher,1,0,0,0
+school_program_student,school_program_student,model_school_program,school.group_student,1,0,0,0
+school_course_group_student_student,school_course_group,model_school_course_group,school.group_student,1,0,0,0
+school_course_student,school_course_student,model_school_course,school.group_student,1,0,0,0
+school_program_teacher,school_program_teacher,model_school_program,school.group_teacher,1,0,0,0
+school_course_group_teacher_teacher,school_course_group,model_school_course_group,school.group_teacher,1,0,0,0
+school_course_teacher,school_course_teacher,model_school_course,school.group_teacher,1,0,0,0
+school_program_employee,school_program_employee,model_school_program,school.group_teacher,1,1,1,1
+school_course_group_employee,school_course_group_employee,model_school_course_group,school.group_teacher,1,1,1,1
+school_course_employee,school_course_employee,model_school_course,school.group_teacher,1,1,1,1
