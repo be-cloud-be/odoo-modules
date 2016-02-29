@@ -18,7 +18,7 @@ msgstr ""
 #. module: school_management
 #: model:ir.ui.view,arch_db:school_management.course_kanban_view
 msgid "<b>Credits : </b>"
-msgstr "<b>Crédits : </b>"
+msgstr "<b>ECTS : </b>"
 
 #. module: school_management
 #: model:ir.ui.view,arch_db:school_management.course_kanban_view
@@ -28,7 +28,7 @@ msgstr "<b>Heures : </b>"
 #. module: school_management
 #: model:ir.ui.view,arch_db:school_management.program_kanban_view
 msgid "<b>Total Credits : </b>"
-msgstr "<b>Total des Crédits : </b>"
+msgstr "<b>Total des ECTS : </b>"
 
 #. module: school_management
 #: model:ir.ui.view,arch_db:school_management.program_kanban_view
@@ -124,7 +124,7 @@ msgstr "Créé le"
 #. module: school_management
 #: model:ir.model.fields,field_description:school_management.field_school_course_credits
 msgid "Credits"
-msgstr "Crédits"
+msgstr "ECTS"
 
 #. module: school_management
 #: model:ir.model.fields,help:school_management.field_school_course_message_last_post
@@ -360,7 +360,7 @@ msgstr "Enseignants"
 #. module: school_management
 #: model:ir.model.fields,field_description:school_management.field_school_program_total_credits
 msgid "Total Credits"
-msgstr "Total des Crédits"
+msgstr "Total des ECTS"
 
 #. module: school_management
 #: model:ir.model.fields,field_description:school_management.field_school_program_total_hours

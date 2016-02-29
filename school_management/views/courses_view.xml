@@ -46,11 +46,14 @@
                   </div>
                   <div class="container o_kanban_card_content o_visible">
                     <div class="row">
-                      <div class="col-xs-6 o_kanban_primary_left">
+                      <div class="col-xs-4 o_kanban_primary_left">
                         <b>Credits : </b><field name="credits" />
                       </div>
-                      <div class="col-xs-6 o_kanban_primary_right">
+                      <div class="col-xs-4 o_kanban_primary_right">
                         <b>Hours : </b><field name="hours" />
+                      </div>
+                      <div class="col-xs-4 o_kanban_primary_right">
+                        <b>Weight : </b><field name="weight" />
                       </div>
                     </div>
                   </div>
@@ -76,6 +79,7 @@
           <field name="name" />
           <field name="hours" />
           <field name="credits" />
+          <field name="weight" />
         </tree>
       </field>
     </record>
@@ -99,6 +103,7 @@
               <field name="description" placeholder="Course description..." colspan="4" />
               <field name="hours" />
               <field name="credits" />
+              <field name="weight" />
             </group>
             <notebook>
               <page string="Programs">
@@ -199,11 +204,14 @@
                   </div>
                   <div class="container o_kanban_card_content o_visible">
                     <div class="row">
-                      <div class="col-xs-6 o_kanban_primary_left">
+                      <div class="col-xs-4 o_kanban_primary_left">
                         <b>Total Credits : </b><field name="total_credits" />
                       </div>
-                      <div class="col-xs-6 o_kanban_primary_right">
+                      <div class="col-xs-4 o_kanban_primary_right">
                         <b>Total Hours : </b><field name="total_hours" />
+                      </div>
+                      <div class="col-xs-4 o_kanban_primary_right">
+                        <b>Total Weight : </b><field name="total_weight" />
                       </div>
                     </div>
                   </div>
@@ -229,6 +237,7 @@
           <field name="name" />
           <field name="total_hours" />
           <field name="total_credits" />
+          <field name="total_weight" />
         </tree>
       </field>
     </record>
@@ -252,6 +261,7 @@
               <field name="description" placeholder="Program description..." colspan="4" />
               <field name="total_hours" />
               <field name="total_credits" />
+              <field name="total_weight" />
             </group>
             <notebook>
               <page string="Courses">
@@ -261,6 +271,7 @@
                     <field name="name" />
                     <field name="credits" />
                     <field name="hours" />
+                    <field name="weight" />
                   </tree>
                 </field>
               </page>
