@@ -32,7 +32,7 @@ class Course(models.Model):
     
     code = fields.Char(required=True, string='Code', size=8)
     name = fields.Char(required=True, string='Name')
-    description = fields.Text(required=True, string='Description')
+    description = fields.Text(string='Description')
     
     credits = fields.Integer(required=True, string = 'Credits')
     hours = fields.Integer(required=True, string = 'Hours')
@@ -63,7 +63,7 @@ class CourseGroup(models.Model):
 
     code = fields.Char(required=True, string='Code', size=8)
     name = fields.Char(required=True, string='Name')
-    description = fields.Text(required=True, string='Description')
+    description = fields.Text(string='Description')
     
     credits = fields.Integer(required=True, string = 'Credits')
     hours = fields.Integer(required=True, string = 'Hours')
@@ -99,7 +99,7 @@ class Program(models.Model):
         
     code = fields.Char(required=True, string='Code', size=8)
     name = fields.Char(required=True, string='Name')
-    description = fields.Text(required=True, string='Description')
+    description = fields.Text(string='Description')
     
     competency_ids = fields.Many2many('school.competency','school_competency_program_rel', id1='program_id', id2='competency_id', string='Competencies')
     
