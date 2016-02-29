@@ -40,7 +40,7 @@ class Course(models.Model):
     
     notes = fields.Text(string='Notes')
     
-    course_group_ids = fields.Many2many('school.course_group', 'school_course_course_group_rel', id1='course_id', id2='course_group_id', string='Course Groups')
+    course_group_ids = fields.Many2many('school.course_group', 'school_course_course_group_rel', id1='course_id', id2='course_group_id', string='Course Groups', ondelete='set null')
     
 class CourseGroup(models.Model):
     '''Courses Group'''
@@ -71,8 +71,8 @@ class CourseGroup(models.Model):
     
     notes = fields.Text(string='Notes')
     
-    course_ids = fields.Many2many('school.course', 'school_course_course_group_rel', id1='course_group_id', id2='course_id', string='Courses')
-    program_ids = fields.Many2many('school.program', 'school_course_group_program_rel', id1='course_group_id', id2='program_id', string='Programs')
+    course_ids = fields.Many2many('school.course', 'school_course_course_group_rel', id1='course_group_id', id2='course_id', string='Courses', ondelete='set null')
+    program_ids = fields.Many2many('school.program', 'school_course_group_program_rel', id1='course_group_id', id2='program_id', string='Programs', ondelete='set null')
     
 class Program(models.Model):
     '''Progral'''
@@ -97,7 +97,7 @@ class Program(models.Model):
     name = fields.Char(required=True, string='Name')
     description = fields.Text(string='Description')
     
-    competency_ids = fields.Many2many('school.competency','school_competency_program_rel', id1='program_id', id2='competency_id', string='Competencies')
+    competency_ids = fields.Many2many('school.competency','school_competency_program_rel', id1='program_id', id2='competency_id', string='Competencies', ondelete='set null')
     
     domain_id = fields.Many2one('school.domain', string='Domain')
     cycle_id = fields.Many2one('school.cycle', string='Cycle')
@@ -111,7 +111,7 @@ class Program(models.Model):
     
     notes = fields.Text(string='Notes')
     
-    course_group_ids = fields.Many2many('school.course_group', 'school_course_group_program_rel', id1='program_id', id2='course_group_id', string='Courses Groups')
+    course_group_ids = fields.Many2many('school.course_group', 'school_course_group_program_rel', id1='program_id', id2='course_group_id', string='Courses Groups', ondelete='set null')
 
 class competency(models.Model):
     '''Competency'''
@@ -120,7 +120,7 @@ class competency(models.Model):
     sequence = fields.Integer(required=True, string='Sequence')
     description = fields.Text(string='Description')
     
-    program_ids = fields.Many2many('school.program','school_competency_program_rel', id1='competency_id', id2='program_id', string='Programs')
+    program_ids = fields.Many2many('school.program','school_competency_program_rel', id1='competency_id', id2='program_id', string='Programs', ondelete='set null')
     
 class domain(models.Model):
     '''Domain'''
