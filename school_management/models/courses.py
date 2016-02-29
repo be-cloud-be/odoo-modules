@@ -97,7 +97,7 @@ class domain(models.Model):
     name = fields.Char(required=True, string='Name')
     description = fields.Text(required=True, string='Description')
     
-class domain(models.Cycle):
+class domain(models.Model):
     '''Cycle'''
     _name = 'school.cycle'
     
