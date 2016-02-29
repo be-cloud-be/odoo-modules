@@ -2,7 +2,7 @@
 <openerp>
     <data noupdate="1">
     
-        <record id="seq_student" model="ir.sequence">
+        <!--<record id="seq_student" model="ir.sequence">
             <field name="name">Students</field>
             <field name="code">school.student</field>
             <field name="prefix">STUD/</field>
@@ -21,7 +21,7 @@
             <field name="code">school.employee</field>
             <field name="prefix">EMPL/</field>
             <field name="padding">6</field>
-        </record>
+        </record>-->
       
     </data>
 </openerp>
