@@ -5,6 +5,6 @@ school_course_student,school_course_student,model_school_course,group_student,1,
 school_program_teacher,school_program_teacher,model_school_program,group_teacher,1,0,0,0
 school_course_group_teacher_teacher,school_course_group,model_school_course_group,group_teacher,1,0,0,0
 school_course_teacher,school_course_teacher,model_school_course,group_teacher,1,0,0,0
-school_program_employee,school_program_employee,model_school_program,group_teacher,1,1,1,1
-school_course_group_employee,school_course_group_employee,model_school_course_group,group_teacher,1,1,1,1
-school_course_employee,school_course_employee,model_school_course,group_teacher,1,1,1,1
+school_program_employee,school_program_employee,model_school_program,group_employee,1,1,1,1
+school_course_group_employee,school_course_group_employee,model_school_course_group,group_employee,1,1,1,1
+school_course_employee,school_course_employee,model_school_course,group_employee,1,1,1,1
