@@ -86,7 +86,7 @@ class competency(models.Model):
     _name = 'school.competency'
     _order = 'sequence asc'
     
-    sequence = fields.Integed(required=True, string='Sequency')
+    sequence = fields.Integer(required=True, string='Sequency')
     description = fields.Text(required=True, string='Description')
     
 class domain(models.Model):
