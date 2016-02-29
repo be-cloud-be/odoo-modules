@@ -381,7 +381,7 @@
       <field name="name">shcool.program.kanban</field>
       <field name="model">school.program</field>
       <field name="arch" type="xml">
-        <kanban class="o_program_kanban">
+        <kanban class="o_program_kanban" default_group_by="domain_id">
           <field name="code" />
           <field name="name" />
           <templates>
