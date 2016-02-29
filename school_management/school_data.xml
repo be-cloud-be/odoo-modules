@@ -2,15 +2,15 @@
 <openerp>
     <data noupdate="0">
 
-        <!--<record id="school.group_employee" model="res.groups">
+        <record id="group_employee" model="res.groups">
             <field name="name">Employees</field>
-        </record>-->
+        </record>
 
-        <record id="school.group_teacher" model="res.groups">
+        <record id="group_teacher" model="res.groups">
             <field name="name">Teachers</field>
         </record>
 
-        <record id="school.group_student" model="res.groups">
+        <record id="group_student" model="res.groups">
             <field name="name">Students</field>
             <field name="implied_ids" eval="[(4, ref('base.group_user'))]" />
         </record>
