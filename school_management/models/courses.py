@@ -84,15 +84,12 @@ class Program(models.Model):
     def _get_courses_total(self):
         total_hours = 0.0
         total_credits = 0.0
-        total_weight = 0.0
         for course_group in self.course_group_ids:
             total_hours += course_group.total_hours
             total_credits += course_group.total_credits
-            total_weight += course_group.total_weight
         self.total_hours = total_hours
         self.total_credits = total_credits
-        self.total_weight = total_weight
-        
+
     code = fields.Char(required=True, string='Code', size=8)
     name = fields.Char(required=True, string='Name')
     description = fields.Text(string='Description')
@@ -107,8 +104,7 @@ class Program(models.Model):
     
     total_credits = fields.Integer(compute='_get_courses_total', string='Total Credits')
     total_hours = fields.Integer(compute='_get_courses_total', string='Total Hours')
-    total_weight = fields.Integer(compute='_get_courses_total', string='Total Weight')
-    
+
     notes = fields.Text(string='Notes')
     
     course_group_ids = fields.Many2many('school.course_group', 'school_course_group_program_rel', id1='program_id', id2='course_group_id', string='Courses Groups', ondelete='set null')
