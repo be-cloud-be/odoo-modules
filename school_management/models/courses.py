@@ -65,10 +65,6 @@ class CourseGroup(models.Model):
     name = fields.Char(required=True, string='Name')
     description = fields.Text(string='Description')
     
-    credits = fields.Integer(required=True, string = 'Credits')
-    hours = fields.Integer(required=True, string = 'Hours')
-    weight =  fields.Integer(required=True, string = 'Weight')
-    
     total_credits = fields.Integer(compute='_get_courses_total', string='Total Credits')
     total_hours = fields.Integer(compute='_get_courses_total', string='Total Hours')
     total_weight = fields.Integer(compute='_get_courses_total', string='Total Weight')
