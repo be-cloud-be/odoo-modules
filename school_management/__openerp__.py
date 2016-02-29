@@ -32,7 +32,7 @@
         'views/res_partner_view.xml',
         'views/courses_view.xml',
         'sequences/school_sequence.xml',
-        'security/ir.model.access.csv',
+        #'security/ir.model.access.csv',
     ],
     'demo_xml': [],
     'description': '''
