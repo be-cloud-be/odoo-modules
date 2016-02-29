@@ -77,11 +77,9 @@
         <tree string="Contacts">
           <field name="code" />
           <field name="name" />
-          <group col="6" colspan="4">
-            <field name="hours" />
-            <field name="credits" />
-            <field name="weight" />
-          </group>
+          <field name="hours" />
+          <field name="credits" />
+          <field name="weight" />
         </tree>
       </field>
     </record>
