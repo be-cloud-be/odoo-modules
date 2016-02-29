@@ -194,7 +194,7 @@
         
         
         <record id="action_other_form" model="ir.actions.act_window">
-            <field name="name">Employees</field>
+            <field name="name">Others</field>
             <field name="type">ir.actions.act_window</field>
             <field name="res_model">res.partner</field>
             <field name="view_type">form</field>
@@ -233,7 +233,7 @@
 		
 		
 		<record id="action_archived_form" model="ir.actions.act_window">
-            <field name="name">Employees</field>
+            <field name="name">Archived</field>
             <field name="type">ir.actions.act_window</field>
             <field name="res_model">res.partner</field>
             <field name="view_type">form</field>
