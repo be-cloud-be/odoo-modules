@@ -29,6 +29,6 @@ class website_portal_school_management(http.Controller):
     def details(self, redirect=None, **post):
         partner = request.env['res.users'].browse(request.uid).partner_id
         values = {
-            'partner': partner,
+            'user': partner,
         }
         return request.website.render("website_portal_school_management.information", values)
