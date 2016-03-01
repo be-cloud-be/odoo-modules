@@ -28,7 +28,7 @@
                     <div id="o_my_information" class="col-md-12">
                         <div class="o_my_details">
                             <h3 class="page-header">Your Details</h3>
-                            <div t-field="user.partner_id" t-field-options='{"widget": "contact", "fields": ["email", "phone", "address", "name"]}'/>
+                            <div t-field="user.partner_id" t-field-options='{"widget": "contact", "fields": ["email", "phone", "mobile", "address", "name"]}'/>
                         </div>
                     </div>
                     <div class="col-md-12 oe_structure"/>
