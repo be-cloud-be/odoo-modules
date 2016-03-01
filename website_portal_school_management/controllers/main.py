@@ -1,5 +1,4 @@
-<?xml version="1.0" encoding="utf-8" ?>
-<!--
+# -*- encoding: utf-8 -*-
 ##############################################################################
 #
 #    Copyright (c) 2015 be-cloud.be
@@ -19,22 +18,16 @@
 #    along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #
 ##############################################################################
--->
-<openerp>
-    <data noupdate="0">
 
-        <record id="group_employee" model="res.groups">
-            <field name="name">Employees</field>
-        </record>
+from openerp import http
+from openerp.http import request
+from openerp import tools
+from openerp.tools.translate import _
 
-        <record id="group_teacher" model="res.groups">
-            <field name="name">Teachers</field>
-        </record>
-
-        <record id="group_student" model="res.groups">
-            <field name="name">Students</field>
-            <field name="implied_ids" eval="[(4, ref('base.group_user'))]" />
-        </record>
-
-    </data>
-</openerp>
+@http.route(['/my/info'], type='http', auth='user', website=True)
+    def details(self, redirect=None, **post):
+        partner = request.env['res.users'].browse(request.uid).partner_id
+        values.update({
+            'partner': partner,
+        })
+        return request.website.render("website_portal_school_management.information", values)

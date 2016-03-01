@@ -20,21 +20,26 @@
 #
 ##############################################################################
 -->
-<openerp>
-    <data noupdate="0">
-
-        <record id="group_employee" model="res.groups">
-            <field name="name">Employees</field>
-        </record>
-
-        <record id="group_teacher" model="res.groups">
-            <field name="name">Teachers</field>
-        </record>
-
-        <record id="group_student" model="res.groups">
-            <field name="name">Students</field>
-            <field name="implied_ids" eval="[(4, ref('base.group_user'))]" />
-        </record>
-
-    </data>
-</openerp>
+<odoo>
+    <template id="information" name="Information">
+        <t t-call="website.layout">
+            <div id="wrap">
+                <div class="container mb64">
+                    <div id="o_my_information" class="col-md-12">
+                        <div class="o_my_details">
+                            <h3 class="page-header">Your Details
+                            <div t-field="user.partner_id" t-field-options='{"widget": "contact", "fields": ["email", "phone", "address", "name"]}'/>
+                        </div>
+                    </div>
+                    <div class="col-md-12 oe_structure"/>
+                </div>
+            </div>
+        </t>
+    </template>
+    
+    <template id="my_info_link" name="Link to user informations" inherit_id="website.layout">
+        <xpath expr="//li[@id='o_logout']" position="before">
+            <li><a href="/my/info" role="menuitem">My Information</a></li>
+        </xpath>
+    </template>
+</odoo>

@@ -1,5 +1,4 @@
-<?xml version="1.0" encoding="utf-8" ?>
-<!--
+# -*- encoding: utf-8 -*-
 ##############################################################################
 #
 #    Copyright (c) 2015 be-cloud.be
@@ -19,22 +18,4 @@
 #    along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #
 ##############################################################################
--->
-<openerp>
-    <data noupdate="0">
-
-        <record id="group_employee" model="res.groups">
-            <field name="name">Employees</field>
-        </record>
-
-        <record id="group_teacher" model="res.groups">
-            <field name="name">Teachers</field>
-        </record>
-
-        <record id="group_student" model="res.groups">
-            <field name="name">Students</field>
-            <field name="implied_ids" eval="[(4, ref('base.group_user'))]" />
-        </record>
-
-    </data>
-</openerp>
+import controllers
