@@ -25,9 +25,9 @@ from openerp import tools
 from openerp.tools.translate import _
 
 @http.route(['/my/info'], type='http', auth='user', website=True)
-    def details(self, redirect=None, **post):
-        partner = request.env['res.users'].browse(request.uid).partner_id
-        values.update({
-            'partner': partner,
-        })
-        return request.website.render("website_portal_school_management.information", values)
+def details(self, redirect=None, **post):
+    partner = request.env['res.users'].browse(request.uid).partner_id
+    values.update({
+        'partner': partner,
+    })
+    return request.website.render("website_portal_school_management.information", values)
