@@ -27,8 +27,8 @@ from openerp.tools.translate import _
 class website_portal_school_management(http.Controller):
     @http.route(['/my/info'], type='http', auth='user', website=True)
     def details(self, redirect=None, **post):
-        partner = request.env['res.users'].browse(request.uid).partner_id
+        user = request.env['res.users'].browse(request.uid)
         values = {
-            'user': partner,
+            'user': user,
         }
         return request.website.render("website_portal_school_management.information", values)
