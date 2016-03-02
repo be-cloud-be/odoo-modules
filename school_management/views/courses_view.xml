@@ -280,6 +280,7 @@
                 <field name="total_credits" />
               </group>
             </group>
+            <field name="program_id" colspan="4" />
             <field name="course_ids">
               <tree string="Courses">
                 <field name="code" />
@@ -292,24 +293,6 @@
             <notebook>
               <page string="Description">
                 <field name="description" placeholder="Vade mecum..." colspan="4" />
-              </page>
-              <page string="Programs">
-                <field name="program_ids" mode="kanban" readonly="1">
-                  <kanban>
-                    <field name="code" />
-                    <field name="name" />
-                    <templates>
-                      <t t-name="kanban-box">
-                        <div class="oe_kanban_global_click o_program_kanban">
-                          <div class="oe_kanban_details">
-                            <strong class="oe_program_heading"><field name="code"/></strong>
-                            <field name="name" />
-                          </div>
-                        </div>
-                      </t>
-                    </templates>
-                  </kanban>
-                </field>
               </page>
               <page string="Notes">
                 <field name="notes" />
@@ -452,6 +435,7 @@
               <field name="total_hours" />
               <field name="total_credits" />
             </group>
+            <field name="bloc_id" colspan="4" />
             <field name="course_group_ids">
               <tree string="Course Groups">
                 <field name="code" />
@@ -460,7 +444,6 @@
                 <field name="total_hours" />
               </tree>
             </field>
-            <field name="bloc_id" colspan="4" />
             <notebook>
               <page string="Description">
                 <field name="description" placeholder="Vade mecum..." colspan="4" />

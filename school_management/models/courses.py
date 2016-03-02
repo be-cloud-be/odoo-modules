@@ -72,7 +72,7 @@ class CourseGroup(models.Model):
     notes = fields.Text(string='Notes')
     
     course_ids = fields.Many2many('school.course', 'school_course_course_group_rel', id1='course_group_id', id2='course_id', string='Courses', ondelete='set null')
-    program_ids = fields.Many2many('school.program', 'school_course_group_program_rel', id1='course_group_id', id2='program_id', string='Programs', ondelete='set null')
+    program_id = fields.Many2one('school.program', string='Programs')
     
 class Program(models.Model):
     '''Progral'''
@@ -99,7 +99,7 @@ class Program(models.Model):
 
     notes = fields.Text(string='Notes')
     
-    course_group_ids = fields.Many2many('school.course_group', 'school_course_group_program_rel', id1='program_id', id2='course_group_id', string='Courses Groups', ondelete='set null')
+    course_group_ids = fields.One2many('school.program', 'program_id', string='Courses Groups')
 
     bloc_id = fields.Many2one('school.bloc', string='Bloc')
 
