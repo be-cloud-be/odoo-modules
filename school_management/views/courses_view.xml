@@ -23,10 +23,10 @@
 <openerp>
   <data>
     <!-- Top menu item -->
-    <menuitem name="Program" id="menu_main_program" icon="fa-book" web_icon="school,static/description/icon.png" sequence="60" />
+    <menuitem name="Programs" id="menu_main_program" icon="fa-book" web_icon="school,static/description/icon.png" sequence="60" />
 
-    <menuitem name="Program" parent="menu_main_program" id="menu_program" sequence="1" />
-    <menuitem name="Assignment" parent="menu_main_program" id="menu_assignment" sequence="10" />
+    <menuitem name="Programs" parent="menu_main_program" id="menu_program" sequence="1" />
+    <menuitem name="Assignments" parent="menu_main_program" id="menu_assignment" sequence="10" />
 
     <!--
     
@@ -699,10 +699,10 @@
       <field name="model">school.assignment</field>
       <field eval="8" name="priority" />
       <field name="arch" type="xml">
-        <tree string="Assingment">
-          <field name="teacher_id" />
+        <tree string="Assingment" >
           <field name="bloc_id" />
           <field name="course_id" />
+          <field name="teacher_id" />
         </tree>
       </field>
     </record>
