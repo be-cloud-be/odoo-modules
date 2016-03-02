@@ -37,8 +37,7 @@ class Partner(models.Model):
     teacher_current_assigment_ids = fields.One2many('school.assignment', compute='_get_teacher_current_assigment_ids', string="Current Assignments")
     
     @api.one
-    @api.returns ('school.assignment')
     def _get_teacher_current_assigment_ids(self):
         current_year_id = safe_eval(self.env['ir.config_parameter'].get_param('school.current_year_id','1'))
         res = self.env['school.assignment'].search([['year_id', '=', current_year_id], ['teacher_id', '=', self.id]])
-        return res
+        self.teacher_current_assigment_ids = res
