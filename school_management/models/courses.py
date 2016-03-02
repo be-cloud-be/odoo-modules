@@ -101,7 +101,7 @@ class Program(models.Model):
     
     course_group_ids = fields.Many2many('school.course_group', 'school_course_group_program_rel', id1='program_id', id2='course_group_id', string='Courses Groups', ondelete='set null')
 
-    bloc_ids = fields.Many2one('school.bloc', string='Bloc')
+    bloc_id = fields.Many2one('school.bloc', string='Bloc')
 
 class Bloc(models.Model):
     '''Block'''
