@@ -105,7 +105,7 @@ class Program(models.Model):
 
 class Bloc(models.Model):
     '''Block'''
-    _name = 'school.block'
+    _name = 'school.bloc'
     _inherit = ['mail.thread']
     
     @api.one
