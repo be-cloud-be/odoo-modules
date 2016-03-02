@@ -707,6 +707,16 @@
       </field>
     </record>
     
+    <record id="view_assignment_filter" model="ir.ui.view">
+      <field name="name">assignment.select</field>
+      <field name="model">school.assignment</field>
+      <field name="arch" type="xml">
+        <search string="Search an">
+          <field name="name" filter_domain="['|',('course_id.name','ilike',self),('teacher_id.name','ilike',self)]" />
+        </search>
+      </field>
+    </record>
+    
     <record id="action_assignment_list" model="ir.actions.act_window">
       <field name="name">Assignments</field>
       <field name="type">ir.actions.act_window</field>
