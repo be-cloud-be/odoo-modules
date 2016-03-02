@@ -32,7 +32,7 @@ class assignment(models.Model):
     year = fields.Char(string='Year',related='program_id.bloc_id.year_id.name', store=True)
     program_id = fields.Many2one('school.program', string='Program')
     course_id = fields.Many2one('school.course', string='Course')
-    teacher_id = fields.Many2one('res.partner', string='Teacher')
+    teacher_id = fields.Many2one('res.partner', string='Teacher', domain="[('teacher', '=', '1')]")
     
     schedule = fields.Char(string='Schedule')
     room = fields.Char(string='Room')
