@@ -28,6 +28,7 @@ _logger = logging.getLogger(__name__)
 class Course(models.Model):
     '''Course'''
     _name = 'school.course'
+    _description = 'Course'
     _inherit = ['mail.thread']
     
     code = fields.Char(required=True, string='Code', size=8)
@@ -45,6 +46,7 @@ class Course(models.Model):
 class CourseGroup(models.Model):
     '''Courses Group'''
     _name = 'school.course_group'
+    _description = 'Courses Group'
     _inherit = ['mail.thread']
 
     @api.one
@@ -63,6 +65,7 @@ class CourseGroup(models.Model):
 
     code = fields.Char(required=True, string='Code', size=8)
     name = fields.Char(required=True, string='Name')
+    year_id = fields.Many2one('school.year', string="Year", related='program_id.year_id', store=True)
     description = fields.Text(string='Description')
     
     total_credits = fields.Integer(compute='_get_courses_total', string='Total Credits')
@@ -72,11 +75,12 @@ class CourseGroup(models.Model):
     notes = fields.Text(string='Notes')
     
     course_ids = fields.Many2many('school.course', 'school_course_course_group_rel', id1='course_group_id', id2='course_id', string='Courses', ondelete='set null')
-    program_id = fields.Many2one('school.program', string='Program')
+    program_id = fields.Many2one(required=True, 'school.program', string='Program')
     
 class Program(models.Model):
     '''Progral'''
     _name = 'school.program'
+    _description = 'Program'
     _inherit = ['mail.thread']
     
     @api.one
@@ -92,6 +96,7 @@ class Program(models.Model):
 
     code = fields.Char(required=True, string='Code', size=8)
     name = fields.Char(required=True, string='Name')
+    year_id = fields.Many2one('school.year', string="Year", related='bloc_id.year_id', store=True)
     description = fields.Text(string='Description')
     
     total_credits = fields.Integer(compute='_get_courses_total', string='Total Credits')
@@ -101,11 +106,12 @@ class Program(models.Model):
     
     course_group_ids = fields.One2many('school.course_group', 'program_id', string='Courses Groups')
 
-    bloc_id = fields.Many2one('school.bloc', string='Bloc')
+    bloc_id = fields.Many2one(required=True, 'school.bloc', string='Bloc')
 
 class Bloc(models.Model):
     '''Bloc'''
     _name = 'school.bloc'
+    _description = 'Bloc of Programs'
     _inherit = ['mail.thread']
     
     @api.one
@@ -121,8 +127,7 @@ class Bloc(models.Model):
     
     code = fields.Char(required=True, string='Code', size=8)
     name = fields.Char(required=True, string='Name')
-    year_id = fields.Many2one('school.year', string="Year")
-    
+    year_id = fields.Many2one(required=True, 'school.year', string="Year")
     description = fields.Text(string='Description')
     
     competency_ids = fields.Many2many('school.competency','school_competency_bloc_rel', id1='bloc_id', id2='competency_id', string='Competencies', ondelete='set null')
