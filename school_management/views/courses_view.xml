@@ -430,9 +430,9 @@
     		            <field name="state" widget="statusbar" statusbar_visible="draft,confirmed,paid"/>
     		        </header>-->
           <sheet>
-            <group col="4">
-              <field name="code" colspan="4" />
-              <field name="name" colspan="4" />
+            <group col="2">
+              <field name="code" />
+              <field name="name" />
               <group col="4" colspan="2">
                 <field name="total_hours" />
                 <field name="total_credits" />
