@@ -33,12 +33,12 @@ class Partner(models.Model):
     teacher = fields.Boolean("Teacher",default=False)
     employee = fields.Boolean("Teacher",default=False)
     
-    teacher_course_ids = fields.Many2one('school.assignment', compute='_get_teacher_course_ids')
+    teacher_current_assigment_ids = fields.Many2one('school.assignment', compute='_get_teacher_current_assigment_ids')
     
     @api.one
     @api.depends('id')
     @returns ('school.assignment')
-    def _get_teacher_course_ids(self):
+    def _get_teacher_current_assigment_ids(self):
         current_year_id = self.env['ir.config_parameter'].get_param('school.current_year_id','1')
         res = self.env['school.assignment'].search([['year_id', '=', current_year_id], ['teacher_id', '=', self.id]])
         return res
