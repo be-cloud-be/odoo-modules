@@ -39,8 +39,8 @@ class AccountCommonReport(models.TransientModel):
         
         res = self.env.cr.fetchall()
         for (program_id,course_id) in res:
-            #try:
-            _logger.info('Create assigment %s - %s',program_id,course_id)
-            self.env['school.assignment'].create({'program_id':program_id, "course_id":course_id})
-            #except Exception as e:
-            #    _logger.error('Error during creation of assingment %s',e)
+            try:
+                _logger.info('Create assigment %s - %s',program_id,course_id)
+                self.env['school.assignment'].create({'program_id':program_id, "course_id":course_id})
+            except Exception as e:
+                _logger.error('Error during creation of assingment %s',e)
