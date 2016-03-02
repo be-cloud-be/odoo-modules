@@ -39,5 +39,6 @@ class Partner(models.Model):
     @api.returns ('school.assignment')
     def _get_teacher_current_assigment_ids(self):
         current_year_id = self.env['ir.config_parameter'].get_param('school.current_year_id','1')
+        _logger.info(current_year_id)
         res = self.env['school.assignment'].search([['year_id', '=', current_year_id], ['teacher_id', '=', self.id]])
         return res
