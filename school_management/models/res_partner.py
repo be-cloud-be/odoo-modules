@@ -35,7 +35,7 @@ class Partner(models.Model):
     employee = fields.Boolean("Teacher",default=False)
     
     teacher_current_assigment_ids = fields.One2many('school.assignment', 
-        'teacher_id', String = 'Current Assignments', domain="[('year_id.id', '=', safe_eval(self.env['ir.config_parameter'].get_param('school.current_year_id','1')))]")
+        'teacher_id', String = 'Current Assignments', domain="[('year_id', 'in', safe_eval(self.env['ir.config_parameter'].get_param('school.current_year_id','1')))]")
     
     #@api.one
     #@api.returns ('school.assignment')
