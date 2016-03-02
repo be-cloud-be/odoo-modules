@@ -153,34 +153,34 @@ class competency(models.Model):
 class domain(models.Model):
     '''Domain'''
     _name = 'school.domain'
-    name = fields.Char(required=True, string='Name')
+    name = fields.Char(required=True, string='Name', size=40)
     description = fields.Text(string='Description')
     
 class domain(models.Model):
     '''Cycle'''
     _name = 'school.cycle'
-    name = fields.Char(required=True, string='Name')
+    name = fields.Char(required=True, string='Name', size=40)
     description = fields.Text(string='Description')
     
 class domain(models.Model):
     '''Section'''
     _name = 'school.section'
-    name = fields.Char(required=True, string='Name')
+    name = fields.Char(required=True, string='Name', size=40)
     description = fields.Text(string='Description')
     
 class track(models.Model):
     '''Track'''
     _name = 'school.track'
-    name = fields.Char(required=True, string='Name')
+    name = fields.Char(required=True, string='Name', size=40)
     description = fields.Text(string='Description')
     
 class domain(models.Model):
     '''Speciality'''
     _name = 'school.speciality'
-    name = fields.Char(required=True, string='Name')
+    name = fields.Char(required=True, string='Name', size=40)
     description = fields.Text(string='Description')
     
 class year(models.Model):
     '''Year'''
     _name = 'school.year'
-    name = fields.Char(required=True, string='Name')
+    name = fields.Char(required=True, string='Name', size=15)
