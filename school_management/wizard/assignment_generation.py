@@ -33,6 +33,8 @@ class AccountCommonReport(models.TransientModel):
 
     @api.one
     def generate_assigments(self):
+        
+        _logger.info(self)
         self.env.cr.execute(
             """SELECT program_id, course_id from school_program, school_course_group, 
                     school_course_course_group_rel, school_course WHERE
