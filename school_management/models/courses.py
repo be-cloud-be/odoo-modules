@@ -136,7 +136,7 @@ class Bloc(models.Model):
 
     notes = fields.Text(string='Notes')
     
-    program_ids = fields.One2many('school.program', string='Programs')
+    program_ids = fields.One2many('school.program', 'bloc_id', string='Programs')
     
 
 class competency(models.Model):
