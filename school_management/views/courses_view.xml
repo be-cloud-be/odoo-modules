@@ -701,7 +701,7 @@
       <field eval="8" name="priority" />
       <field name="arch" type="xml">
         <tree string="Assignment" editable="top" >
-          <field name="bloc_id.year_id" />
+          <field name="year" />
           <field name="bloc_id" />
           <field name="course_id" />
           <field name="teacher_id" context="{'default_groups_ref': ['school.group_teacher']}"/>
