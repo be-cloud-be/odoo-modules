@@ -44,3 +44,4 @@ class AccountCommonReport(models.TransientModel):
                 self.env['school.assignment'].create({'program_id':program_id, "course_id":course_id})
             except Exception as e:
                 _logger.error('Error during creation of assingment %s',e)
+                pass
