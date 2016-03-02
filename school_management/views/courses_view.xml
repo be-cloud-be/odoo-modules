@@ -383,7 +383,7 @@
       <field name="name">shcool.program.kanban</field>
       <field name="model">school.program</field>
       <field name="arch" type="xml">
-        <kanban class="o_program_kanban" default_group_by="domain_id">
+        <kanban class="o_program_kanban">
           <field name="code" />
           <field name="name" />
           <templates>
@@ -697,6 +697,6 @@
       <field name="view_id" ref="bloc_form" />
       <field name="act_window_id" ref="action_bloc_form" />
     </record>
-    <menuitem id="menu_bloc_form" parent="menu_program" action="action_bloc_form" sequence="5" />
+    <menuitem id="menu_bloc_form" parent="menu_program" action="action_bloc_form" sequence="1" />
   </data>
 </openerp>
