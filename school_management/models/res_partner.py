@@ -36,7 +36,6 @@ class Partner(models.Model):
     teacher_current_assigment_ids = fields.Many2one('school.assignment', compute='_get_teacher_current_assigment_ids')
     
     @api.one
-    @api.depends('id')
     @returns ('school.assignment')
     def _get_teacher_current_assigment_ids(self):
         current_year_id = self.env['ir.config_parameter'].get_param('school.current_year_id','1')
