@@ -31,10 +31,8 @@ class AccountCommonReport(models.TransientModel):
     
     year_id = fields.Many2one('school.year', string="Year")
 
-    @api.multi
+    @api.one
     def generate_assigments(self):
-        self.ensure_one()
-        
         self.env.cr.execute(
             """SELECT program_id, course_id from school_program, school_course_group, 
                     school_course_course_group_rel, school_course WHERE
