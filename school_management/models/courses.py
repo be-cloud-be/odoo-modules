@@ -99,7 +99,7 @@ class Program(models.Model):
 
     notes = fields.Text(string='Notes')
     
-    course_group_ids = fields.One2many('school.program', 'program_id', string='Courses Groups')
+    course_group_ids = fields.One2many('school.course_group', 'program_id', string='Courses Groups')
 
     bloc_id = fields.Many2one('school.bloc', string='Bloc')
 
