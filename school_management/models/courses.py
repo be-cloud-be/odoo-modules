@@ -94,7 +94,36 @@ class Program(models.Model):
     name = fields.Char(required=True, string='Name')
     description = fields.Text(string='Description')
     
-    competency_ids = fields.Many2many('school.competency','school_competency_program_rel', id1='program_id', id2='competency_id', string='Competencies', ondelete='set null')
+    total_credits = fields.Integer(compute='_get_courses_total', string='Total Credits')
+    total_hours = fields.Integer(compute='_get_courses_total', string='Total Hours')
+
+    notes = fields.Text(string='Notes')
+    
+    course_group_ids = fields.Many2many('school.course_group', 'school_course_group_program_rel', id1='program_id', id2='course_group_id', string='Courses Groups', ondelete='set null')
+
+    bloc_ids = fields.Many2many('school.bloc', 'school_program_bloc_rel', id1='program_id', id2='bloc_id', string='Programs', ondelete='set null')
+
+Class Bloc(models.Model):
+    '''Block'''
+    _name = 'school.block'
+    _inherit = ['mail.thread']
+    
+    @api.one
+    @api.depends('program_ids')
+    def _get_courses_total(self):
+        total_hours = 0.0
+        total_credits = 0.0
+        for program in self.program_ids:
+            total_hours += program.total_hours
+            total_credits += program.total_credits
+        self.total_hours = total_hours
+        self.total_credits = total_credits
+    
+    code = fields.Char(required=True, string='Code', size=8)
+    name = fields.Char(required=True, string='Name')
+    description = fields.Text(string='Description')
+    
+    competency_ids = fields.Many2many('school.competency','school_competency_bloc_rel', id1='bloc_id', id2='competency_id', string='Competencies', ondelete='set null')
     
     domain_id = fields.Many2one('school.domain', string='Domain')
     cycle_id = fields.Many2one('school.cycle', string='Cycle')
@@ -107,7 +136,8 @@ class Program(models.Model):
 
     notes = fields.Text(string='Notes')
     
-    course_group_ids = fields.Many2many('school.course_group', 'school_course_group_program_rel', id1='program_id', id2='course_group_id', string='Courses Groups', ondelete='set null')
+    program_ids = fields.Many2many('school.program', 'school_program_bloc_rel', id1='bloc_id', id2='program_id', string='Programs', ondelete='set null')
+    
 
 class competency(models.Model):
     '''Competency'''
