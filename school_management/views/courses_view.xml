@@ -179,12 +179,12 @@
       </field>
     </record>
 
-    <record id="action_course_form_view1" model="ir.actions.act_window.view">
+    <!--<record id="action_course_form_view1" model="ir.actions.act_window.view">
       <field name="sequence" eval="0" />
       <field name="view_mode">kanban</field>
       <field name="view_id" ref="course_kanban_view" />
       <field name="act_window_id" ref="action_course_form" />
-    </record>
+    </record>-->
     <record id="action_course_tree_view1" model="ir.actions.act_window.view">
       <field name="sequence" eval="1" />
       <field name="view_mode">tree</field>
@@ -337,12 +337,12 @@
       </field>
     </record>
 
-    <record id="action_course_group_form_view1" model="ir.actions.act_window.view">
+    <!--<record id="action_course_group_form_view1" model="ir.actions.act_window.view">
       <field name="sequence" eval="0" />
       <field name="view_mode">kanban</field>
       <field name="view_id" ref="course_group_kanban_view" />
       <field name="act_window_id" ref="action_course_group_form" />
-    </record>
+    </record>-->
     <record id="action_course_group_tree_view1" model="ir.actions.act_window.view">
       <field name="sequence" eval="1" />
       <field name="view_mode">tree</field>
@@ -493,12 +493,12 @@
       </field>
     </record>
 
-    <record id="action_program_form_view1" model="ir.actions.act_window.view">
+    <!--<record id="action_program_form_view1" model="ir.actions.act_window.view">
       <field name="sequence" eval="0" />
       <field name="view_mode">kanban</field>
       <field name="view_id" ref="program_kanban_view" />
       <field name="act_window_id" ref="action_program_form" />
-    </record>
+    </record>-->
     <record id="action_program_tree_view1" model="ir.actions.act_window.view">
       <field name="sequence" eval="1" />
       <field name="view_mode">tree</field>
