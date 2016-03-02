@@ -32,6 +32,7 @@ class AccountCommonReport(models.TransientModel):
     year_id = fields.Many2one('school.year', string="Year")
 
     @api.one
+    @api.depends('year_id')
     def generate_assigments(self):
         
         _logger.info(self)
@@ -42,7 +43,7 @@ class AccountCommonReport(models.TransientModel):
                     school_program.id = school_course_group.id AND
                     school_course_group.id = school_course_course_group_rel.course_group_id AND
                     school_course_course_group_rel.course_id = school_course.id"""
-                    , self.read(['year_id'])[0])
+                    , self.year_id)
         
         res = self.cr.fetchall()
         for (program_id,course_id) in res:
