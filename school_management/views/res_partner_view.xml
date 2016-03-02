@@ -143,7 +143,12 @@
             <field name="arch" type="xml">
                 <xpath expr="//notebook[last()]" position="inside">
                     <page name="assignment_list" string="Assignments" attrs="{'invisible': [('teacher','=',False)]}">
-                        <field name="teacher_course_ids"/>
+                        <field name="teacher_current_assigment_ids">
+                            <tree string="Assignments">
+                                <field name="program_id" />
+                                <field name="course_id" />
+                            </tree>
+                        </field>
                     </page>
                 </xpath>
             </field>
