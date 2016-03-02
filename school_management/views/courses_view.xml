@@ -611,8 +611,8 @@
               <field name="total_hours" />
               <field name="total_credits" />
             </group>
-            <field name="course_group_ids">
-              <tree string="Course Groups">
+            <field name="program_ids">
+              <tree string="Programs">
                 <field name="code" />
                 <field name="name" />
                 <field name="total_credits" />
