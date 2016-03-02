@@ -29,9 +29,9 @@ class assignment(models.Model):
     '''Assignment'''
     _name = 'school.assignment'
     
-    teacher_id = fields.Many2one('res.partner', string='Teacher')
     bloc_id = fields.Many2one('school.program', string='Program')
     course_id = fields.Many2one('school.course', string='Course')
+    teacher_id = fields.Many2one('res.partner', string='Teacher')
     
     schedule = fields.Char(string='Schedule')
     room = fields.Char(string='Room')
