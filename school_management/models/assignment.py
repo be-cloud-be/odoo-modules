@@ -29,7 +29,7 @@ class assignment(models.Model):
     '''Assignment'''
     _name = 'school.assignment'
     
-    year = fields.Char(string='Year',related='program_id.bloc_id.year_id.name', store=True)
+    year_id = fields.Many2one(string='Year',related='program_id.year_ids', store=True)
     program_id = fields.Many2one('school.program', string='Program')
     course_id = fields.Many2one('school.course', string='Course')
     teacher_id = fields.Many2one('res.partner', string='Teacher', domain="[('teacher', '=', '1')]")
