@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!--
+##############################################################################
+#
+#    Copyright (c) 2015 be-cloud.be
+#                       Jerome Sonnet <jerome.sonnet@be-cloud.be>
+#
+#    This program is free software: you can redistribute it and/or modify
+#    it under the terms of the GNU Affero General Public License as
+#    published by the Free Software Foundation, either version 3 of the
+#    License, or (at your option) any later version.
+#
+#    This program is distributed in the hope that it will be useful,
+#    but WITHOUT ANY WARRANTY; without even the implied warranty of
+#    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+#    GNU Affero General Public License for more details.
+#
+#    You should have received a copy of the GNU Affero General Public License
+#    along with this program.  If not, see <http://www.gnu.org/licenses/>.
+#
+##############################################################################
+-->
+<odoo>
+    <record id="assignment_generate_view" model="ir.ui.view">
+        <field name="name">Generate Assignments</field>
+        <field name="model">school.assigment.generate</field>
+        <field name="arch" type="xml">
+            <form string="Generation Options">
+                <separator string="Generate Assignments"/>
+                <label string="This wizard will create all missing assigments for a given year. You can select a set of programs to include, leaving it empty will create all missing assigments."/>
+                <group col="4">
+                    <field name="year_id"/>
+                    <!-- TODO : Add program selection widget -->
+                </group>
+                <footer>
+                    <button name="generate_assigments" string="Generate Assignments" type="object" default_focus="1" class="oe_highlight"/>
+                    or
+                    <button string="Cancel" class="oe_link" special="cancel"/>
+                </footer>
+            </form>
+        </field>
+    </record>
+
+    <record id="action_assignment_generate_view" model="ir.actions.act_window">
+        <field name="name">Generate Assignments</field>
+        <field name="res_model">school.assigment.generate</field>
+        <field name="type">ir.actions.act_window</field>
+        <field name="view_type">form</field>
+        <field name="view_mode">form</field>
+        <field name="view_id" ref="assignment_generate_view"/>
+        <field name="context">{}</field>
+        <field name="target">new</field>
+    </record>
+
+    <menuitem id="menu_assignment_generate"
+        name="Generate assigments"
+        action="action_assignment_generate_view"
+        parent="school.menu_assignment" sequence="50"/>
+    
+</odoo>
