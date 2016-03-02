@@ -590,6 +590,7 @@
             <group col="4">
               <field name="code" colspan="4" />
               <field name="name" colspan="4" />
+              <field name="year_id" colspan="4" />
               <field name="domain_id" colspan="4" />
               <field name="cycle_id" colspan="4" />
               <field name="section_id" colspan="4" />
@@ -699,7 +700,7 @@
       <field name="model">school.assignment</field>
       <field eval="8" name="priority" />
       <field name="arch" type="xml">
-        <tree string="Assignment" >
+        <tree string="Assignment" editable="top" >
           <field name="bloc_id" />
           <field name="course_id" />
           <field name="teacher_id" context="{'default_groups_ref': ['school.group_teacher']}"/>
@@ -725,7 +726,7 @@
       <field name="type">ir.actions.act_window</field>
       <field name="res_model">school.assignment</field>
       <field name="view_type">form</field>
-      <field name="view_mode">tree,form</field>
+      <field name="view_mode">tree</field>
       <field name="context">{}</field>
       <field name="search_view_id" ref="view_assignment_filter" />
       <field name="help" type="html">
