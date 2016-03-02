@@ -53,13 +53,16 @@
                   <div class="container o_kanban_card_content o_visible">
                     <div class="row">
                       <div class="col-xs-4 o_kanban_primary_left">
-                        <b>Credits : </b><field name="credits" />
+                        <b>Credits : </b>
+                        <field name="credits" />
                       </div>
                       <div class="col-xs-4 o_kanban_primary_right">
-                        <b>Hours : </b><field name="hours" />
+                        <b>Hours : </b>
+                        <field name="hours" />
                       </div>
                       <div class="col-xs-4 o_kanban_primary_right">
-                        <b>Weight : </b><field name="weight" />
+                        <b>Weight : </b>
+                        <field name="weight" />
                       </div>
                     </div>
                   </div>
@@ -194,13 +197,13 @@
       <field name="act_window_id" ref="action_course_form" />
     </record>
     <menuitem id="menu_course_form" parent="menu_program" action="action_course_form" sequence="50" />
-    
+
     <!--
     
         Course Group
         
         -->
-    
+
     <!-- Course Group Kanban View -->
     <record model="ir.ui.view" id="course_group_kanban_view">
       <field name="name">shcool.course_group.kanban</field>
@@ -221,10 +224,12 @@
                   <div class="container o_kanban_card_content o_visible">
                     <div class="row">
                       <div class="col-xs-6 o_kanban_primary_left">
-                        <b>Credits : </b><field name="total_credits" />
+                        <b>Credits : </b>
+                        <field name="total_credits" />
                       </div>
                       <div class="col-xs-6">
-                        <b>Hours : </b><field name="total_hours" />
+                        <b>Hours : </b>
+                        <field name="total_hours" />
                       </div>
                     </div>
                   </div>
@@ -393,10 +398,12 @@
                   <div class="container o_kanban_card_content o_visible">
                     <div class="row">
                       <div class="col-xs-6 o_kanban_primary_left">
-                        <b>Credits : </b><field name="total_credits" />
+                        <b>Credits : </b>
+                        <field name="total_credits" />
                       </div>
                       <div class="col-xs-6">
-                        <b>Hours : </b><field name="total_hours" />
+                        <b>Hours : </b>
+                        <field name="total_hours" />
                       </div>
                     </div>
                   </div>
@@ -453,27 +460,10 @@
                 <field name="total_hours" />
               </tree>
             </field>
+            <field name="bloc_id" colspan="4" />
             <notebook>
               <page string="Description">
                 <field name="description" placeholder="Vade mecum..." colspan="4" />
-              </page>
-              <page string="Blocs">
-                <field name="bloc_ids" mode="kanban" readonly="1">
-                  <kanban>
-                    <field name="code" />
-                    <field name="name" />
-                    <templates>
-                      <t t-name="kanban-box">
-                        <div class="oe_kanban_global_click o_program_kanban">
-                          <div class="oe_kanban_details">
-                            <strong class="oe_program_heading"><field name="code"/></strong>
-                            <field name="name" />
-                          </div>
-                        </div>
-                      </t>
-                    </templates>
-                  </kanban>
-                </field>
               </page>
               <page string="Notes">
                 <field name="notes" />
@@ -535,7 +525,7 @@
       <field name="act_window_id" ref="action_program_form" />
     </record>
     <menuitem id="menu_program_form" parent="menu_program" action="action_program_form" sequence="5" />
-    
+
     <!--
     
         Bloc
@@ -562,10 +552,12 @@
                   <div class="container o_kanban_card_content o_visible">
                     <div class="row">
                       <div class="col-xs-6 o_kanban_primary_left">
-                        <b>Credits : </b><field name="total_credits" />
+                        <b>Credits : </b>
+                        <field name="total_credits" />
                       </div>
                       <div class="col-xs-6">
-                        <b>Hours : </b><field name="total_hours" />
+                        <b>Hours : </b>
+                        <field name="total_hours" />
                       </div>
                     </div>
                   </div>
@@ -660,10 +652,10 @@
           <field name="name" filter_domain="[ '|',( 'name', 'ilike',self),( 'code', '=',self)]" />
           <group expand="1" string="Group By">
             <filter string="Domain" context="{'group_by':'domain_id'}" />
-            <filter string="Cycle" context="{'group_by':'cycle_id'}"/>
+            <filter string="Cycle" context="{'group_by':'cycle_id'}" />
             <filter string="Section" context="{'group_by':'section_id'}" />
-            <filter string="Track" context="{'group_by':'track_id'}"/>
-            <filter string="Speciality" context="{'group_by':'speciality_id'}"/>
+            <filter string="Track" context="{'group_by':'track_id'}" />
+            <filter string="Speciality" context="{'group_by':'speciality_id'}" />
           </group>
         </search>
       </field>
