@@ -142,9 +142,9 @@
             <field eval="25" name="priority"/>
             <field name="arch" type="xml">
                 <xpath expr="//notebook[last()]" position="inside">
-                    <page name="assignment_list" string="Assignments" attrs="{'invisible': [('teacher','=',False)]}">
+                    <page name="assignment_list" string="Current Assignments" attrs="{'invisible': [('teacher','=',False)]}">
                         <field name="teacher_current_assigment_ids">
-                            <tree string="Assignments">
+                            <tree string="Current Assignments">
                                 <field name="program_id" />
                                 <field name="course_id" />
                             </tree>
