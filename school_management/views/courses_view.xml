@@ -34,7 +34,7 @@
         
         -->
         
-    <!-- Course Kanban View -->
+    <!-- Course Kanban View 
     <record model="ir.ui.view" id="course_kanban_view">
       <field name="name">school.course.kanban</field>
       <field name="model">school.course</field>
@@ -67,16 +67,13 @@
                       </div>
                     </div>
                   </div>
-                  <!--<div class="o_kanban_manage_button_section">
-                    <a class="o_kanban_manage_toggle_button" href="#">More <i class="fa fa-caret-down"/></a>
-                  </div>-->
                 </div>
               </div>
             </t>
           </templates>
         </kanban>
       </field>
-    </record>
+    </record> -->
 
     <!-- Course Tree View -->
     <record id="view_course_tree" model="ir.ui.view">
@@ -205,7 +202,7 @@
         
         -->
 
-    <!-- Course Group Kanban View -->
+    <!-- Course Group Kanban View 
     <record model="ir.ui.view" id="course_group_kanban_view">
       <field name="name">shcool.course_group.kanban</field>
       <field name="model">school.course_group</field>
@@ -234,16 +231,13 @@
                       </div>
                     </div>
                   </div>
-                  <!--<div class="o_kanban_manage_button_section">
-                    <a class="o_kanban_manage_toggle_button" href="#">More <i class="fa fa-caret-down"/></a>
-                  </div>-->
                 </div>
               </div>
             </t>
           </templates>
         </kanban>
       </field>
-    </record>
+    </record>-->
 
     <!-- Course Group Tree View -->
     <record id="view_course_group_tree" model="ir.ui.view">
@@ -363,7 +357,7 @@
         
         -->
 
-    <!-- Program Kanban View -->
+    <!-- Program Kanban View
     <record model="ir.ui.view" id="program_kanban_view">
       <field name="name">shcool.program.kanban</field>
       <field name="model">school.program</field>
@@ -392,16 +386,13 @@
                       </div>
                     </div>
                   </div>
-                  <!--<div class="o_kanban_manage_button_section">
-                    <a class="o_kanban_manage_toggle_button" href="#">More <i class="fa fa-caret-down"/></a>
-                  </div>-->
                 </div>
               </div>
             </t>
           </templates>
         </kanban>
       </field>
-    </record>
+    </record> -->
 
     <!-- Program Tree View -->
     <record id="view_program_tree" model="ir.ui.view">
@@ -521,7 +512,7 @@
 
     <!-- Bloc Kanban View -->
     <record model="ir.ui.view" id="bloc_kanban_view">
-      <field name="name">shcool.bloc.kanban</field>
+      <field name="name">school.bloc.kanban</field>
       <field name="model">school.bloc</field>
       <field name="arch" type="xml">
         <kanban class="o_bloc_kanban" default_group_by="domain_id">
