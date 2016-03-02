@@ -127,7 +127,7 @@ class Bloc(models.Model):
     
     code = fields.Char(required=True, string='Code', size=8)
     name = fields.Char(required=True, string='Name')
-    year_id = fields.Many2one(required=True, 'school.year', string="Year")
+    year_id = fields.Many2one('school.year', required=True, string="Year")
     description = fields.Text(string='Description')
     
     competency_ids = fields.Many2many('school.competency','school_competency_bloc_rel', id1='bloc_id', id2='competency_id', string='Competencies', ondelete='set null')
