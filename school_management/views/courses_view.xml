@@ -574,21 +574,6 @@
       </field>
     </record>
     
-    <!-- Bloc Tree Details View -->
-    <record id="view_bloc_tree_details" model="ir.ui.view">
-      <field name="name">school.bloc.tree.details</field>
-      <field name="model">school.courses</field>
-      <field eval="8" name="priority" />
-      <field name="arch" type="xml">
-        <tree string="Contacts">
-          <field name="code" />
-          <field name="name" />
-          <field name="total_hours" />
-          <field name="total_credits" />
-        </tree>
-      </field>
-    </record>
-
     <!-- Bloc Form View -->
     <record model="ir.ui.view" id="bloc_form">
       <field name="name">school.bloc.view</field>
