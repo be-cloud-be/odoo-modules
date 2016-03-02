@@ -37,7 +37,7 @@ class AccountCommonReport(models.TransientModel):
         self.env.cr.execute(
             "SELECT program_id, course_id from school_program, school_course_group, school_course_course_group_rel, school_course WHERE school_program.year_id = %s AND school_program.id = school_course_group.id AND school_course_group.id = school_course_course_group_rel.course_group_id AND school_course_course_group_rel.course_id = school_course.id" % (self.year_id.id))
         
-        res = self.cr.fetchall()
+        res = self.env.cr.fetchall()
         for (program_id,course_id) in res:
             try:
                 self.env['school.assigment'].create({'program_id':program_id, "course_id":course_id})
