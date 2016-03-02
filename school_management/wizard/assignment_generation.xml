@@ -29,7 +29,7 @@
                 <separator string="Generate Assignments"/>
                 <label string="This wizard will create all missing assigments for a given year. You can select a set of programs to include, leaving it empty will create all missing assigments."/>
                 <group col="4">
-                    <field name="year_id"/>
+                    <field name="year_id" readonly="1"/>
                     <!-- TODO : Add program selection widget -->
                 </group>
                 <footer>
