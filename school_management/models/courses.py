@@ -103,7 +103,7 @@ class Program(models.Model):
 
     bloc_ids = fields.Many2many('school.bloc', 'school_program_bloc_rel', id1='program_id', id2='bloc_id', string='Programs', ondelete='set null')
 
-Class Bloc(models.Model):
+class Bloc(models.Model):
     '''Block'''
     _name = 'school.block'
     _inherit = ['mail.thread']
