@@ -701,7 +701,7 @@
       <field eval="8" name="priority" />
       <field name="arch" type="xml">
         <tree string="Assignment" editable="top" >
-          <field name="year" readonly="1"/>
+          <field name="year_id" readonly="1"/>
           <field name="program_id" />
           <field name="course_id" />
           <field name="teacher_id" />
