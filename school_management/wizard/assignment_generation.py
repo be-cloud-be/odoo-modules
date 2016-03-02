@@ -42,5 +42,5 @@ class AccountCommonReport(models.TransientModel):
             try:
                 _logger.info('Create assigment %s - %s',program_id,course_id)
                 self.env['school.assigment'].create({'program_id':program_id, "course_id":course_id})
-            except Exception:
-                pass
+            except Exception as e:
+                _logger.info(e)
