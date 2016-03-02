@@ -101,7 +101,7 @@ class Program(models.Model):
     
     course_group_ids = fields.Many2many('school.course_group', 'school_course_group_program_rel', id1='program_id', id2='course_group_id', string='Courses Groups', ondelete='set null')
 
-    bloc_ids = fields.Many2many('school.bloc', 'school_program_bloc_rel', id1='program_id', id2='bloc_id', string='Programs', ondelete='set null')
+    bloc_ids = fields.Many2one('school.bloc', string='Bloc')
 
 class Bloc(models.Model):
     '''Block'''
@@ -136,7 +136,7 @@ class Bloc(models.Model):
 
     notes = fields.Text(string='Notes')
     
-    program_ids = fields.Many2many('school.program', 'school_program_bloc_rel', id1='bloc_id', id2='program_id', string='Programs', ondelete='set null')
+    program_ids = fields.One2many('school.program', string='Programs')
     
 
 class competency(models.Model):
