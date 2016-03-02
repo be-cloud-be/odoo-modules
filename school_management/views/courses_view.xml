@@ -702,7 +702,7 @@
         <tree string="Assignment" >
           <field name="bloc_id" />
           <field name="course_id" />
-          <field name="teacher_id" />
+          <field name="teacher_id" context="{'default_groups_ref': ['school.group_teacher']}"/>
         </tree>
       </field>
     </record>
@@ -713,6 +713,7 @@
       <field name="arch" type="xml">
         <search string="Search an Assignment">
           <group expand="1" string="Group By">
+            <filter string="Program" context="{'group_by':'program_id'}" />
             <filter string="Teacher" context="{'group_by':'teacher_id'}" />
           </group>
         </search>
