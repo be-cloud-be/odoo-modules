@@ -279,7 +279,7 @@
                 <field name="total_hours" />
                 <field name="total_credits" />
               </group>
-              <field name="program_id" colspan="3" />
+              <field name="program_id" />
             </group>
             
             <field name="course_ids">
@@ -437,7 +437,7 @@
                 <field name="total_hours" />
                 <field name="total_credits" />
               </group>
-              <field name="bloc_id" colspan="3" />
+              <field name="bloc_id" />
             </group>
             <field name="course_group_ids">
               <tree string="Course Groups">
