@@ -18,6 +18,24 @@
 #    along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #
 ##############################################################################
-import res_partner
-import courses
-import assignment
+import logging
+
+from openerp import api, fields, models, _
+from openerp.exceptions import UserError
+
+_logger = logging.getLogger(__name__)
+
+class assignment(models.Model):
+    '''Assignment'''
+    _name = 'school.assignment'
+    
+    teacher_id = fields.Many2one('res.partner', string='Teacher')
+    bloc_id = fields.Many2one('school.program', string='Program')
+    course_id = fields.Many2one('school.course', string='Course')
+    
+    schedule = fields.Char(string='Schedule')
+    room = fields.Char(string='Room')
+    
+    _sql_constraints = [
+	        ('uniq_bloc_course', 'unique(bloc_id, course_id)', 'There shall be only one assigment for a course within a bloc'),
+    ]

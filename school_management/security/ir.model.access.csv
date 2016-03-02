@@ -23,3 +23,6 @@ school_speciality_employee,school_speciality_employee,model_school_speciality,gr
 school_cycle_student,school_cycle_student,model_school_cycle,group_student,1,0,0,0
 school_cycle_teacher,school_cycle_teacher,model_school_cycle,group_teacher,1,0,0,0
 school_cycle_employee,school_cycle_employee,model_school_cycle,group_employee,1,1,1,1
+school_assignment_student,school_assignment_student,model_school_assignment,group_student,0,0,0,0
+school_assignment_teacher,school_assignment_teacher,model_school_assignment,group_teacher,1,0,0,0
+school_assignment_employee,school_assignment_employee,model_school_assignment,group_employee,1,1,1,1
