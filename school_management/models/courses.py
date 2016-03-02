@@ -104,7 +104,7 @@ class Program(models.Model):
     bloc_id = fields.Many2one('school.bloc', string='Bloc')
 
 class Bloc(models.Model):
-    '''Block'''
+    '''Bloc'''
     _name = 'school.bloc'
     _inherit = ['mail.thread']
     
