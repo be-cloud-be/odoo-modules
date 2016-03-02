@@ -32,7 +32,6 @@
         Course
         
         -->
-
     <!-- Course Kanban View -->
     <record model="ir.ui.view" id="course_kanban_view">
       <field name="name">school.course.kanban</field>
