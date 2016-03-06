@@ -35,7 +35,7 @@ class Partner(models.Model):
     
     service_from = fields.Date(string="Service From")
     total_career = fields.Integer(string="Total career (years)")
-    annual_pay = fields.Monetary(string="Annual Pay")
+    annual_pay = fields.Monetary(string="Annual Pay",currency_field='company_currency_id')
     activity_percentage = fields.Float(string="Activity Percentage")
     salary_index = fields.Float(string="Salary Index")
     
