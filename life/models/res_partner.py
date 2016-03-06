@@ -34,7 +34,7 @@ class Partner(models.Model):
     barem_id = fields.Many2one("life.barem",string="Bareme")
     position = fields.Char(string="Position")
     
-    career_history_ids = fields.One2many('life.career_history', string="Career History")
+    career_history_ids = fields.One2many('life.career_history', 'partner_id', string="Career History")
     
 class CareerHistory(models.Model):
     '''Career History'''
@@ -46,6 +46,8 @@ class CareerHistory(models.Model):
     grade_id = fields.Many2one("life.grade",string="Grade")
     barem_id = fields.Many2one("life.barem",string="Bareme")
     position = fields.Char(string="Position")
+    
+    partner_id = fields.Many2one('res.partner', required=True, string='Partner')
     
 class Grade(models.Model):
     '''Grade'''
