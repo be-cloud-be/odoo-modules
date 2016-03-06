@@ -30,6 +30,11 @@
             <field name="inherit_id" ref="base.view_partner_form"/>
             <field eval="18" name="priority"/>
             <field name="arch" type="xml">
+                <xpath expr="//sheet" position="before">
+                    <header>
+                        <button string="Generate sheet" type="object" name="generate_sheet" class="oe_highlight"/>
+                    </header>
+                </xpath>
                 <xpath expr="//field[@name='website']" position="after">
                     <field name='employee_ident' attrs="{'invisible': ['|',('is_company','=',True),('parent_id','=',False)]}"/>
                     <field name='pay_grid_id' attrs="{'invisible': ['|',('is_company','=',True),('parent_id','=',False)]}"/>
