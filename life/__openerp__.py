@@ -25,6 +25,7 @@
     'name': 'Life',
     'category' : 'Accounting & Finance',
     'version': '0.1',
+    'license': 'AGPL-3',
     'author': 'be-cloud.be (Jerome Sonnet)',
     'description' : """
 Module to manage life insurance contracts.
