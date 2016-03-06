@@ -43,7 +43,7 @@
                             <field name='birthdate'/>
                             <field name='family_status'/>
                             <field name='partner_birthdate'/>
-                            <field name='children_number'/>
+                            <field name='children'/>
                         </group>
                     </page>
                     <page name="salary" string="Salary" attrs="{'invisible': ['|',('is_company','=',True),('parent_id','=',False)]}">
