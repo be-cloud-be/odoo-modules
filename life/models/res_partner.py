@@ -33,6 +33,11 @@ class Partner(models.Model):
     grade_id = fields.Many2one("life.grade",string="Grade")
     pay_grid_id = fields.Many2one("life.pay_grid",string="Pay Grid")
     
+    sex = fields.Selection([('m', 'Male'),('f', 'Female')]
+    family_status = fields.Selection([('s', 'Solo'),('m', 'Maried'),('c', 'Legal cohabitor')]
+    partner_birthdate = fields.Date(string="Partner Birthdate")
+    children = fields.Integer(string="Number of children")
+ 
     service_from = fields.Date(string="Service From")
     total_career = fields.Integer(string="Total career (years)")
     annual_pay = fields.Float(string="Annual Pay")
