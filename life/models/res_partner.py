@@ -31,7 +31,7 @@ class Partner(models.Model):
     _inherit = 'res.partner'
     
     grade_id = fields.Many2one("life.grade",string="Grade")
-    barem_id = fields.Many2one("life.barem",string="Bareme")
+    pay_grid_id = fields.Many2one("life.pay_grid",string="Pay Grid")
     position = fields.Char(string="Position")
     
     career_history_ids = fields.One2many('life.career_history', 'partner_id', string="Career History")
@@ -44,7 +44,7 @@ class CareerHistory(models.Model):
     date_from = fields.Date(string="Date From")
     date_to = fields.Date(string="Date To")
     grade_id = fields.Many2one("life.grade",string="Grade")
-    barem_id = fields.Many2one("life.barem",string="Barem")
+    pay_grid_id = fields.Many2one("life.pay_grid",string="Pay Grid")
     position = fields.Char(string="Position")
     
     partner_id = fields.Many2one('res.partner', required=True, string='Partner')
@@ -56,9 +56,9 @@ class Grade(models.Model):
     
     name = fields.Char(string="Name")
     
-class Barem(models.Model):
-    '''Barem'''
-    _name = 'life.barem'
-    _description = 'Barem'
+class PayGrid(models.Model):
+    '''Pay Grid'''
+    _name = 'life.pay_grid'
+    _description = 'Pay Grid'
     
     name = fields.Char(string="Name")
