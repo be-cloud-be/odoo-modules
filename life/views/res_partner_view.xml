@@ -31,7 +31,7 @@
             <field eval="18" name="priority"/>
             <field name="arch" type="xml">
                 <xpath expr="//field[@name='website']" position="after">
-                    <field name='barem_id'/>
+                    <field name='pay_grid_id'/>
                     <field name='grade_id'/>
                     <field name='position'/>
                     <field name="supplier" invisible="True"/>
@@ -43,7 +43,7 @@
                             <tree string="Career History">
                                 <field name="date_from" />
                                 <field name="date_to" />
-                                <field name="barem_id" />
+                                <field name="pay_grid_id" />
                                 <field name="grade_id" />
                                 <field name="position" />
                             </tree>
