@@ -30,6 +30,7 @@ class Partner(models.Model):
     '''Partner'''
     _inherit = 'res.partner'
     
+    identifier = fields.Char(string="Employee Id")
     grade_id = fields.Many2one("life.grade",string="Grade")
     pay_grid_id = fields.Many2one("life.pay_grid",string="Pay Grid")
     
