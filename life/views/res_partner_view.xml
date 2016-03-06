@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+##############################################################################
+#
+#    Copyright (c) 2015 be-cloud.be
+#                       Jerome Sonnet <jerome.sonnet@be-cloud.be>
+#
+#    This program is free software: you can redistribute it and/or modify
+#    it under the terms of the GNU Affero General Public License as
+#    published by the Free Software Foundation, either version 3 of the
+#    License, or (at your option) any later version.
+#
+#    This program is distributed in the hope that it will be useful,
+#    but WITHOUT ANY WARRANTY; without even the implied warranty of
+#    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+#    GNU Affero General Public License for more details.
+#
+#    You should have received a copy of the GNU Affero General Public License
+#    along with this program.  If not, see <http://www.gnu.org/licenses/>.
+#
+##############################################################################
+-->
+<openerp>
+	<data>
+	
+	    <!-- Add boolean for teacher, student, employee on partner form view -->
+        <record id="view_partners_form_school" model="ir.ui.view">
+            <field name="name">view.res.partner.form.school</field>
+            <field name="model">res.partner</field>
+            <field name="inherit_id" ref="base.view_partner_form"/>
+            <field eval="18" name="priority"/>
+            <field name="arch" type="xml">
+                <xpath expr="//field[@name='website']" position="after">
+                    <field name='barem_id'/>
+                    <field name='grade_id'/>
+                    <field name='position'/>
+                    <field name="supplier" invisible="True"/>
+                    <field name="customer" invisible="True"/>
+                </xpath>
+                <xpath expr="//page[@name='sales_purchases']" position="replace">
+                    <page name="career_history" string="Career History">
+                        <field name="career_history_ids">
+                            <tree string="Career History">
+                                <field name="date_from" />
+                                <field name="date_to" />
+                                <field name="barem_id" />
+                                <field name="grade_id" />
+                                <field name="position" />
+                            </tree>
+                        </field>
+                    </page>
+                </xpath>
+            </field>
+        </record>
+    </data>
+</openerp>
