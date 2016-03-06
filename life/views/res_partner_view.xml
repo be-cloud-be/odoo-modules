@@ -42,7 +42,7 @@
                             <field name='service_from'/>
                             <field name='total_career'/>
                             <field name='annual_pay'/>
-                            <field name='activity_percentage'/>
+                            <field name='activity_percentage' widget="statinfo"/>
                             <field name='salary_index'/>
                         </group>
                     </page>
