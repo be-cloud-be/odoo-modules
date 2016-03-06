@@ -33,6 +33,12 @@ class Partner(models.Model):
     grade_id = fields.Many2one("life.grade",string="Grade")
     pay_grid_id = fields.Many2one("life.pay_grid",string="Pay Grid")
     
+    service_from = fields.Date(string="Service From")
+    total_career = fields.Integer(string="Total career (years)")
+    annual_pay = fields.Monetary(string="Annual Pay")
+    activity_percentage = fields.Float(string="Activity Percentage")
+    salary_index = fields.Float(string="Salary Index")
+    
     career_history_ids = fields.One2many('life.career_history', 'partner_id', string="Career History")
     
 class CareerHistory(models.Model):
@@ -45,6 +51,7 @@ class CareerHistory(models.Model):
     grade_id = fields.Many2one("life.grade",string="Grade")
     pay_grid_id = fields.Many2one("life.pay_grid",string="Pay Grid")
     function = fields.Char(string="Job Position")
+    employer = fields.Many2one("res.partner",string="Employer",domain=[('is_company', '=', True)])
     
     partner_id = fields.Many2one('res.partner', required=True, string='Partner')
     
