@@ -32,7 +32,6 @@ class Partner(models.Model):
     
     grade_id = fields.Many2one("life.grade",string="Grade")
     pay_grid_id = fields.Many2one("life.pay_grid",string="Pay Grid")
-    position = fields.Char(string="Position")
     
     career_history_ids = fields.One2many('life.career_history', 'partner_id', string="Career History")
     
@@ -45,7 +44,7 @@ class CareerHistory(models.Model):
     date_to = fields.Date(string="Date To")
     grade_id = fields.Many2one("life.grade",string="Grade")
     pay_grid_id = fields.Many2one("life.pay_grid",string="Pay Grid")
-    position = fields.Char(string="Position")
+    function = fields.Char(string="Job Position")
     
     partner_id = fields.Many2one('res.partner', required=True, string='Partner')
     

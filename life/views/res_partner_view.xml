@@ -33,7 +33,6 @@
                 <xpath expr="//field[@name='website']" position="after">
                     <field name='pay_grid_id'/>
                     <field name='grade_id'/>
-                    <field name='position'/>
                     <field name="supplier" invisible="True"/>
                     <field name="customer" invisible="True"/>
                 </xpath>
@@ -45,7 +44,7 @@
                                 <field name="date_to" />
                                 <field name="pay_grid_id" />
                                 <field name="grade_id" />
-                                <field name="position" />
+                                <field name="function" />
                             </tree>
                         </field>
                     </page>
