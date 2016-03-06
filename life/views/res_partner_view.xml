@@ -24,8 +24,8 @@
 	<data>
 	
 	    <!-- Add boolean for teacher, student, employee on partner form view -->
-        <record id="view_partners_form_school" model="ir.ui.view">
-            <field name="name">view.res.partner.form.school</field>
+        <record id="view_partners_form_life" model="ir.ui.view">
+            <field name="name">view.res.partner.form.life</field>
             <field name="model">res.partner</field>
             <field name="inherit_id" ref="base.view_partner_form"/>
             <field eval="18" name="priority"/>
