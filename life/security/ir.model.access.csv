@@ -1,5 +1,5 @@
 id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
-life_career_employee,life_career_employee,life.career_history,base.group_user,1,1,1,0
-life_career_employee,life_career_employee,life.policy,base.group_user,1,1,1,0
-life_career_employee,life_career_employee,life.grade,base.group_user,1,0,0,0
-life_career_employee,life_career_employee,life.pay_grid,base.group_user,1,0,0,0
+life_career_employee,life_career_employee,career_history,base.group_user,1,1,1,0
+life_career_employee,life_career_employee,policy,base.group_user,1,1,1,0
+life_career_employee,life_career_employee,grade,base.group_user,1,0,0,0
+life_career_employee,life_career_employee,pay_grid,base.group_user,1,0,0,0
