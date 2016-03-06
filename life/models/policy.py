@@ -26,9 +26,9 @@ from openerp.tools.safe_eval import safe_eval
 
 _logger = logging.getLogger(__name__)
 
-class Policy(models.Model)
+class Policy(models.Model):
     '''Policy'''
     _name = 'life.policy'
     _description = 'Policy'
     
-    
+    number = fields.Integer(string="Affiliate Number")
