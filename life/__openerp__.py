@@ -34,7 +34,7 @@ Module to manage life insurance contracts.
     'data': ['views/res_partner_view.xml',
              #'security/ir.model.access.csv',
              ],
-    'depends': [],
+    'depends': ['mail'],
     'demo': [],
     'auto_install': False,
     'installable': True,

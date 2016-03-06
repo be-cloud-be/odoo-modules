@@ -38,11 +38,13 @@
                 </xpath>
                 <xpath expr="//page[@name='sales_purchases']" position="replace">
                     <page name="salary" string="Salary">
-                        <field name='service_from'/>
-                        <field name='total_career'/>
-                        <field name='annual_pay'/>
-                        <field name='activity_percentage'/>
-                        <field name='salary_index'/>
+                        <group col="4">
+                            <field name='service_from'/>
+                            <field name='total_career'/>
+                            <field name='annual_pay'/>
+                            <field name='activity_percentage'/>
+                            <field name='salary_index'/>
+                        </group>
                     </page>
                     <page name="career_history" string="Career History">
                         <field name="career_history_ids">
