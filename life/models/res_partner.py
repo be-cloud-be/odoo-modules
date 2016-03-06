@@ -35,6 +35,7 @@ class Partner(models.Model):
     
     sex = fields.Selection([('m', 'Male'),('f', 'Female')])
     family_status = fields.Selection([('s', 'Solo'),('m', 'Married'),('c', 'Legal cohabitor')])
+    birthdate = fields.Date(string="Birthdate")
     partner_birthdate = fields.Date(string="Partner Birthdate")
     children = fields.Integer(string="Number of children")
  
