@@ -31,5 +31,11 @@ class Policy(models.Model):
     _name = 'life.policy'
     _description = 'Policy'
     
+    name = fields.Char(string="Name",compute='_compute_name')
     number = fields.Integer(string="Affiliate Number")
     policy_holder_id = fields.Many2one('res.partner',string='Policy Holder')
+    
+    @api.one
+    @api.depends('policy_holder_id','number')
+    def _compute_surname(self):
+        self.name = self.policy_holder_id.name . ' - ' . self.number
