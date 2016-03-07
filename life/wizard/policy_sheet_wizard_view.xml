@@ -23,7 +23,7 @@
 <openerp>
     <data>
         <!-- wizard action on res.partner -->
-        <act_window id="partner_wizard_action"
+        <act_window id="policy_sheet_wizard_action"
             name="Policy Sheet Wizard"
             src_model="res.partner"
             res_model="life.policy.wizard"
