@@ -44,7 +44,6 @@ class PolicySheetWizard(models.TransientModel):
         data['reporting_date'] = self.reporting_date
         _logger.info('generate_policy_sheet')
         _logger.info(self.env['report'].get_action(self, 'life.report_policy_sheet', data=data))
-        import pdb; pdb.set_trace()
         return self.env['report'].get_action(self, 'life.report_policy_sheet', data=data)
         
 class ReportPolicySheet(models.AbstractModel):
