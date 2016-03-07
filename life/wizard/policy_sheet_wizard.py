@@ -42,15 +42,4 @@ class PolicySheetWizard(models.TransientModel):
         data['policy_holder_id'] = self.policy_holder_id
         data['policy_id'] = self.policy_id
         data['reporting_date'] = self.reporting_date
-        return self.env['report'].get_action(self, 'life.report_policy_sheet', data=data)
-        
-class ReportPolicySheet(models.AbstractModel):
-    _name = 'report.life.report_policy_sheet'
-    
-    @api.one
-    def render_html(self, data):
-        _logger.info('render_html')
-        docargs = {
-            
-        }
-        return self.env['report'].render('account_extra_reports.report_partnerledger', docargs)
+        return self.env['report'].render(self, 'life.report_policy_sheet', data=data)
