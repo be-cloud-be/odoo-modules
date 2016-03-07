@@ -31,6 +31,6 @@ class PolicySheetWizard(models.TransientModel):
     _description = "Life Policy Wizard"
 
     policy_holder_id = fields.Many2one('res.partner', string='Policy Holder', readonly=True, default=lambda self: self.env['res.partner'].browse(self.env.context.get('active_ids', []))
-    policy_id = fields.Many2one('life.policy',string='Select a Policy')
+    #policy_id = fields.Many2one('life.policy',string='Select a Policy',domain=[('policy_holder_id', 'in', self.env.context.get('active_ids', []))])
     
     reporting_date = fields.Date(string='Reporting Date')
