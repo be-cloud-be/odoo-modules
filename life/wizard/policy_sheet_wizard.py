@@ -42,8 +42,6 @@ class PolicySheetWizard(models.TransientModel):
         data['policy_holder_id'] = self.policy_holder_id
         data['policy_id'] = self.policy_id
         data['reporting_date'] = self.reporting_date
-        _logger.info('data is ready call get_action')
-        _logger.info(self.env['report'].get_action(self, 'life.action_report_policy_sheet', data=data))
         return self.env['report'].get_action(self, 'life.report_policy_sheet', data=data)
         
 class ReportPolicySheet(models.AbstractModel):
