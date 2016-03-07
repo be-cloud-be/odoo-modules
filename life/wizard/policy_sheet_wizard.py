@@ -43,8 +43,6 @@ class PolicySheetWizard(models.TransientModel):
         data['policy_holder_id'] = self.policy_holder_id.id
         data['policy_id'] = self.policy_id.id
         data['reporting_date'] = self.reporting_date
-        _logger.info('generate_policy_sheet')
-        _logger.info(self.env['report'].get_action(self, 'life.report_policy_sheet', data=data))
         return self.env['report'].get_action(self, 'life.report_policy_sheet', data=data)
         
 class ReportPolicySheet(models.AbstractModel):
@@ -52,7 +50,6 @@ class ReportPolicySheet(models.AbstractModel):
     
     @api.multi
     def render_html(self, data):
-        _logger.info('render_html')
         docargs = {
             
         }
