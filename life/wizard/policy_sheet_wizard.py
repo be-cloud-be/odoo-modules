@@ -57,4 +57,5 @@ class ReportPolicySheet(models.AbstractModel):
             'doc_model': report.model,
             'docs': self,
         }
+        _logger.info(docargs)
         return self.env['report'].render('life.report_policy_sheet', docargs)
