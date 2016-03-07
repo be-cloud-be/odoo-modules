@@ -35,9 +35,10 @@ class PolicySheetWizard(models.TransientModel):
     
     reporting_date = fields.Date(string='Reporting Date')
     
-    @api.one
-    @api.depends('policy_holder_id','policy_id','reporting_date')
+    @api.multi
+    #@api.depends('policy_holder_id','policy_id','reporting_date')
     def generate_policy_sheet(self):
+        self.ensure_one()
         data = {}
         data['policy_holder_id'] = self.policy_holder_id
         data['policy_id'] = self.policy_id
