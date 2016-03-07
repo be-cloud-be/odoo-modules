@@ -38,4 +38,4 @@ class Policy(models.Model):
     @api.one
     @api.depends('policy_holder_id','number')
     def _compute_name(self):
-        self.name = self.policy_holder_id.name . ' - ' . self.number
+        self.name = "%s - %s" % (self.policy_holder_id.name,self.number)
