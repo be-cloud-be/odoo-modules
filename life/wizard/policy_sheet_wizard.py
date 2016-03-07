@@ -42,6 +42,8 @@ class PolicySheetWizard(models.TransientModel):
         data['policy_holder_id'] = self.policy_holder_id
         data['policy_id'] = self.policy_id
         data['reporting_date'] = self.reporting_date
+        _logger.info('generate_policy_sheet')
+        _logger.info(self.env['report'].get_action(self, 'life.report_policy_sheet', data=data))
         return self.env['report'].get_action(self, 'life.report_policy_sheet', data=data)
         
 class ReportPolicySheet(models.AbstractModel):
@@ -53,4 +55,4 @@ class ReportPolicySheet(models.AbstractModel):
         docargs = {
             
         }
-        return self.env['report'].render('account_extra_reports.report_partnerledger', docargs)
+        return self.env['report'].render('life.report_policy_sheet', docargs)
