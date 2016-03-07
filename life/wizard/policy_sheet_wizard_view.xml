@@ -39,7 +39,7 @@
             <field name="arch" type="xml">
                 <form string="Policy Sheet Wizard">
                     <group>
-                        <field name="policy_holder_id"/>
+                        <field name="policy_holder_id" readonly="True"/>
                         <field name="policy_id" widget="selection"/>
                         <field name="reporting_date"/>
                     </group>
