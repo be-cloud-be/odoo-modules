@@ -32,7 +32,7 @@ class Policy(models.Model):
     _description = 'Policy'
     
     name = fields.Char(string="Name",compute='_compute_name')
-    number = fields.Integer(string="Affiliate Number")
+    number = fields.Integer(string="Policy Number")
     policy_holder_id = fields.Many2one('res.partner',string='Policy Holder')
     
     @api.one
