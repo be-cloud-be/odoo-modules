@@ -47,7 +47,7 @@ class PolicySheetWizard(models.TransientModel):
 class ReportPolicySheet(models.AbstractModel):
     _name = 'report.life.report_policy_sheet'
     
-    @api.one
+    @api.multi
     def render_html(self, data):
         _logger.info('render_html')
         docargs = {
