@@ -38,8 +38,9 @@ class PolicySheetWizard(models.TransientModel):
     @api.one
     @api.depends('policy_holder_id','policy_id','reporting_date')
     def generate_policy_sheet(self):
-        data = {}
-        data['policy_holder_id'] = self.policy_holder_id
-        data['policy_id'] = self.policy_id
-        data['reporting_date'] = self.reporting_date
-        return self.env['report'].render(self, 'life.report_policy_sheet', data=data)
+        docargs = {
+            'policy_holder_id': self.policy_holder_id,
+            'policy_id': self.policy_id,
+            'reporting_date': self.reporting_date,
+        }
+        return self.env['report'].render(self, 'life.report_policy_sheet', docargs=docargs)
