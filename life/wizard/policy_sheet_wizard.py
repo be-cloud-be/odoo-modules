@@ -26,10 +26,12 @@ from openerp.tools.safe_eval import safe_eval
 
 _logger = logging.getLogger(__name__)
 
-class Policy(models.Model):
-    '''Policy'''
-    _name = 'life.policy'
-    _description = 'Policy'
+class PolicySheetWizard(models.TransientModel):
+    _name = "life.policy.wizard"
+    _description = "Life Policy Wizard"
+
+    user_id = fields.Many2one('res.partner', string='User', readonly=True, default=lambda self: self.env['res.partner'].browse(self.env.context.get('active_ids', []))
     
-    number = fields.Integer(string="Affiliate Number")
-    policy_holder_id = fields.Many2one('res.partner',string='Policy Holder')
+    policy_id = fields.Many2one('life.policy',string='Select a Policy',domain=[('policy_holder_id', 'in', self.env.context.get('active_ids', []))])
+    
+    reporting_date = fields.Date(string='Reporting Date')

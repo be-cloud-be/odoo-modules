@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+##############################################################################
+#
+#    Copyright (c) 2015 be-cloud.be
+#                       Jerome Sonnet <jerome.sonnet@be-cloud.be>
+#
+#    This program is free software: you can redistribute it and/or modify
+#    it under the terms of the GNU Affero General Public License as
+#    published by the Free Software Foundation, either version 3 of the
+#    License, or (at your option) any later version.
+#
+#    This program is distributed in the hope that it will be useful,
+#    but WITHOUT ANY WARRANTY; without even the implied warranty of
+#    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+#    GNU Affero General Public License for more details.
+#
+#    You should have received a copy of the GNU Affero General Public License
+#    along with this program.  If not, see <http://www.gnu.org/licenses/>.
+#
+##############################################################################
+-->
+<openerp>
+    <data>
+        <!-- wizard action on res.partner -->
+        <act_window id="partner_wizard_action"
+            name="Policy Sheet Wizard"
+            src_model="res.partner"
+            res_model="life.policy.wizard"
+            view_type="form" view_mode="form"
+            key2="client_action_multi" target="new"
+            groups="base.group_employee"/>
+
+        <!-- wizard view -->
+        <record id="wizard_view" model="ir.ui.view">
+            <field name="name">Policy Sheet Wizard</field>
+            <field name="model">life.policy.wizard</field>
+            <field name="arch" type="xml">
+                <form string="Policy Sheet Wizard">
+                    <group>
+                        <field name="portal_id" widget="selection" on_change="onchange_portal_id(portal_id, context)"/>
+                    </group>
+                    <div>
+                        Select which contacts should belong to the portal in the list below.
+                        The email address of each selected contact must be valid and unique.
+                        If necessary, you can fix any contact's email address directly in the list.
+                    </div>
+                    <field name="user_ids">
+                        <tree string="Contacts" editable="bottom" create="false" delete="false">
+                            <field name="partner_id"/>
+                            <field name="email"/>
+                            <field name="in_portal"/>
+                        </tree>
+                    </field>
+                    <field name="welcome_message"
+                        placeholder="This text is included in the email sent to new portal users."/>
+                    <footer>
+                        <button string="Apply" name="action_apply" type="object" class="btn-primary"/>
+                        <button string="Cancel" class="btn-default" special="cancel" />
+                    </footer>
+                </form>
+            </field>
+        </record>
+    </data>
+</openerp>
