@@ -46,6 +46,7 @@ class Partner(models.Model):
     activity_percentage = fields.Float(string="Activity Percentage",default=1)
     salary_index = fields.Float(string="Salary Index",digits=(7, 6))
     
+    policy_ids = fields.One2many(life.policy','policy_holder_id',string='Policies')
     career_history_ids = fields.One2many('life.career_history', 'partner_id', string="Career History")
     
 class CareerHistory(models.Model):

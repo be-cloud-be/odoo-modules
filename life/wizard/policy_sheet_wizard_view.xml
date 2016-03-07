@@ -40,7 +40,7 @@
                     <group>
                         <field name="policy_holder_id"/>
                         <field name="policy_id" widget="selection"/>
-                        <field name="reporting_date" widget="selection"/>
+                        <field name="reporting_date"/>
                     </group>
                     <footer>
                         <button string="Apply" name="action_apply" type="object" class="btn-primary"/>
