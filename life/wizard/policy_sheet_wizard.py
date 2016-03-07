@@ -50,11 +50,12 @@ class ReportPolicySheet(models.AbstractModel):
     
     @api.multi
     def render_html(self, data):
+        _logger.info('ender_html')
         _logger.info(data)
         docargs = {
-            'doc_ids': data.policy_id,
+            'doc_ids': data['policy_id'],
             'doc_model': 'life.policy',
-            'docs': self.env['life.policy'].browse(data.policy_id),
+            'docs': self.env['life.policy'].browse(data['policy_id']),
         }
         _logger.info(docargs)
         return self.env['report'].render('life.report_policy_sheet', docargs)
