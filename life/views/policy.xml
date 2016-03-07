@@ -7,7 +7,7 @@
             <field name="type">form</field>
             <field name="arch" type="xml">
                 <form string="Policy">
-                    <field name="polici_holder_id" readonly="True"/>
+                    <field name="policy_holder_id" readonly="True"/>
                     <field name="number"/>
                 </form>
 		    </field>
