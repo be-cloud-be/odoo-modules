@@ -38,7 +38,7 @@
             <field name="arch" type="xml">
                 <form string="Policy Sheet Wizard">
                     <group>
-                        <field name="policy_holder_id" widget="selection" on_change="onchange_portal_id(portal_id, context)"/>
+                        <field name="policy_holder_id"/>
                         <field name="policy_id" widget="selection"/>
                         <field name="reporting_date" widget="selection"/>
                     </group>
