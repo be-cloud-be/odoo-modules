@@ -40,8 +40,8 @@ class PolicySheetWizard(models.TransientModel):
     def generate_policy_sheet(self):
         self.ensure_one()
         data = {}
-        data['policy_holder_id'] = self.policy_holder_id
-        data['policy_id'] = self.policy_id
+        data['policy_holder_id'] = self.policy_holder_id.id
+        data['policy_id'] = self.policy_id.id
         data['reporting_date'] = self.reporting_date
         _logger.info('generate_policy_sheet')
         _logger.info(self.env['report'].get_action(self, 'life.report_policy_sheet', data=data))
