@@ -23,9 +23,13 @@
 <odoo>
     <template id="report_policy_sheet">
         <t t-call="report.html_container">
-            <t t-call="report.internal_layout">
-                <div class="page">
-                    <h1>Policy Sheet</h1>
+            <t t-call="report.external_layout">
+                <div class="row">
+                    <div class="col-xs-5 col-xs-offset-7">
+                        <address t-field="o.partner_id"
+                            t-field-options='{"widget": "contact", "fields": ["address", "name"], "no_marker": true}' />
+                        <span t-if="o.partner_id.vat">TIN: <span t-field="o.partner_id.vat"/></span>
+                    </div>
                 </div>
             </t>
         </t>

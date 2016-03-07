@@ -46,8 +46,8 @@
                         <field name="reporting_date"/>
                     </group>
                     <footer>
-                        <button string="Apply" name="generate_policy_sheet" type="object" class="btn-primary"/>
-                        <button string="Cancel" class="btn-default" special="cancel" />
+                        <button string="Generate" name="generate_policy_sheet" type="object" class="btn-primary"/>
+                        <button string="Close" class="btn-default" special="cancel" />
                     </footer>
                 </form>
             </field>

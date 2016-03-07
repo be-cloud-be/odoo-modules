@@ -50,7 +50,11 @@ class ReportPolicySheet(models.AbstractModel):
     
     @api.multi
     def render_html(self, data):
+        report_obj = self.env['report']
+        report = report_obj._get_report_from_name('module.report_name')
         docargs = {
-            
+            'doc_ids': self._ids,
+            'doc_model': report.model,
+            'docs': self,
         }
         return self.env['report'].render('life.report_policy_sheet', docargs)
