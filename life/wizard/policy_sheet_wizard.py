@@ -34,3 +34,16 @@ class PolicySheetWizard(models.TransientModel):
     policy_id = fields.Many2one('life.policy',string='Select a Policy')#,domain=[('policy_holder_id', 'in', self.env.context.get('active_ids', []))])
     
     reporting_date = fields.Date(string='Reporting Date')
+    
+    @api.one
+    def generate_policy_sheet(self):
+        docargs = {
+            'doc_ids': partner_ids,
+            'doc_model': self.env['res.partner'],
+            'data': [],
+            'docs': partners,
+            'time': time,
+            'lines': self._lines,
+            'sum_partner': self._sum_partner,
+        }
+        return self.env['report'].render('account_extra_reports.report_partnerledger', docargs)

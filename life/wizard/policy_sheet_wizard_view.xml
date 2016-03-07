@@ -44,11 +44,22 @@
                         <field name="reporting_date"/>
                     </group>
                     <footer>
-                        <button string="Apply" name="action_apply" type="object" class="btn-primary"/>
+                        <button string="Apply" name="generate_policy_sheet" type="object" class="btn-primary"/>
                         <button string="Cancel" class="btn-default" special="cancel" />
                     </footer>
                 </form>
             </field>
         </record>
+        
+        <!-- report -->
+        <report 
+            id="action_report_policy_sheet"
+            model="life.report_policy_sheet"
+            string="Policy Sheet"
+            report_type="qweb-pdf"
+            name="life.report_policy_sheet"
+            file="life.report_policy_sheet"
+            />
+            
     </data>
 </openerp>
