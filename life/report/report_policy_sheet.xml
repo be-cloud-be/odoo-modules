@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="utf-8" ?>
 <!--
 ##############################################################################
 #
@@ -23,7 +23,11 @@
 <odoo>
     <template id="report_policy_sheet">
         <t t-call="report.html_container">
-            <h1>Policy Sheet</h1>
+            <t t-call="report.internal_layout">
+                <div class="page">
+                    <h1>Policy Sheet</h1>
+                </div>
+            </t>
         </t>
     </template>
 </odoo>
