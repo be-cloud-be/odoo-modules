@@ -70,7 +70,7 @@
                     </page>
                     <page name="career_history" string="Career History" attrs="{'invisible': ['|',('is_company','=',True),('parent_id','=',False)]}">
                         <field name="career_history_ids">
-                            <tree string="Career History">
+                            <tree string="Career History" context="{'default_partner_id': active_id}">
                                 <field name="date_from" />
                                 <field name="date_to" />
                                 <field name="pay_grid_id" />
