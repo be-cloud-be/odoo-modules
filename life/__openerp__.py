@@ -38,7 +38,7 @@ Module to manage life insurance contracts.
              'report/report_policy_sheet.xml',
              #'security/ir.model.access.csv',
              ],
-    'depends': ['mail'],
+    'depends': ['mail', 'report'],
     'demo': [],
     'auto_install': False,
     'installable': True,
