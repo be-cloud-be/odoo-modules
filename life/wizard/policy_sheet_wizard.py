@@ -43,4 +43,4 @@ class PolicySheetWizard(models.TransientModel):
             'policy_id': self.policy_id,
             'reporting_date': self.reporting_date,
         }
-        return self.env['report'].render(self, 'life.report_policy_sheet', docargs=docargs)
+        return self.env['report'].render('life.report_policy_sheet', docargs)
