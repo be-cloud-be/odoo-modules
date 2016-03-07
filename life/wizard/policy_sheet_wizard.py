@@ -36,14 +36,20 @@ class PolicySheetWizard(models.TransientModel):
     reporting_date = fields.Date(string='Reporting Date')
     
     @api.one
+    @api.depends('policy_holder_id','policy_id','reporting_date')
     def generate_policy_sheet(self):
+        data = {}
+        data['policy_holder_id'] = self.policy_holder_id
+        data['policy_id'] = self.policy_id
+        data['reporting_date'] = self.reporting_date
+        return self.env['report'].get_action(self, 'life.report_policy_sheet', data=data)
+        
+class ReportPolicySheet(models.AbstractModel):
+    _name = 'report.life.report_policy_sheet'
+    
+    @api.one
+    def render_html(self, data):
         docargs = {
-            'doc_ids': partner_ids,
-            'doc_model': self.env['res.partner'],
-            'data': [],
-            'docs': partners,
-            'time': time,
-            'lines': self._lines,
-            'sum_partner': self._sum_partner,
+            
         }
         return self.env['report'].render('account_extra_reports.report_partnerledger', docargs)
