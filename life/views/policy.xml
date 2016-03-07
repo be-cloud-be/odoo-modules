@@ -7,8 +7,10 @@
             <field name="type">form</field>
             <field name="arch" type="xml">
                 <form string="Policy">
-                    <field name="policy_holder_id" readonly="True"/>
-                    <field name="number"/>
+                    <group>
+                        <field name="policy_holder_id" readonly="True"/>
+                        <field name="number"/>
+                    </group>
                 </form>
 		    </field>
         </record>
