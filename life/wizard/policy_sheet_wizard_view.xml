@@ -53,7 +53,7 @@
         
         <!-- report -->
         <report 
-            id="report_policy_sheet"
+            id="action_report_policy_sheet"
             model="life.report_policy_sheet"
             string="Policy Sheet"
             report_type="qweb-pdf"
