@@ -1,0 +1,16 @@
+<?xml version="1.0" ?>
+<openerp>
+    <data>
+        <record model="ir.ui.view" id="life_policy_form">
+		    <field name="name">life.policy.view</field>
+            <field name="model">life.policy</field>
+            <field name="type">form</field>
+            <field name="arch" type="xml">
+                <form string="Policy">
+                    <field name="polici_holder_id" readonly="True"/>
+                    <field name="number"/>
+                </form>
+		    </field>
+        </record>
+    </data>
+</openerp>
