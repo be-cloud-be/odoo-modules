@@ -28,6 +28,24 @@
         <menuitem name="Evaluations" parent="menu_main_eval" id="menu_eval" sequence="1" />
 
         <!-- Evaluations List View -->
+        <record id="action_eval_list" model="ir.actions.act_window">
+            <field name="name">Evaluations</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">school.eval</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">tree</field>
+            <field name="context">{}</field>
+            <field name="search_view_id" ref="view_eval_filter" />
+            <field name="help" type="html">
+                <p class="oe_view_nocontent_create">
+                    Click to add an evaluation.
+                </p>
+                <p>
+                    Odoo helps you easily track evaluations.
+                </p>
+            </field>
+        </record>
+
         <record id="view_eval_list" model="ir.ui.view">
             <field name="name">school.eval.tree</field>
             <field name="model">school.evaluation</field>
