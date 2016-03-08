@@ -31,6 +31,7 @@
         'school_data.xml',
         'views/res_partner_view.xml',
         'views/courses_view.xml',
+        'views/evaluation_view.xml',
         'sequences/school_sequence.xml',
         'wizard/assignment_generation.xml',
         'security/ir.model.access.csv',

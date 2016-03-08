@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!--
+##############################################################################
+#
+#    Copyright (c) 2015 be-cloud.be
+#                       Jerome Sonnet <jerome.sonnet@be-cloud.be>
+#
+#    This program is free software: you can redistribute it and/or modify
+#    it under the terms of the GNU Affero General Public License as
+#    published by the Free Software Foundation, either version 3 of the
+#    License, or (at your option) any later version.
+#
+#    This program is distributed in the hope that it will be useful,
+#    but WITHOUT ANY WARRANTY; without even the implied warranty of
+#    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+#    GNU Affero General Public License for more details.
+#
+#    You should have received a copy of the GNU Affero General Public License
+#    along with this program.  If not, see <http://www.gnu.org/licenses/>.
+#
+##############################################################################
+-->
+<openerp>
+    <data>
+        <!-- Top menu item -->
+        <menuitem name="Evaluations" id="menu_main_eval" icon="fa-book" web_icon="school,static/description/icon.png" sequence="80" />
+
+        <menuitem name="Evaluations" parent="menu_main_eval" id="menu_eval" sequence="1" />
+
+        <!-- Evaluations List View -->
+        <record id="view_eval" model="ir.ui.view">
+            <field name="name">school.eval.tree</field>
+            <field name="model">school.evaluation</field>
+            <field eval="8" name="priority" />
+            <field name="arch" type="xml">
+                <tree string="Evaluations" editable="top">
+                    <field name="year_id" readonly="1" />
+                    <field name="student_id" />
+                    <field name="teacher_id" />
+                    <field name="course_id" />
+                    <field name="result" />
+                </tree>
+            </field>
+        </record>
+
+        <record id="action_eval_tree_view1" model="ir.actions.act_window.view">
+            <field name="sequence" eval="1" />
+            <field name="view_mode">tree</field>
+            <field name="view_id" ref="view_eval_list" />
+            <field name="act_window_id" ref="action_eval_list" />
+        </record>
+
+        <menuitem id="action_eval_list" parent="menu_eval" action="action_eval_list" sequence="10" />
+    </data>
+</openerp>
