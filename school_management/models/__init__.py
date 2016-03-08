@@ -21,3 +21,4 @@
 import res_partner
 import courses
 import assignment
+import evaluation
