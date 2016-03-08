@@ -28,7 +28,7 @@
         <menuitem name="Evaluations" parent="menu_main_eval" id="menu_eval" sequence="1" />
 
         <!-- Evaluations List View -->
-        <record id="view_eval" model="ir.ui.view">
+        <record id="view_eval_list" model="ir.ui.view">
             <field name="name">school.eval.tree</field>
             <field name="model">school.evaluation</field>
             <field eval="8" name="priority" />
