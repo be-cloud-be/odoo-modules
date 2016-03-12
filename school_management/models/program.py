@@ -31,4 +31,14 @@ class IndividualProgram(models.Model):
     _description='Individual Program'
     
     student_id = fields.Many2one('res.partner', string='Student', domain="[('student', '=', '1')]")
+    bloc_ids = fields.One2many('school.individual_bloc', 'individual_program_id', string="Individual Blocs")
+    
+class IndividualBloc(models.Model):
+    '''Individual Bloc'''
+    _name='school_individual_bloc'
+    _description='Individual Bloc'
+    
+    individual_program_id = fields.Many2one('school.individual_program', string='Individual Program')
+    course_group_ids = fields.One2many('school.individual_course_group', string="Individual Course Groups")
+    
     
