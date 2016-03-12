@@ -23,15 +23,15 @@
 <odoo>
     <template id="information" name="Information">
         <t t-call="website.layout">
-            <div id="wrap">
-                <div class="container mb64">
+            <t t-set="title">Information</t>
+            <div class="oe_structure">
+                <div class="container">
                     <div id="o_my_information" class="col-md-12">
                         <div class="o_my_details">
                             <h3 class="page-header">Your Details</h3>
                             <div t-field="user.partner_id" t-field-options='{"widget": "contact", "fields": ["email", "phone", "mobile", "address", "name"]}' />
                         </div>
                     </div>
-                    <div class="col-md-12 oe_structure" />
                 </div>
             </div>
         </t>
