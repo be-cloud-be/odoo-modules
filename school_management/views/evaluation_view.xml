@@ -52,7 +52,7 @@
             <field eval="8" name="priority" />
             <field name="arch" type="xml">
                 <tree string="Evaluations" editable="top">
-                    <field name="year_id" readonly="1" />
+                    <field name="session_id" />
                     <field name="student_id" />
                     <field name="teacher_id" />
                     <field name="course_id" />
