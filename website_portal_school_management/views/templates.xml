@@ -28,31 +28,34 @@
                     <div id="o_my_information" class="col-md-12">
                         <div class="o_my_details">
                             <h3 class="page-header">Your Details</h3>
-                            <div t-field="user.partner_id" t-field-options='{"widget": "contact", "fields": ["email", "phone", "mobile", "address", "name"]}'/>
+                            <div t-field="user.partner_id" t-field-options='{"widget": "contact", "fields": ["email", "phone", "mobile", "address", "name"]}' />
                         </div>
                     </div>
-                    <div class="col-md-12 oe_structure"/>
+                    <div class="col-md-12 oe_structure" />
                 </div>
             </div>
         </t>
     </template>
-    
+
     <template id="my_info_link" name="Link to user informations" inherit_id="website.layout">
         <xpath expr="//li[@id='o_logout']" position="before">
             <li><a href="/my/info" role="menuitem">My Information</a></li>
         </xpath>
     </template>
-    
+
     <template id="program" name="Programs">
         <t t-call="website.layout">
-                <t t-set="title">Programs</t>
-                <div class="oe_structure">
-                    <div class="container">
-                        <t t-foreach="blocs" t-as="bloc">
-                            <p><t t-esc="bloc.id"/> <t t-esc="bloc.name"/></p>
-                        </t>
-                    </div>
+            <t t-set="title">Programs</t>
+            <div class="oe_structure">
+                <div class="container">
+                    <t t-foreach="blocs" t-as="bloc">
+                        <p>
+                            <t t-esc="bloc.id" />
+                            <t t-esc="bloc.name" />
+                        </p>
+                    </t>
                 </div>
-            </t>
+            </div>
+        </t>
     </template>
 </odoo>
