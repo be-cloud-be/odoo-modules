@@ -416,12 +416,6 @@
       <field name="type">form</field>
       <field name="arch" type="xml">
         <form string="Program">
-          <header>
-            <button name="unpublish" states="published,archived" string="Set to Draft" class="oe_highlight" />
-            <button name="publish" states="draft" string="Publidh Program" class="oe_highlight" />
-            <button name="archive" states="draft,published" string="Archive Program" />
-            <field name="state" widget="statusbar" statusbar_visible="draft,published,archived" />
-          </header>
           <sheet>
             <group col="2">
               <field name="code" />
@@ -573,11 +567,12 @@
       <field name="type">form</field>
       <field name="arch" type="xml">
         <form string="Bloc">
-          <!--<header>
-    		            <button name="transfert_confirm" states="draft" string="Validate" class="oe_highlight" groups="account.group_account_invoice"/>
-    		            <button name="transfert_cancel" states="draft,confirmed" string="Cancel Transfert" groups="account.group_account_invoice"/>
-    		            <field name="state" widget="statusbar" statusbar_visible="draft,confirmed,paid"/>
-    		        </header>-->
+          <header>
+            <button name="unpublish" states="published,archived" string="Set to Draft" class="oe_highlight" />
+            <button name="publish" states="draft" string="Publidh Program" class="oe_highlight" />
+            <button name="archive" states="draft,published" string="Archive Program" />
+            <field name="state" widget="statusbar" statusbar_visible="draft,published,archived" />
+          </header>
           <sheet>
             <group col="4">
               <field name="code" colspan="4" />
