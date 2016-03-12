@@ -415,13 +415,13 @@
       <field name="model">school.program</field>
       <field name="type">form</field>
       <field name="arch" type="xml">
-        <form string="Program">
-          <!--<header>
-            <button name="unpublish" states="published,archived" string="Set to Draft" class="oe_highlight"/>
-            <button name="publish" states="draft" string="Publidh Program" class="oe_highlight"/>
-            <button name="archive" states="draft,published" string="Archive Program"/>
+        <for40m string="Program">
+          <header>
+            <button name="unpublish" states="published,archived" string="Set to Draft" class="oe_highlight" />
+            <button name="publish" states="draft" string="Publidh Program" class="oe_highlight" />
+            <button name="archive" states="draft,published" string="Archive Program" />
             <field name="state" widget="statusbar" statusbar_visible="draft,published,archived" />
-          </header>-->
+          </header>
           <sheet>
             <group col="2">
               <field name="code" />
@@ -453,7 +453,7 @@
             <field name="message_follower_ids" widget="mail_followers" />
             <field name="message_ids" widget="mail_thread" />
           </div>
-        </form>
+          </form>
       </field>
     </record>
 
