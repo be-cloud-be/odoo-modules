@@ -125,6 +125,17 @@ class Bloc(models.Model):
         self.total_hours = total_hours
         self.total_credits = total_credits
     
+    state = fields.Selection([
+            ('draft','Draft'),
+            ('published', 'Published'),
+            ('archived', 'Archived'),
+        ], string='Status', index=True, readonly=True, default='draft',
+        #track_visibility='onchange' TODO : is this useful for this case ?
+        , copy=False,
+        help=" * The 'Draft' status is used when a new program is created and not published yet.\n"
+             " * The 'Published' status is when a program is published and available for use.\n"
+             " * The 'Archived' status is used when a program is obsolete and not publihed anymore.")
+    
     code = fields.Char(required=True, string='Code', size=8)
     name = fields.Char(required=True, string='Name')
     year_id = fields.Many2one('school.year', required=True, string="Year")
@@ -145,8 +156,23 @@ class Bloc(models.Model):
     
     program_ids = fields.One2many('school.program', 'bloc_id', string='Programs')
     
+    @api.multi
+    def transfert_confirm(self):
+        return self.write({'state': 'confirmed'})
+    
+    @api.multi
+    def unpublish(self):
+        return self.write({'state': 'draft'})
+    
+    @api.multi
+    def publish(self):
+        return self.write({'state': 'published'})
+    
+    @api.multi
+    def archive(self):
+        return self.write({'state': 'archived'})
 
-class competency(models.Model):
+class Competency(models.Model):
     '''Competency'''
     _name = 'school.competency'
     _order = 'sequence asc'
@@ -155,37 +181,37 @@ class competency(models.Model):
     
     program_ids = fields.Many2many('school.program','school_competency_program_rel', id1='competency_id', id2='program_id', string='Programs', ondelete='set null')
     
-class domain(models.Model):
+class Domain(models.Model):
     '''Domain'''
     _name = 'school.domain'
     name = fields.Char(required=True, string='Name', size=40)
     description = fields.Text(string='Description')
     
-class domain(models.Model):
+class Cycle(models.Model):
     '''Cycle'''
     _name = 'school.cycle'
     name = fields.Char(required=True, string='Name', size=40)
     description = fields.Text(string='Description')
     
-class domain(models.Model):
+class Section(models.Model):
     '''Section'''
     _name = 'school.section'
     name = fields.Char(required=True, string='Name', size=40)
     description = fields.Text(string='Description')
     
-class track(models.Model):
+class Track(models.Model):
     '''Track'''
     _name = 'school.track'
     name = fields.Char(required=True, string='Name', size=40)
     description = fields.Text(string='Description')
     
-class domain(models.Model):
+class Speciality(models.Model):
     '''Speciality'''
     _name = 'school.speciality'
     name = fields.Char(required=True, string='Name', size=40)
     description = fields.Text(string='Description')
     
-class year(models.Model):
+class Year(models.Model):
     '''Year'''
     _name = 'school.year'
     name = fields.Char(required=True, string='Name', size=15)

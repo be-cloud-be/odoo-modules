@@ -33,7 +33,7 @@
         Course
         
         -->
-        
+
     <!-- Course Kanban View 
     <record model="ir.ui.view" id="course_kanban_view">
       <field name="name">school.course.kanban</field>
@@ -276,7 +276,7 @@
               </group>
               <field name="program_id" />
             </group>
-            
+
             <field name="course_ids">
               <tree string="Courses">
                 <field name="code" />
@@ -416,11 +416,12 @@
       <field name="type">form</field>
       <field name="arch" type="xml">
         <form string="Program">
-          <!--<header>
-    		            <button name="transfert_confirm" states="draft" string="Validate" class="oe_highlight" groups="account.group_account_invoice"/>
-    		            <button name="transfert_cancel" states="draft,confirmed" string="Cancel Transfert" groups="account.group_account_invoice"/>
-    		            <field name="state" widget="statusbar" statusbar_visible="draft,confirmed,paid"/>
-    		        </header>-->
+          <header>
+            <button name="unpublish" states="published,archived" string="Set to Draft" class="oe_highlight"/>
+            <button name="publish" states="draft" string="Publidh Program" class="oe_highlight"/>
+            <button name="archive" states="draft,published" string="Archive Program"/>
+            <field name="state" widget="statusbar" statusbar_visible="draft,published,archived" />
+          </header>
           <sheet>
             <group col="2">
               <field name="code" />
@@ -564,7 +565,7 @@
         </tree>
       </field>
     </record>
-    
+
     <!-- Bloc Form View -->
     <record model="ir.ui.view" id="bloc_form">
       <field name="name">school.bloc.view</field>
@@ -677,29 +678,29 @@
       <field name="act_window_id" ref="action_bloc_form" />
     </record>
     <menuitem id="menu_bloc_form" parent="menu_program" action="action_bloc_form" sequence="1" />
-    
-    
+
+
     <!--
     
         Assignment
         
         -->
-    
+
     <!-- Assignment List View -->
     <record id="view_assignment_list" model="ir.ui.view">
       <field name="name">school.assignment.tree</field>
       <field name="model">school.assignment</field>
       <field eval="8" name="priority" />
       <field name="arch" type="xml">
-        <tree string="Assignment" editable="top" >
-          <field name="year_id" readonly="1"/>
+        <tree string="Assignment" editable="top">
+          <field name="year_id" readonly="1" />
           <field name="program_id" />
           <field name="course_id" />
           <field name="teacher_id" />
         </tree>
       </field>
     </record>
-    
+
     <record id="view_assignment_filter" model="ir.ui.view">
       <field name="name">assignment.select</field>
       <field name="model">school.assignment</field>
@@ -712,7 +713,7 @@
         </search>
       </field>
     </record>
-    
+
     <record id="action_assignment_list" model="ir.actions.act_window">
       <field name="name">Assignments</field>
       <field name="type">ir.actions.act_window</field>
@@ -739,6 +740,6 @@
     </record>
 
     <menuitem id="menu_assignment_list" parent="menu_assignment" action="action_assignment_list" sequence="10" />
-    
+
   </data>
 </openerp>

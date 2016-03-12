@@ -30,9 +30,21 @@ class Evaluation(models.Model):
     _name = 'school.evaluation'
     _description = 'Evaluation'
     
-    year_id = fields.Many2one('school.year', string='Year')
+    session_id = fields.Many2one('school.session', string='Session')
     student_id = fields.Many2one('res.partner', string='Student', domain="[('student', '=', '1')]")
     teacher_id = fields.Many2one('res.partner', string='Teacher', domain="[('teacher', '=', '1')]")
     course_id = fields.Many2one('school.course', string='Course')
     
+    _sql_constraints = [
+	        ('uniq_evaluation', 'unique(session_id, student_id, course_id)', 'There shall be only one evaluation by student.'),
+    ]
+    
     result = fields.Float(string='result')
+    
+class Session(models.Model):
+    '''Session'''
+    _name = 'school.session'
+    _description = 'Session'
+    
+    year_id = fields.Many2one('school.year', string='Year')
+    name = fields.Char(string='Name')

@@ -25,7 +25,7 @@ from openerp.exceptions import UserError
 
 _logger = logging.getLogger(__name__)
 
-class assignment(models.Model):
+class Assignment(models.Model):
     '''Assignment'''
     _name = 'school.assignment'
     
