@@ -415,7 +415,7 @@
       <field name="model">school.program</field>
       <field name="type">form</field>
       <field name="arch" type="xml">
-        <for40m string="Program">
+        <form string="Program">
           <header>
             <button name="unpublish" states="published,archived" string="Set to Draft" class="oe_highlight" />
             <button name="publish" states="draft" string="Publidh Program" class="oe_highlight" />

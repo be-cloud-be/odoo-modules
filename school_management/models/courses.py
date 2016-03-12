@@ -157,10 +157,6 @@ class Bloc(models.Model):
     program_ids = fields.One2many('school.program', 'bloc_id', string='Programs')
     
     @api.multi
-    def transfert_confirm(self):
-        return self.write({'state': 'confirmed'})
-    
-    @api.multi
     def unpublish(self):
         return self.write({'state': 'draft'})
     
