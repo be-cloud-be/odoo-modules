@@ -48,12 +48,21 @@
             <t t-set="title">Programs</t>
             <div class="oe_structure">
                 <div class="container">
-                    <t t-foreach="blocs" t-as="bloc">
-                        <p>
-                            <t t-esc="bloc.id" />
-                            <t t-esc="bloc.name" />
-                        </p>
-                    </t>
+                    <div class="row text-center">
+                        <h2>Programs</h2>
+                    </div>
+                    <div class="oe_structure" />
+                    <div class="row">
+                        <t t-foreach="blocs" t-as="bloc">
+                            <div class="thumbnail">
+                                <div>
+                                    <div class="caption">
+                                        <t t-esc="bloc.name" />
+                                    </div>
+                                </div>
+                            </div>
+                        </t>
+                    </div>
                 </div>
             </div>
         </t>
