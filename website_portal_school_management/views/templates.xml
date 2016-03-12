@@ -66,7 +66,7 @@
                             <div class="thumbnail">
                                 <div>
                                     <div class="caption">
-                                        <t t-esc="bloc.name" />
+                                        <a itemprop="url" t-att-href="keep('/program/%s' % slug(program)"><t t-esc="bloc.name" /></a>
                                     </div>
                                 </div>
                             </div>
