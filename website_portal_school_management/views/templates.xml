@@ -42,4 +42,17 @@
             <li><a href="/my/info" role="menuitem">My Information</a></li>
         </xpath>
     </template>
+    
+    <template id="program" name="Programs">
+        <t t-call="website.layout">
+                <t t-set="title">Programs</t>
+                <div class="oe_structure">
+                    <div class="container">
+                        <t t-foreach="blocs" t-as="bloc">
+                            <p><t t-esc="bloc.id"/> <t t-esc="bloc.name"/></p>
+                        </t>
+                    </div>
+                </div>
+            </t>
+    </template>
 </odoo>
