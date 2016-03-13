@@ -1,5 +1,12 @@
 @charset "utf-8"
 
+@mixin flexbox()
+	display: -webkit-box
+	display: -webkit-flex
+	display: -moz-flex
+	display: -ms-flexbox
+	display: flex
+
 @mixin transform($transform)
     -webkit-transform: $transform
     -moz-transform: $transform
