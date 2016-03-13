@@ -66,10 +66,29 @@
                             <div class="thumbnail">
                                 <div>
                                     <div class="caption">
-                                        <a itemprop="url" t-att-href="keep('/program/%s' % slug(program))"><t t-esc="bloc.name" /></a>
+                                        <a itemprop="url" t-att-href="'/program/%s' % slug(bloc)"><t t-esc="bloc.name" /></a>
                                     </div>
                                 </div>
                             </div>
+                        </t>
+                    </div>
+                </div>
+            </div>
+        </t>
+    </template>
+    
+    <template id="program_details" name="Programs Details">
+        <t t-call="website.layout">
+            <t t-set="title">Programs Details</t>
+            <div class="oe_structure">
+                <div class="container">
+                    <div class="row text-center">
+                        <h2>Programs Details</h2>
+                    </div>
+                    <div class="oe_structure" />
+                    <div class="row">
+                        <t t-foreach="blocs" t-as="bloc">
+                            <h4><t t-esc="bloc.name" /></h4>
                         </t>
                     </div>
                 </div>
