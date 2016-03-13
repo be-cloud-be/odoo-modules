@@ -469,7 +469,7 @@
       <field name="view_id" ref="bloc_form" />
       <field name="act_window_id" ref="action_bloc_form" />
     </record>
-    <menuitem id="menu_bloc_form" parent="menu_bloc" action="action_bloc_form" sequence="5" />
+    <menuitem id="menu_bloc_form" parent="menu_program" action="action_bloc_form" sequence="5" />
 
     <!--
     
