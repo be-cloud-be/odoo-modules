@@ -254,7 +254,7 @@
               <field name="bloc_id" />
             </group>
 
-            <field name="course_ids" context="{'default_courde_group_id':active_id}">
+            <field name="course_ids" context="{'default_course_group_id':active_id}">
               <tree string="Courses">
                 <field name="name" />
                 <field name="credits" />

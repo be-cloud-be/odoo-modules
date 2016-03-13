@@ -188,7 +188,7 @@
                                     <td></td>
                                 </tr>
                                 </t>
-                                <tr t-foreach="course_group.course_ids" t-as="course">
+                                <tr>
                                     <td></td>
                                     <td class="text-right">Total :</td>
                                     <td class="text-center"><t t-esc="bloc.total_hours"/></td>
