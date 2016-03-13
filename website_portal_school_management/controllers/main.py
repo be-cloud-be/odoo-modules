@@ -35,7 +35,7 @@ class website_portal_school_management(http.Controller):
         
     @http.route(['/program'], type='http', auth='public', website=True)
     def program(self, redirect=None, **post):
-        blocs = request.env['school.bloc'].sudo().search([('website_published', '=', True)])
+        blocs = request.env['school.bloc'].sudo().search([('state', '=', 'published')])
         values = {
             'blocs': blocs,
         }
