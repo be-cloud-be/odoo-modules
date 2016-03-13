@@ -112,6 +112,12 @@
                     <div class="col-md-2"><font color="grey">SPÉCIALITÉ</font></div>
                     <div class="col-md-10"><t t-esc="bloc.speciality_id.name" /></div>
                 </div>
+                <hr/>
+                <div class="row">
+                    <h4>VADE MECUM</h4>
+                    <br/>
+                    <t t-esc="bloc.description" />
+                </div>
             </div>
         </t>
     </template>

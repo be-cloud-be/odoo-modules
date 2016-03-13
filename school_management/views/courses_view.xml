@@ -570,7 +570,7 @@
           <header>
             <button name="unpublish" type="object" states="published,archived" string="Set to Draft" />
             <button name="publish" type="object" states="draft" string="Publish Program" class="oe_highlight" />
-            <button name="archive" type="object" states="draft,published" string="Archive Program" class="oe_highlight"/>
+            <button name="archive" type="object" states="draft,published" string="Archive Program"/>
             <field name="state" widget="statusbar" statusbar_visible="draft,published,archived" />
           </header>
           <sheet>
