@@ -109,26 +109,11 @@
                 <field name="credits" />
                 <field name="weight" />
               </group>
+              <field name="course_group_id"/>
             </group>
             <notebook>
               <page string="Description">
                 <field name="description" placeholder="Vade mecum..." colspan="4" />
-              </page>
-              <page string="Course Groups">
-                <field name="course_group_ids" mode="kanban" readonly="1">
-                  <kanban>
-                    <field name="name" />
-                    <templates>
-                      <t t-name="kanban-box">
-                        <div class="oe_kanban_global_click o_program_kanban">
-                          <div class="oe_kanban_details">
-                            <strong class="oe_program_heading"><field name="name"/></strong>
-                          </div>
-                        </div>
-                      </t>
-                    </templates>
-                  </kanban>
-                </field>
               </page>
               <page string="Notes">
                 <field name="notes" />
@@ -434,7 +419,7 @@
             <field name="message_follower_ids" widget="mail_followers" />
             <field name="message_ids" widget="mail_thread" />
           </div>
-          </form>
+        </form>
       </field>
     </record>
 
@@ -555,7 +540,7 @@
           <header>
             <button name="unpublish" type="object" states="published,archived" string="Set to Draft" />
             <button name="publish" type="object" states="draft" string="Publish Program" class="oe_highlight" />
-            <button name="archive" type="object" states="draft,published" string="Archive Program"/>
+            <button name="archive" type="object" states="draft,published" string="Archive Program" />
             <field name="state" widget="statusbar" statusbar_visible="draft,published,archived" />
           </header>
           <sheet>
