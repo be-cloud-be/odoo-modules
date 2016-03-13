@@ -33,7 +33,7 @@ class website_portal_school_management(http.Controller):
         }
         return request.website.render("website_portal_school_management.information", values)
         
-    @http.route(['/program'], type='http', auth='user', website=True)
+    @http.route(['/program'], type='http', auth='public', website=True)
     def program(self, redirect=None, **post):
         blocs = request.env['school.bloc'].sudo().search([('website_published', '=', True)])
         values = {
@@ -41,7 +41,7 @@ class website_portal_school_management(http.Controller):
         }
         return request.website.render("website_portal_school_management.program", values)
         
-    @http.route(['/program/<model("school.bloc"):bloc>'], type='http', auth='user', website=True)
+    @http.route(['/program/<model("school.bloc"):bloc>'], type='http', auth='public', website=True)
     def program_details(self, bloc, redirect=None, **post):
         values = {
             'bloc': bloc,
