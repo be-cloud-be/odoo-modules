@@ -7,8 +7,4 @@
   transform: scale(1.02); }
 
 .oe_school_program_details {
-  display: -webkit-box;
-  display: -webkit-flex;
-  display: -moz-flex;
-  display: -ms-flexbox;
-  display: flex; }
+  overflow: hidden; }
