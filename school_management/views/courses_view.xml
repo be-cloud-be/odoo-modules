@@ -40,7 +40,6 @@
       <field name="model">school.course</field>
       <field name="arch" type="xml">
         <kanban class="o_program_kanban">
-          <field name="code" />
           <field name="name" />
           <templates>
             <t t-name="kanban-box">
@@ -48,7 +47,7 @@
                 <div class="o_kanban_card_header">
                   <div class="o_kanban_card_header_title">
                     <div class="o_primary">
-                      <strong><field name="code" /> - <field name="name" /></strong>
+                      <strong><field name="name" /></strong>
                     </div>
                   </div>
                   <div class="container o_kanban_card_content o_visible">
@@ -82,7 +81,6 @@
       <field eval="8" name="priority" />
       <field name="arch" type="xml">
         <tree string="Contacts">
-          <field name="code" />
           <field name="name" />
           <field name="hours" />
           <field name="credits" />
@@ -105,7 +103,6 @@
     		        </header>-->
           <sheet>
             <group col="4">
-              <field name="code" colspan="4" />
               <field name="name" colspan="4" />
               <group col="6" colspan="4">
                 <field name="hours" />
@@ -120,14 +117,12 @@
               <page string="Course Groups">
                 <field name="course_group_ids" mode="kanban" readonly="1">
                   <kanban>
-                    <field name="code" />
                     <field name="name" />
                     <templates>
                       <t t-name="kanban-box">
                         <div class="oe_kanban_global_click o_program_kanban">
                           <div class="oe_kanban_details">
-                            <strong class="oe_program_heading"><field name="code"/></strong>
-                            <field name="name" />
+                            <strong class="oe_program_heading"><field name="name"/></strong>
                           </div>
                         </div>
                       </t>
@@ -153,7 +148,7 @@
       <field name="model">school.course</field>
       <field name="arch" type="xml">
         <search string="Search Course">
-          <field name="name" filter_domain="['|',('name','ilike',self),('code','=',self)]" />
+          <field name="name" filter_domain="['|',('name','ilike',self)]" />
         </search>
       </field>
     </record>
@@ -208,7 +203,6 @@
       <field name="model">school.course_group</field>
       <field name="arch" type="xml">
         <kanban class="o_course_group_kanban">
-          <field name="code" />
           <field name="name" />
           <templates>
             <t t-name="kanban-box">
@@ -216,7 +210,7 @@
                 <div class="o_kanban_card_header">
                   <div class="o_kanban_card_header_title">
                     <div class="o_primary">
-                      <strong><field name="code" /> - <field name="name" /></strong>
+                      <strong><field name="name" /></strong>
                     </div>
                   </div>
                   <div class="container o_kanban_card_content o_visible">
@@ -246,7 +240,6 @@
       <field eval="8" name="priority" />
       <field name="arch" type="xml">
         <tree string="Contacts">
-          <field name="code" />
           <field name="name" />
           <field name="total_hours" />
           <field name="total_credits" />
@@ -268,7 +261,6 @@
     		        </header>-->
           <sheet>
             <group col="2">
-              <field name="code" />
               <field name="name" />
               <group col="4" colspan="2">
                 <field name="total_hours" />
@@ -279,7 +271,6 @@
 
             <field name="course_ids" context="{'default_courde_group_id':active_id}">
               <tree string="Courses">
-                <field name="code" />
                 <field name="name" />
                 <field name="credits" />
                 <field name="hours" />
@@ -308,7 +299,7 @@
       <field name="model">school.course_group</field>
       <field name="arch" type="xml">
         <search string="Search Course Group">
-          <field name="name" filter_domain="[ '|',( 'name', 'ilike',self),( 'code', '=',self)]" />
+          <field name="name" filter_domain="[( 'name', 'ilike',self)]" />
         </search>
       </field>
     </record>
@@ -353,25 +344,24 @@
 
     <!--
     
-        Program
+        Bloc
         
         -->
 
-    <!-- Program Kanban View
-    <record model="ir.ui.view" id="program_kanban_view">
-      <field name="name">shcool.program.kanban</field>
-      <field name="model">school.program</field>
+    <!-- Bloc Kanban View
+    <record model="ir.ui.view" id="bloc_kanban_view">
+      <field name="name">shcool.bloc.kanban</field>
+      <field name="model">school.bloc</field>
       <field name="arch" type="xml">
-        <kanban class="o_program_kanban">
-          <field name="code" />
+        <kanban class="o_bloc_kanban">
           <field name="name" />
           <templates>
             <t t-name="kanban-box">
-              <div class="oe_kanban_global_click o_program_kanban">
+              <div class="oe_kanban_global_click o_bloc_kanban">
                 <div class="o_kanban_card_header">
                   <div class="o_kanban_card_header_title">
                     <div class="o_primary">
-                      <strong><field name="code" /> - <field name="name" /></strong>
+                      <strong><field name="name" /></strong>
                     </div>
                   </div>
                   <div class="container o_kanban_card_content o_visible">
@@ -394,14 +384,13 @@
       </field>
     </record> -->
 
-    <!-- Program Tree View -->
-    <record id="view_program_tree" model="ir.ui.view">
-      <field name="name">school.program.tree</field>
-      <field name="model">school.program</field>
+    <!-- Bloc Tree View -->
+    <record id="view_bloc_tree" model="ir.ui.view">
+      <field name="name">school.bloc.tree</field>
+      <field name="model">school.bloc</field>
       <field eval="8" name="priority" />
       <field name="arch" type="xml">
         <tree string="Contacts">
-          <field name="code" />
           <field name="name" />
           <field name="total_hours" />
           <field name="total_credits" />
@@ -409,26 +398,24 @@
       </field>
     </record>
 
-    <!-- Program Form View -->
-    <record model="ir.ui.view" id="program_form">
-      <field name="name">school.program.view</field>
-      <field name="model">school.program</field>
+    <!-- Bloc Form View -->
+    <record model="ir.ui.view" id="bloc_form">
+      <field name="name">school.bloc.view</field>
+      <field name="model">school.bloc</field>
       <field name="type">form</field>
       <field name="arch" type="xml">
-        <form string="Program">
+        <form string="Bloc">
           <sheet>
             <group col="2">
-              <field name="code" />
               <field name="name" />
               <group col="4" colspan="2">
                 <field name="total_hours" />
                 <field name="total_credits" />
               </group>
-              <field name="bloc_id" />
+              <field name="program_id" />
             </group>
-            <field name="course_group_ids" context="{'default_program_id':active_id}">
+            <field name="course_group_ids" context="{'default_bloc_id':active_id}">
               <tree string="Course Groups">
-                <field name="code" />
                 <field name="name" />
                 <field name="total_credits" />
                 <field name="total_hours" />
@@ -451,75 +438,74 @@
       </field>
     </record>
 
-    <record id="view_program_filter" model="ir.ui.view">
-      <field name="name">program.select</field>
-      <field name="model">school.program</field>
+    <record id="view_bloc_filter" model="ir.ui.view">
+      <field name="name">bloc.select</field>
+      <field name="model">school.bloc</field>
       <field name="arch" type="xml">
-        <search string="Search Program">
-          <field name="name" filter_domain="[ '|',( 'name', 'ilike',self),( 'code', '=',self)]" />
+        <search string="Search Bloc">
+          <field name="name" filter_domain="[( 'name', 'ilike',self)]" />
         </search>
       </field>
     </record>
 
-    <record id="action_program_form" model="ir.actions.act_window">
-      <field name="name">Programs</field>
+    <record id="action_bloc_form" model="ir.actions.act_window">
+      <field name="name">Blocs</field>
       <field name="type">ir.actions.act_window</field>
-      <field name="res_model">school.program</field>
+      <field name="res_model">school.bloc</field>
       <field name="view_type">form</field>
       <field name="view_mode">tree,form</field>
       <field name="context">{}</field>
-      <field name="search_view_id" ref="view_program_filter" />
+      <field name="search_view_id" ref="view_bloc_filter" />
       <field name="help" type="html">
         <p class="oe_view_nocontent_create">
-          Click to add a program.
+          Click to add a bloc.
         </p>
         <p>
-          Odoo helps you easily track all activities related to a program.
+          Odoo helps you easily track all activities related to a bloc.
         </p>
       </field>
     </record>
 
-    <!--<record id="action_program_form_view1" model="ir.actions.act_window.view">
+    <!--<record id="action_bloc_form_view1" model="ir.actions.act_window.view">
       <field name="sequence" eval="0" />
       <field name="view_mode">kanban</field>
-      <field name="view_id" ref="program_kanban_view" />
-      <field name="act_window_id" ref="action_program_form" />
+      <field name="view_id" ref="bloc_kanban_view" />
+      <field name="act_window_id" ref="action_bloc_form" />
     </record>-->
-    <record id="action_program_tree_view1" model="ir.actions.act_window.view">
+    <record id="action_bloc_tree_view1" model="ir.actions.act_window.view">
       <field name="sequence" eval="1" />
       <field name="view_mode">tree</field>
-      <field name="view_id" ref="view_program_tree" />
-      <field name="act_window_id" ref="action_program_form" />
+      <field name="view_id" ref="view_bloc_tree" />
+      <field name="act_window_id" ref="action_bloc_form" />
     </record>
-    <record id="action_program_form_view2" model="ir.actions.act_window.view">
+    <record id="action_bloc_form_view2" model="ir.actions.act_window.view">
       <field name="sequence" eval="2" />
       <field name="view_mode">form</field>
-      <field name="view_id" ref="program_form" />
-      <field name="act_window_id" ref="action_program_form" />
+      <field name="view_id" ref="bloc_form" />
+      <field name="act_window_id" ref="action_bloc_form" />
     </record>
-    <menuitem id="menu_program_form" parent="menu_program" action="action_program_form" sequence="5" />
+    <menuitem id="menu_bloc_form" parent="menu_bloc" action="action_bloc_form" sequence="5" />
 
     <!--
     
-        Bloc
+        Program
         
         -->
 
-    <!-- Bloc Kanban View -->
-    <record model="ir.ui.view" id="bloc_kanban_view">
-      <field name="name">school.bloc.kanban</field>
-      <field name="model">school.bloc</field>
+    <!-- Program Kanban View -->
+    <record model="ir.ui.view" id="program_kanban_view">
+      <field name="name">school.program.kanban</field>
+      <field name="model">school.program</field>
       <field name="arch" type="xml">
-        <kanban class="o_bloc_kanban" default_group_by="domain_id">
-          <field name="code" />
+        <kanban class="o_program_kanban" default_group_by="domain_id">
           <field name="name" />
           <templates>
             <t t-name="kanban-box">
-              <div class="oe_kanban_global_click o_bloc_kanban">
+              <div class="oe_kanban_global_click o_program_kanban">
                 <div class="o_kanban_card_header">
                   <div class="o_kanban_card_header_title">
                     <div class="o_primary">
-                      <strong><field name="code" /> - <field name="name" /></strong>
+                      <strong><field name="name" /></strong>
                     </div>
                   </div>
                   <div class="container o_kanban_card_content o_visible">
@@ -545,14 +531,13 @@
       </field>
     </record>
 
-    <!-- Bloc Tree View -->
-    <record id="view_bloc_tree" model="ir.ui.view">
-      <field name="name">school.bloc.tree</field>
-      <field name="model">school.bloc</field>
+    <!-- Program Tree View -->
+    <record id="view_program_tree" model="ir.ui.view">
+      <field name="name">school.program.tree</field>
+      <field name="model">school.program</field>
       <field eval="8" name="priority" />
       <field name="arch" type="xml">
         <tree string="Contacts">
-          <field name="code" />
           <field name="name" />
           <field name="total_hours" />
           <field name="total_credits" />
@@ -560,13 +545,13 @@
       </field>
     </record>
 
-    <!-- Bloc Form View -->
-    <record model="ir.ui.view" id="bloc_form">
-      <field name="name">school.bloc.view</field>
-      <field name="model">school.bloc</field>
+    <!-- Program Form View -->
+    <record model="ir.ui.view" id="program_form">
+      <field name="name">school.program.view</field>
+      <field name="model">school.program</field>
       <field name="type">form</field>
       <field name="arch" type="xml">
-        <form string="Bloc">
+        <form string="Program">
           <header>
             <button name="unpublish" type="object" states="published,archived" string="Set to Draft" />
             <button name="publish" type="object" states="draft" string="Publish Program" class="oe_highlight" />
@@ -575,7 +560,6 @@
           </header>
           <sheet>
             <group col="4">
-              <field name="code" colspan="4" />
               <field name="name" colspan="4" />
               <field name="year_id" colspan="4" />
               <field name="domain_id" colspan="4" />
@@ -586,9 +570,8 @@
               <field name="total_hours" />
               <field name="total_credits" />
             </group>
-            <field name="program_ids" context="{'default_bloc_id':active_id}">
-              <tree string="Programs">
-                <field name="code" />
+            <field name="bloc_ids" context="{'default_program_id':active_id}">
+              <tree string="Blocs">
                 <field name="name" />
                 <field name="total_credits" />
                 <field name="total_hours" />
@@ -619,12 +602,12 @@
       </field>
     </record>
 
-    <record id="view_bloc_filter" model="ir.ui.view">
-      <field name="name">bloc.select</field>
-      <field name="model">school.bloc</field>
+    <record id="view_program_filter" model="ir.ui.view">
+      <field name="name">program.select</field>
+      <field name="model">school.program</field>
       <field name="arch" type="xml">
-        <search string="Search Bloc">
-          <field name="name" filter_domain="[ '|',( 'name', 'ilike',self),( 'code', '=',self)]" />
+        <search string="Search Program">
+          <field name="name" filter_domain="[('name', 'ilike',self)]" />
           <group expand="1" string="Group By">
             <filter string="Domain" context="{'group_by':'domain_id'}" />
             <filter string="Cycle" context="{'group_by':'cycle_id'}" />
@@ -636,43 +619,43 @@
       </field>
     </record>
 
-    <record id="action_bloc_form" model="ir.actions.act_window">
-      <field name="name">Blocs</field>
+    <record id="action_program_form" model="ir.actions.act_window">
+      <field name="name">Programs</field>
       <field name="type">ir.actions.act_window</field>
-      <field name="res_model">school.bloc</field>
+      <field name="res_model">school.program</field>
       <field name="view_type">form</field>
       <field name="view_mode">tree,form</field>
       <field name="context">{}</field>
-      <field name="search_view_id" ref="view_bloc_filter" />
+      <field name="search_view_id" ref="view_program_filter" />
       <field name="help" type="html">
         <p class="oe_view_nocontent_create">
-          Click to add a bloc.
+          Click to add a program.
         </p>
         <p>
-          Odoo helps you easily track all activities related to a bloc.
+          Odoo helps you easily track all activities related to a program.
         </p>
       </field>
     </record>
 
-    <record id="action_bloc_form_view1" model="ir.actions.act_window.view">
+    <record id="action_program_form_view1" model="ir.actions.act_window.view">
       <field name="sequence" eval="0" />
       <field name="view_mode">kanban</field>
-      <field name="view_id" ref="bloc_kanban_view" />
-      <field name="act_window_id" ref="action_bloc_form" />
+      <field name="view_id" ref="program_kanban_view" />
+      <field name="act_window_id" ref="action_program_form" />
     </record>
-    <record id="action_bloc_tree_view1" model="ir.actions.act_window.view">
+    <record id="action_program_tree_view1" model="ir.actions.act_window.view">
       <field name="sequence" eval="1" />
       <field name="view_mode">tree</field>
-      <field name="view_id" ref="view_bloc_tree" />
-      <field name="act_window_id" ref="action_bloc_form" />
+      <field name="view_id" ref="view_program_tree" />
+      <field name="act_window_id" ref="action_program_form" />
     </record>
-    <record id="action_bloc_form_view2" model="ir.actions.act_window.view">
+    <record id="action_program_form_view2" model="ir.actions.act_window.view">
       <field name="sequence" eval="2" />
       <field name="view_mode">form</field>
-      <field name="view_id" ref="bloc_form" />
-      <field name="act_window_id" ref="action_bloc_form" />
+      <field name="view_id" ref="program_form" />
+      <field name="act_window_id" ref="action_program_form" />
     </record>
-    <menuitem id="menu_bloc_form" parent="menu_program" action="action_bloc_form" sequence="1" />
+    <menuitem id="menu_program_form" parent="menu_program" action="action_program_form" sequence="1" />
 
 
     <!--
