@@ -80,16 +80,37 @@
     <template id="program_details" name="Program Details">
         <t t-call="website.layout">
             <t t-set="title">Program Details</t>
-            <div class="oe_structure">
-                <div class="container oe_school_program_details">
-                    <div class="row text-center">
-                        <h2>Program Details</h2>
-                    </div>
-                    <div class="oe_structure" />
-                    <div class="row">
-                        <div class="col-md-4"><h4>PROFIL D’ENSEIGNEMENT</h4></div>
-                        <div class="col-md-8"><h4><t t-esc="bloc.name" /></h4></div>
-                    </div>
+            <div class="oe_structure"/>
+            <div class="container oe_school_program_details">
+                <div class="row text-center">
+                    <h2>Program Details</h2>
+                </div>
+                <hr/>
+                <div class="row">
+                    <div class="col-md-4"><h4>PROFIL D’ENSEIGNEMENT</h4></div>
+                    <div class="col-md-6"><h4><t t-esc="bloc.name" /></h4></div>
+                    <div class="col-md-2"><h4><t t-esc="bloc.year_id.name" /></h4></div>
+                </div>
+                <hr/>
+                <div class="row">
+                    <div class="col-md-2"><font color="grey">DOMAINE</font></div>
+                    <div class="col-md-10"><t t-esc="bloc.domain_id.name" /></div>
+                </div>
+                <div class="row">
+                    <div class="col-md-2"><font color="grey">CYCLE</font></div>
+                    <div class="col-md-10"><t t-esc="bloc.cycle_id.name" /></div>
+                </div>
+                <div class="row">
+                    <div class="col-md-2"><font color="grey">SECTION</font></div>
+                    <div class="col-md-10"><t t-esc="bloc.section_id.name" /></div>
+                </div>
+                <div class="row">
+                    <div class="col-md-2"><font color="grey">ORIENTATION</font></div>
+                    <div class="col-md-10"><t t-esc="bloc.track_id.name" /></div>
+                </div>
+                <div class="row">
+                    <div class="col-md-2"><font color="grey">SPÉCIALITÉ</font></div>
+                    <div class="col-md-10"><t t-esc="bloc.speciality_id.name" /></div>
                 </div>
             </div>
         </t>
