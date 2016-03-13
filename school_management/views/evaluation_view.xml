@@ -68,6 +68,6 @@
             <field name="act_window_id" ref="action_eval_list" />
         </record>
 
-        <menuitem id="action_eval_list" parent="menu_eval" action="action_eval_list" sequence="10" />
+        <menuitem id="action_eval_list_menu" parent="menu_eval" action="action_eval_list" sequence="10" />
     </data>
 </openerp>
