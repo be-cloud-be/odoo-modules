@@ -112,7 +112,7 @@ class Bloc(models.Model):
     '''Bloc'''
     _name = 'school.bloc'
     _description = 'Bloc of Programs'
-    _inherit = ['mail.thread','website.published.mixin']
+    _inherit = ['mail.thread']
     
     @api.one
     @api.depends('program_ids')
@@ -158,17 +158,14 @@ class Bloc(models.Model):
     
     @api.multi
     def unpublish(self):
-        self.website_published = False
         return self.write({'state': 'draft'})
     
     @api.multi
     def publish(self):
-        self.website_published = True
         return self.write({'state': 'published'})
     
     @api.multi
     def archive(self):
-        self.website_published = False
         return self.write({'state': 'archived'})
 
 class Competency(models.Model):
