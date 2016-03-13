@@ -41,7 +41,7 @@ class Course(models.Model):
     
     notes = fields.Text(string='Notes')
     
-    course_group_ids = fields.Many2many('school.course_group', 'school_course_course_group_rel', id1='course_id', id2='course_group_id', string='Course Groups', ondelete='set null')
+    course_group_ids = fields.Many2one('school.course_group', string='Course Groups', required=True)
     
 class CourseGroup(models.Model):
     '''Courses Group'''
@@ -74,12 +74,12 @@ class CourseGroup(models.Model):
     
     notes = fields.Text(string='Notes')
     
-    course_ids = fields.Many2many('school.course', 'school_course_course_group_rel', id1='course_group_id', id2='course_id', string='Courses', ondelete='set null')
-    program_id = fields.Many2one('school.program', required=True, string='Program')
+    course_ids = fields.One2many('school.course', 'course_group_id', string='Courses')
+    bloc_id = fields.Many2one('school.bloc', required=True, string='Bloc')
     
-class Program(models.Model):
-    '''Progral'''
-    _name = 'school.program'
+class Bloc(models.Model):
+    '''Bloc'''
+    _name = 'school.bloc'
     _description = 'Program'
     _inherit = ['mail.thread']
     
@@ -104,24 +104,24 @@ class Program(models.Model):
 
     notes = fields.Text(string='Notes')
     
-    course_group_ids = fields.One2many('school.course_group', 'program_id', string='Courses Groups')
+    course_group_ids = fields.One2many('school.course_group', 'bloc_id', string='Courses Groups')
 
-    bloc_id = fields.Many2one('school.bloc', required=True, string='Bloc')
+    program_id = fields.Many2one('school.program', required=True, string='Program')
 
-class Bloc(models.Model):
-    '''Bloc'''
-    _name = 'school.bloc'
-    _description = 'Bloc of Programs'
+class Program(models.Model):
+    '''Program'''
+    _name = 'school.program'
+    _description = 'Program made of several Blocs'
     _inherit = ['mail.thread']
     
     @api.one
-    @api.depends('program_ids')
+    @api.depends('bloc_ids')
     def _get_courses_total(self):
         total_hours = 0.0
         total_credits = 0.0
-        for program in self.program_ids:
-            total_hours += program.total_hours
-            total_credits += program.total_credits
+        for bloc in self.bloc_ids:
+            total_hours += bloc.total_hours
+            total_credits += bloc.total_credits
         self.total_hours = total_hours
         self.total_credits = total_credits
     
@@ -141,7 +141,7 @@ class Bloc(models.Model):
     year_id = fields.Many2one('school.year', required=True, string="Year")
     description = fields.Text(string='Description')
     
-    competency_ids = fields.Many2many('school.competency','school_competency_bloc_rel', id1='bloc_id', id2='competency_id', string='Competencies', ondelete='set null')
+    competency_ids = fields.Many2many('school.competency','school_competency_program_rel', id1='program_id', id2='competency_id', string='Competencies', ondelete='set null')
     
     domain_id = fields.Many2one('school.domain', string='Domain')
     cycle_id = fields.Many2one('school.cycle', string='Cycle')
@@ -154,7 +154,7 @@ class Bloc(models.Model):
 
     notes = fields.Text(string='Notes')
     
-    program_ids = fields.One2many('school.program', 'bloc_id', string='Programs')
+    bloc_ids = fields.One2many('school.bloc', 'program_id', string='Blocs')
     
     @api.multi
     def unpublish(self):
