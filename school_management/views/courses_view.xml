@@ -251,7 +251,7 @@
                 <field name="total_hours" />
                 <field name="total_credits" />
               </group>
-              <field name="program_id" />
+              <field name="bloc_id" />
             </group>
 
             <field name="course_ids" context="{'default_courde_group_id':active_id}">
