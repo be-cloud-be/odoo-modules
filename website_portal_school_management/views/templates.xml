@@ -77,19 +77,17 @@
         </t>
     </template>
     
-    <template id="program_details" name="Programs Details">
+    <template id="program_details" name="Program Details">
         <t t-call="website.layout">
-            <t t-set="title">Programs Details</t>
+            <t t-set="title">Program Details</t>
             <div class="oe_structure">
                 <div class="container">
                     <div class="row text-center">
-                        <h2>Programs Details</h2>
+                        <h2>Program Details</h2>
                     </div>
                     <div class="oe_structure" />
                     <div class="row">
-                        <t t-foreach="blocs" t-as="bloc">
-                            <h4><t t-esc="bloc.name" /></h4>
-                        </t>
+                        <h4><t t-esc="bloc.name" /></h4>
                     </div>
                 </div>
             </div>
