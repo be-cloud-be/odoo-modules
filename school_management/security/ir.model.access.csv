@@ -19,3 +19,15 @@ model_school_speciality_base.group_public,model_school_speciality_base.group_pub
 model_school_cycle_base.group_public,model_school_cycle_base.group_public,model_school_cycle,base.group_public,1,0,0,0
 model_school_assignment_base.group_public,model_school_assignment_base.group_public,model_school_assignment,base.group_public,1,0,0,0
 model_school_bloc_base.group_public,model_school_bloc_base.group_public,model_school_bloc,base.group_public,1,0,0,0
+model_school_section_base.group_public,model_school_section_base.group_public,model_school_section,base.group_public,1,0,0,0
+model_school_program_base.group_user,model_school_program_base.group_user,model_school_program,base.group_user,1,0,0,0
+model_school_course_group_base.group_user,model_school_course_group_base.group_user,model_school_course_group,base.group_user,1,0,0,0
+model_school_course_base.group_user,model_school_course_base.group_user,model_school_course,base.group_user,1,0,0,0
+model_school_competency_base.group_user,model_school_competency_base.group_user,model_school_competency,base.group_user,1,0,0,0
+model_school_domain_base.group_user,model_school_domain_base.group_user,model_school_domain,base.group_user,1,0,0,0
+model_school_track_base.group_user,model_school_track_base.group_user,model_school_track,base.group_user,1,0,0,0
+model_school_speciality_base.group_user,model_school_speciality_base.group_user,model_school_speciality,base.group_user,1,0,0,0
+model_school_cycle_base.group_user,model_school_cycle_base.group_user,model_school_cycle,base.group_user,1,0,0,0
+model_school_assignment_base.group_user,model_school_assignment_base.group_user,model_school_assignment,base.group_user,1,0,0,0
+model_school_bloc_base.group_user,model_school_bloc_base.group_user,model_school_bloc,base.group_user,1,0,0,0
+model_school_section_base.group_user,model_school_section_base.group_user,model_school_section,base.group_user,1,0,0,0
