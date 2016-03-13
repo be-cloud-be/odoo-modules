@@ -143,14 +143,14 @@
                     <div class="col-md-12">
                         <table class="table table-condensed">
                             <caption>Grille du bloc - <t t-esc="bloc.name"/></caption>
-                            <col style="width:50px">
-                            <col style="width:100%">
-                            <col style="width:30px">
-                            <col style="width:30px">
-                            <col style="width:30px">
-                            <col style="width:50px">
-                            <col style="width:50px">
-                            <col style="width:50px">
+                            <col style="width:50px"/>
+                            <col style="width:100%"/>
+                            <col style="width:30px"/>
+                            <col style="width:30px"/>
+                            <col style="width:30px"/>
+                            <col style="width:50px"/>
+                            <col style="width:50px"/>
+                            <col style="width:50px"/>
                             <thead>
                                 <tr>
                                     <th>Code UE</th> 
