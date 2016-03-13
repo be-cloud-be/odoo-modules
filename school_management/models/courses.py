@@ -63,7 +63,7 @@ class CourseGroup(models.Model):
         self.total_weight = total_weight
 
     name = fields.Char(required=True, string='Name')
-    year_id = fields.Many2one('school.year', string="Year", related='program_id.year_id', store=True)
+    year_id = fields.Many2one('school.year', string="Year", related='bloc_id.year_id', store=True)
     description = fields.Text(string='Description')
     
     total_credits = fields.Integer(compute='_get_courses_total', string='Total Credits')
@@ -93,7 +93,7 @@ class Bloc(models.Model):
         self.total_credits = total_credits
 
     name = fields.Char(required=True, string='Name')
-    year_id = fields.Many2one('school.year', string="Year", related='bloc_id.year_id', store=True)
+    year_id = fields.Many2one('school.year', string="Year", related='program_id.year_id', store=True)
     description = fields.Text(string='Description')
     
     total_credits = fields.Integer(compute='_get_courses_total', string='Total Credits')
