@@ -1,11 +1,11 @@
 @charset "utf-8"
 
 @mixin flexbox()
-	display: -webkit-box
-	display: -webkit-flex
-	display: -moz-flex
-	display: -ms-flexbox
-	display: flex
+    display: -webkit-box
+    display: -webkit-flex
+    display: -moz-flex
+    display: -ms-flexbox
+    display: flex
 
 @mixin transform($transform)
     -webkit-transform: $transform
@@ -14,7 +14,10 @@
     -o-transform: $transform
     transform: $transform
 
-.thumbnail
+.oe_school_program
     &:hover
         cursor: pointer
         @include transform(scale(1.02))
+
+.oe_school_program_details
+    @include flexbox()

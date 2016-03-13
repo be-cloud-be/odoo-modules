@@ -1,7 +1,14 @@
-.thumbnail:hover {
+.oe_school_program:hover {
   cursor: pointer;
   -webkit-transform: scale(1.02);
   -moz-transform: scale(1.02);
   -ms-transform: scale(1.02);
   -o-transform: scale(1.02);
   transform: scale(1.02); }
+
+.oe_school_program_details {
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -moz-flex;
+  display: -ms-flexbox;
+  display: flex; }
