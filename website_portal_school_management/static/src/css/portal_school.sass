@@ -1,12 +1,5 @@
 @charset "utf-8"
 
-@mixin flexbox()
-    display: -webkit-box
-    display: -webkit-flex
-    display: -moz-flex
-    display: -ms-flexbox
-    display: flex
-
 @mixin transform($transform)
     -webkit-transform: $transform
     -moz-transform: $transform
@@ -20,11 +13,3 @@
         @include transform(scale(1.02))
 
 .oe_school_program_details
-    overflow: hidden
-    
-.row.equalheights 
-    overflow: hidden 
-
-.row.equalheights > [class*="col-"]
-    margin-bottom: -99999px
-    padding-bottom: 99999px

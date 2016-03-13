@@ -86,8 +86,9 @@
                         <h2>Program Details</h2>
                     </div>
                     <div class="oe_structure" />
-                    <div class="row equalheights">
-                        <div class="col-md-4">PROFIL D’ENSEIGNEMENT</div><div class="col-md-8"><h4><t t-esc="bloc.name" /></h4></div>
+                    <div class="row">
+                        <div class="col-md-4"><h4>PROFIL D’ENSEIGNEMENT</h4></div>
+                        <div class="col-md-8"><h4><t t-esc="bloc.name" /></h4></div>
                     </div>
                 </div>
             </div>
