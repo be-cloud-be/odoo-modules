@@ -35,15 +35,15 @@ class website_portal_school_management(http.Controller):
         
     @http.route(['/program'], type='http', auth='public', website=True)
     def program(self, redirect=None, **post):
-        blocs = request.env['school.bloc'].sudo().search([('state', '=', 'published')])
+        programs = request.env['school.program'].sudo().search([('state', '=', 'published')])
         values = {
-            'blocs': blocs,
+            'programs': programs,
         }
         return request.website.render("website_portal_school_management.program", values)
         
-    @http.route(['/program/<model("school.bloc"):bloc>'], type='http', auth='public', website=True)
-    def program_details(self, bloc, redirect=None, **post):
+    @http.route(['/program/<model("school.program"):program>'], type='http', auth='public', website=True)
+    def program_details(self, program, redirect=None, **post):
         values = {
-            'bloc': bloc,
+            'program': program,
         }
         return request.website.render("website_portal_school_management.program_details", values)
