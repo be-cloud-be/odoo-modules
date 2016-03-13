@@ -126,9 +126,9 @@
                         <table class="table table-striped">
                             <caption>A la fin du cycle, l’étudiant doit être capable :</caption>
                             <col width='50px'/>
-                            <col width='100%'/>
-                            <tr t-foreach="program.competency_ids" t-as="comp">
-                                <th scope="row"><bold>1</bold></th><td><t t-esc="comp.description"/></td>
+                            <col width="100%"/><t t-set="comp_cnt" t-value="0"/>
+                            <tr t-foreach="program.competency_ids" t-as="comp"><t t-set="comp_cnt" t-value="comp_cnt+1"/>
+                                <th scope="row"><bold><t t-esc="comp_cnt"/></bold></th><td><t t-esc="comp.description"/></td>
                             </tr>
                         </table>
                     </div>
@@ -136,18 +136,30 @@
                 <hr/>
                 <section class="row">
                     <div class="col-md-12">
-                        <div class="col-md-12"><h4>PROGRAMME DES COURS</h4></div>
+                        <h4>PROGRAMME DES COURS</h4>
                     </div>
-                    <section class="row" t-foreach="program.blod_ids" t-as="bloc">
-                        <div class="col-md-12">
-                            <table class="table table-striped">
-                                <caption>Grille du bloc - <t t-esc="bloc.name"/></caption>
-                                <tr t-foreach="bloc.course_group_ids" t-as="course_group">
-                                    <td>course_group.name</td>
-                                </tr>
-                            </table>
-                        </div>
-                    </section>
+                </section>
+                <section class="row" t-foreach="program.bloc_ids" t-as="bloc">
+                    <div class="col-md-12">
+                        <table class="table table-striped table-condensed">
+                            <caption>Grille du bloc - <t t-esc="bloc.name"/></caption>
+                            <thead> 
+                                <tr>
+                                    <th>Code UE</th> 
+                                    <th>Unités d’enseignement</th> 
+                                    <th>Heures</th> 
+                                    <th>ECTS</th>
+                                    <th>Pond</th>
+                                    <th>Prérequis/Corequis</th>
+                                    <th>Quadrimestre</th>
+                                    <th>Référentiel</th>
+                                </tr> 
+                            </thead>
+                            <tr t-foreach="bloc.course_group_ids" t-as="course_group">
+                                <td><t t-esc="course_group.name"/></td>
+                            </tr>
+                        </table>
+                    </div>
                 </section>
                 <hr/>
             </article>
