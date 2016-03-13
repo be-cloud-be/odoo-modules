@@ -63,7 +63,7 @@
                     <div class="oe_structure" />
                     <div class="row">
                         <t t-foreach="blocs" t-as="bloc">
-                            <div class="thumbnail">
+                            <div class="thumbnail oe_school_program">
                                 <div>
                                     <div class="caption">
                                         <a itemprop="url" t-att-href="'/program/%s' % slug(bloc)"><t t-esc="bloc.name" /></a>
@@ -81,13 +81,13 @@
         <t t-call="website.layout">
             <t t-set="title">Program Details</t>
             <div class="oe_structure">
-                <div class="container">
+                <div class="container oe_school_program_details">
                     <div class="row text-center">
                         <h2>Program Details</h2>
                     </div>
                     <div class="oe_structure" />
                     <div class="row">
-                        <h4><t t-esc="bloc.name" /></h4>
+                        <div class=".col-md-4">PROFIL D’ENSEIGNEMENT</div><div class=".col-md-8"><h4><t t-esc="bloc.name" /></h4></div>
                     </div>
                 </div>
             </div>
