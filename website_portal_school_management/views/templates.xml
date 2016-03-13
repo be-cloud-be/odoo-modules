@@ -157,10 +157,10 @@
                                 <tr>
                                     <th>Code UE</th> 
                                     <th>Unités d’enseignement</th> 
-                                    <th>Heures</th> 
-                                    <th>ECTS</th>
-                                    <th>Pond</th>
-                                    <th>Prérequis/Corequis</th>
+                                    <th class="text-center">Heures</th> 
+                                    <th class="text-center">ECTS</th>
+                                    <th class="text-center">Pond</th>
+                                    <th>Pré/Co-requis</th>
                                     <th>Quadrimestre</th>
                                     <th>Référentiel</th>
                                 </tr> 
