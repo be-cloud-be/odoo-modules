@@ -81,53 +81,59 @@
         <t t-call="website.layout">
             <t t-set="title">Program Details</t>
             <div class="oe_structure"/>
-            <div class="container oe_school_program_details">
-                <div class="row text-center">
+            <article class="container oe_school_program_details">
+                <section class="row text-center">
                     <h2>Program Details</h2>
-                </div>
+                </section>
                 <hr/>
-                <div class="row">
+                <section class="row">
                     <div class="col-md-4"><h4>PROFIL D’ENSEIGNEMENT</h4></div>
                     <div class="col-md-6"><h4><t t-esc="bloc.name" /></h4></div>
                     <div class="col-md-2"><h4><t t-esc="bloc.year_id.name" /></h4></div>
-                </div>
+                </section>
                 <hr/>
-                <div class="row">
-                    <div class="col-md-2"><font color="grey">DOMAINE</font></div>
-                    <div class="col-md-10"><t t-esc="bloc.domain_id.name" /></div>
-                </div>
-                <div class="row">
-                    <div class="col-md-2"><font color="grey">CYCLE</font></div>
-                    <div class="col-md-10"><t t-esc="bloc.cycle_id.name" /></div>
-                </div>
-                <div class="row">
-                    <div class="col-md-2"><font color="grey">SECTION</font></div>
-                    <div class="col-md-10"><t t-esc="bloc.section_id.name" /></div>
-                </div>
-                <div class="row">
-                    <div class="col-md-2"><font color="grey">ORIENTATION</font></div>
-                    <div class="col-md-10"><t t-esc="bloc.track_id.name" /></div>
-                </div>
-                <div class="row">
-                    <div class="col-md-2"><font color="grey">SPÉCIALITÉ</font></div>
-                    <div class="col-md-10"><t t-esc="bloc.speciality_id.name" /></div>
-                </div>
+                <section>
+                    <div class="row">
+                        <div class="col-md-2"><font color="grey">DOMAINE</font></div>
+                        <div class="col-md-10"><t t-esc="bloc.domain_id.name" /></div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-2"><font color="grey">CYCLE</font></div>
+                        <div class="col-md-10"><t t-esc="bloc.cycle_id.name" /></div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-2"><font color="grey">SECTION</font></div>
+                        <div class="col-md-10"><t t-esc="bloc.section_id.name" /></div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-2"><font color="grey">ORIENTATION</font></div>
+                        <div class="col-md-10"><t t-esc="bloc.track_id.name" /></div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-2"><font color="grey">SPÉCIALITÉ</font></div>
+                        <div class="col-md-10"><t t-esc="bloc.speciality_id.name" /></div>
+                    </div>
+                </section>
                 <hr/>
-                <div class="row">
+                <section class="row">
                     <div class="col-md-12"><h4>VADE MECUM</h4></div>
                     <div class="col-md-12" style='white-space: pre-wrap;'><t t-esc="bloc.description"/></div>
-                </div>
+                </section>
                 <hr/>
-                <div class="row">
+                <section class="row">
                     <div class="col-md-12"><h4>RÉFÉRENTIELS DE COMPÉTENCES ATTENDUES</h4></div>
+                    A la fin du cycle, l’étudiant doit être capable :
                     <table class="table table-striped">
                         <tr t-foreach="bloc.competency_ids" t-as="comp">
-                            <td><bold>1</bold></td><td>comp.description</td>
+                            <th scope="row"><bold>1</bold></th><td>comp.description</td>
                         </tr>
                     </table>
-                </div>
+                </section>
                 <hr/>
-            </div>
+                <section class="row">
+                    <div class="col-md-12"><h4>PROGRAMME DES COURS</h4></div>
+                </section>
+            </article>
         </t>
     </template>
 </odoo>
