@@ -25,7 +25,7 @@
     'author': 'be-Cloud.be (Jerome Sonnet)',
     'website': '',
     'depends': [
-        'website',
+        'website_portal',
     ],
     'data': [
         'views/templates.xml',
