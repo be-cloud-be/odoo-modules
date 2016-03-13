@@ -31,7 +31,6 @@ class Course(models.Model):
     _description = 'Course'
     _inherit = ['mail.thread']
     
-    code = fields.Char(required=True, string='Code', size=8)
     name = fields.Char(required=True, string='Name')
     description = fields.Text(string='Description')
     
@@ -63,7 +62,6 @@ class CourseGroup(models.Model):
         self.total_credits = total_credits
         self.total_weight = total_weight
 
-    code = fields.Char(required=True, string='Code', size=8)
     name = fields.Char(required=True, string='Name')
     year_id = fields.Many2one('school.year', string="Year", related='program_id.year_id', store=True)
     description = fields.Text(string='Description')
@@ -94,7 +92,6 @@ class Bloc(models.Model):
         self.total_hours = total_hours
         self.total_credits = total_credits
 
-    code = fields.Char(required=True, string='Code', size=8)
     name = fields.Char(required=True, string='Name')
     year_id = fields.Many2one('school.year', string="Year", related='bloc_id.year_id', store=True)
     description = fields.Text(string='Description')
@@ -136,7 +133,6 @@ class Program(models.Model):
              " * The 'Published' status is when a program is published and available for use.\n"
              " * The 'Archived' status is used when a program is obsolete and not publihed anymore.")
     
-    code = fields.Char(required=True, string='Code', size=8)
     name = fields.Char(required=True, string='Name')
     year_id = fields.Many2one('school.year', required=True, string="Year")
     description = fields.Text(string='Description')
