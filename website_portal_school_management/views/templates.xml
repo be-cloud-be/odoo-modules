@@ -155,9 +155,17 @@
                                     <th>Référentiel</th>
                                 </tr> 
                             </thead>
-                            <tr t-foreach="bloc.course_group_ids" t-as="course_group">
-                                <td><t t-esc="course_group.name"/></td>
-                            </tr>
+                            <tbody>
+                                <tr t-foreach="bloc.course_group_ids" t-as="course_group">
+                                    <td></td>
+                                    <td><t t-esc="course_group.name"/></td>
+                                    <td><t t-esc="course_group.total_hours"/></td>
+                                    <td><t t-esc="course_group.total_credits"/></td>
+                                    <td></td>
+                                    <td></td>
+                                    <td></td>
+                                </tr>
+                            </tbody>
                         </table>
                     </div>
                 </section>
