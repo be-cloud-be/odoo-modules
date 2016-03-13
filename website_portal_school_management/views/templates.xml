@@ -141,7 +141,7 @@
                 </section>
                 <section class="row" t-foreach="program.bloc_ids" t-as="bloc">
                     <div class="col-md-12">
-                        <table class="table table-striped table-condensed">
+                        <table class="table table-condensed">
                             <caption>Grille du bloc - <t t-esc="bloc.name"/></caption>
                             <thead> 
                                 <tr>
@@ -156,7 +156,8 @@
                                 </tr> 
                             </thead>
                             <tbody>
-                                <tr t-foreach="bloc.course_group_ids" t-as="course_group">
+                                <t t-foreach="bloc.course_group_ids" t-as="course_group">
+                                <tr class="oe_school_course_group">
                                     <td></td>
                                     <td><t t-esc="course_group.name"/></td>
                                     <td><t t-esc="course_group.total_hours"/></td>
@@ -164,7 +165,9 @@
                                     <td></td>
                                     <td></td>
                                     <td></td>
+                                    <td></td>
                                 </tr>
+                                </t>
                             </tbody>
                         </table>
                     </div>

@@ -5,3 +5,7 @@
   -ms-transform: scale(1.02);
   -o-transform: scale(1.02);
   transform: scale(1.02); }
+
+.oe_school_course_group {
+  background-color: #eeeeee;
+  font-weight: bold; }
