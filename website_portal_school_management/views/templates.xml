@@ -177,6 +177,16 @@
                                     <td></td>
                                     <td></td>
                                 </tr>
+                                <tr t-foreach="course_group.course_ids" t-as="course">
+                                    <td></td>
+                                    <td><t t-esc="course_group.name"/></td>
+                                    <td class="text-center"><t t-esc="course.hours"/></td>
+                                    <td class="text-center"><t t-esc="course.credits"/></td>
+                                    <td class="text-center"><t t-esc="course.weight"/></td>
+                                    <td></td>
+                                    <td></td>
+                                    <td></td>
+                                </tr>
                                 </t>
                             </tbody>
                         </table>
