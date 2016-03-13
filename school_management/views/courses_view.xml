@@ -277,7 +277,7 @@
               <field name="program_id" />
             </group>
 
-            <field name="course_ids">
+            <field name="course_ids" context="{'default_courde_group_id':active_id}">
               <tree string="Courses">
                 <field name="code" />
                 <field name="name" />
@@ -426,7 +426,7 @@
               </group>
               <field name="bloc_id" />
             </group>
-            <field name="course_group_ids">
+            <field name="course_group_ids" context="{'default_program_id':active_id}">
               <tree string="Course Groups">
                 <field name="code" />
                 <field name="name" />
@@ -586,7 +586,7 @@
               <field name="total_hours" />
               <field name="total_credits" />
             </group>
-            <field name="program_ids">
+            <field name="program_ids" context="{'default_bloc_id':active_id}">
               <tree string="Programs">
                 <field name="code" />
                 <field name="name" />
