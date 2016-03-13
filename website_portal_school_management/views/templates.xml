@@ -114,10 +114,19 @@
                 </div>
                 <hr/>
                 <div class="row">
-                    <h4>VADE MECUM</h4>
-                    <br/>
-                    <t t-esc="bloc.description" />
+                    <div class="col-md-12"><h4>VADE MECUM</h4></div>
+                    <div class="col-md-12" style='white-space: pre-wrap;'><t t-esc="bloc.description"/></div>
                 </div>
+                <hr/>
+                <div class="row">
+                    <div class="col-md-12"><h4>RÉFÉRENTIELS DE COMPÉTENCES ATTENDUES</h4></div>
+                    <table class="table table-striped">
+                        <tr t-foreach="bloc.competency_ids" t-as="comp">
+                            <td><bold>1</bold></td><td>comp.description</td>
+                        </tr>
+                    </table>
+                </div>
+                <hr/>
             </div>
         </t>
     </template>
