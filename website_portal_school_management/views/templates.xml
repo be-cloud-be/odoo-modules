@@ -142,16 +142,16 @@
                 <section class="row" t-foreach="program.bloc_ids" t-as="bloc">
                     <div class="col-md-12">
                         <table class="table table-condensed oe_school_program_table">
-                            <caption>Grille du bloc - <t t-esc="bloc.name"/></caption>
+                            <caption style="font-size: 100%;">Grille du bloc - <t t-esc="bloc.name"/></caption>
                             <colgroup>
-                                <col style="width:50px"/>
+                                <col style="width:75px"/>
                                 <col style="width:100%"/>
-                                <col style="width:30px"/>
-                                <col style="width:30px"/>
-                                <col style="width:30px"/>
-                                <col style="width:50px"/>
-                                <col style="width:50px"/>
-                                <col style="width:50px"/>
+                                <col style="width:60px"/>
+                                <col style="width:60px"/>
+                                <col style="width:60px"/>
+                                <col style="width:100px"/>
+                                <col style="width:100px"/>
+                                <col style="width:100px"/>
                             </colgroup>
                             <thead>
                                 <tr>
@@ -170,8 +170,8 @@
                                 <tr class="oe_school_course_group">
                                     <td></td>
                                     <td><t t-esc="course_group.name"/></td>
-                                    <td><t t-esc="course_group.total_hours"/></td>
-                                    <td><t t-esc="course_group.total_credits"/></td>
+                                    <td class="text-center"><t t-esc="course_group.total_hours"/></td>
+                                    <td class="text-center"><t t-esc="course_group.total_credits"/></td>
                                     <td></td>
                                     <td></td>
                                     <td></td>
