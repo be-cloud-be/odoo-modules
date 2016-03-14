@@ -46,7 +46,7 @@ class AccountMoveLine(models.Model):
     @api.depends('debit', 'credit')
     def _store_reversed_balance(self):
         for line in self:
-            line.balance = line.credit - line.debit
+            line.reversed_balance = line.credit - line.debit
             
-    reversed_balance = fields.Monetary(compute='_store_reversed_balance', currency_field='company_currency_id', default=0.0, help="Technical field holding the credit - debit in order to open meaningful graph views from reports using reversed sign balance")
+    reversed_balance = fields.Monetary(compute='_store_reversed_balance', currency_field='company_currency_id', store='True', default=0.0, help="Technical field holding the credit - debit in order to open meaningful graph views from reports using reversed sign balance")
     
