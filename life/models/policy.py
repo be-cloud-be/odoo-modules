@@ -35,9 +35,9 @@ class Policy(models.Model):
     policy_holder_id = fields.Many2one('res.partner',string='Policy Holder')
     name = fields.Char(string="Name",compute='_compute_name')
 
-    life_type = fields.Selection(string = "Life Type",[('pure', 'Pure endowment')])
+    life_type = fields.Selection([('pure', 'Pure endowment')],string = "Life Type")
     life_number = fields.Integer(string="Life Policy Number", related="number")
-    death_type = fields.Selection(string = "Death Type",[('oneterm', 'One-year term insurance')])
+    death_type = fields.Selection([('oneterm', 'One-year term insurance')],string = "Death Type")
     death_number = fields.Integer(string="Death Policy Number")
 
     @api.one
