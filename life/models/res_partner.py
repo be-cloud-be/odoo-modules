@@ -24,55 +24,77 @@ from openerp import api, fields, models, _
 from openerp.exceptions import UserError
 from openerp.tools.safe_eval import safe_eval
 
+from dateutil.relativedelta import relativedelta
+from datetime import date
+
 _logger = logging.getLogger(__name__)
 
 class Partner(models.Model):
     '''Partner'''
     _inherit = 'res.partner'
-    
+
     employee_ident = fields.Char(string="Employee Id")
     grade_id = fields.Many2one("life.grade",string="Grade")
     pay_grid_id = fields.Many2one("life.pay_grid",string="Pay Grid")
-    
+
     sex = fields.Selection([('m', 'Male'),('f', 'Female')])
     family_status = fields.Selection([('s', 'Solo'),('m', 'Married'),('c', 'Legal cohabitor')])
     birthdate = fields.Date(string="Birthdate")
     partner_birthdate = fields.Date(string="Partner Birthdate")
     children = fields.Integer(string="Number of children")
- 
+
     service_from = fields.Date(string="Service From")
+    retirement_date = fields.Date(string="Retirement Date")
     total_career = fields.Integer(string="Total career (years)")
     annual_pay = fields.Float(string="Annual Pay")
     activity_percentage = fields.Float(string="Activity Percentage",default=1)
     salary_index = fields.Float(string="Salary Index",digits=(7, 6))
-    
+    complete_career_duration = fields.Float(string="Complete Career", compute="compCompleteCareerDuration")
+    remaining_career_duration = fields.Float(string="Remaining Career", compute="compRemainingCareerDuration")
+    t5 = fields.Float(string="T5",compute="compT5")
+
     policy_ids = fields.One2many('life.policy','policy_holder_id',string='Policies')
     career_history_ids = fields.One2many('life.career_history', 'partner_id', string="Career History")
-    
+
+    @api.one
+    def compCompleteCareerDuration(self):
+        # TODO : compute the career duration in complete year, shoud be a fragment ?
+        self.complete_career_duration = relativedelta(self.retirement_date, self.service_from).years
+
+    @api.one
+    def compRemainingCareerDuration(self):
+        # TODO : compute the career duration in complete year, shoud be a fragment ?
+        self.complete_career_duration = relativedelta(self.retirement_date, date.today()).years
+
+    @api.one
+    def compT5(self):
+        # TODO : arbitrary increase of 500 euros
+        self.t5 = compRemainingCareerDuration(self) * 500 + self.annual_pay - (5 * 500) / 2
+
 class CareerHistory(models.Model):
     '''Career History'''
     _name = 'life.career_history'
     _description = 'Career History'
-    
+
     date_from = fields.Date(string="Date From")
     date_to = fields.Date(string="Date To")
     grade_id = fields.Many2one("life.grade",string="Grade")
     pay_grid_id = fields.Many2one("life.pay_grid",string="Pay Grid")
     function = fields.Char(string="Job Position")
     employer = fields.Many2one("res.partner",string="Employer",domain=[('is_company', '=', True)])
-    
+
     partner_id = fields.Many2one('res.partner', required=True, string='Partner')
-    
+
 class Grade(models.Model):
     '''Grade'''
     _name = 'life.grade'
     _description = 'Grade'
-    
+
     name = fields.Char(string="Name")
-    
+
 class PayGrid(models.Model):
     '''Pay Grid'''
     _name = 'life.pay_grid'
     _description = 'Pay Grid'
-    
+
     name = fields.Char(string="Name")

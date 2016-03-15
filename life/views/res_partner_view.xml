@@ -22,7 +22,7 @@
 -->
 <openerp>
 	<data>
-	
+
 	    <!-- Add boolean for teacher, student, employee on partner form view -->
         <record id="view_partners_form_life" model="ir.ui.view">
             <field name="name">view.res.partner.form.life</field>
@@ -55,10 +55,14 @@
                     <page name="salary" string="Salary" attrs="{'invisible': ['|',('is_company','=',True),('parent_id','=',False)]}">
                         <group col="4">
                             <field name='service_from'/>
+							<field name='retirement_date'/>
                             <field name='total_career'/>
                             <field name='annual_pay'/>
                             <field name='activity_percentage'/>
                             <field name='salary_index'/>
+							<field name='complete_career_duration'/>
+							<field name='remaining_career_duration'/>
+							<field name='t5'/>
                         </group>
                     </page>
                     <page name="policies" string="Policies" attrs="{'invisible': ['|',('is_company','=',True),('parent_id','=',False)]}">

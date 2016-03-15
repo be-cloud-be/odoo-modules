@@ -30,11 +30,16 @@ class Policy(models.Model):
     '''Policy'''
     _name = 'life.policy'
     _description = 'Policy'
-    
-    name = fields.Char(string="Name",compute='_compute_name')
+
     number = fields.Integer(string="Policy Number")
     policy_holder_id = fields.Many2one('res.partner',string='Policy Holder')
-    
+    name = fields.Char(string="Name",compute='_compute_name')
+
+    life_type = fields.Selection(string = "Life Type",[('pure', 'Pure endowment')])
+    life_number = fields.Integer(string="Life Policy Number", related="number")
+    death_type = fields.Selection(string = "Death Type",[('oneterm', 'One-year term insurance')])
+    death_number = fields.Integer(string="Death Policy Number")
+
     @api.one
     @api.depends('policy_holder_id','number')
     def _compute_name(self):
