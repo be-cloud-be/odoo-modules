@@ -69,7 +69,7 @@ class Partner(models.Model):
     @api.one
     def compT5(self):
         # TODO : arbitrary increase of 500 euros
-        self.t5 = compRemainingCareerDuration(self) * 500 + self.annual_pay - (5 * 500) / 2
+        self.t5 = self.compRemainingCareerDuration() * 500 + self.annual_pay - (5 * 500) / 2
 
 class CareerHistory(models.Model):
     '''Career History'''
