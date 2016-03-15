@@ -57,19 +57,22 @@ class Partner(models.Model):
     career_history_ids = fields.One2many('life.career_history', 'partner_id', string="Career History")
 
     @api.one
+    @api.depends('retirement_date','service_from')
     def compCompleteCareerDuration(self):
         # TODO : compute the career duration in complete year, shoud be a fragment ?
         self.complete_career_duration = relativedelta(self.retirement_date, self.service_from).years
 
     @api.one
+    @api.depends('retirement_date')
     def compRemainingCareerDuration(self):
         # TODO : compute the career duration in complete year, shoud be a fragment ?
         self.complete_career_duration = relativedelta(self.retirement_date, date.today()).years
 
     @api.one
+    @api.depends('remaining_career_duration','annual_pay')
     def compT5(self):
         # TODO : arbitrary increase of 500 euros
-        self.t5 = self.compRemainingCareerDuration()[0] * 500 + self.annual_pay - (5 * 500) / 2
+        self.t5 = self.remaining_career_duration * 500 + self.annual_pay - (5 * 500) / 2
 
 class CareerHistory(models.Model):
     '''Career History'''
