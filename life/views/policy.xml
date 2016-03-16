@@ -13,7 +13,9 @@
                         <field name="life_type"/>
                         <field name="death_type"/>
                         <field name="death_number"/>
+                        <separator/>
                         <field name="term_year"/>
+                        <field name="projected_life_capital"/>
                     </group>
                 </form>
 		    </field>
