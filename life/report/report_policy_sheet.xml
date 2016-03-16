@@ -25,7 +25,7 @@
         <t t-call="report.html_container">
             <t t-set="data_report_margin_top" t-value="45" />
             <t t-set="data_report_header_spacing" t-value="40" />
-            <t t-set="o" t-value="docs[0]" />
+            <t t-set="o" t-value="docs[0].policy_id" />
             <t t-call="report.external_layout">
                 <!-- Intro -->
                 <div id="introduction" class="page-header mt16">
@@ -45,12 +45,29 @@
                     <table class="table table-condensed">
                         <thead>
                             <tr>
-                                <th><strong>Personnal data on </strong></th>
+                                <th><strong>Personnal data on <t t-esc="docs[0].reporting_date"/></strong></th>
                                 <th><strong></strong></th>
                             </tr>
                         </thead>
                         <tbody>
                             <tr>
+                                <td>Sexe:</td>
+                                <td><span t-field="o.policy_holder_id.sexe" /></td>
+                            </tr>
+                            <tr>
+                                <td>Birthdate:</td>
+                                <td><span t-field="o.policy_holder_id.birthdate" /></td>
+                            </tr>
+                            <tr>
+                                <td>Family Status:</td>
+                                <td><span t-field="o.family_status" /></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+                <!--
+                
+                <tr>
                                 <td>Term Year:</td>
                                 <td><span t-field="o.term_year" /></td>
                             </tr>
@@ -62,10 +79,7 @@
                                 <td>Life Annuity:</td>
                                 <td><span t-field="o.life_annuity" t-field-options='{"widget": "monetary", "display_currency": "res_company.currency_id"}' /></td>
                             </tr>
-                        </tbody>
-                    </table>
-                </div>
-                <!--
+                
                 <t t-set="o" t-value="docs[0]"/>
                 <div class="page">
                     <p t-field="o.name"/>
