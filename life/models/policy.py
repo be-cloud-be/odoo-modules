@@ -63,11 +63,11 @@ class Policy(models.Model):
         
     life_annuity = fields.Float(string="Life Annuity",compute="compLifeAnnuity")
     @api.one
-    @api.depends('projected_life_capital','policy_holder_id.t5')
+    @api.depends('projected_life_capital')
     def compLifeAnnuity(self):
         self.life_annuity = self.projected_life_capital / self._get_annuity_factor()
         
-    def _get_annuity_factor():
+    def _get_annuity_factor(self):
         icp = self.pool.get('ir.config_parameter')
         return icp.get_param('life.annuityFactor')
     
