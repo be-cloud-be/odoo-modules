@@ -64,7 +64,7 @@ class Partner(models.Model):
         if self.retirement_date and self.service_from :
             dt_retirement_date = datetime.strptime(self.retirement_date, DEFAULT_SERVER_DATE_FORMAT)
             dt_service_from = datetime.strptime(self.service_from, DEFAULT_SERVER_DATE_FORMAT)
-            self.complete_career_duration = (dt_retirement_date-dt_service_from)/365.25
+            self.complete_career_duration = (dt_retirement_date-dt_service_from).years
         else:
             self.complete_career_duration = None
 
@@ -74,7 +74,7 @@ class Partner(models.Model):
         # TODO : compute the career duration in complete year, shoud be a fragment ?
         if self.retirement_date :
             dt_retirement_date = datetime.strptime(self.retirement_date, DEFAULT_SERVER_DATETIME_FORMAT)
-            self.remaining_career_duration = (dt_retirement_date -fields.Date.today())/365.25
+            self.remaining_career_duration = (dt_retirement_date -fields.Date.today()).years
         else :
             self.remaining_career_duration = None
 
