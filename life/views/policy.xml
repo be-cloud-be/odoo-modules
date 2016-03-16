@@ -17,6 +17,7 @@
                         <separator string="Policy Computation Amounts" colspan="4" />
                         <field name="term_year" />
                         <field name="projected_life_capital" />
+                        <field name="life_annuity"/>
                     </group>
                 </form>
             </field>
