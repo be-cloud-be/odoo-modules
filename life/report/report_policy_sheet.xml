@@ -26,6 +26,7 @@
             <t t-set="data_report_margin_top" t-value="45" />
             <t t-set="data_report_header_spacing" t-value="40" />
             <t t-set="o" t-value="docs[0].policy_id" />
+            <t t-set="v" t-value="_values(o)" />
             <t t-call="report.external_layout">
                 <!-- Intro -->
                 <div id="introduction" class="page-header mt16">
@@ -97,12 +98,53 @@
                                     <td><span t-field="o.policy_holder_id.accomplished_career_duration" /></td>
                                 </tr>
                                 <tr>
-                                    <td>Partner birthdate:</td>
-                                    <td><span t-field="o.policy_holder_id.partner_birthdate" /></td>
+                                    <td>Annual Pay (100%):</td>
+                                    <td><span t-field="o.policy_holder_id.annual_pay" t-field-options='{"widget": "monetary", "display_currency": "res_company.currency_id"}'/></td>
                                 </tr>
                                 <tr>
-                                    <td>Children:</td>
-                                    <td><span t-field="o.policy_holder_id.children" /></td>
+                                    <td>Index</td>
+                                    <td><span t-field="o.policy_holder_id.salary_index" /></td>
+                                </tr>
+                                <tr>
+                                    <td>Average Annual Pay (T5):</td>
+                                    <td><span t-field="o.policy_holder_id.t5" t-field-options='{"widget": "monetary", "display_currency": "res_company.currency_id"}'/></td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div class="clearfix" />
+                    <div class="col-md-12 col-xs-12">
+                        <table class="table table-condensed">
+                            <thead>
+                                <tr>
+                                    <th><strong>Life guarantee on <t t-esc="docs[0].reporting_date"/></strong></th>
+                                    <th><strong></strong></th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>Term :</td>
+                                    <td><span t-field="o.policy_holder_id.retirement_date" /></td>
+                                </tr>
+                                <tr>
+                                    <td>Projected Capital:</td>
+                                    <td><span t-field="o.projected_life_capital" t-field-options='{"widget": "monetary", "display_currency": "res_company.currency_id"}'/></td>
+                                </tr>
+                                <tr>
+                                    <td>Life Annuity :</td>
+                                    <td><span t-field="o.life_annuity" t-field-options='{"widget": "monetary", "display_currency": "res_company.currency_id"}'/></td>
+                                </tr>
+                                <tr>
+                                    <td>Annual Pay (100%):</td>
+                                    <td><span t-field="o.policy_holder_id.annual_pay" t-field-options='{"widget": "monetary", "display_currency": "res_company.currency_id"}'/></td>
+                                </tr>
+                                <tr>
+                                    <td>Index</td>
+                                    <td><span t-field="o.policy_holder_id.salary_index" /></td>
+                                </tr>
+                                <tr>
+                                    <td>Average Annual Pay (T5):</td>
+                                    <td><span t-field="o.policy_holder_id.t5" t-field-options='{"widget": "monetary", "display_currency": "res_company.currency_id"}'/></td>
                                 </tr>
                             </tbody>
                         </table>
