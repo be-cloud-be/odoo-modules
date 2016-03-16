@@ -65,6 +65,6 @@ class Policy(models.Model):
     @api.one
     @api.depends('projected_life_capital')
     def compLifeAnnuity(self):
-        self.life_annuity = self.projected_life_capital / self.env['ir.config_parameter'].get_param("life.annuityFactor")
+        self.life_annuity = self.projected_life_capital / float(self.env['ir.config_parameter'].get_param("life.annuityFactor"))
 
     
