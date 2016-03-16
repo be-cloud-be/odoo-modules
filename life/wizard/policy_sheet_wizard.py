@@ -59,7 +59,6 @@ class ReportPolicySheet(models.AbstractModel):
 
     @api.multi
     def _values(self, psw):
-        self.ensure_one()
         ret = {
             'life_earned_capital' : psw.policy_holder_id.accomplished_career_duration / psw.policy_holder_id.complete_career_duration * psw.policy_id.projected_life_capital,
             'life_earned_reserve' : psw.policy_holder_id.accomplished_career_duration / psw.policy_holder_id.complete_career_duration * psw.policy_id.projected_life_capital * float(self.env['ir.config_parameter'].get_param("life.nex")),
