@@ -24,7 +24,7 @@ from openerp import api, fields, models, _
 from openerp.exceptions import UserError
 from openerp.tools.safe_eval import safe_eval
 
-from openerp.tools import DEFAULT_SERVER_DATETIME_FORMAT
+from openerp.tools import DEFAULT_SERVER_DATE_FORMAT
 from dateutil.relativedelta import relativedelta
 from datetime import datetime,date
 
@@ -62,8 +62,8 @@ class Partner(models.Model):
     def compCompleteCareerDuration(self):
         # TODO : compute the career duration in complete year, shoud be a fragment ?
         if self.retirement_date and self.service_from :
-            dt_retirement_date = datetime.strptime(self.retirement_date, DEFAULT_SERVER_DATETIME_FORMAT)
-            dt_service_from = datetime.strptime(self.service_from, DEFAULT_SERVER_DATETIME_FORMAT)
+            dt_retirement_date = datetime.strptime(self.retirement_date, DEFAULT_SERVER_DATE_FORMAT)
+            dt_service_from = datetime.strptime(self.service_from, DEFAULT_SERVER_DATE_FORMAT)
             self.complete_career_duration = (dt_retirement_date-dt_service_from)/365.25
         else:
             self.complete_career_duration = None
