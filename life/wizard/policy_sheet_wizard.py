@@ -40,11 +40,9 @@ class PolicySheetWizard(models.TransientModel):
         self.ensure_one()
         data = {}
         data['id'] = self.id
-        data['docs'] = self
         return self.env['report'].get_action(self, 'life.report_policy_sheet', data=data)
         
     
-
 class ReportPolicySheet(models.AbstractModel):
     _name = 'report.life.report_policy_sheet'
 
@@ -54,6 +52,6 @@ class ReportPolicySheet(models.AbstractModel):
         docargs = {
             'doc_ids': data['id'],
             'doc_model': 'life.policy.wizard',
-            'docs': data['docs'],
+            'docs': self.env['life.policy.wizard'].browse(data['id']),
         }
         return self.env['report'].render('life.report_policy_sheet', docargs)
