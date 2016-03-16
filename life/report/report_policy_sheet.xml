@@ -45,7 +45,7 @@
                     <table class="table table-condensed">
                         <thead>
                             <tr>
-                                <th><strong>Personnal data on <t t-esc="formatLang(reporting_date, date=True)"/></strong></th>
+                                <th><strong>Personnal data on </strong></th>
                                 <th><strong></strong></th>
                             </tr>
                         </thead>

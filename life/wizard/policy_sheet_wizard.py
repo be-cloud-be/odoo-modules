@@ -39,9 +39,8 @@ class PolicySheetWizard(models.TransientModel):
     def generate_policy_sheet(self):
         self.ensure_one()
         data = {}
-        data['policy_holder_id'] = self.policy_holder_id.id
-        data['policy_id'] = self.policy_id.id
-        data['reporting_date'] = self.reporting_date
+        data['id'] = self.id
+        data['docs'] = self
         return self.env['report'].get_action(self, 'life.report_policy_sheet', data=data)
         
     
@@ -53,9 +52,8 @@ class ReportPolicySheet(models.AbstractModel):
     def render_html(self, data):
         _logger.info('render_html')
         docargs = {
-            'doc_ids': data['policy_id'],
-            'doc_model': 'life.policy',
-            'docs': self.env['life.policy'].browse(data['policy_id']),
-            'reporting_date': data['reporting_date'],
+            'doc_ids': data['id'],
+            'doc_model': 'life.policy.wizard',
+            'docs': data['docs'],
         }
         return self.env['report'].render('life.report_policy_sheet', docargs)
