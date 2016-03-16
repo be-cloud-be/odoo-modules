@@ -123,28 +123,12 @@
                             </thead>
                             <tbody>
                                 <tr>
-                                    <td>Term :</td>
-                                    <td><span t-field="o.policy_holder_id.retirement_date" /></td>
+                                    <td>Current Earned Capital :</td>
+                                    <td><span t-field="v.life_earned_capital" t-field-options='{"widget": "monetary", "display_currency": "res_company.currency_id"}'/></td>
                                 </tr>
                                 <tr>
-                                    <td>Projected Capital:</td>
-                                    <td><span t-field="o.projected_life_capital" t-field-options='{"widget": "monetary", "display_currency": "res_company.currency_id"}'/></td>
-                                </tr>
-                                <tr>
-                                    <td>Life Annuity :</td>
-                                    <td><span t-field="o.life_annuity" t-field-options='{"widget": "monetary", "display_currency": "res_company.currency_id"}'/></td>
-                                </tr>
-                                <tr>
-                                    <td>Annual Pay (100%):</td>
-                                    <td><span t-field="o.policy_holder_id.annual_pay" t-field-options='{"widget": "monetary", "display_currency": "res_company.currency_id"}'/></td>
-                                </tr>
-                                <tr>
-                                    <td>Index</td>
-                                    <td><span t-field="o.policy_holder_id.salary_index" /></td>
-                                </tr>
-                                <tr>
-                                    <td>Average Annual Pay (T5):</td>
-                                    <td><span t-field="o.policy_holder_id.t5" t-field-options='{"widget": "monetary", "display_currency": "res_company.currency_id"}'/></td>
+                                    <td>Current Earned Reserve :</td>
+                                    <td><span t-field="o.life_earned_reserve" t-field-options='{"widget": "monetary", "display_currency": "res_company.currency_id"}'/></td>
                                 </tr>
                             </tbody>
                         </table>
