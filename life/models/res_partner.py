@@ -28,6 +28,8 @@ from openerp.tools import DEFAULT_SERVER_DATE_FORMAT
 from dateutil.relativedelta import relativedelta
 from datetime import datetime,date
 
+from math import floor
+
 _logger = logging.getLogger(__name__)
 
 class Partner(models.Model):

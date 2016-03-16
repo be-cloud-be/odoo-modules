@@ -39,19 +39,25 @@ class Policy(models.Model):
     policy_holder_id = fields.Many2one('res.partner',string='Policy Holder')
     name = fields.Char(string="Name",compute='_compute_name')
 
+    @api.one
+    @api.depends('policy_holder_id','number')
+    def _compute_name(self):
+        self.name = "%s - %s" % (self.policy_holder_id.name,self.number)
+    
     life_type = fields.Selection([('pure', 'Pure endowment')],string = "Life Type")
     life_number = fields.Integer(string="Life Policy Number", related="number")
     death_type = fields.Selection([('oneterm', 'One-year term insurance')],string = "Death Type")
     death_number = fields.Integer(string="Death Policy Number")
 
     term_year = fields.Integer(string="Term Year",compute="compTermYear")
-
-    @api.one
-    @api.depends('policy_holder_id','number')
-    def _compute_name(self):
-        self.name = "%s - %s" % (self.policy_holder_id.name,self.number)
-        
     @api.one
     @api.depends('policy_holder_id.retirement_date')
     def compTermYear(self):
         self.term_year = datetime.strptime(self.policy_holder_id.retirement_date, DEFAULT_SERVER_DATE_FORMAT).year
+        
+    projected_life_capital = fields.Float(string="Projected Capital",compute="compLifeProjectedCapital")
+    @api.one
+    @api.depends('policy_holder_id.complete_career_duration',policy_holder_id.t5)
+    def compLifeProjectedCapital(self):
+        self.projected_life_capital = self.policy_holder_id.complete_career_duration * self.policy_holder_id.t5 / 10
+    
