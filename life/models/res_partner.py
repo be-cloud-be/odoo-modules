@@ -24,8 +24,9 @@ from openerp import api, fields, models, _
 from openerp.exceptions import UserError
 from openerp.tools.safe_eval import safe_eval
 
+from openerp.tools import DEFAULT_SERVER_DATETIME_FORMAT
 from dateutil.relativedelta import relativedelta
-from datetime import date
+from datetime import datetime,date
 
 _logger = logging.getLogger(__name__)
 
@@ -60,13 +61,22 @@ class Partner(models.Model):
     @api.depends('retirement_date','service_from')
     def compCompleteCareerDuration(self):
         # TODO : compute the career duration in complete year, shoud be a fragment ?
-        self.complete_career_duration = (self.retirement_date - self.service_from) if (self.retirement_date and self.service_from) else 0
+        if self.retirement_date and self.service_from :
+            dt_retirement_date = datetime.strptime(self.retirement_date, DEFAULT_SERVER_DATETIME_FORMAT)
+            dt_service_from = datetime.strptime(self.service_from, DEFAULT_SERVER_DATETIME_FORMAT)
+            self.complete_career_duration = (dt_retirement_date-dt_service_from)/365.25
+        else:
+            self.complete_career_duration = None
 
     @api.one
     @api.depends('retirement_date')
     def compRemainingCareerDuration(self):
         # TODO : compute the career duration in complete year, shoud be a fragment ?
-        self.complete_career_duration = (self.retirement_date -fields.Date.today()) if self.retirement_date else 0
+        if self.retirement_date :
+            dt_retirement_date = datetime.strptime(self.retirement_date, DEFAULT_SERVER_DATETIME_FORMAT)
+            self.remaining_career_duration = (dt_retirement_date -fields.Date.today())/365.25
+        else :
+            self.remaining_career_duration = None
 
     @api.one
     @api.depends('remaining_career_duration','annual_pay')
