@@ -49,22 +49,58 @@ class Policy(models.Model):
     death_type = fields.Selection([('oneterm', 'One-year term insurance')],string = "Death Type")
     death_number = fields.Integer(string="Death Policy Number")
 
-    term_year = fields.Integer(string="Term Year",compute="compTermYear")
+    term_year = fields.Integer(string="Term Year",compute="compPolicyAmounts")
+    projected_life_capital = fields.Float(string="Projected Capital",compute="compPolicyAmounts")
+    life_annuity = fields.Float(string="Life Annuity",compute="compPolicyAmounts")
+    orphan_annuity_capital = fields.Float(string="Orphan Annuity Capital",compute="compPolicyAmounts")
+    oprhan_annuity = fields.Float(string="Orphan Annuity",compute="compPolicyAmounts")
+    death_capital = fields.Float(string="Death Capital",compute="compPolicyAmounts")
+    death_unique_premium = fields.Float(string="Death Unique Premium",compute="compPolicyAmounts")
+    
+    @api.one
+    @api.depends('policy_holder_id.retirement_date','policy_holder_id.complete_career_duration','policy_holder_id.t5','policy_holder_id.children','policy_holder_id.annual_pay')
+    def compPolicyAmounts(self):
+        self.term_year = datetime.strptime(self.policy_holder_id.retirement_date, DEFAULT_SERVER_DATE_FORMAT).year
+        self.projected_life_capital = self.policy_holder_id.complete_career_duration * self.policy_holder_id.t5 / 10
+        self.life_annuity = self.projected_life_capital / float(self.env['ir.config_parameter'].get_param("life.annuityFactor"))
+        self.orphan_annuity_capital = 1.5 * self.policy_holder_id.annual_pay
+        self.oprhan_annuity = self.orphan_annuity_capital / float(self.env['ir.config_parameter'].get_param("life.life_orphanAnnuityFactor")) * self.policy_holder_id.children
+        self.death_capital = 2 * self.policy_holder_id.annual_pay
+        self.death_unique_premium = (self.death_capital + self.orphan_annuity_capital) * float(self.env['ir.config_parameter'].get_param("life.qx"))
+        
     @api.one
     @api.depends('policy_holder_id.retirement_date')
     def compTermYear(self):
         self.term_year = datetime.strptime(self.policy_holder_id.retirement_date, DEFAULT_SERVER_DATE_FORMAT).year
         
-    projected_life_capital = fields.Float(string="Projected Capital",compute="compLifeProjectedCapital")
     @api.one
     @api.depends('policy_holder_id.complete_career_duration','policy_holder_id.t5')
     def compLifeProjectedCapital(self):
         self.projected_life_capital = self.policy_holder_id.complete_career_duration * self.policy_holder_id.t5 / 10
         
-    life_annuity = fields.Float(string="Life Annuity",compute="compLifeAnnuity")
     @api.one
     @api.depends('projected_life_capital')
     def compLifeAnnuity(self):
         self.life_annuity = self.projected_life_capital / float(self.env['ir.config_parameter'].get_param("life.annuityFactor"))
+        
+    @api.one
+    @api.depends('policy_holder_id.annual_pay')
+    def compOrphanAnnuityCapital(self):
+        self.orphan_annuity_capital = 1.5 * self.policy_holder_id.annual_pay
+        
+    @api.one
+    @api.depends('orphan_annuity_capital','policy_holder_id.children')
+    def compOrphanAnnuity(self):
+        self.oprhan_annuity = self.orphan_annuity_capital / float(self.env['ir.config_parameter'].get_param("life.life_orphanAnnuityFactor")) * self.policy_holder_id.children
+
+    @api.one
+    @api.depends('policy_holder_id.annual_pay')
+    def compPolicyDeathCapital(self):
+        self.death_capital = 2 * self.policy_holder_id.annual_pay
+
+    @api.one
+    @api.depends('death_capital','orphan_annuity_capital')
+    def compDeathUniquePremium(self):
+        self.death_unique_premium = (self.death_capital + self.orphan_annuity_capital) * float(self.env['ir.config_parameter'].get_param("life.qx"))
 
     
