@@ -64,7 +64,7 @@ class Policy(models.Model):
         self.projected_life_capital = self.policy_holder_id.complete_career_duration * self.policy_holder_id.t5 / 10
         self.life_annuity = self.projected_life_capital / float(self.env['ir.config_parameter'].get_param("life.annuityFactor"))
         self.orphan_annuity_capital = 1.5 * self.policy_holder_id.annual_pay
-        self.oprhan_annuity = self.orphan_annuity_capital / float(self.env['ir.config_parameter'].get_param("life.life_orphanAnnuityFactor")) * self.policy_holder_id.children
+        self.oprhan_annuity = self.orphan_annuity_capital / float(self.env['ir.config_parameter'].get_param("life.orphanAnnuityFactor")) * self.policy_holder_id.children
         self.death_capital = 2 * self.policy_holder_id.annual_pay
         self.death_unique_premium = (self.death_capital + self.orphan_annuity_capital) * float(self.env['ir.config_parameter'].get_param("life.qx"))
         
