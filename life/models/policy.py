@@ -57,7 +57,7 @@ class Policy(models.Model):
         
     projected_life_capital = fields.Float(string="Projected Capital",compute="compLifeProjectedCapital")
     @api.one
-    @api.depends('policy_holder_id.complete_career_duration',policy_holder_id.t5)
+    @api.depends('policy_holder_id.complete_career_duration','policy_holder_id.t5')
     def compLifeProjectedCapital(self):
         self.projected_life_capital = self.policy_holder_id.complete_career_duration * self.policy_holder_id.t5 / 10
     
