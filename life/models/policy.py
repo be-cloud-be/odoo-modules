@@ -50,4 +50,4 @@ class Policy(models.Model):
     @api.one
     @api.depends('policy_holder_id.retirement_date')
     def compTermYear(self):
-        self.policy_holder_id.retirement_date.year()
+        self.term_year = datetime.strptime(self.policy_holder_id.retirement_date, DEFAULT_SERVER_DATE_FORMAT).year()
