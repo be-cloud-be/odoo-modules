@@ -81,7 +81,7 @@ class Partner(models.Model):
     @api.depends('remaining_career_duration','annual_pay')
     def compT5(self):
         # TODO : arbitrary increase of 500 euros
-        self.t5 = self.remaining_career_duration * 500 + self.annual_pay - (5 * 500) / 2
+        self.t5 = self.annual_pay + floor(self.remaining_career_duration) * 500 - (5 * 500) / 2
 
 class CareerHistory(models.Model):
     '''Career History'''
