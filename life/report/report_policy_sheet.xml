@@ -42,28 +42,71 @@
                         </div>
                     </div>
                     <div class="clearfix" />
-                    <table class="table table-condensed">
-                        <thead>
-                            <tr>
-                                <th><strong>Personnal data on <t t-esc="docs[0].reporting_date"/></strong></th>
-                                <th><strong></strong></th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <tr>
-                                <td>Sexe:</td>
-                                <td><span t-field="o.policy_holder_id.sexe" /></td>
-                            </tr>
-                            <tr>
-                                <td>Birthdate:</td>
-                                <td><span t-field="o.policy_holder_id.birthdate" /></td>
-                            </tr>
-                            <tr>
-                                <td>Family Status:</td>
-                                <td><span t-field="o.family_status" /></td>
-                            </tr>
-                        </tbody>
-                    </table>
+                    <div class="col-md-12 col-xs-12">
+                        <table class="table table-condensed">
+                            <thead>
+                                <tr>
+                                    <th><strong>Personnal data on <t t-esc="docs[0].reporting_date"/></strong></th>
+                                    <th><strong></strong></th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>Sexe:</td>
+                                    <td><span t-field="o.policy_holder_id.sex" /></td>
+                                </tr>
+                                <tr>
+                                    <td>Birthdate:</td>
+                                    <td><span t-field="o.policy_holder_id.birthdate" /></td>
+                                </tr>
+                                <tr>
+                                    <td>Family Status:</td>
+                                    <td><span t-field="o.policy_holder_id.family_status" /></td>
+                                </tr>
+                                <tr>
+                                    <td>Partner birthdate:</td>
+                                    <td><span t-field="o.policy_holder_id.partner_birthdate" /></td>
+                                </tr>
+                                <tr>
+                                    <td>Children:</td>
+                                    <td><span t-field="o.policy_holder_id.children" /></td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div class="clearfix" />
+                    <div class="col-md-12 col-xs-12">
+                        <table class="table table-condensed">
+                            <thead>
+                                <tr>
+                                    <th><strong>Computation Data on <t t-esc="docs[0].reporting_date"/></strong></th>
+                                    <th><strong></strong></th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>Service from :</td>
+                                    <td><span t-field="o.policy_holder_id.service_from" /></td>
+                                </tr>
+                                <tr>
+                                    <td>Complete carieer duration:</td>
+                                    <td><span t-field="o.policy_holder_id.complete_career_duration" /></td>
+                                </tr>
+                                <tr>
+                                    <td>Accomplished career duration on <t t-esc="docs[0].reporting_date"/>:</td>
+                                    <td><span t-field="o.policy_holder_id.accomplished_career_duration" /></td>
+                                </tr>
+                                <tr>
+                                    <td>Partner birthdate:</td>
+                                    <td><span t-field="o.policy_holder_id.partner_birthdate" /></td>
+                                </tr>
+                                <tr>
+                                    <td>Children:</td>
+                                    <td><span t-field="o.policy_holder_id.children" /></td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
                 </div>
                 <!--
                 

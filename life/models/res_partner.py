@@ -53,6 +53,7 @@ class Partner(models.Model):
     salary_index = fields.Float(string="Salary Index",digits=(7, 6))
     complete_career_duration = fields.Float(string="Complete Career", compute="compCompleteCareerDuration")
     remaining_career_duration = fields.Float(string="Remaining Career", compute="compRemainingCareerDuration")
+    accomplished_career_duration = fields.Float(string="Remaining Career", compute="compAccomplishedCareerDuration")
     t5 = fields.Float(string="T5",compute="compT5")
 
     policy_ids = fields.One2many('life.policy','policy_holder_id',string='Policies')
@@ -78,6 +79,11 @@ class Partner(models.Model):
             self.remaining_career_duration = (dt_retirement_date - datetime.now()).days/365.25
         else :
             self.remaining_career_duration = None
+
+    @api.one
+    @api.depends('complete_career_duration','remaining_career_duration')
+    def compAccomplishedCareerDuration(self):
+        self.accomplished_career_duration = self.complete_career_duration - self.remaining_career_duration
 
     @api.one
     @api.depends('remaining_career_duration','annual_pay')
