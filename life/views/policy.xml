@@ -10,6 +10,10 @@
                     <group>
                         <field name="policy_holder_id" readonly="True"/>
                         <field name="number"/>
+                        <field name="life_type"/>
+                        <field name="death_type"/>
+                        <field name="death_number"/>
+                        <field name="term_year"/>
                     </group>
                 </form>
 		    </field>

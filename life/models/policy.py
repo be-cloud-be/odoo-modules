@@ -40,7 +40,14 @@ class Policy(models.Model):
     death_type = fields.Selection([('oneterm', 'One-year term insurance')],string = "Death Type")
     death_number = fields.Integer(string="Death Policy Number")
 
+    term_year = fields.Integer(string="Term Year",compute="compTermYear")
+
     @api.one
     @api.depends('policy_holder_id','number')
     def _compute_name(self):
         self.name = "%s - %s" % (self.policy_holder_id.name,self.number)
+        
+    @api.one
+    @api.depends('policy_holder_id.retirement_date')
+    def compTermYear(self):
+        self.policy_holder_id.retirement_date.year()

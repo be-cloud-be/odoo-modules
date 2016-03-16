@@ -46,7 +46,6 @@ class Partner(models.Model):
 
     service_from = fields.Date(string="Service From")
     retirement_date = fields.Date(string="Retirement Date")
-    total_career = fields.Integer(string="Total career (years)")
     annual_pay = fields.Float(string="Annual Pay")
     activity_percentage = fields.Float(string="Activity Percentage",default=1)
     salary_index = fields.Float(string="Salary Index",digits=(7, 6))

@@ -56,7 +56,6 @@
                         <group col="4">
                             <field name='service_from'/>
 							<field name='retirement_date'/>
-                            <field name='total_career'/>
                             <field name='annual_pay'/>
                             <field name='activity_percentage'/>
                             <field name='salary_index'/>
