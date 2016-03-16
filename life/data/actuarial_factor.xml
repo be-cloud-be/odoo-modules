@@ -26,7 +26,7 @@
         <field name="key">life.nex</field>
         <field name="value">0.193</field>
     </record>
-    
+
     <!-- annuity factor for converting capital @ retirement into annuity -->
     <record id="life_annuityFactor" model="ir.config_parameter">
         <field name="key">life.annuityFactor</field>
@@ -38,11 +38,11 @@
         <field name="key">life.orphanAnnuityFactor</field>
         <field name="value">15.3</field>
     </record>
-    
+
     <!-- qx for term insurance -->
     <record id="life_qx" model="ir.config_parameter">
         <field name="key">life.qx</field>
-        <field name="value">0.00198/field>
+        <field name="value">0.00198</field>
     </record>
-    
+
 </odoo>
