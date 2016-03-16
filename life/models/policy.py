@@ -60,4 +60,10 @@ class Policy(models.Model):
     @api.depends('policy_holder_id.complete_career_duration','policy_holder_id.t5')
     def compLifeProjectedCapital(self):
         self.projected_life_capital = self.policy_holder_id.complete_career_duration * self.policy_holder_id.t5 / 10
+        
+    life_annuity = fields.Float(string="Life Annuity",compute="compLifeAnnuity")
+    @api.one
+    @api.depends('projected_life_capital','policy_holder_id.t5')
+    def compLifeAnnuity(self):
+        self.life_annuity = self.projected_life_capital/ self.compData.annuityFactor
     

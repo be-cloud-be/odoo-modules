@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!--
+##############################################################################
+#
+#    Copyright (c) 2015 be-cloud.be
+#                       Jerome Sonnet <jerome.sonnet@be-cloud.be>
+#
+#    This program is free software: you can redistribute it and/or modify
+#    it under the terms of the GNU Affero General Public License as
+#    published by the Free Software Foundation, either version 3 of the
+#    License, or (at your option) any later version.
+#
+#    This program is distributed in the hope that it will be useful,
+#    but WITHOUT ANY WARRANTY; without even the implied warranty of
+#    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+#    GNU Affero General Public License for more details.
+#
+#    You should have received a copy of the GNU Affero General Public License
+#    along with this program.  If not, see <http://www.gnu.org/licenses/>.
+#
+##############################################################################
+-->
+<odoo>
+    <!-- discount factor from computation date to retirement -->
+    <record id="life_nex" model="ir.config_parameter">
+        <field name="key">life.nex</field>
+        <field name="value">0.193</field>
+    </record>
+    
+    <!-- annuity factor for converting capital @ retirement into annuity -->
+    <record id="life_annuityFactor" model="ir.config_parameter">
+        <field name="key">life.annuityFactor</field>
+        <field name="value">12.1</field>
+    </record>
+
+    <!-- orphan annuity factor to multiply by childer number -->
+    <record id="life_orphanAnnuityFactor" model="ir.config_parameter">
+        <field name="key">life.orphanAnnuityFactor</field>
+        <field name="value">15.3</field>
+    </record>
+    
+    <!-- qx for term insurance -->
+    <record id="life_qx" model="ir.config_parameter">
+        <field name="key">life.qx</field>
+        <field name="value">0.00198/field>
+    </record>
+    
+</odoo>

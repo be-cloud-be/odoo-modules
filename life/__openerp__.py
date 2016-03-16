@@ -36,6 +36,7 @@ Module to manage life insurance contracts.
              'views/res_partner_view.xml',
              'views/policy.xml',
              'report/report_policy_sheet.xml',
+             'data/actuarial_factor.xml',
              #'security/ir.model.access.csv',
              ],
     'depends': ['mail', 'report'],
