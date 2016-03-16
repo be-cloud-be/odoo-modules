@@ -23,17 +23,72 @@
 <odoo>
     <template id="report_policy_sheet">
         <t t-call="report.html_container">
+            <t t-set="data_report_margin_top" t-value="45" />
+            <t t-set="data_report_header_spacing" t-value="40" />
+            <t t-set="o" t-value="docs[0]" />
             <t t-call="report.external_layout">
+                <!-- Intro -->
+                <div id="introduction" class="page-header mt16">
+                    <h1>Your Policy Information - <em t-esc="o.name"/></h1>
+                </div>
+                <!-- Informations -->
+                <div class="row mt32">
+                    <div class="col-md-6 col-xs-6">
+                        <div class="row">
+                            <label class="col-sm-4 col-xs-4 text-right">Policy Holder:</label>
+                            <div class="col-sm-8 col-xs-8">
+                                <address t-field="o.policy_holder_id" t-field-options='{"widget": "contact", "fields": ["address", "name", "phone"], "no_marker": true}' />
+                            </div>
+                        </div>
+                    </div>
+                    <div class="clearfix" />
+                    <table class="table table-condensed">
+                        <thead>
+                            <tr>
+                                <th><strong>Personnal data on <t t-esc="formatLang(reporting_date, date=True)"/></strong></th>
+                                <th><strong></strong></th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>Term Year:</td>
+                                <td><span t-field="o.term_year" /></td>
+                            </tr>
+                            <tr>
+                                <td>Projected Capital:</td>
+                                <td><span t-field="o.projected_life_capital" t-field-options='{"widget": "monetary", "display_currency": "res_company.currency_id"}' /></td>
+                            </tr>
+                            <tr>
+                                <td>Life Annuity:</td>
+                                <td><span t-field="o.life_annuity" t-field-options='{"widget": "monetary", "display_currency": "res_company.currency_id"}' /></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+                <!--
                 <t t-set="o" t-value="docs[0]"/>
                 <div class="page">
                     <p t-field="o.name"/>
                     <div class="row">
-                        <div class="col-xs-5 col-xs-offset-7">
-                            <address t-field="o.policy_holder_id"
-                              t-field-options='{"widget": "contact", "fields": ["address", "name", "phone"], "no_marker": true}' />
+                        <div class=".col-md-12">
+                            <address t-field="o.policy_holder_id" t-field-options='{"widget": "contact", "fields": ["address", "name", "phone"], "no_marker": true}' />
                         </div>
                     </div>
-                </div>
+                    <div class="row">
+                        <field name="number" />
+                        <field name="death_number" />
+                        <field name="life_type" />
+                        <field name="death_type" />
+                        <h4>Policy Computed Amounts</h4>
+                        <field name="term_year" /><newline/>
+                        <field name="projected_life_capital" />
+                        <field name="life_annuity"/>
+                        <field name="orphan_annuity_capital"/>
+                        <field name="oprhan_annuity"/>
+                        <field name="death_capital"/>
+                        <field name="death_unique_premium"/>
+                    </div>
+                </div>-->
             </t>
         </t>
     </template>

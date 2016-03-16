@@ -43,67 +43,19 @@ class PolicySheetWizard(models.TransientModel):
         data['policy_id'] = self.policy_id.id
         data['reporting_date'] = self.reporting_date
         return self.env['report'].get_action(self, 'life.report_policy_sheet', data=data)
-
-    life_projected_capital = fields.Float(string="Life Projected Capital", compute="compLifeProjectedCapital")
-
-    @api.multi
-    def compLifeProjectedCapital(self):
-        self.ensure_one()
-        baseCapital = (self.policy_holder_id.retirement_date -  self.policy_holder_id.service_from) * self.compData.t5 / 10
-        self.life_projected_capital = baseCapital
-
-#     def compLifeAnnuity(self):
-#         return self.compLifeProjectedCapital() / self.compData.annuityFactor
-#
-#     def compLifeEarnedCapital(self, career):
-#         return float(career) / self.compData.totalCareer * self.compLifeProjectedCapital()
-#
-#     def compLifeEarnedReserve(self):
-#         return self.compLifeEarnedCapital(self.compData.compCareer) * self.compData.nEx
-#
-#     def compPolicyLifeCapital(self):
-#         return self.compLifeEarnedCapital(self.compData.compCareer)
-#
-#     def compPolicyLifeReserve(self):
-#         return self.compLifeEarnedReserve()
-#
-#     def compPolicyLifeBonusReserve(self):
-#         return 0
-#
-#     def compPolicyLifeBonus(self):
-#         return 0
-#
-#     def compLifeUniquePremium(self):
-# #        if self.prevReport is None:
-#         prevReportCompLifeEarnedCapital = 0
-# #        else:
-# #            z = self.prevReport.compLifeEarnedCapital()
-#
-#         return self.compData.nEx * (self.compLifeEarnedCapital(self.compData.compCareer) - self.compLifeEarnedCapital(self.compData.compCareer-1))
-#
-#     def compOrphanAnnuity(self):
-#         return self.compOrphanAnnuityCapital() / self.compData.orphanAnnuityFactor
-#
-#     def compPolicyDeathCapital(self):
-#         return 2 * self.compData.currentSalary
-#
-#     def compOrphanAnnuityCapital(self):
-#         return 1.5 * self.compData.currentSalary
-#
-#     def compDeathUniquePremium(self):
-#         return (self.compPolicyDeathCapital() + self.compOrphanAnnuityCapital()) * self.compData.qx
+        
+    
 
 class ReportPolicySheet(models.AbstractModel):
     _name = 'report.life.report_policy_sheet'
 
     @api.multi
     def render_html(self, data):
-        _logger.info('ender_html')
-        _logger.info(data)
+        _logger.info('render_html')
         docargs = {
             'doc_ids': data['policy_id'],
             'doc_model': 'life.policy',
             'docs': self.env['life.policy'].browse(data['policy_id']),
+            'reporting_date': data['reporting_date'],
         }
-        _logger.info(docargs)
         return self.env['report'].render('life.report_policy_sheet', docargs)
