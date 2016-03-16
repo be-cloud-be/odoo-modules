@@ -66,7 +66,7 @@ class Partner(models.Model):
     @api.depends('retirement_date')
     def compRemainingCareerDuration(self):
         # TODO : compute the career duration in complete year, shoud be a fragment ?
-        self.complete_career_duration = (self.retirement_date - date.today()).years
+        self.complete_career_duration = (self.retirement_date -fields.Date.today())
 
     @api.one
     @api.depends('remaining_career_duration','annual_pay')
