@@ -43,7 +43,7 @@
                     <field name="customer" invisible="True"/>
                 </xpath>
                 <xpath expr="//page[@name='sales_purchases']" position="replace">
-                    <page name="personnal_data" string="Personnal Data" attrs="{'invisible': ['|',('is_company','=',True),('parent_id','=',False)]}">
+                    <page name="personal_data" string="Personal Data" attrs="{'invisible': ['|',('is_company','=',True),('parent_id','=',False)]}">
                         <group col="4">
                             <field name='sex'/>
                             <field name='birthdate'/>
