@@ -127,7 +127,7 @@
                                 </tr>
                                 <tr>
                                     <td>Current Earned Reserve :</td>
-                                    <td><span t-field="o.'life_earned_reserve" t-field-options='{"widget": "monetary", "display_currency": "res_company.currency_id"}' /></td>
+                                    <td><span t-field="o.life_earned_reserve" t-field-options='{"widget": "monetary", "display_currency": "res_company.currency_id"}' /></td>
                                 </tr>
                             </tbody>
                         </table>
