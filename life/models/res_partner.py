@@ -51,17 +51,20 @@ class Partner(models.Model):
     annual_pay = fields.Float(string="Annual Pay")
     activity_percentage = fields.Float(string="Activity Percentage",default=1)
     salary_index = fields.Float(string="Salary Index",digits=(7, 6))
-    complete_career_duration = fields.Float(string="Complete Career", compute="compCompleteCareerDuration")
-    remaining_career_duration = fields.Float(string="Remaining Career", compute="compRemainingCareerDuration")
-    accomplished_career_duration = fields.Float(string="Remaining Career", compute="compAccomplishedCareerDuration")
-    t5 = fields.Float(string="T5",compute="compT5")
+    
+    # Computed fields
+    
+    complete_career_duration = fields.Float(string="Complete Career", compute="compComputePersonnalFields")
+    remaining_career_duration = fields.Float(string="Remaining Career", compute="compComputePersonnalFields")
+    accomplished_career_duration = fields.Float(string="Remaining Career", compute="compComputePersonnalFields")
+    t5 = fields.Float(string="T5",compute="compComputePersonnalFields")
 
     policy_ids = fields.One2many('life.policy','policy_holder_id',string='Policies')
     career_history_ids = fields.One2many('life.career_history', 'partner_id', string="Career History")
 
     @api.one
-    @api.depends('retirement_date','service_from')
-    def compCompleteCareerDuration(self):
+    @api.depends('retirement_date','service_from','annual_pay')
+    def compComputePersonnalFields(self):
         # TODO : compute the career duration in complete year, shoud be a fragment ?
         if self.retirement_date and self.service_from :
             dt_retirement_date = datetime.strptime(self.retirement_date, DEFAULT_SERVER_DATE_FORMAT)
@@ -69,27 +72,18 @@ class Partner(models.Model):
             self.complete_career_duration = (dt_retirement_date-dt_service_from).days/365.25
         else:
             self.complete_career_duration = None
-
-    @api.one
-    @api.depends('retirement_date')
-    def compRemainingCareerDuration(self):
         # TODO : compute the career duration in complete year, shoud be a fragment ?
         if self.retirement_date :
             dt_retirement_date = datetime.strptime(self.retirement_date, DEFAULT_SERVER_DATE_FORMAT)
             self.remaining_career_duration = (dt_retirement_date - datetime.now()).days/365.25
         else :
             self.remaining_career_duration = None
-
-    @api.one
-    @api.depends('complete_career_duration','remaining_career_duration')
-    def compAccomplishedCareerDuration(self):
-        self.accomplished_career_duration = self.complete_career_duration - self.remaining_career_duration
-
-    @api.one
-    @api.depends('remaining_career_duration','annual_pay')
-    def compT5(self):
-        # TODO : arbitrary increase of 500 euros
-        self.t5 = self.annual_pay + floor(self.remaining_career_duration) * 500 - (5 * 500) / 2
+        if self.complete_career_duration and self.remaining_career_duration :
+            self.accomplished_career_duration = self.complete_career_duration - self.remaining_career_duration
+            self.t5 = self.annual_pay + floor(self.remaining_career_duration) * 500 - (5 * 500) / 2
+        else :
+            self.accomplished_career_duration = None
+            self.t5 = None
 
 class CareerHistory(models.Model):
     '''Career History'''

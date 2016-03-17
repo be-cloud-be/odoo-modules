@@ -24,6 +24,10 @@ from openerp import api, fields, models, _
 from openerp.exceptions import UserError
 from openerp.tools.safe_eval import safe_eval
 
+from openerp.tools import DEFAULT_SERVER_DATE_FORMAT
+from dateutil.relativedelta import relativedelta
+from datetime import datetime,date
+
 _logger = logging.getLogger(__name__)
 
 class PolicySheetWizard(models.TransientModel):
@@ -42,7 +46,21 @@ class PolicySheetWizard(models.TransientModel):
         data['id'] = self.id
         return self.env['report'].get_action(self, 'life.report_policy_sheet', data=data)
         
-    
+    # Computed amounts
+
+    accomplished_career_duration = fields.Integer(string="Term Year",compute="compPolicyAmountsAtReportingDate")
+    life_earned_capital = fields.Float(string="Projected Capital",compute="compPolicyAmountsAtReportingDate")
+    life_earned_reserve = fields.Float(string="Life Annuity",compute="compPolicyAmountsAtReportingDate")
+   
+    @api.one
+    @api.depends('policy_holder_id.accomplished_career_duration','policy_holder_id.complete_career_duration','policy_id.projected_life_capital')
+    def compPolicyAmountsAtReportingDate(self):
+        self.accomplished_career_duration = 
+        self.life_earned_capital = self.accomplished_career_duration / self.policy_holder_id.complete_career_duration * self.policy_id.projected_life_capital
+        self.life_earned_reserve = life_earned_capital * float(self.env['ir.config_parameter'].get_param("life.nex"))
+        
+        
+        
 class ReportPolicySheet(models.AbstractModel):
     _name = 'report.life.report_policy_sheet'
 
@@ -60,6 +78,7 @@ class ReportPolicySheet(models.AbstractModel):
     @api.multi
     def _values(self, psw):
         ret = {
+            'accomplished_career_duration' 
             'life_earned_capital' : psw.policy_holder_id.accomplished_career_duration / psw.policy_holder_id.complete_career_duration * psw.policy_id.projected_life_capital,
             'life_earned_reserve' : psw.policy_holder_id.accomplished_career_duration / psw.policy_holder_id.complete_career_duration * psw.policy_id.projected_life_capital * float(self.env['ir.config_parameter'].get_param("life.nex")),
         }
