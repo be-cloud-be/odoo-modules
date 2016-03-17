@@ -89,7 +89,7 @@
                                     <td><span t-field="o.policy_holder_id.service_from" /></td>
                                 </tr>
                                 <tr>
-                                    <td>Complete carieer duration:</td>
+                                    <td>Complete career duration:</td>
                                     <td><span t-field="o.policy_holder_id.complete_career_duration" /></td>
                                 </tr>
                                 <tr>
