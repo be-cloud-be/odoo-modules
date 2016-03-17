@@ -52,6 +52,10 @@
                             </thead>
                             <tbody>
                                 <tr>
+                                    <td>Insured Person:</td>
+                                    <td><span t-field="o.insured_person_id.name" /></td>
+                                </tr>
+                                <tr>
                                     <td>Sex:</td>
                                     <td><span t-field="o.insured_person_id.sex" /></td>
                                 </tr>
