@@ -49,7 +49,7 @@ class PolicySheetWizard(models.TransientModel):
         
     # Computed amounts
 
-    accomplished_career_duration = fields.Float(string="Accomplished Career Duration",compute="compPolicyAmountsAtReportingDate",digits_compute=dp.get_precision('Career'))
+    accomplished_career_duration = fields.Float(string="Accomplished Career Duration",compute="compPolicyAmountsAtReportingDate")
     life_earned_capital = fields.Float(string="Projected Capital",compute="compPolicyAmountsAtReportingDate")
     life_earned_reserve = fields.Float(string="Life Annuity",compute="compPolicyAmountsAtReportingDate")
    
