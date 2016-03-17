@@ -53,7 +53,7 @@ class PolicySheetWizard(models.TransientModel):
     life_earned_reserve = fields.Float(string="Life Annuity",compute="compPolicyAmountsAtReportingDate")
    
     @api.one
-    @api.depends('policy_holder_id.service_from','policy_holder_id.complete_career_duration','policy_id.projected_life_capital')
+    @api.depends('reporting_date','policy_id','policy_holder_id.service_from','policy_holder_id.complete_career_duration','policy_id.projected_life_capital')
     def compPolicyAmountsAtReportingDate(self):
         if self.policy_holder_id.service_from and self.reporting_date:
             dt_service_from = datetime.strptime(self.policy_holder_id.service_from, DEFAULT_SERVER_DATE_FORMAT)
