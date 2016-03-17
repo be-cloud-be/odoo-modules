@@ -71,7 +71,7 @@ class Partner(models.Model):
         if self.retirement_date and self.service_from :
             dt_retirement_date = datetime.strptime(self.retirement_date, DEFAULT_SERVER_DATE_FORMAT)
             dt_service_from = datetime.strptime(self.service_from, DEFAULT_SERVER_DATE_FORMAT)
-            self.complete_career_duration = float_round((dt_retirement_date-dt_service_from).days/365.25, precision_digits=dp.get_precision('Career'))
+            self.complete_career_duration = float_round((dt_retirement_date-dt_service_from).days/365.25, precision_digits=dp.get_precision('Career').digits)
         else:
             self.complete_career_duration = None
         # TODO : compute the career duration in complete year, shoud be a fragment ?
