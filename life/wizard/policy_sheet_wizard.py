@@ -28,6 +28,7 @@ from openerp.tools import DEFAULT_SERVER_DATE_FORMAT
 from dateutil.relativedelta import relativedelta
 from datetime import datetime,date
 import openerp.addons.decimal_precision as dp
+from openerp.tools import float_compare, float_round
 
 _logger = logging.getLogger(__name__)
 
