@@ -37,7 +37,7 @@
                         <div class="row">
                             <label class="col-sm-4 col-xs-4 text-right">Policy Holder:</label>
                             <div class="col-sm-8 col-xs-8">
-                                <address t-field="o.policy_holder_id" t-field-options='{"widget": "contact", "fields": ["address", "name", "phone"], "no_marker": true}' />
+                                <address t-field="o.policy_id.policy_holder_id" t-field-options='{"widget": "contact", "fields": ["address", "name", "phone"], "no_marker": true}' />
                             </div>
                         </div>
                     </div>
