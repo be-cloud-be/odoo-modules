@@ -60,7 +60,7 @@ class Partner(models.Model):
     accomplished_career_duration = fields.Float(string="Remaining Career", compute="compComputePersonnalFields", digits=dp.get_precision('Career'))
     t5 = fields.Float(string="T5",compute="compComputePersonnalFields", digits=dp.get_precision('Financial Amounts'))
 
-    policy_ids = fields.One2many('life.policy','policy_holder_id',string='Policies')
+    policy_ids = fields.One2many('life.policy','insured_person_id',string='Policies')
     career_history_ids = fields.One2many('life.career_history', 'partner_id', string="Career History")
 
     @api.one

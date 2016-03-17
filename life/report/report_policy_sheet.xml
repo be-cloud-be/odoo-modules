@@ -53,23 +53,23 @@
                             <tbody>
                                 <tr>
                                     <td>Sex:</td>
-                                    <td><span t-field="o.policy_holder_id.sex" /></td>
+                                    <td><span t-field="o.insured_person_id.sex" /></td>
                                 </tr>
                                 <tr>
                                     <td>Birthdate:</td>
-                                    <td><span t-field="o.policy_holder_id.birthdate" /></td>
+                                    <td><span t-field="o.insured_person_id.birthdate" /></td>
                                 </tr>
                                 <tr>
                                     <td>Family Status:</td>
-                                    <td><span t-field="o.policy_holder_id.family_status" /></td>
+                                    <td><span t-field="o.insured_person_id.family_status" /></td>
                                 </tr>
                                 <tr>
                                     <td>Partner birthdate:</td>
-                                    <td><span t-field="o.policy_holder_id.partner_birthdate" /></td>
+                                    <td><span t-field="o.insured_person_id.partner_birthdate" /></td>
                                 </tr>
                                 <tr>
                                     <td>Children:</td>
-                                    <td><span t-field="o.policy_holder_id.children" /></td>
+                                    <td><span t-field="o.insured_person_id.children" /></td>
                                 </tr>
                             </tbody>
                         </table>
@@ -86,15 +86,15 @@
                             <tbody>
                                 <tr>
                                     <td>Service from :</td>
-                                    <td><span t-field="o.policy_holder_id.service_from" /></td>
+                                    <td><span t-field="o.insured_person_id.service_from" /></td>
                                 </tr>
                                 <tr>
                                     <td>Career Term:</td>
-                                    <td><span t-field="o.policy_holder_id.retirement_date" /></td>
+                                    <td><span t-field="o.insured_person_id.retirement_date" /></td>
                                 </tr>
                                 <tr>
                                     <td>Complete career duration:</td>
-                                    <td><span t-field="o.policy_holder_id.complete_career_duration" /></td>
+                                    <td><span t-field="o.insured_person_id.complete_career_duration" /></td>
                                 </tr>
                                 <tr>
                                     <td>Accomplished career duration on <span t-field="docs[0].reporting_date"/>:</td>
@@ -102,15 +102,15 @@
                                 </tr>
                                 <tr>
                                     <td>Annual Pay (100%):</td>
-                                    <td><span t-field="o.policy_holder_id.annual_pay" t-field-options='{"widget": "monetary", "display_currency": "res_company.currency_id"}'/></td>
+                                    <td><span t-field="o.insured_person_id.annual_pay" t-field-options='{"widget": "monetary", "display_currency": "res_company.currency_id"}'/></td>
                                 </tr>
                                 <tr>
                                     <td>Index</td>
-                                    <td><span t-field="o.policy_holder_id.salary_index" /></td>
+                                    <td><span t-field="o.insured_person_id.salary_index" /></td>
                                 </tr>
                                 <tr>
                                     <td>Final average annual pay (T5):</td>
-                                    <td><span t-field="o.policy_holder_id.t5" t-field-options='{"widget": "monetary", "display_currency": "res_company.currency_id"}'/></td>
+                                    <td><span t-field="o.insured_person_id.t5" t-field-options='{"widget": "monetary", "display_currency": "res_company.currency_id"}'/></td>
                                 </tr>
                             </tbody>
                         </table>

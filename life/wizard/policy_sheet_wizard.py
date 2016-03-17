@@ -35,12 +35,11 @@ class PolicySheetWizard(models.TransientModel):
     _name = "life.policy.wizard"
     _description = "Life Policy Wizard"
 
-    policy_holder_id = fields.Many2one('res.partner', string='Policy Holder', readonly=True, default=lambda self: self.env['res.partner'].browse(self.env.context.get('active_ids', [])))
-    policy_id = fields.Many2one('life.policy',string='Select a Policy',default=lambda self: self.env['life.policy'].search([('policy_holder_id', '=',self.env.context.get('active_ids', []))])[0])
+    insured_person_id = fields.Many2one('res.partner', string='Policy Holder', readonly=True, default=lambda self: self.env['res.partner'].browse(self.env.context.get('active_ids', [])))
+    policy_id = fields.Many2one('life.policy',string='Select a Policy',default=lambda self: self.env['life.policy'].search([('insured_person_id', '=',self.env.context.get('active_ids', []))])[0])
     reporting_date = fields.Date(string='Reporting Date',default=lambda self: date(date.today().year, 1, 1))
 
     @api.multi
-    @api.depends('policy_holder_id','policy_id','reporting_date')
     def generate_policy_sheet(self):
         self.ensure_one()
         data = {}
@@ -54,17 +53,15 @@ class PolicySheetWizard(models.TransientModel):
     life_earned_reserve = fields.Float(string="Life Annuity",compute="compPolicyAmountsAtReportingDate", digits=dp.get_precision('Financial Amounts'))
    
     @api.one
-    @api.depends('reporting_date','policy_id','policy_holder_id.service_from','policy_holder_id.complete_career_duration','policy_id.projected_life_capital')
+    @api.depends('reporting_date','policy_id','insured_person_id.service_from','insured_person_id.complete_career_duration','policy_id.projected_life_capital')
     def compPolicyAmountsAtReportingDate(self):
-        if self.policy_holder_id.service_from and self.reporting_date:
-            dt_service_from = datetime.strptime(self.policy_holder_id.service_from, DEFAULT_SERVER_DATE_FORMAT)
+        if self.insured_person_id.service_from and self.reporting_date:
+            dt_service_from = datetime.strptime(self.insured_person_id.service_from, DEFAULT_SERVER_DATE_FORMAT)
             dt_reporting_date = datetime.strptime(self.reporting_date, DEFAULT_SERVER_DATE_FORMAT)
             self.accomplished_career_duration = (dt_reporting_date-dt_service_from).days/365.25
             if self.policy_id :
-                self.life_earned_capital = self.accomplished_career_duration / self.policy_holder_id.complete_career_duration * self.policy_id.projected_life_capital
+                self.life_earned_capital = self.accomplished_career_duration / self.insured_person_id.complete_career_duration * self.policy_id.projected_life_capital
                 self.life_earned_reserve = self.life_earned_capital * float(self.env['ir.config_parameter'].get_param("life.nex"))
-        
-        
         
 class ReportPolicySheet(models.AbstractModel):
     _name = 'report.life.report_policy_sheet'
