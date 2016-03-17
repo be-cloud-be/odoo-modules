@@ -44,5 +44,17 @@
         <field name="key">life.qx</field>
         <field name="value">0.00198</field>
     </record>
+    
+    <!-- digital precision for financial amounts -->
+    <record model="decimal.precision" id="dp_fin_amount">
+        <field name="name">Financial Amounts</field>
+        <field name="digits">2</field>
+    </record>
+    
+    <!-- digital precision for careeer computation -->
+    <record model="decimal.precision" id="dp_career">
+        <field name="name">Career</field>
+        <field name="digits">2</field>
+    </record>
 
 </odoo>

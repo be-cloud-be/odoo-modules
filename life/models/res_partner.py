@@ -28,7 +28,6 @@ from openerp.tools import DEFAULT_SERVER_DATE_FORMAT
 from dateutil.relativedelta import relativedelta
 from datetime import datetime,date
 import openerp.addons.decimal_precision as dp
-from openerp.tools import float_compare, float_round
 
 from math import floor
 
@@ -50,16 +49,16 @@ class Partner(models.Model):
 
     service_from = fields.Date(string="Service From")
     retirement_date = fields.Date(string="Retirement Date")
-    annual_pay = fields.Float(string="Annual Pay",digits_compute=dp.get_precision('Financial Amount'))
+    annual_pay = fields.Float(string="Annual Pay",digits=dp.get_precision('Financial Amounts'))
     activity_percentage = fields.Float(string="Activity Percentage",default=1)
     salary_index = fields.Float(string="Salary Index",digits=(7, 6))
     
     # Computed fields
     
     complete_career_duration = fields.Float(string="Complete Career", compute="compComputePersonnalFields", digits=dp.get_precision('Career'))
-    remaining_career_duration = fields.Float(string="Remaining Career", compute="compComputePersonnalFields")
-    accomplished_career_duration = fields.Float(string="Remaining Career", compute="compComputePersonnalFields")
-    t5 = fields.Float(string="T5",compute="compComputePersonnalFields")
+    remaining_career_duration = fields.Float(string="Remaining Career", compute="compComputePersonnalFields", digits=dp.get_precision('Career'))
+    accomplished_career_duration = fields.Float(string="Remaining Career", compute="compComputePersonnalFields", digits=dp.get_precision('Career'))
+    t5 = fields.Float(string="T5",compute="compComputePersonnalFields", digits=dp.get_precision('Financial Amounts'))
 
     policy_ids = fields.One2many('life.policy','policy_holder_id',string='Policies')
     career_history_ids = fields.One2many('life.career_history', 'partner_id', string="Career History")

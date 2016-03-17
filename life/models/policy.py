@@ -27,6 +27,7 @@ from openerp.tools.safe_eval import safe_eval
 from openerp.tools import DEFAULT_SERVER_DATE_FORMAT
 from dateutil.relativedelta import relativedelta
 from datetime import datetime,date
+import openerp.addons.decimal_precision as dp
 
 _logger = logging.getLogger(__name__)
 
@@ -52,12 +53,12 @@ class Policy(models.Model):
     # Computed amounts
 
     term_year = fields.Integer(string="Term Year",compute="compPolicyAmounts")
-    projected_life_capital = fields.Float(string="Projected Capital",compute="compPolicyAmounts")
-    life_annuity = fields.Float(string="Life Annuity",compute="compPolicyAmounts")
-    orphan_annuity_capital = fields.Float(string="Orphan Annuity Capital",compute="compPolicyAmounts")
-    oprhan_annuity = fields.Float(string="Orphan Annuity",compute="compPolicyAmounts")
-    death_capital = fields.Float(string="Death Capital",compute="compPolicyAmounts")
-    death_unique_premium = fields.Float(string="Death Unique Premium",compute="compPolicyAmounts")
+    projected_life_capital = fields.Float(string="Projected Capital",compute="compPolicyAmounts",digits=dp.get_precision('Financial Amounts'))
+    life_annuity = fields.Float(string="Life Annuity",compute="compPolicyAmounts",digits=dp.get_precision('Financial Amounts'))
+    orphan_annuity_capital = fields.Float(string="Orphan Annuity Capital",compute="compPolicyAmounts",digits=dp.get_precision('Financial Amounts'))
+    oprhan_annuity = fields.Float(string="Orphan Annuity",compute="compPolicyAmounts",digits=dp.get_precision('Financial Amounts'))
+    death_capital = fields.Float(string="Death Capital",compute="compPolicyAmounts",digits=dp.get_precision('Financial Amounts'))
+    death_unique_premium = fields.Float(string="Death Unique Premium",compute="compPolicyAmounts",digits=dp.get_precision('Financial Amounts'))
     
     @api.one
     @api.depends('policy_holder_id.retirement_date','policy_holder_id.complete_career_duration','policy_holder_id.t5','policy_holder_id.children','policy_holder_id.annual_pay')
