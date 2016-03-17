@@ -39,7 +39,7 @@ Module to manage life insurance contracts.
              'data/actuarial_factor.xml',
              #'security/ir.model.access.csv',
              ],
-    'depends': ['mail', 'report'],
+    'depends': ['mail', 'report','decimal_precision'],
     'demo': [],
     'auto_install': False,
     'installable': True,
