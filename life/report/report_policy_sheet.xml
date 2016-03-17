@@ -142,11 +142,11 @@
                                     <td><span t-field="o.policy_id.life_annuity" t-field-options='{"widget": "monetary", "display_currency": "res_company.currency_id"}' /></td>
                                 </tr>
                                 <tr>
-                                    <td>Current Earned Capital :</td>
+                                    <td>Current earned capital :</td>
                                     <td><span t-field="o.life_earned_capital" t-field-options='{"widget": "monetary", "display_currency": "res_company.currency_id"}' /></td>
                                 </tr>
                                 <tr>
-                                    <td>Current Earned Reserve :</td>
+                                    <td>Current earned reserve :</td>
                                     <td><span t-field="o.life_earned_reserve" t-field-options='{"widget": "monetary", "display_currency": "res_company.currency_id"}' /></td>
                                 </tr>
                             </tbody>
