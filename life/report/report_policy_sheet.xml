@@ -138,7 +138,7 @@
                                     <td><span t-field="o.policy_id.projected_life_capital" t-field-options='{"widget": "monetary", "display_currency": "res_company.currency_id"}' /></td>
                                 </tr>
                                 <tr>
-                                    <td>rojected equivalent annuit :</td>
+                                    <td>Projected equivalent annuit :</td>
                                     <td><span t-field="o.policy_id.life_annuity" t-field-options='{"widget": "monetary", "display_currency": "res_company.currency_id"}' /></td>
                                 </tr>
                                 <tr>
