@@ -56,7 +56,7 @@ class Partner(models.Model):
     
     # Computed fields
     
-    complete_career_duration = fields.Float(string="Complete Career", compute="compComputePersonnalFields")
+    complete_career_duration = fields.Float(string="Complete Career", compute="compComputePersonnalFields", digits=dp.get_precision('Career'))
     remaining_career_duration = fields.Float(string="Remaining Career", compute="compComputePersonnalFields")
     accomplished_career_duration = fields.Float(string="Remaining Career", compute="compComputePersonnalFields")
     t5 = fields.Float(string="T5",compute="compComputePersonnalFields")
@@ -71,7 +71,7 @@ class Partner(models.Model):
         if self.retirement_date and self.service_from :
             dt_retirement_date = datetime.strptime(self.retirement_date, DEFAULT_SERVER_DATE_FORMAT)
             dt_service_from = datetime.strptime(self.service_from, DEFAULT_SERVER_DATE_FORMAT)
-            self.complete_career_duration = float_round((dt_retirement_date-dt_service_from).days/365.25, precision_digits=dp.get_precision('Career').digits)
+            self.complete_career_duration = (dt_retirement_date-dt_service_from).days/365.25
         else:
             self.complete_career_duration = None
         # TODO : compute the career duration in complete year, shoud be a fragment ?
