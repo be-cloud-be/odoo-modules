@@ -46,7 +46,7 @@
                         <table class="table table-condensed">
                             <thead>
                                 <tr>
-                                    <th><strong>Personal data on <t t-esc="docs[0].reporting_date"/></strong></th>
+                                    <th><strong>Personal data on <i t-field="o.reporting_date"/></strong></th>
                                     <th><strong></strong></th>
                                 </tr>
                             </thead>
@@ -79,7 +79,7 @@
                         <table class="table table-condensed">
                             <thead>
                                 <tr>
-                                    <th><strong>Computation Data on <t t-field="o.reporting_date"/></strong></th>
+                                    <th><strong>Computation Data on <i t-field="o.reporting_date"/></strong></th>
                                     <th><strong></strong></th>
                                 </tr>
                             </thead>
@@ -116,7 +116,7 @@
                         <table class="table table-condensed">
                             <thead>
                                 <tr>
-                                    <th><strong>Life guarantee on <t t-field="o.reporting_date"/></strong></th>
+                                    <th><strong>Life guarantee on <i t-field="o.reporting_date"/></strong></th>
                                     <th><strong/></th>
                                 </tr>
                             </thead>
