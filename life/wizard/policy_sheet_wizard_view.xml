@@ -44,9 +44,9 @@
                         <field name="policy_holder_id" readonly="True"/>
                         <field name="policy_id" widget="selection"/>
                         <field name="reporting_date"/>
-                        <field name="accomplished_career_duration"/>
-                        <field name="life_earned_capital"/>
-                        <field name="life_earned_reserve"/>
+                        <field name="accomplished_career_duration" invisible="true"/>
+                        <field name="life_earned_capital" invisible="true"/>
+                        <field name="life_earned_reserve" invisible="true"/>
                     </group>
                     <footer>
                         <button string="Generate" name="generate_policy_sheet" type="object" class="btn-primary"/>
