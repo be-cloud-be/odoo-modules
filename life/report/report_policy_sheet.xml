@@ -106,7 +106,7 @@
                                     <td><span t-field="o.policy_holder_id.salary_index" /></td>
                                 </tr>
                                 <tr>
-                                    <td>Average Annual Pay (T5):</td>
+                                    <td>Final average annual pay (T5):</td>
                                     <td><span t-field="o.policy_holder_id.t5" t-field-options='{"widget": "monetary", "display_currency": "res_company.currency_id"}'/></td>
                                 </tr>
                             </tbody>
