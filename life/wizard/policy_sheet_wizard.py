@@ -73,6 +73,5 @@ class ReportPolicySheet(models.AbstractModel):
             'doc_ids': data['id'],
             'doc_model': 'life.policy.wizard',
             'docs': self.env['life.policy.wizard'].browse(data['id']),
-            'values' : self._values,
         }
         return self.env['report'].render('life.report_policy_sheet', docargs)
