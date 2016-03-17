@@ -58,7 +58,7 @@ class PolicySheetWizard(models.TransientModel):
         if self.policy_holder_id.service_from and self.reporting_date:
             dt_service_from = datetime.strptime(self.policy_holder_id.service_from, DEFAULT_SERVER_DATE_FORMAT)
             dt_reporting_date = datetime.strptime(self.reporting_date, DEFAULT_SERVER_DATE_FORMAT)
-            self.accomplished_career_duration = (dt_reporting_date-dt_service_from)/365.25
+            self.accomplished_career_duration = (dt_reporting_date-dt_service_from).days/365.25
             if self.policy_id :
                 self.life_earned_capital = self.accomplished_career_duration / self.policy_holder_id.complete_career_duration * self.policy_id.projected_life_capital
                 self.life_earned_reserve = self.life_earned_capital * float(self.env['ir.config_parameter'].get_param("life.nex"))
