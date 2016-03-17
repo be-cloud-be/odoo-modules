@@ -27,6 +27,7 @@ from openerp.tools.safe_eval import safe_eval
 from openerp.tools import DEFAULT_SERVER_DATE_FORMAT
 from dateutil.relativedelta import relativedelta
 from datetime import datetime,date
+import openerp.addons.decimal_precision as dp
 
 _logger = logging.getLogger(__name__)
 
@@ -48,7 +49,7 @@ class PolicySheetWizard(models.TransientModel):
         
     # Computed amounts
 
-    accomplished_career_duration = fields.Float(string="Accomplished Career Duration",compute="compPolicyAmountsAtReportingDate")
+    accomplished_career_duration = fields.Float(string="Accomplished Career Duration",compute="compPolicyAmountsAtReportingDate",digits_compute=dp.get_precision('Career'))
     life_earned_capital = fields.Float(string="Projected Capital",compute="compPolicyAmountsAtReportingDate")
     life_earned_reserve = fields.Float(string="Life Annuity",compute="compPolicyAmountsAtReportingDate")
    
