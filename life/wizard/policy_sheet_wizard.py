@@ -36,7 +36,7 @@ class PolicySheetWizard(models.TransientModel):
 
     policy_holder_id = fields.Many2one('res.partner', string='Policy Holder', readonly=True, default=lambda self: self.env['res.partner'].browse(self.env.context.get('active_ids', [])))
     policy_id = fields.Many2one('life.policy',string='Select a Policy',default=lambda self: self.env['life.policy'].search([('policy_holder_id', '=',self.env.context.get('active_ids', []))])[0])
-    reporting_date = fields.Date(string='Reporting Date')
+    reporting_date = fields.Date(string='Reporting Date'default=lambda self: date(date.today().year, 1, 1))
 
     @api.multi
     @api.depends('policy_holder_id','policy_id','reporting_date')
