@@ -38,7 +38,13 @@ class Policy(models.Model):
 
     number = fields.Integer(string="Policy Number")
     insured_person_id = fields.Many2one('res.partner',string='Insured Person')
-    policy_holder_id = fields.Many2one('res.company',string='Policy Holder',store='True',compute=lambda self: self.insured_person_id.company_id)
+    policy_holder_id = fields.Many2one('res.company',string='Policy Holder',store='True',compute='_compute_policy_holder_id')
+    
+    @api.one
+    @api.depends('insured_person_id')
+    def _compute_policy_holder_id(self):
+        if self.insured_person_id.company_id:
+            self.policy_holder_id = self.insured_person_id.company_id
     
     name = fields.Char(string="Name",compute='_compute_name')
 
