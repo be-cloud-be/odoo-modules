@@ -24,7 +24,7 @@ openerp.document_gdrive = function(instance, m) {
         Model = require('web.DataModel');
 
     instance.web.Sidebar.include({
-        init: function() {
+        /*init: function() {
             var P = new Model('ir.config_parameter');
             P.call('get_param', ['document.gdrive.client.id']).then(function(id) {
                 if (id) {
@@ -41,7 +41,7 @@ openerp.document_gdrive = function(instance, m) {
                     console.log("Cannot access parameter 'document.gdrive.client.id' check your configuration");
                 }
             });
-        },
+        },*/
         
         handleAuthResult: function(authResult) {
           if (authResult && !authResult.error) {
