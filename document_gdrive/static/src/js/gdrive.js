@@ -39,7 +39,7 @@ openerp.document_gdrive = function(instance, m) {
 
         },
         onAuthApiLoad: function() {
-            var P = new Model('ir.config_parameter');
+            var P = new openerp.web.Model('ir.config_parameter');
             P.call('get_param', ['document.gdrive.client.id']).then(function(id) {
                 if (id) {
                     var clientId = id;
