@@ -25,6 +25,7 @@ odoo.define('document_gdrive.menu_item', function (require) {
     var Model = require('web.DataModel');
     var Sidebar = require('web.Sidebar');
     var Dialog = require('web.Dialog');
+    var ActionManager = require('web.ActionManager');
     
     var _t = core._t;
     var QWeb = core.qweb;
