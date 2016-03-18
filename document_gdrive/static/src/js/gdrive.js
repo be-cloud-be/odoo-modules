@@ -37,7 +37,7 @@ odoo.define('document_gdrive.menu_item', function (require) {
             this._super.apply(this, arguments);
             
             gapi.load('auth', {'callback': this.onAuthApiLoad});
-            gapi.load('picker', {'callback': this.onPickerApiLoad});
+            gapi.load('picker', {'callback': function(){pickerApiLoaded = true;}});
             
         },
         onAuthApiLoad: function(){
@@ -51,25 +51,20 @@ odoo.define('document_gdrive.menu_item', function (require) {
                             'immediate': true,
                             'include_granted_scopes': true
                         },
-                        this.handleAuthResult);
+                        function(authResult) {
+                          if (authResult && !authResult.error) {
+                            oauthToken = authResult.access_token;
+                          }
+                          else {
+                            alert("Cannot get authorization token for Google Drive: " + authResult.error_subtype + " - " + authResult.error);
+                          }});
                 }
                 else {
                     console.log("Cannot access parameter 'document.gdrive.client.id' check your configuration");
                 }
             });
         },
-        onPickerApiLoad: function(){
-            this.pickerApiLoaded = true;
-        },
-        handleAuthResult: function(authResult) {
-          if (authResult && !authResult.error) {
-            this.oauthToken = authResult.access_token;
-          }
-          else {
-            alert("Cannot get authorization token for Google Drive: " + authResult.error_subtype + " - " + authResult.error);
-          }
-        },
-    
+
         redraw: function() {
             var self = this;
             this._super.apply(this, arguments);
@@ -111,7 +106,7 @@ odoo.define('document_gdrive.menu_item', function (require) {
 
             var P = new Model('ir.config_parameter');
             P.call('get_param', ['document.gdrive.upload.dir']).then(function(dir) {
-                if (this.pickerApiLoaded && this.oauthToken) {
+                if (pickerApiLoaded && oauthToken) {
                     var origin = window.location.protocol + '//' + window.location.host;
                     var picker = new google.picker.PickerBuilder().
                     addView(google.picker.ViewId.DOCS).
