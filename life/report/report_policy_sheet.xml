@@ -129,6 +129,14 @@
                                 </tr>
                             </thead>
                             <tbody>
+                                <<tr>
+                                    <td>Policy Number:</td>
+                                    <td><span t-field="o.policy_id.life_number" /></td>
+                                </tr>
+                                <tr>
+                                    <td>Policy Type:</td>
+                                    <td><span t-field="o.policy_id.life_type" /></td>
+                                </tr>
                                 <tr>
                                     <td>Term:</td>
                                     <td><span t-field="o.insured_person_id.retirement_date" /></td>
@@ -138,8 +146,41 @@
                                     <td><span t-field="o.policy_id.projected_life_capital" t-field-options='{"widget": "monetary", "display_currency": "res_company.currency_id"}' /></td>
                                 </tr>
                                 <tr>
-                                    <td>Projected equivalent annuit :</td>
+                                    <td>Projected equivalent annuity :</td>
                                     <td><span t-field="o.policy_id.life_annuity" t-field-options='{"widget": "monetary", "display_currency": "res_company.currency_id"}' /></td>
+                                </tr>
+                                <tr>
+                                    <td>Current earned capital :</td>
+                                    <td><span t-field="o.life_earned_capital" t-field-options='{"widget": "monetary", "display_currency": "res_company.currency_id"}' /></td>
+                                </tr>
+                                <tr>
+                                    <td>Current earned reserve :</td>
+                                    <td><span t-field="o.life_earned_reserve" t-field-options='{"widget": "monetary", "display_currency": "res_company.currency_id"}' /></td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div class="clearfix" />
+                    <div class="col-md-12 col-xs-12">
+                        <table class="table table-condensed">
+                            <thead>
+                                <tr>
+                                    <th><strong>Payments in case of death before retirement</strong></th>
+                                    <th><strong/></th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>Policy Number:</td>
+                                    <td><span t-field="o.policy_id.death_number" /></td>
+                                </tr>
+                                <tr>
+                                    <td>Policy Type:</td>
+                                    <td><span t-field="o.policy_id.death_type" /></td>
+                                </tr>
+                                <tr>
+                                    <td>Annuity by orphan :</td>
+                                    <td><span t-field="o.policy_id.oprhan_annuity_by_child" t-field-options='{"widget": "monetary", "display_currency": "res_company.currency_id"}' /></td>
                                 </tr>
                                 <tr>
                                     <td>Current earned capital :</td>

@@ -64,6 +64,7 @@ class Policy(models.Model):
     projected_life_capital = fields.Float(string="Projected Capital",compute="compPolicyAmounts",digits=dp.get_precision('Financial Amounts'))
     life_annuity = fields.Float(string="Life Annuity",compute="compPolicyAmounts",digits=dp.get_precision('Financial Amounts'))
     orphan_annuity_capital = fields.Float(string="Orphan Annuity Capital",compute="compPolicyAmounts",digits=dp.get_precision('Financial Amounts'))
+    oprhan_annuity_by_children = fields.Float(string="Orphan Annuity By Child",compute="compPolicyAmounts",digits=dp.get_precision('Financial Amounts'))
     oprhan_annuity = fields.Float(string="Orphan Annuity",compute="compPolicyAmounts",digits=dp.get_precision('Financial Amounts'))
     death_capital = fields.Float(string="Death Capital",compute="compPolicyAmounts",digits=dp.get_precision('Financial Amounts'))
     death_unique_premium = fields.Float(string="Death Unique Premium",compute="compPolicyAmounts",digits=dp.get_precision('Financial Amounts'))
@@ -75,6 +76,7 @@ class Policy(models.Model):
         self.projected_life_capital = self.insured_person_id.complete_career_duration * self.insured_person_id.t5 / 10
         self.life_annuity = self.projected_life_capital / float(self.env['ir.config_parameter'].get_param("life.annuityFactor"))
         self.orphan_annuity_capital = 1.5 * self.insured_person_id.annual_pay
-        self.oprhan_annuity = self.orphan_annuity_capital / float(self.env['ir.config_parameter'].get_param("life.orphanAnnuityFactor")) * self.insured_person_id.children
+        self.oprhan_annuity_by_child = self.orphan_annuity_capital / float(self.env['ir.config_parameter'].get_param("life.orphanAnnuityFactor"))
+        self.oprhan_annuity = self.oprhan_annuity_by_child * self.insured_person_id.children
         self.death_capital = 2 * self.insured_person_id.annual_pay
         self.death_unique_premium = (self.death_capital + self.orphan_annuity_capital) * float(self.env['ir.config_parameter'].get_param("life.qx"))
