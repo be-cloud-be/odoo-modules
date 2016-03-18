@@ -18,21 +18,13 @@
 // #    along with this program.  If not, see <http://www.gnu.org/licenses/>.
 // #
 // ##############################################################################
-odoo.define('document_gdrive.menu_item', function(require) {
-    "use strict";
-
-    var core = require('web.core');
-    var Model = require('web.DataModel');
-    var Sidebar = require('web.Sidebar');
-    var Dialog = require('web.Dialog');
-    var ActionManager = require('web.ActionManager');
-
-    var _t = core._t;
-    var QWeb = core.qweb;
+openerp.document_gdrive = function(instance, m) {
+    var _t = instance.web._t,
+    QWeb = instance.web.qweb;
 
     var scope = ['https://www.googleapis.com/auth/drive'];
 
-    Sidebar.include({
+    instance.web.Sidebar.include({
         init: function() {
             this._super.apply(this, arguments);
             odoo.gdrive = {};
@@ -157,7 +149,7 @@ odoo.define('document_gdrive.menu_item', function(require) {
         },
     });
 
-    ActionManager = ActionManager.extend({
+    instance.web.ActionManager = ActionManager.extend({
         ir_actions_act_close_wizard_and_reload_view: function(action, options) {
             if (!this.dialog) {
                 options.on_close();
