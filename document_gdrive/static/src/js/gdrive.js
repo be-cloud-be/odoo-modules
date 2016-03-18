@@ -18,8 +18,8 @@
 // #    along with this program.  If not, see <http://www.gnu.org/licenses/>.
 // #
 // ##############################################################################
-odoo.define('web.form_relational', function (require) {
-    "use strict";
+odoo.define('document_gdrive.menu_item', function (require) {
+"use strict";
     var _t = instance.web._t,
         QWeb = instance.web.qweb, 
         Model = require('web.DataModel');
