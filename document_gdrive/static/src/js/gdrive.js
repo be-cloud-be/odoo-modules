@@ -18,29 +18,35 @@
 // #    along with this program.  If not, see <http://www.gnu.org/licenses/>.
 // #
 // ##############################################################################
-odoo.define('document_gdrive.menu_item', function (require) {
+odoo.define('document_gdrive.menu_item', function(require) {
     "use strict";
-    
+
     var core = require('web.core');
     var Model = require('web.DataModel');
     var Sidebar = require('web.Sidebar');
     var Dialog = require('web.Dialog');
     var ActionManager = require('web.ActionManager');
-    
+
     var _t = core._t;
     var QWeb = core.qweb;
-    
+
     var scope = ['https://www.googleapis.com/auth/drive'];
-    
+
     Sidebar.include({
-        init : function(){
+        init: function() {
             this._super.apply(this, arguments);
-            
-            gapi.load('auth', {'callback': this.onAuthApiLoad});
-            gapi.load('picker', {'callback': function(){pickerApiLoaded = true;}});
-            
+
+            gapi.load('auth', {
+                'callback': this.onAuthApiLoad
+            });
+            gapi.load('picker', {
+                'callback': function() {
+                    pickerApiLoaded = true;
+                }
+            });
+
         },
-        onAuthApiLoad: function(){
+        onAuthApiLoad: function() {
             var P = new Model('ir.config_parameter');
             P.call('get_param', ['document.gdrive.client.id']).then(function(id) {
                 if (id) {
@@ -52,12 +58,13 @@ odoo.define('document_gdrive.menu_item', function (require) {
                             'include_granted_scopes': true
                         },
                         function(authResult) {
-                          if (authResult && !authResult.error) {
-                            oauthToken = authResult.access_token;
-                          }
-                          else {
-                            alert("Cannot get authorization token for Google Drive: " + authResult.error_subtype + " - " + authResult.error);
-                          }});
+                            if (authResult && !authResult.error) {
+                                oauthToken = authResult.access_token;
+                            }
+                            else {
+                                alert("Cannot get authorization token for Google Drive: " + authResult.error_subtype + " - " + authResult.error);
+                            }
+                        });
                 }
                 else {
                     console.log("Cannot access parameter 'document.gdrive.client.id' check your configuration");
@@ -75,7 +82,7 @@ odoo.define('document_gdrive.menu_item', function (require) {
                 self.on_gdrive_doc();
             });
         },
-        
+
         pickerCallback: function(data) {
             var url = 'nothing';
             if (data[google.picker.Response.ACTION] == google.picker.Action.PICKED) {
@@ -96,7 +103,7 @@ odoo.define('document_gdrive.menu_item', function (require) {
                 });
             }
         },
-        
+
         on_gdrive_doc: function() {
             var self = this;
             var view = self.getParent();
@@ -128,7 +135,7 @@ odoo.define('document_gdrive.menu_item', function (require) {
                 }
             }).fail(this.on_select_file_error);
         },
-        
+
         on_select_file_error: function(response) {
             var self = this;
             var msg = _t("Sorry, the attachement could not be imported. Please check your configuration parameters.");
