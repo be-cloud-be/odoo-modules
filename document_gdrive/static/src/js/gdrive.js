@@ -41,7 +41,7 @@ openerp.document_gdrive = function(instance, m) {
                     console.log("Cannot access parameter 'document.gdrive.client.id' check your configuration");
                 }
             });
-        },*/
+        },
         
         handleAuthResult: function(authResult) {
           if (authResult && !authResult.error) {
@@ -50,7 +50,7 @@ openerp.document_gdrive = function(instance, m) {
           else {
             alert("Cannot get authorization token for Google Drive: " + authResult.error_subtype + " - " + authResult.error);
           }
-        },
+        },*/
     
         redraw: function() {
             var self = this;
