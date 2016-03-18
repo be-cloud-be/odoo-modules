@@ -19,34 +19,41 @@
 // #
 // ##############################################################################
 odoo.define('document_gdrive.menu_item', function (require) {
-"use strict";
-    var _t = instance.web._t,
-        QWeb = instance.web.qweb, 
-        Model = require('web.DataModel');
-
-    instance.web.Sidebar.include({
-        init: function() {
+    "use strict";
+    
+    var core = require('web.core');
+    var Model = require('web.DataModel');
+    var Sidebar = require('web.Sidebar');
+    var Dialog = require('web.Dialog');
+    
+    var _t = core._t;
+    var QWeb = core.qweb;
+    
+    var scope = ['https://www.googleapis.com/auth/drive'];
+    
+    Sidebar.include({
+        init : function(){
+            this._super.apply(this, arguments);
             var P = new Model('ir.config_parameter');
             P.call('get_param', ['document.gdrive.client.id']).then(function(id) {
                 if (id) {
-                    clientId = id;
+                    var clientId = id;
                     window.gapi.auth.authorize({
                             'client_id': clientId,
                             'scope': scope,
                             'immediate': true,
                             'include_granted_scopes': true
                         },
-                        self.handleAuthResult);
+                        this.handleAuthResult);
                 }
                 else {
                     console.log("Cannot access parameter 'document.gdrive.client.id' check your configuration");
                 }
             });
         },
-        
         handleAuthResult: function(authResult) {
           if (authResult && !authResult.error) {
-            self.oauthToken = authResult.access_token;
+            this.oauthToken = authResult.access_token;
           }
           else {
             alert("Cannot get authorization token for Google Drive: " + authResult.error_subtype + " - " + authResult.error);
@@ -68,7 +75,7 @@ odoo.define('document_gdrive.menu_item', function (require) {
             var url = 'nothing';
             if (data[google.picker.Response.ACTION] == google.picker.Action.PICKED) {
                 var doc = data[google.picker.Response.DOCUMENTS][0];
-                name = doc[google.picker.Document.NAME];
+                var name = doc[google.picker.Document.NAME];
                 url = doc[google.picker.Document.EMBEDDABLE_URL] || doc[google.picker.Document.URL];
                 var self = this;
                 var model = new Model("ir.attachment.add_gdrive");
@@ -127,18 +134,18 @@ odoo.define('document_gdrive.menu_item', function (require) {
                 error: response,
                 message: msg
             };
-            new instance.web.Dialog(this, {
+            new Dialog(this, {
                 title: _t("Attachement Error Notification"),
                 buttons: {
                     Ok: function() {
                         this.parents('.modal').modal('hide');
                     }
                 }
-            }, $(instance.web.qweb.render("CrashManager.warning", params))).open();
+            }, $(QWeb.render("CrashManager.warning", params))).open();
         },
     });
 
-    instance.web.ActionManager = instance.web.ActionManager.extend({
+    ActionManager = ActionManager.extend({
         ir_actions_act_close_wizard_and_reload_view: function(action, options) {
             if (!this.dialog) {
                 options.on_close();
