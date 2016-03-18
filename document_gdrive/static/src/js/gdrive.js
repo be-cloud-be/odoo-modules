@@ -41,7 +41,7 @@ odoo.define('document_gdrive.menu_item', function(require) {
             });
             gapi.load('picker', {
                 'callback': function() {
-                    pickerApiLoaded = true;
+                    odoo.gdrive.pickerApiLoaded = true;
                 }
             });
 
@@ -59,7 +59,7 @@ odoo.define('document_gdrive.menu_item', function(require) {
                         },
                         function(authResult) {
                             if (authResult && !authResult.error) {
-                                oauthToken = authResult.access_token;
+                                odoo.gdrive.oauthToken = authResult.access_token;
                             }
                             else {
                                 alert("Cannot get authorization token for Google Drive: " + authResult.error_subtype + " - " + authResult.error);
