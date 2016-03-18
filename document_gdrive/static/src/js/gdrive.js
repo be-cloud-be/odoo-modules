@@ -27,13 +27,13 @@ openerp.document_gdrive = function(instance, m) {
     instance.web.Sidebar.include({
         init: function() {
             this._super.apply(this, arguments);
-            odoo.gdrive = {};
+            openerp.gdrive = {};
             gapi.load('auth', {
                 'callback': this.onAuthApiLoad
             });
             gapi.load('picker', {
                 'callback': function() {
-                    odoo.gdrive.pickerApiLoaded = true;
+                    openerp.gdrive.pickerApiLoaded = true;
                 }
             });
 
@@ -51,7 +51,7 @@ openerp.document_gdrive = function(instance, m) {
                         },
                         function(authResult) {
                             if (authResult && !authResult.error) {
-                                odoo.gdrive.oauthToken = authResult.access_token;
+                                openerp.gdrive.oauthToken = authResult.access_token;
                             }
                             else {
                                 alert("Cannot get authorization token for Google Drive: " + authResult.error_subtype + " - " + authResult.error);
@@ -105,14 +105,14 @@ openerp.document_gdrive = function(instance, m) {
 
             var P = new Model('ir.config_parameter');
             P.call('get_param', ['document.gdrive.upload.dir']).then(function(dir) {
-                if (odoo.gdrive.pickerApiLoaded && odoo.gdrive.oauthToken) {
+                if (openerp.gdrive.pickerApiLoaded && openerp.gdrive.oauthToken) {
                     var origin = window.location.protocol + '//' + window.location.host;
                     var picker = new google.picker.PickerBuilder().
                     addView(google.picker.ViewId.DOCS).
                     addView(google.picker.ViewId.RECENTLY_PICKED).
                     enableFeature(google.picker.Feature.MULTISELECT_ENABLED).
                     addView(new google.picker.DocsUploadView().setParent(dir)).
-                    setOAuthToken(odoo.gdrive.oauthToken).
+                    setOAuthToken(openerp.gdrive.oauthToken).
                     setLocale('fr'). // TODO set local of the user
                     setCallback(callback).
                     setOrigin(origin).
