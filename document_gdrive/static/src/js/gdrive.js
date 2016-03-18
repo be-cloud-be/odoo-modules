@@ -160,4 +160,4 @@ openerp.document_gdrive = function(instance, m) {
         },
     });
 
-});
+}
