@@ -35,6 +35,10 @@ odoo.define('document_gdrive.menu_item', function (require) {
     Sidebar.include({
         init : function(){
             this._super.apply(this, arguments);
+            
+            gapi.load('auth');
+            gapi.load('picker');
+            
             var P = new Model('ir.config_parameter');
             P.call('get_param', ['document.gdrive.client.id']).then(function(id) {
                 if (id) {
