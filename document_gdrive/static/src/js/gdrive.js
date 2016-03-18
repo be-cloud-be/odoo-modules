@@ -18,7 +18,8 @@
 // #    along with this program.  If not, see <http://www.gnu.org/licenses/>.
 // #
 // ##############################################################################
-openerp.document_gdrive = function(instance, m) {
+odoo.define('web.form_relational', function (require) {
+    "use strict";
     var _t = instance.web._t,
         QWeb = instance.web.qweb, 
         Model = require('web.DataModel');
