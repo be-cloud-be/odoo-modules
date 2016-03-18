@@ -13,7 +13,7 @@ import hashlib
 
 from openerp.osv import osv, fields
 from openerp.tools.translate import _
-from openerp.exceptions import UserError
+from openerp.exception import AccessError
 
 _logger = logging.getLogger(__name__)
 
@@ -127,5 +127,5 @@ class account_bank_statement_import(osv.TransientModel):
                             'transactions' : [vals_line],
                         }
         except Exception, e:
-            raise UserError(_("The following problem occurred during import. The file might not be valid.\n\n %s" % e.message))
+            raise AccessError(_("The following problem occurred during import. The file might not be valid.\n\n %s" % e.message))
         return all_statements
