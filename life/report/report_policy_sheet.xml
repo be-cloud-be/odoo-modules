@@ -184,11 +184,11 @@
                                 </tr>
                                 <tr>
                                     <td>Death Capital :</td>
-                                    <td><span t-field="o.death_capital" t-field-options='{"widget": "monetary", "display_currency": "res_company.currency_id"}' /></td>
+                                    <td><span t-field="o.policy_id.death_capital" t-field-options='{"widget": "monetary", "display_currency": "res_company.currency_id"}' /></td>
                                 </tr>
                                 <tr>
                                     <td>Death Unique Premium :</td>
-                                    <td><span t-field="o.death_unique_premium" t-field-options='{"widget": "monetary", "display_currency": "res_company.currency_id"}' /></td>
+                                    <td><span t-field="o.policy_id.death_unique_premium" t-field-options='{"widget": "monetary", "display_currency": "res_company.currency_id"}' /></td>
                                 </tr>
                             </tbody>
                         </table>
