@@ -49,7 +49,7 @@ function onAuthApiLoad() {
       },
       handleAuthResult);
   }).fail(function(error) {
-    console.log(error);
+    console.log("Error during Authentication :"+error);
   });
 }
 
