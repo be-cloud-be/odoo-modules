@@ -34,6 +34,9 @@
                 <!-- Informations -->
                 <div class="row mt32">
                     <div class="col-md-6 col-xs-6">
+                        <div t-field="o.policy_id.insured_person_id.image" t-field-options='{"widget": "image", "class": "media-object", "max_width": 128}'/>
+                    </div>
+                    <div class="col-md-6 col-xs-6">
                         <div class="row">
                             <label class="col-sm-4 col-xs-4 text-right">Policy Holder:</label>
                             <div class="col-sm-8 col-xs-8">
