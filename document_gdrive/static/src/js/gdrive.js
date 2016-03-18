@@ -25,7 +25,7 @@ odoo.define('document_gdrive.menu_item', function (require) {
         Model = require('web.DataModel');
 
     instance.web.Sidebar.include({
-        /*init: function() {
+        init: function() {
             var P = new Model('ir.config_parameter');
             P.call('get_param', ['document.gdrive.client.id']).then(function(id) {
                 if (id) {
@@ -51,7 +51,7 @@ odoo.define('document_gdrive.menu_item', function (require) {
           else {
             alert("Cannot get authorization token for Google Drive: " + authResult.error_subtype + " - " + authResult.error);
           }
-        },*/
+        },
     
         redraw: function() {
             var self = this;
@@ -149,4 +149,4 @@ odoo.define('document_gdrive.menu_item', function (require) {
         },
     });
 
-};
+});
