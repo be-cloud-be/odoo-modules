@@ -64,7 +64,7 @@ class Policy(models.Model):
     projected_life_capital = fields.Float(string="Projected Capital",compute="compPolicyAmounts",digits=dp.get_precision('Financial Amounts'))
     life_annuity = fields.Float(string="Life Annuity",compute="compPolicyAmounts",digits=dp.get_precision('Financial Amounts'))
     orphan_annuity_capital = fields.Float(string="Orphan Annuity Capital",compute="compPolicyAmounts",digits=dp.get_precision('Financial Amounts'))
-    oprhan_annuity_by_children = fields.Float(string="Orphan Annuity By Child",compute="compPolicyAmounts",digits=dp.get_precision('Financial Amounts'))
+    oprhan_annuity_by_child = fields.Float(string="Orphan Annuity By Child",compute="compPolicyAmounts",digits=dp.get_precision('Financial Amounts'))
     oprhan_annuity = fields.Float(string="Orphan Annuity",compute="compPolicyAmounts",digits=dp.get_precision('Financial Amounts'))
     death_capital = fields.Float(string="Death Capital",compute="compPolicyAmounts",digits=dp.get_precision('Financial Amounts'))
     death_unique_premium = fields.Float(string="Death Unique Premium",compute="compPolicyAmounts",digits=dp.get_precision('Financial Amounts'))
