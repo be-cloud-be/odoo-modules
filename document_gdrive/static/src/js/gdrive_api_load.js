@@ -27,31 +27,30 @@ var pickerApiLoaded = false;
 var oauthToken = false;
 var clientId = false;
 
-function getClientId() {
-      var P = new openerp.web.Model('ir.config_parameter');
-      P.call('get_param', ['document.gdrive.client.id']).then(function(id) {
-          clientId = id;
-        }).fail(function(error) {
-          console.log(error);
-        });
-}
-
 // Use the API Loader script to load google.picker and gapi.auth.
 function onApiLoad() {
-  gapi.load('auth', {'callback': onAuthApiLoad});
-  gapi.load('picker', {'callback': onPickerApiLoad});
+  gapi.load('auth', {
+    'callback': onAuthApiLoad
+  });
+  gapi.load('picker', {
+    'callback': onPickerApiLoad
+  });
 }
 
 function onAuthApiLoad() {
-  if(!clientId) {getClientId();}
-  window.gapi.auth.authorize(
-      {
+  var P = new openerp.web.Model('ir.config_parameter');
+  P.call('get_param', ['document.gdrive.client.id']).then(function(id) {
+    clientId = id;
+    window.gapi.auth.authorize({
         'client_id': clientId,
         'scope': scope,
         'immediate': true,
-        'include_granted_scopes' : true
+        'include_granted_scopes': true
       },
       handleAuthResult);
+  }).fail(function(error) {
+    console.log(error);
+  });
 }
 
 function onPickerApiLoad() {
@@ -59,26 +58,10 @@ function onPickerApiLoad() {
 }
 
 function handleAuthResult(authResult) {
-  if(!clientId) {getClientId();}
   if (authResult && !authResult.error) {
     oauthToken = authResult.access_token;
-  } else {
-	  window.gapi.auth.authorize(
-      {
-        'client_id': clientId,
-        'scope': scope,
-        'immediate': false,
-        'include_granted_scopes' : true
-      },
-      handleAuthResult2);
+  }
+  else {
+    alert("Cannot get authorization token for Google Drive: " + authResult.error_subtype + " - " + authResult.error);
   }
 }
-
-function handleAuthResult2(authResult) {
-  if (authResult && !authResult.error) {
-    oauthToken = authResult.access_token;
-  } else {
-	  alert("Cannot get authorization token for Google Drive: " + authResult.error_subtype + " - " + authResult.error);
-  }
-}  
-	  
