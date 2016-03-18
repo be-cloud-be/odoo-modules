@@ -36,9 +36,11 @@ odoo.define('document_gdrive.menu_item', function (require) {
         init : function(){
             this._super.apply(this, arguments);
             
-            gapi.load('auth');
-            gapi.load('picker');
+            gapi.load('auth', {'callback': this.onAuthApiLoad});
+            gapi.load('picker', {'callback': this.onPickerApiLoad});
             
+        },
+        onAuthApiLoad: function(){
             var P = new Model('ir.config_parameter');
             P.call('get_param', ['document.gdrive.client.id']).then(function(id) {
                 if (id) {
@@ -55,6 +57,9 @@ odoo.define('document_gdrive.menu_item', function (require) {
                     console.log("Cannot access parameter 'document.gdrive.client.id' check your configuration");
                 }
             });
+        },
+        onPickerApiLoad: function(){
+            this.pickerApiLoaded = true;
         },
         handleAuthResult: function(authResult) {
           if (authResult && !authResult.error) {
@@ -106,7 +111,7 @@ odoo.define('document_gdrive.menu_item', function (require) {
 
             var P = new Model('ir.config_parameter');
             P.call('get_param', ['document.gdrive.upload.dir']).then(function(dir) {
-                if (pickerApiLoaded && oauthToken) {
+                if (this.pickerApiLoaded && this.oauthToken) {
                     var origin = window.location.protocol + '//' + window.location.host;
                     var picker = new google.picker.PickerBuilder().
                     addView(google.picker.ViewId.DOCS).
