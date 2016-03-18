@@ -22,7 +22,6 @@
 // The Client ID of Imply.lu
 
 var scope = ['https://www.googleapis.com/auth/drive'];
-
 var pickerApiLoaded = false;
 var oauthToken = false;
 var clientId = false;
@@ -40,16 +39,21 @@ function onApiLoad() {
 function onAuthApiLoad() {
   var P = new openerp.web.Model('ir.config_parameter');
   P.call('get_param', ['document.gdrive.client.id']).then(function(id) {
-    clientId = id;
-    window.gapi.auth.authorize({
-        'client_id': clientId,
-        'scope': scope,
-        'immediate': true,
-        'include_granted_scopes': true
-      },
-      handleAuthResult);
+    if (id) {
+      clientId = id;
+      window.gapi.auth.authorize({
+          'client_id': clientId,
+          'scope': scope,
+          'immediate': true,
+          'include_granted_scopes': true
+        },
+        handleAuthResult);
+    }
+    else {
+      console.log("Cannot access parameter 'document.gdrive.client.id' check your configuration");
+    }
   }).fail(function(error) {
-    console.log("Error during Authentication :"+error);
+    console.log("Error during Authentication :" + error);
   });
 }
 
