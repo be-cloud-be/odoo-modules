@@ -90,8 +90,8 @@
                         <div class="col-md-12 col-xs-12">
                             <table class="table table-condensed">
                                 <colgroup>
-                                    <col style="width:80%"/>
-                                    <col style="width:20%"/>
+                                    <col style="width:65%"/>
+                                    <col style="width:35%"/>
                                 </colgroup>
                                 <thead>
                                     <tr>
@@ -135,8 +135,8 @@
                         <div class="col-md-12 col-xs-12">
                             <table class="table table-condensed">
                                 <colgroup>
-                                    <col style="width:80%"/>
-                                    <col style="width:20%"/>
+                                    <col style="width:65%"/>
+                                    <col style="width:35%"/>
                                 </colgroup>
                                 <thead>
                                     <tr>
@@ -180,8 +180,8 @@
                         <div class="col-md-12 col-xs-12">
                             <table class="table table-condensed">
                                 <colgroup>
-                                    <col style="width:80%"/>
-                                    <col style="width:20%"/>
+                                    <col style="width:65%"/>
+                                    <col style="width:35%"/>
                                 </colgroup>
                                 <thead>
                                     <tr>
