@@ -129,7 +129,7 @@
                                 </tr>
                             </thead>
                             <tbody>
-                                <<tr>
+                                <tr>
                                     <td>Policy Number:</td>
                                     <td><span t-field="o.policy_id.life_number" /></td>
                                 </tr>
