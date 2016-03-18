@@ -103,7 +103,7 @@ openerp.document_gdrive = function(instance, m) {
             var context = this.session.user_context;
             var callback = this.pickerCallback;
 
-            var P = new Model('ir.config_parameter');
+            var P = new openerp.web.Model('ir.config_parameter');
             P.call('get_param', ['document.gdrive.upload.dir']).then(function(dir) {
                 if (openerp.gdrive.pickerApiLoaded && openerp.gdrive.oauthToken) {
                     var origin = window.location.protocol + '//' + window.location.host;
