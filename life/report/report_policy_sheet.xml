@@ -30,7 +30,7 @@
                 <div class="page">
                     <!-- Intro -->
                     <div id="introduction" class="page-header mt16">
-                        <h1>Your Policy Information - <em t-esc="o.policy_id.name"/></h1>
+                        <h2>Your Policy Information - <em t-esc="o.policy_id.name"/></h2>
                     </div>
                     <!-- Informations -->
                     <div class="row mt32">
@@ -48,6 +48,10 @@
                         <div class="clearfix" />
                         <div class="col-md-12 col-xs-12">
                             <table class="table table-condensed">
+                                <colgroup>
+                                    <col style="width:80%"/>
+                                    <col style="width:20%"/>
+                                </colgroup>
                                 <thead>
                                     <tr>
                                         <th><strong>Personal data</strong></th>
@@ -85,6 +89,10 @@
                         <div class="clearfix" />
                         <div class="col-md-12 col-xs-12">
                             <table class="table table-condensed">
+                                <colgroup>
+                                    <col style="width:80%"/>
+                                    <col style="width:20%"/>
+                                </colgroup>
                                 <thead>
                                     <tr>
                                         <th><strong>Computation Data on <span t-field="docs[0].reporting_date"/></strong></th>
@@ -126,6 +134,10 @@
                         <div class="clearfix" />
                         <div class="col-md-12 col-xs-12">
                             <table class="table table-condensed">
+                                <colgroup>
+                                    <col style="width:80%"/>
+                                    <col style="width:20%"/>
+                                </colgroup>
                                 <thead>
                                     <tr>
                                         <th><strong>Payments in case of life at retirement based on <span t-field="docs[0].reporting_date"/></strong></th>
@@ -167,6 +179,10 @@
                         <div class="clearfix" />
                         <div class="col-md-12 col-xs-12">
                             <table class="table table-condensed">
+                                <colgroup>
+                                    <col style="width:80%"/>
+                                    <col style="width:20%"/>
+                                </colgroup>
                                 <thead>
                                     <tr>
                                         <th><strong>Payments in case of death before retirement</strong></th>
