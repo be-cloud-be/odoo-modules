@@ -149,7 +149,7 @@ openerp.document_gdrive = function(instance, m) {
         },
     });
 
-    instance.web.ActionManager = ActionManager.extend({
+    instance.web.ActionManager = instance.web.ActionManager.extend({
         ir_actions_act_close_wizard_and_reload_view: function(action, options) {
             if (!this.dialog) {
                 options.on_close();
