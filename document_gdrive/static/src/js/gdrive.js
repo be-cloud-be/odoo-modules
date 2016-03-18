@@ -82,7 +82,7 @@ openerp.document_gdrive = function(instance, m) {
                 var name = doc[google.picker.Document.NAME];
                 url = doc[google.picker.Document.EMBEDDABLE_URL] || doc[google.picker.Document.URL];
                 var self = this;
-                var model = new Model("ir.attachment.add_gdrive");
+                var model = new openerp.web.Model("ir.attachment.add_gdrive");
                 model.call('action_add_gdrive', [name, url], {
                     context: this.context
                 }).then(function(result) {
