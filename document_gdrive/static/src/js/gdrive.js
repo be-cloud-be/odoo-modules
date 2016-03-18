@@ -120,7 +120,7 @@ odoo.define('document_gdrive.menu_item', function(require) {
                     addView(google.picker.ViewId.RECENTLY_PICKED).
                     enableFeature(google.picker.Feature.MULTISELECT_ENABLED).
                     addView(new google.picker.DocsUploadView().setParent(dir)).
-                    setOAuthToken(oauthToken).
+                    setOAuthToken(odoo.gdrive.oauthToken).
                     setLocale('fr'). // TODO set local of the user
                     setCallback(callback).
                     setOrigin(origin).
