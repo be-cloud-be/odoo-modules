@@ -1,8 +1,8 @@
-# -*- coding: utf-8 -*-
+# -*- encoding: utf-8 -*-
 ##############################################################################
 #
-#    OpenERP, Open Source Management Solution
-#    Copyright (C) 2004-2010 Tiny SPRL (<http://tiny.be>).
+#    Copyright (c) 2015 be-cloud.be
+#                       Jerome Sonnet <jerome.sonnet@be-cloud.be>
 #
 #    This program is free software: you can redistribute it and/or modify
 #    it under the terms of the GNU Affero General Public License as
@@ -18,9 +18,20 @@
 #    along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #
 ##############################################################################
+from openerp import api, fields, models, _
+from openerp.exceptions import UserError
+import logging
 
-import l10n_be_partner_vat_listing
-import l10n_be_vat_intra
-import l10n_be_account_vat_declaration
+_logger = logging.getLogger(__name__)
 
-# vim:expandtab:smartindent:tabstop=4:softtabstop=4:shiftwidth=4:
+class AccountInvoice(models.Model):
+    _inherit = 'account.invoice'
+
+    @api.multi
+    def count_attachments(self):
+        attachment_data = self.env['ir.attachment'].read_group([('res_model', '=', 'account.invoice'), ('res_id', 'in', self.ids)], ['res_id'], ['res_id'])
+        attachment = dict((data['res_id'], data['res_id_count']) for data in attachment_data)
+        for invoice in self:
+            invoice.attachment_count = attachment.get(invoice.id, 0)
+
+    attachment_count = fields.Integer(string="Attachment Count" ,compute="count_attachments")

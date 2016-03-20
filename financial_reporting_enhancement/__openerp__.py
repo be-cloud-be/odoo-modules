@@ -1,13 +1,11 @@
 # -*- encoding: utf-8 -*-
 ##############################################################################
 #
-#    Copyright (C) 2011 be-cloud.be 
-#                             
-#    All Rights Reserved
+#    OpenERP, Open Source Management Solution    
+#    Copyright (c) 2010-2012 Elico Corp. All Rights Reserved.
 #
-#    WARNING: This program as such is intended to be used by professional
-#    programmers who take the whole responsability of assessing all potential
-#    consequences resulting from its eventual inadequacies and bugs
+#    Author: Yannick Gouin <yannick.gouin@elico-corp.com>
+#            Jerome Sonnet <jerome.sonnet@be-cloud.be> port to 9.0
 #
 #    This program is free software: you can redistribute it and/or modify
 #    it under the terms of the GNU General Public License as published by
@@ -23,22 +21,21 @@
 #    along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #
 ##############################################################################
+
+
 {
-    'name': 'CBC-KBC (BE) Bank Statements Import',
-    'version': '0.1',
-    'license': 'GPL-3',
-    'author': 'be-cloud.be (Jerome Sonnet)',
-    'website': '',
-    'category': 'Account Banking',
-    'depends': ['account_banking'],
+    'name': 'Financial Report Enhancemenet',
+    'version': '1.1',
+    'category': 'Tools',
+    'description': """
+    Fix Financial Reporting
+    """,
+    "author": "be-cloud.be (Jerome Sonnet)",
+    "website": "http://www.be-cloud.be",
+    'depends': ['account'],
     'init_xml': [],
-    'update_xml': [
-        #'security/ir.model.access.csv',
-    ],
-    'demo_xml': [],
-    'description': '''
-This parser can be used to import CSV files produced by CBC-KBC web banking.
-    ''',
-    'active': False,
+    'data': [],
     'installable': True,
+    'active': True,
 }
+# vim:expandtab:smartindent:tabstop=4:softtabstop=4:shiftwidth=4:

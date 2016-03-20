@@ -1,5 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
-<!--
+# -*- encoding: utf-8 -*-
 ##############################################################################
 #
 #    Copyright (c) 2015 be-cloud.be
@@ -19,16 +18,5 @@
 #    along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #
 ##############################################################################
--->
-<openerp>
-    <data>
 
-        <template id="assets_backend" name="google_drive documents" inherit_id="web.assets_backend">
-            <xpath expr="." position="inside">
-            	<script type="text/javascript" src="https://apis.google.com/js/api.js"></script>
-                <script type="text/javascript" src="/document_gdrive/static/src/js/gdrive.js"></script>
-            </xpath>
-        </template>
-
-    </data>
-</openerp>
+import financial_reporting_enhancement
