@@ -89,6 +89,7 @@ odoo.define('document_gdrive.menu_item', function(require) {
             self.$el.find('.oe_sidebar_add_attachment').after(QWeb.render('AddGDriveDocumentItem', {
                 widget: self
             }))
+            self.$el.find('.oe_file_attachment').attr( "target", "_new" );
             self.$el.find('.oe_sidebar_add_gdrive').on('click', function(e) {
                 self.on_gdrive_doc();
             });
