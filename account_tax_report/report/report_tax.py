@@ -28,7 +28,7 @@ import logging
 _logger = logging.getLogger(__name__)
 
 class ReportFinancial(models.AbstractModel):
-    _name = 'report.account.report_tax'
+    _name = 'report.account_tax_report.report_tax'
     
     def get_tax_lines(self, data):
         lines = []
