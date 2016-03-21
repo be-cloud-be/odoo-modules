@@ -61,6 +61,7 @@
                             <field name='salary_index'/>
 							<field name='complete_career_duration'/>
 							<field name='remaining_career_duration'/>
+							<field name='final_annual_pay'/>
 							<field name='t5'/>
                         </group>
                     </page>
