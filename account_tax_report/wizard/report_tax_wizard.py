@@ -30,3 +30,7 @@ class TaxCommonAccountReport(models.TransientModel):
     def pre_print_report(self, data):
         #data['form'].update(self.read(['result_selection'])[0])
         return data
+    
+    def _print_report(self, data):
+        data = self.pre_print_report(data)
+        return self.env['report'].get_action(self, 'account.report_tax', data=data)
