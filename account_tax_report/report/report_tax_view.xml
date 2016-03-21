@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="utf-8" ?>
 <!--
 ##############################################################################
 #
@@ -20,8 +20,20 @@
 #
 ##############################################################################
 -->
-<openerp>
-    <data>
-        
-    </data>
-</openerp>
+<odoo>
+    <template id="report_tax">
+        <t t-call="report.html_container">
+            <t t-set="data_report_margin_top" t-value="45" />
+            <t t-set="data_report_header_spacing" t-value="40" />
+            <t t-set="o" t-value="docs[0]" />
+            <t t-call="report.external_layout">
+                <div class="page">
+                    <!-- Intro -->
+                    <div id="introduction" class="page-header mt16">
+                        <h2>Tax Rerport</h2>
+                    </div>
+                </div>
+            </t>
+        </t>
+    </template>
+</odoo>

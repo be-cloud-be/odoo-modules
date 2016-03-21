@@ -49,4 +49,4 @@ class ReportFinancial(models.AbstractModel):
             'time': time,
             'get_tax_lines': report_lines,
         }
-        return self.env['report'].render('account.report_tax', docargs)
+        return self.env['report'].render('account_tax_report.report_tax', docargs)
