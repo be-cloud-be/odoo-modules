@@ -25,7 +25,7 @@
     <record id="account_report_tax_view" model="ir.ui.view">
         <field name="name">Tax</field>
         <field name="model">account.common.tax.report</field>
-        <field name="inherit_id" ref="account_common_report_view"/>
+        <field name="inherit_id" ref="account.account_common_report_view"/>
         <field name="arch" type="xml">
         <data>
         </data>
