@@ -38,7 +38,7 @@ class ReportFinancial(models.AbstractModel):
         return lines
     
     def get_turnover(self, data):
-        turnover_account_ids = self.env['account.account'].search([('tag_ids','like','Turnover')])
+        turnover_account_ids = self.env['account.account'].search([('code', 'like', '70%')]) # TODO Should this template be configurable
         turnover_account_balances = self.with_context(data.get('used_context'))._compute_account_balance(turnover_account_ids)
         _logger.info(turnover_account_balances)
         turnover = 0
