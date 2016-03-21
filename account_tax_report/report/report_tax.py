@@ -29,6 +29,7 @@ _logger = logging.getLogger(__name__)
 
 class ReportFinancial(models.AbstractModel):
     _name = 'report.account_tax_report.report_tax'
+    _inherit = 'report.account.report_financial'
     
     def get_tax_lines(self, data):
         lines = []
@@ -36,17 +37,23 @@ class ReportFinancial(models.AbstractModel):
         
         return lines
     
+    def get_turnover(self, data):
+        turnover_account_ids = self.env['account.financial.report'].search('tag_ids','like','Turnover')
+        turnover_account_balances = self.with_context(data.get('used_context'))._compute_account_balance(turnover_account_ids)
+        turnover = 0
+        for bal in turnover_account_balances:
+            turnover += bal.balance
+        return turnover
+    
     @api.multi
     def render_html(self, data):
-        self.model = self.env.context.get('active_model')
-        docs = self.env[self.model].browse(self.env.context.get('active_id'))
-        report_lines = self.get_tax_lines(data.get('form'))
         docargs = {
             'doc_ids': self.ids,
-            'doc_model': self.model,
+            'doc_model': self.env.context.get('active_model'),
             'data': data['form'],
-            'docs': docs,
+            'docs': self.env[self.model].browse(self.env.context.get('active_id')),
             'time': time,
-            'get_tax_lines': report_lines,
+            'tax_lines': self.get_tax_lines(data.get('form')),
+            'turnover' : self.get_turnover(data.get('form')),
         }
         return self.env['report'].render('account_tax_report.report_tax', docargs)
