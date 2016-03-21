@@ -44,7 +44,7 @@ class ReportFinancial(models.AbstractModel):
         turnover = 0
         for account_id, value in turnover_account_balances.items():
             _logger.info(account_id)
-            turnover += value['balance']
+            turnover += -value['balance']  # TODO Should inverse balance be configurable
         return turnover
     
     @api.multi
