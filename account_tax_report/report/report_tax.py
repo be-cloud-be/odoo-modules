@@ -42,9 +42,9 @@ class ReportFinancial(models.AbstractModel):
         turnover_account_balances = self.with_context(data.get('used_context'))._compute_account_balance(turnover_account_ids)
         _logger.info(turnover_account_balances)
         turnover = 0
-        for bal in turnover_account_balances:
-            _logger.info('BALANCE')
-            turnover += bal.balance
+        for account_id, value in turnover_account_balances.items():
+            _logger.info(account_id)
+            turnover += value['balance']
         return turnover
     
     @api.multi
