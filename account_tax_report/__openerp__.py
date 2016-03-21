@@ -36,6 +36,7 @@
     'init_xml': [],
     'data': [
         'report/report_tax_view.xml',
+        'wizard/report_tax_wizard.xml',
     ],
     'installable': True,
     'auto_install': False,
