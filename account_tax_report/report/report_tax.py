@@ -38,10 +38,13 @@ class ReportFinancial(models.AbstractModel):
         return lines
     
     def get_turnover(self, data):
+        _logger.info(data)
         turnover_account_ids = self.env['account'].search([('tag_ids','like','Turnover')])
+        _logger.info(turnover_account_ids)
         turnover_account_balances = self.with_context(data.get('used_context'))._compute_account_balance(turnover_account_ids)
         turnover = 0
         for bal in turnover_account_balances:
+            _logger.info(bal)
             turnover += bal.balance
         return turnover
     
