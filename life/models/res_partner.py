@@ -58,6 +58,7 @@ class Partner(models.Model):
     complete_career_duration = fields.Float(string="Complete Career", compute="compComputePersonnalFields", digits=dp.get_precision('Career'))
     remaining_career_duration = fields.Float(string="Remaining Career", compute="compComputePersonnalFields", digits=dp.get_precision('Career'))
     accomplished_career_duration = fields.Float(string="Remaining Career", compute="compComputePersonnalFields", digits=dp.get_precision('Career'))
+    final_annual_pay = fields.Float(string="Final Annual Pay",compute="compComputePersonnalFields", digits=dp.get_precision('Financial Amounts'))
     t5 = fields.Float(string="T5",compute="compComputePersonnalFields", digits=dp.get_precision('Financial Amounts'))
 
     policy_ids = fields.One2many('life.policy','insured_person_id',string='Policies')
@@ -81,9 +82,11 @@ class Partner(models.Model):
             self.remaining_career_duration = None
         if self.complete_career_duration and self.remaining_career_duration :
             self.accomplished_career_duration = self.complete_career_duration - self.remaining_career_duration
-            self.t5 = self.annual_pay + floor(self.remaining_career_duration) * 500 - (5 * 500) / 2
+            self.final_annual_pay = self.annual_pay + floor(self.remaining_career_duration) * 500
+            self.t5 = self.final_annual_pay - (5 * 500) / 2
         else :
             self.accomplished_career_duration = None
+            self.final_annual_pay = None
             self.t5 = None
 
 class CareerHistory(models.Model):
