@@ -51,7 +51,7 @@ class ReportFinancial(models.AbstractModel):
             'doc_ids': self.ids,
             'doc_model': self.env.context.get('active_model'),
             'data': data['form'],
-            'docs': self.env[self.model].browse(self.env.context.get('active_id')),
+            'docs': self.env[self.env.context.get('active_model')].browse(self.env.context.get('active_id')),
             'time': time,
             'tax_lines': self.get_tax_lines(data.get('form')),
             'turnover' : self.get_turnover(data.get('form')),
