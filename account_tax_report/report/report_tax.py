@@ -40,7 +40,7 @@ class ReportFinancial(models.AbstractModel):
     def get_turnover(self, data):
         _logger.info('DATA')
         _logger.info(data)
-        _logger.info(self.env['account'])
+        _logger.info(self.env)
         turnover_account_ids = self.env['account'].search([('tag_ids','like','Turnover')])
         _logger.info('ACCOUNTS ID')
         _logger.info(turnover_account_ids)
