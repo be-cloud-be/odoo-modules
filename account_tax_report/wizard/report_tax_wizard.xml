@@ -21,6 +21,15 @@
 ##############################################################################
 -->
 <odoo>
+    
+    <report 
+            id="action_report_tax"
+            model="account.common.tax.report"
+            string="Tax"
+            report_type="qweb-html"
+            name="account_tax_report.report_tax"
+            file="account_tax_report.report_tax"
+            />
 
     <record id="account_report_tax_view" model="ir.ui.view">
         <field name="name">Tax</field>
