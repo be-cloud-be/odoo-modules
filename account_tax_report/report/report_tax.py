@@ -37,15 +37,19 @@ class ReportFinancial(models.AbstractModel):
         
         return lines
     
-    def get_turnover(self, data):
-        turnover_account_ids = self.env['account.account'].search([('code', 'like', '70%')]) # TODO Should this template be configurable
-        turnover_account_balances = self.with_context(data.get('used_context'))._compute_account_balance(turnover_account_ids)
-        _logger.info(turnover_account_balances)
-        turnover = 0
-        for account_id, value in turnover_account_balances.items():
+    def sum_balances(self, balances):
+        res = 0
+        for account_id, value in balances.items():
             _logger.info(account_id)
-            turnover += -value['balance']  # TODO Should inverse balance be configurable
-        return turnover
+            res += -value['balance']  # TODO Should inverse balance be configurable
+        return res
+    
+    def get_amounts(self, data):
+        amounts = {}
+        
+        amounts["4554"] = self.sum_balances(self.with_context(data.get('used_context'))._compute_account_balance(self.env['account.account'].search([('code', 'like', '70%')])))
+        
+        return amounts
     
     @api.multi
     def render_html(self, data):
@@ -55,7 +59,6 @@ class ReportFinancial(models.AbstractModel):
             'data': data['form'],
             'docs': self.env[self.env.context.get('active_model')].browse(self.env.context.get('active_id')),
             'time': time,
-            'tax_lines': self.get_tax_lines(data.get('form')),
-            'turnover' : self.get_turnover(data.get('form')),
+            'amounts' : self.get_amounts(data.get('form')),
         }
         return self.env['report'].render('account_tax_report.report_tax', docargs)
