@@ -38,11 +38,11 @@ class Partner(models.Model):
     _inherit = 'res.partner'
 
     employee_ident = fields.Char(string="Employee Id")
-    grade = fields.Integer(string="Grade")
     pay_grid_id = fields.Many2one("life.pay_grid",string="Pay Grid")
-
+    grade = fields.Integer(string="Grade")
+    
     sex = fields.Selection([('m', 'Male'),('f', 'Female')])
-    family_status = fields.Selection([('s', 'Solo'),('m', 'Maried'),('c', 'Legal cohabitor')])
+    family_status = fields.Selection([('s', 'Solo'),('m', 'Married'),('c', 'Legal cohabitor')])
     birthdate = fields.Date(string="Birthdate")
     partner_birthdate = fields.Date(string="Partner Birthdate")
     children = fields.Integer(string="Number of children")

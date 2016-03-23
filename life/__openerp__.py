@@ -33,6 +33,7 @@ Module to manage life insurance contracts.
 
     """,
     'data': ['wizard/policy_sheet_wizard_view.xml',
+             'wizard/salary_wizard_view.xml',
              'views/res_partner_view.xml',
              'views/policy.xml',
              'report/report_policy_sheet.xml',
