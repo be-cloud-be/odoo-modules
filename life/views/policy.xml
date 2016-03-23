@@ -16,13 +16,13 @@
                             <field name="life_type" />
                             <field name="term_year" /><newline/>
                             <field name="projected_life_capital" />
-                            <field name="life_annuity"/>
+                            <field name="projected_life_annuity"/>
                         </group>
                         <group colspan="2" string="Death">
                             <field name="death_number" />
                             <field name="death_type" />
                             <field name="orphan_annuity_capital"/>
-                            <field name="oprhan_annuity"/>
+                            <field name="orphan_annuity"/>
                             <field name="death_capital"/>
                             <field name="death_unique_premium"/>
                         </group>

@@ -46,7 +46,7 @@
                         <field name="reporting_date"/>
                         <field name="accomplished_career_duration" invisible="1"/>
                         <field name="life_earned_capital" invisible="1"/>
-                        <field name="life_earned_annuity" invisible="1"/>
+                        <field name="life_earned_reserve" invisible="1"/>
                     </group>
                     <footer>
                         <button string="Generate" name="generate_policy_sheet" type="object" class="btn-primary"/>

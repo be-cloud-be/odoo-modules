@@ -38,7 +38,7 @@ class Partner(models.Model):
     _inherit = 'res.partner'
 
     employee_ident = fields.Char(string="Employee Id")
-    grade_id = fields.Many2one("life.grade",string="Grade")
+    grade = fields.Integer(string="Grade")
     pay_grid_id = fields.Many2one("life.pay_grid",string="Pay Grid")
 
     sex = fields.Selection([('m', 'Male'),('f', 'Female')])
@@ -49,12 +49,13 @@ class Partner(models.Model):
 
     service_from = fields.Date(string="Service From")
     retirement_date = fields.Date(string="Retirement Date")
-    annual_pay = fields.Float(string="Annual Pay",digits=dp.get_precision('Financial Amounts'))
     activity_percentage = fields.Float(string="Activity Percentage",default=1)
     salary_index = fields.Float(string="Salary Index",digits=(7, 6))
     
     # Computed fields
-    
+
+    annual_pay = fields.Float(string="Annual Pay",compute="compSalary",digits=dp.get_precision('Financial Amounts'))
+
     complete_career_duration = fields.Float(string="Complete Career", compute="compComputePersonnalFields", digits=dp.get_precision('Career'))
     remaining_career_duration = fields.Float(string="Remaining Career", compute="compComputePersonnalFields", digits=dp.get_precision('Career'))
     accomplished_career_duration = fields.Float(string="Remaining Career", compute="compComputePersonnalFields", digits=dp.get_precision('Career'))
@@ -63,6 +64,11 @@ class Partner(models.Model):
 
     policy_ids = fields.One2many('life.policy','insured_person_id',string='Policies')
     career_history_ids = fields.One2many('life.career_history', 'partner_id', string="Career History")
+
+    @api.one
+    @api.depends('grade','pay_grid_id','salary_index')
+    def compSalary(self):
+        self.annual_pay = self.pay_grid_id.getSalaryForGrade(self.grade) * self.salary_index
 
     @api.one
     @api.depends('retirement_date','service_from','annual_pay')
@@ -118,16 +124,14 @@ class CareerHistory(models.Model):
 
     partner_id = fields.Many2one('res.partner', required=True, string='Partner')
 
-class Grade(models.Model):
-    '''Grade'''
-    _name = 'life.grade'
-    _description = 'Grade'
-
-    name = fields.Char(string="Name")
-
 class PayGrid(models.Model):
     '''Pay Grid'''
     _name = 'life.pay_grid'
     _description = 'Pay Grid'
 
     name = fields.Char(string="Name")
+    base_salary = fields.Float(string="Base Salary")
+    salary_increment = fields.Float(string="Salary Increment")
+    
+    def getSalaryForGrade(self,grade):
+        return self.base_salary + grade * self.salary_increment

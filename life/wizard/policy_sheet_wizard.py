@@ -49,20 +49,38 @@ class PolicySheetWizard(models.TransientModel):
     # Computed amounts
 
     accomplished_career_duration = fields.Float(string="Accomplished Career Duration",compute="compPolicyAmountsAtReportingDate", digits=dp.get_precision('Career'))
-    life_earned_capital = fields.Float(string="Projected Capital",compute="compPolicyAmountsAtReportingDate", digits=dp.get_precision('Financial Amounts'))
-    life_earned_annuity = fields.Float(string="Life Annuity",compute="compPolicyAmountsAtReportingDate", digits=dp.get_precision('Financial Amounts'))
+    life_earned_capital = fields.Float(string="Current Earned Capital",compute="compBenefitsAmountsAtReportingDate", digits=dp.get_precision('Financial Amounts'))
+    life_earned_reserve = fields.Float(string="Current Earned Reserve",compute="compBenefitsAmountsAtReportingDate", digits=dp.get_precision('Financial Amounts'))
+    
+    policy_mr = fields.Float(string="Mathematical Reserve",compute="compPolicyAmountsAtReportingDate", digits=dp.get_precision('Financial Amounts'))
+    policy_mr_bonus = fields.Float(string="Mathematical Reserve Bonus",compute="compPolicyAmountsAtReportingDate", digits=dp.get_precision('Financial Amounts'))
+    policy_capital = fields.Float(string="Capital",compute="compPolicyAmountsAtReportingDate", digits=dp.get_precision('Financial Amounts'))
+    policy_capital_bonus = fields.Float(string="Capital Bonus",compute="compPolicyAmountsAtReportingDate", digits=dp.get_precision('Financial Amounts'))
+    policy_unique_premium = fields.Float(string="Policy Unique Premium",compute="compBenefitsAmountsAtReportingDate", digits=dp.get_precision('Financial Amounts'))
+    
+    
+    #self.life_unique_premium = float(self.env['ir.config_parameter'].get_param("life.nex")) * (self.compLifeEarnedCapital(dt_reporting_date) - self.compLifeEarnedCapital(dt_reporting_date + relativedelta(years = -1))) 
    
     @api.one
     @api.depends('reporting_date','policy_id','insured_person_id.service_from','insured_person_id.complete_career_duration','policy_id.projected_life_capital')
-    def compPolicyAmountsAtReportingDate(self):
+    def compBenefitsAmountsAtReportingDate(self):
         if self.insured_person_id.service_from and self.reporting_date:
             dt_service_from = datetime.strptime(self.insured_person_id.service_from, DEFAULT_SERVER_DATE_FORMAT)
             dt_reporting_date = datetime.strptime(self.reporting_date, DEFAULT_SERVER_DATE_FORMAT)
             self.accomplished_career_duration = (dt_reporting_date-dt_service_from).days/365.25
             if self.policy_id :
                 self.life_earned_capital = self.accomplished_career_duration / self.insured_person_id.complete_career_duration * self.policy_id.projected_life_capital
-                self.life_earned_annuity = self.life_earned_capital * float(self.env['ir.config_parameter'].get_param("life.nex"))
+                self.life_earned_reserve = float(self.env['ir.config_parameter'].get_param("life.nex")) * self.life_earned_capital
+                self.policy_unique_premium = float(self.env['ir.config_parameter'].get_param("life.nex")) * (self.life_earned_capital - (self.accomplished_career_duration-1) / self.insured_person_id.complete_career_duration * self.policy_id.projected_life_capital)
         
+    @api.one
+    @api.depends('life_earned_reserve','life_earned_capital')
+    def compPolicyAmountsAtReportingDate(self):
+        self.policy_mr = self.life_earned_reserve
+        self.policy_mr_bonus = 0
+        self.policy_capital = self.life_earned_capital
+        self.policy_capital_bonus = 0
+
 class ReportPolicySheet(models.AbstractModel):
     _name = 'report.life.report_policy_sheet'
 
