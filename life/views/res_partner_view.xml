@@ -32,7 +32,7 @@
             <field name="arch" type="xml">
                 <xpath expr="//sheet" position="before">
                     <header>
-                        <button string="Generate sheet" type="action" name="%(policy_sheet_wizard_action)d" class="oe_highlight"/>
+                        <button string="Generate sheet" type="action" name="%(policy_sheet_wizard_action)d" class="oe_highlight" attrs="{'invisible': ['|',('is_company','=',True),('parent_id','=',False)]}"/>
                     </header>
                 </xpath>
                 <xpath expr="//field[@name='website']" position="after">
