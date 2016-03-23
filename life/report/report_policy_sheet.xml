@@ -184,7 +184,7 @@
                                     <tr>
                                         <td colspan="2">
                                             <div class="col-md-8 col-xs-8">
-                                                <table class="table table-condensed" style="background-color: lightgrey;">
+                                                <table class="table table-condensed">
                                                     <colgroup>
                                                         <col style="width:65%"/>
                                                         <col style="width:35%"/>
@@ -261,7 +261,7 @@
                                     <tr>
                                         <td colspan="2">
                                             <div class="col-md-8 col-xs-8">
-                                                <table class="table table-condensed" style="background-color: lightgrey;">
+                                                <table class="table table-condensed">
                                                     <colgroup>
                                                         <col style="width:65%"/>
                                                         <col style="width:35%"/>
