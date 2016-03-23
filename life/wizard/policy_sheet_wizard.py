@@ -50,7 +50,7 @@ class PolicySheetWizard(models.TransientModel):
 
     accomplished_career_duration = fields.Float(string="Accomplished Career Duration",compute="compPolicyAmountsAtReportingDate", digits=dp.get_precision('Career'))
     life_earned_capital = fields.Float(string="Projected Capital",compute="compPolicyAmountsAtReportingDate", digits=dp.get_precision('Financial Amounts'))
-    life_earned_reserve = fields.Float(string="Life Annuity",compute="compPolicyAmountsAtReportingDate", digits=dp.get_precision('Financial Amounts'))
+    life_earned_annuity = fields.Float(string="Life Annuity",compute="compPolicyAmountsAtReportingDate", digits=dp.get_precision('Financial Amounts'))
    
     @api.one
     @api.depends('reporting_date','policy_id','insured_person_id.service_from','insured_person_id.complete_career_duration','policy_id.projected_life_capital')
@@ -61,7 +61,7 @@ class PolicySheetWizard(models.TransientModel):
             self.accomplished_career_duration = (dt_reporting_date-dt_service_from).days/365.25
             if self.policy_id :
                 self.life_earned_capital = self.accomplished_career_duration / self.insured_person_id.complete_career_duration * self.policy_id.projected_life_capital
-                self.life_earned_reserve = self.life_earned_capital * float(self.env['ir.config_parameter'].get_param("life.nex"))
+                self.life_earned_annuity = self.life_earned_capital * float(self.env['ir.config_parameter'].get_param("life.nex"))
         
 class ReportPolicySheet(models.AbstractModel):
     _name = 'report.life.report_policy_sheet'

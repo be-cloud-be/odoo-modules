@@ -76,8 +76,7 @@ class Partner(models.Model):
             self.complete_career_duration = None
         # TODO : compute the career duration in complete year, shoud be a fragment ?
         if self.retirement_date :
-            dt_retirement_date = datetime.strptime(self.retirement_date, DEFAULT_SERVER_DATE_FORMAT)
-            self.remaining_career_duration = (dt_retirement_date - datetime.now()).days/365.25
+            self.remaining_career_duration = self.compAccomplishedCareerDuration()[0]
         else :
             self.remaining_career_duration = None
         if self.complete_career_duration and self.remaining_career_duration :
@@ -88,6 +87,22 @@ class Partner(models.Model):
             self.accomplished_career_duration = None
             self.final_annual_pay = None
             self.t5 = None
+            
+    @api.one
+    @api.depends('retirement_date','service_from')
+    def compAccomplishedCareerDuration(self,reporting_date=None):
+        if self.retirement_date and reporting_date:
+            dt_retirement_date = datetime.strptime(self.retirement_date, DEFAULT_SERVER_DATE_FORMAT)
+            if type(reporting_date) is not datetime.date:
+                dt_reporting_date = datetime.strptime(reporting_date, DEFAULT_SERVER_DATE_FORMAT)
+            else:
+                dt_reporting_date = reporting_date
+            return (dt_retirement_date - dt_reporting_date).days/365.25
+        elif self.retirement_date:
+            dt_retirement_date = datetime.strptime(self.retirement_date, DEFAULT_SERVER_DATE_FORMAT)
+            return (dt_retirement_date - datetime.now()).days/365.25
+        else:
+            return -1
 
 class CareerHistory(models.Model):
     '''Career History'''
