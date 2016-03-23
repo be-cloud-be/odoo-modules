@@ -54,7 +54,7 @@ class Policy(models.Model):
         self.name = "%s - %s" % (self.policy_holder_id.name,self.number)
     
     life_type = fields.Selection([('pure', 'Pure endowment')],string = "Life Type")
-    life_number = fields.Integer(string="Life Policy Number", related="number")
+    life_number = fields.Integer(string="Life Policy Number")
     death_type = fields.Selection([('oneterm', 'One-year term insurance')],string = "Death Type")
     death_number = fields.Integer(string="Death Policy Number")
 
@@ -63,6 +63,7 @@ class Policy(models.Model):
     term_year = fields.Integer(string="Term Year",compute="compPolicyAmounts")
     projected_life_capital = fields.Float(string="Projected Capital",compute="compPolicyAmounts",digits=dp.get_precision('Financial Amounts'))
     life_annuity = fields.Float(string="Life Annuity",compute="compPolicyAmounts",digits=dp.get_precision('Financial Amounts'))
+    
     orphan_annuity_capital = fields.Float(string="Orphan Annuity Capital",compute="compPolicyAmounts",digits=dp.get_precision('Financial Amounts'))
     oprhan_annuity_by_child = fields.Float(string="Orphan Annuity By Child",compute="compPolicyAmounts",digits=dp.get_precision('Financial Amounts'))
     oprhan_annuity = fields.Float(string="Orphan Annuity",compute="compPolicyAmounts",digits=dp.get_precision('Financial Amounts'))
@@ -80,3 +81,13 @@ class Policy(models.Model):
         self.oprhan_annuity = self.oprhan_annuity_by_child * self.insured_person_id.children
         self.death_capital = 2 * self.insured_person_id.annual_pay
         self.death_unique_premium = (self.death_capital + self.orphan_annuity_capital) * float(self.env['ir.config_parameter'].get_param("life.qx"))
+        
+    @api.one
+    def compLifeUniquePremium(self, reporting_date):
+        dt_reporting_date = datetime.strptime(reporting_date, DEFAULT_SERVER_DATE_FORMAT)
+        self.life_unique_premium = float(self.env['ir.config_parameter'].get_param("life.nex")) * (self.compLifeEarnedCapital(dt_reporting_date) - self.compLifeEarnedCapital(dt_reporting_date + relativedelta(years = -1))) 
+        
+    @api.one
+    @api.depends('projected_life_capital','insured_person_id','insured_person_id.complete_career_duration')
+    def compLifeEarnedCapital(self, reporting_date):
+        return self.insured_person_id.compAccomplishedCareerDuration(reporting_date) / self.insured_person_id.complete_career_duration * self.projected_life_capital
