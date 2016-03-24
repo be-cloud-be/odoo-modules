@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+##############################################################################
+#
+#    Copyright (c) 2015 be-cloud.be
+#                       Jerome Sonnet <jerome.sonnet@be-cloud.be>
+#
+#    This program is free software: you can redistribute it and/or modify
+#    it under the terms of the GNU Affero General Public License as
+#    published by the Free Software Foundation, either version 3 of the
+#    License, or (at your option) any later version.
+#
+#    This program is distributed in the hope that it will be useful,
+#    but WITHOUT ANY WARRANTY; without even the implied warranty of
+#    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+#    GNU Affero General Public License for more details.
+#
+#    You should have received a copy of the GNU Affero General Public License
+#    along with this program.  If not, see <http://www.gnu.org/licenses/>.
+#
+##############################################################################
+-->
+<openerp>
+    <data>
+        <!-- wizard action on res.partner -->
+        <act_window id="salary_wizard_action"
+            name="Salary Wizard"
+            src_model="res.partner"
+            res_model="life.salary.wizard"
+            view_type="form" 
+            view_mode="form"
+            key2="client_action_multi" 
+            target="new"
+            groups="base.group_user" 
+            context="{'insured_person_id': active_id}"/>
+            
+        <!-- wizard view -->
+        <record id="salary_wizard_view" model="ir.ui.view">
+            <field name="name">Salary Wizard</field>
+            <field name="model">life.salary.wizard</field>
+            <field name="arch" type="xml">
+                <form string="Salary Wizard">
+                    <group col="4">
+                        <field name="insured_person_id" readonly="True" colspan="4"/>
+                        <group colspan="2" string="Current Salary">
+                            <field name="current_pay_grid_id" />
+                            <field name="current_grade" />
+                            <field name="current_annual_pay" />
+                        </group>
+                        <group colspan="2" string="New Salary">
+                            <field name="new_pay_grid_id" />
+                            <field name="new_grade" />
+                            <field name="new_annual_pay" />
+                        </group>
+                    </group>
+                    <footer>
+                        <button string="Adapt Salary" name="apply_salary" type="object" class="btn-primary"/>
+                        <button string="Close" class="btn-default" special="cancel" />
+                    </footer>
+                </form>
+            </field>
+        </record>
+    </data>
+</openerp>
