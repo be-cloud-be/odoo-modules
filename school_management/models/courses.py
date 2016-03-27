@@ -31,16 +31,25 @@ class Course(models.Model):
     _description = 'Course'
     _inherit = ['mail.thread']
     
-    name = fields.Char(required=True, string='Name')
+    sequence = fields.Integer(string='Sequence', required=True)
+    title = fields.Char(required=True, string='Title')
     description = fields.Text(string='Description')
     
-    credits = fields.Integer(required=True, string = 'Credits')
-    hours = fields.Integer(required=True, string = 'Hours')
-    weight =  fields.Integer(string = 'Weight')
+    credits = fields.Float(required=True, string = 'Credits',digits=(6,2))
+    hours = fields.Float(required=True, string = 'Hours',digits=(6,2))
+    weight =  fields.Float(string = 'Weight',digits=(6,2))
     
     notes = fields.Text(string='Notes')
     
     course_group_id = fields.Many2one('school.course_group', string='Course Groups', required=True)
+    bloc_id = fields.Many2one('school.bloc', related='course_group_id.bloc_id', store=True)
+    program_id = fields.Many2one('school.program', related='course_group_id.bloc_id.program_id', store=True)
+    
+    name = fields.Char(string='Name', compute='compute_name')
+    
+    @api.multi
+    def compute_name(self):
+        self.name = "%d.%d.%d - %s" % (self.bloc_id.sequence,self.course_group_id.sequence,self.sequence,self.title)
     
 class CourseGroup(models.Model):
     '''Courses Group'''
@@ -62,7 +71,8 @@ class CourseGroup(models.Model):
         self.total_credits = total_credits
         self.total_weight = total_weight
 
-    name = fields.Char(required=True, string='Name')
+    sequence = fields.Integer(string='Sequence', required=True)
+    title = fields.Char(required=True, string='Title')
     year_id = fields.Many2one('school.year', string="Year", related='bloc_id.year_id', store=True)
     description = fields.Text(string='Description')
     
@@ -74,6 +84,13 @@ class CourseGroup(models.Model):
     
     course_ids = fields.One2many('school.course', 'course_group_id', string='Courses')
     bloc_id = fields.Many2one('school.bloc', required=True, string='Bloc')
+    
+    name = fields.Char(string='Name', compute='compute_name')
+    
+    @api.multi
+    def compute_name(self):
+        for course in self:
+            course.name = "%d.%d - %s" % (course.bloc_id.sequence,course.sequence,course.title)
     
 class Bloc(models.Model):
     '''Bloc'''
@@ -92,7 +109,8 @@ class Bloc(models.Model):
         self.total_hours = total_hours
         self.total_credits = total_credits
 
-    name = fields.Char(required=True, string='Name')
+    sequence = fields.Integer(string='Sequence', required=True)
+    title = fields.Char(required=True, string='Title')
     year_id = fields.Many2one('school.year', string="Year", related='program_id.year_id', store=True)
     description = fields.Text(string='Description')
     
@@ -104,6 +122,13 @@ class Bloc(models.Model):
     course_group_ids = fields.One2many('school.course_group', 'bloc_id', string='Courses Groups')
 
     program_id = fields.Many2one('school.program', required=True, string='Program')
+
+    name = fields.Char(string='Name', compute='compute_name')
+    
+    @api.multi
+    def compute_name(self):
+        for bloc in self:
+            bloc.name = "%d - %s" % (bloc.sequence,bloc.title)
 
 class Program(models.Model):
     '''Program'''
@@ -133,7 +158,7 @@ class Program(models.Model):
              " * The 'Published' status is when a program is published and available for use.\n"
              " * The 'Archived' status is used when a program is obsolete and not publihed anymore.")
     
-    name = fields.Char(required=True, string='Name')
+    title = fields.Char(required=True, string='Title')
     year_id = fields.Many2one('school.year', required=True, string="Year")
     description = fields.Text(string='Description')
     
@@ -151,6 +176,13 @@ class Program(models.Model):
     notes = fields.Text(string='Notes')
     
     bloc_ids = fields.One2many('school.bloc', 'program_id', string='Blocs')
+    
+    name = fields.Char(string='Name', compute='compute_name')
+    
+    @api.multi
+    def compute_name(self):
+        for program in self:
+            program.name = program.title
     
     @api.multi
     def unpublish(self):

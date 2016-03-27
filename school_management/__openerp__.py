@@ -19,7 +19,7 @@
 #
 ##############################################################################
 {
-    'name': 'Schoold management',
+    'name': 'School management',
     'version': '0.1',
     'license': 'AGPL-3',
     'author': 'be-Cloud.be (Jerome Sonnet)',
