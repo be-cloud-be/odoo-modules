@@ -189,7 +189,7 @@ class Program(models.Model):
     
     bloc_ids = fields.One2many('school.bloc', 'program_id', string='Blocs')
     
-    name = fields.Char(string='Name', relate='title', store=True)
+    name = fields.Char(string='Name', related='title', store=True)
     
     @api.multi
     def unpublish(self):
