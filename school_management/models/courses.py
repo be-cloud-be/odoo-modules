@@ -49,7 +49,8 @@ class Course(models.Model):
     
     @api.multi
     def compute_name(self):
-        self.name = "%d.%d.%d - %s" % (self.bloc_id.sequence,self.course_group_id.sequence,self.sequence,self.title)
+        for course in self:
+            course.name = "%d.%d.%d - %s" % (course.bloc_id.sequence,course.course_group_id.sequence,course.sequence,course.title)
     
 class CourseGroup(models.Model):
     '''Courses Group'''
@@ -89,8 +90,8 @@ class CourseGroup(models.Model):
     
     @api.multi
     def compute_name(self):
-        for course in self:
-            course.name = "%d.%d - %s" % (course.bloc_id.sequence,course.sequence,course.title)
+        for course_g in self:
+            course_g.name = "%d.%d - %s" % (course_g.bloc_id.sequence,course_g.sequence,course_g.title)
     
 class Bloc(models.Model):
     '''Bloc'''
