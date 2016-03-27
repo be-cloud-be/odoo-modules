@@ -80,7 +80,7 @@
       <field name="model">school.course</field>
       <field eval="8" name="priority" />
       <field name="arch" type="xml">
-        <tree string="Courses">
+        <tree string="Courses" editable="bottom" create="false" delete="false">
           <field name="name" />
           <field name="hours" />
           <field name="credits" />

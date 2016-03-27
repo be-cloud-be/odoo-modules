@@ -45,8 +45,9 @@ class Course(models.Model):
     bloc_id = fields.Many2one('school.bloc', related='course_group_id.bloc_id', store=True)
     program_id = fields.Many2one('school.program', related='course_group_id.bloc_id.program_id', store=True)
     
-    name = fields.Char(string='Name', compute='compute_name')
+    name = fields.Char(string='Name', compute='compute_name', store=True)
     
+    @api.depends('bloc_id.sequence','course_group_id.sequence','sequence','title')
     @api.multi
     def compute_name(self):
         for course in self:
@@ -77,21 +78,30 @@ class CourseGroup(models.Model):
     year_id = fields.Many2one('school.year', string="Year", related='bloc_id.year_id', store=True)
     description = fields.Text(string='Description')
     
-    total_credits = fields.Integer(compute='_get_courses_total', string='Total Credits')
-    total_hours = fields.Integer(compute='_get_courses_total', string='Total Hours')
-    total_weight = fields.Integer(compute='_get_courses_total', string='Total Weight')
+    total_credits = fields.Float(compute='_get_courses_total', string='Total Credits')
+    total_hours = fields.Float(compute='_get_courses_total', string='Total Hours')
+    total_weight = fields.Float(compute='_get_courses_total', string='Total Weight')
     
     notes = fields.Text(string='Notes')
     
     course_ids = fields.One2many('school.course', 'course_group_id', string='Courses')
     bloc_id = fields.Many2one('school.bloc', required=True, string='Bloc')
     
-    name = fields.Char(string='Name', compute='compute_name')
+    name = fields.Char(string='Name', compute='compute_name', store=True)
     
+    @api.depends('bloc_id.sequence','sequence','title')
     @api.multi
     def compute_name(self):
         for course_g in self:
             course_g.name = "%d.%d - %s" % (course_g.bloc_id.sequence,course_g.sequence,course_g.title)
+            
+    code_ue = fields.Char(string='Code UE', compute='compute_code_ue', store=True)
+    
+    @api.depends('bloc_id.sequence','sequence')
+    @api.multi
+    def compute_code_ue(self):
+        for course_g in self:
+            course_g.code_ue = "UE %d.%d" % (course_g.bloc_id.sequence,course_g.sequence)
     
 class Bloc(models.Model):
     '''Bloc'''
@@ -124,8 +134,9 @@ class Bloc(models.Model):
 
     program_id = fields.Many2one('school.program', required=True, string='Program')
 
-    name = fields.Char(string='Name', compute='compute_name')
+    name = fields.Char(string='Name', compute='compute_name', store=True)
     
+    @api.depends('sequence','title')
     @api.multi
     def compute_name(self):
         for bloc in self:
@@ -171,19 +182,14 @@ class Program(models.Model):
     track_id = fields.Many2one('school.track', string='Track')
     speciality_id = fields.Many2one('school.speciality', string='Speciality')
     
-    total_credits = fields.Integer(compute='_get_courses_total', string='Total Credits')
-    total_hours = fields.Integer(compute='_get_courses_total', string='Total Hours')
+    total_credits = fields.Float(compute='_get_courses_total', string='Total Credits')
+    total_hours = fields.Float(compute='_get_courses_total', string='Total Hours')
 
     notes = fields.Text(string='Notes')
     
     bloc_ids = fields.One2many('school.bloc', 'program_id', string='Blocs')
     
-    name = fields.Char(string='Name', compute='compute_name')
-    
-    @api.multi
-    def compute_name(self):
-        for program in self:
-            program.name = program.title
+    name = fields.Char(string='Name', relate='title', store=True)
     
     @api.multi
     def unpublish(self):
