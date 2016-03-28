@@ -34,7 +34,7 @@ class AccountCommonReport(models.TransientModel):
     @api.one
     @api.depends('year_id')
     def generate_assigments(self):
-        self.env.cr.execute("SELECT program_id, course_id from school_program, school_bloc, school_course_group, school_course WHERE school_program.year_id = %s AND school_program.bloc_id = school_bloc.id AND school_bloc.course_group_id = school_course_group.id AND school_course_group.course_id =  school_course.id" % (self.year_id.id))
+        self.env.cr.execute("SELECT school_program.id, school_course.id from school_program, school_bloc, school_course_group, school_course WHERE school_program.year_id = %s AND school_program.id = school_bloc.program_id AND school_bloc.id = school_course_group.bloc_id AND school_course_group.id =  school_course.course_group_id" % (self.year_id.id))
         
         res = self.env.cr.fetchall()
         for (program_id,course_id) in res:

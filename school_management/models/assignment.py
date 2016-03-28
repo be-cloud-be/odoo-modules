@@ -29,8 +29,8 @@ class Assignment(models.Model):
     '''Assignment'''
     _name = 'school.assignment'
     
-    year_id = fields.Many2one(string='Year',related='program_id.year_id', store=True)
-    program_id = fields.Many2one('school.program', string='Program', required=True)
+    year_id = fields.Many2one(string='Year',related='bloc_id.year_id', store=True)
+    bloc_id = fields.Many2one('school.bloc', string='Bloc', required=True)
     course_id = fields.Many2one('school.course', string='Course', required=True)
     teacher_id = fields.Many2one('res.partner', string='Teacher', domain="[('teacher', '=', '1')]")
     
@@ -38,5 +38,5 @@ class Assignment(models.Model):
     room = fields.Char(string='Room')
     
     _sql_constraints = [
-	        ('uniq_program_course', 'unique(program_id, course_id)', 'There shall be only one assigment for a course within a program'),
+	        ('uniq_bloc_course', 'unique(bloc_id, course_id)', 'There shall be only one assigment for a course within a bloc'),
     ]

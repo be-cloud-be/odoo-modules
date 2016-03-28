@@ -145,7 +145,7 @@
                     <page name="assignment_list" string="Current Assignments" attrs="{'invisible': [('teacher','=',False)]}">
                         <field name="teacher_current_assigment_ids">
                             <tree string="Current Assignments">
-                                <field name="program_id" />
+                                <field name="bloc_id" />
                                 <field name="course_id" />
                             </tree>
                         </field>
