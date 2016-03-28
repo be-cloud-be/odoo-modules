@@ -30,6 +30,7 @@ class Course(models.Model):
     _name = 'school.course'
     _description = 'Course'
     _inherit = ['mail.thread']
+    _order = 'program_id,bloc_id,course_group_id,sequence'
     
     sequence = fields.Integer(string='Sequence', required=True)
     title = fields.Char(required=True, string='Title')
@@ -53,11 +54,16 @@ class Course(models.Model):
         for course in self:
             course.name = "%d.%d.%d - %s" % (course.bloc_id.sequence,course.course_group_id.sequence,course.sequence,course.title)
     
+    _sql_constraints = [
+	        ('uniq_course', 'unique(course_group_id, sequence)', 'There shall be only one course with a given sequence within a course group'),
+    ]
+    
 class CourseGroup(models.Model):
     '''Courses Group'''
     _name = 'school.course_group'
     _description = 'Courses Group'
     _inherit = ['mail.thread']
+    _order = 'bloc_id,sequence'
 
     @api.one
     @api.depends('course_ids')
@@ -84,7 +90,7 @@ class CourseGroup(models.Model):
     
     notes = fields.Text(string='Notes')
     
-    course_ids = fields.One2many('school.course', 'course_group_id', string='Courses')
+    course_ids = fields.One2many('school.course', 'course_group_id', string='Courses', copy=True)
     bloc_id = fields.Many2one('school.bloc', required=True, string='Bloc')
     
     name = fields.Char(string='Name', compute='compute_name', store=True)
@@ -103,11 +109,16 @@ class CourseGroup(models.Model):
         for course_g in self:
             course_g.code_ue = "UE %d.%d" % (course_g.bloc_id.sequence,course_g.sequence)
     
+    _sql_constraints = [
+	        ('uniq_course_group', 'unique(bloc_id, sequence)', 'There shall be only one course group with a given sequence within a bloc'),
+    ]
+    
 class Bloc(models.Model):
     '''Bloc'''
     _name = 'school.bloc'
     _description = 'Program'
     _inherit = ['mail.thread']
+    _order = 'program_id,sequence'
     
     @api.one
     @api.depends('course_group_ids')
@@ -130,9 +141,9 @@ class Bloc(models.Model):
 
     notes = fields.Text(string='Notes')
     
-    course_group_ids = fields.One2many('school.course_group', 'bloc_id', string='Courses Groups')
+    course_group_ids = fields.One2many('school.course_group', 'bloc_id', string='Courses Groups', copy=True)
 
-    program_id = fields.Many2one('school.program', required=True, string='Program')
+    program_id = fields.Many2one('school.program', string='Program', copy=False)
 
     name = fields.Char(string='Name', compute='compute_name', store=True)
     
@@ -141,6 +152,10 @@ class Bloc(models.Model):
     def compute_name(self):
         for bloc in self:
             bloc.name = "%d - %s" % (bloc.sequence,bloc.title)
+
+    _sql_constraints = [
+	        ('uniq_bloc', 'unique(program_id, sequence)', 'There shall be only one bloc with a given sequence within a program'),
+    ]
 
 class Program(models.Model):
     '''Program'''
