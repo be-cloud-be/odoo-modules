@@ -21,7 +21,7 @@
 import logging
 
 from openerp import api, fields, models, _
-from openerp.exceptions import UserError
+from openerp.exceptions import MissingError
 
 _logger = logging.getLogger(__name__)
 
@@ -34,14 +34,15 @@ class AccountCommonReport(models.TransientModel):
     @api.one
     @api.depends('year_id')
     def generate_assigments(self):
-        self.env.cr.execute("SELECT school_program.id, school_course.id from school_program, school_bloc, school_course_group, school_course WHERE school_program.year_id = %s AND school_program.id = school_bloc.program_id AND school_bloc.id = school_course_group.bloc_id AND school_course_group.id =  school_course.course_group_id" % (self.year_id.id))
+        self.env.cr.execute("SELECT school_bloc.id, school_course.id from school_program, school_bloc, school_course_group, school_course WHERE school_program.year_id = %s AND school_program.id = school_bloc.program_id AND school_bloc.id = school_course_group.bloc_id AND school_course_group.id =  school_course.course_group_id" % (self.year_id.id))
         
         res = self.env.cr.fetchall()
-        for (program_id,course_id) in res:
+        for (bloc_id,course_id) in res:
             try:
-                _logger.info('Create assigment %s - %s',program_id,course_id)
-                self.env['school.assignment'].create({'program_id':program_id, "course_id":course_id})
+                _logger.info('Create assigment %s - %s',bloc_id,course_id)
+                self.env['school.assignment'].create({'bloc_id':bloc_id, "course_id":course_id})
             except Exception as e:
-                _logger.error('Error during creation of assingment %s',e)
+                _logger.info(_('Error during creation of assingment %s' % e))
                 pass
-            #TODO : detect missing assignment and insert them
+                #TODO : detect missing assignment and insert them
+            
