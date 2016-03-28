@@ -77,6 +77,24 @@
                </search>
             </field>
         </record>
+        
+        <!-- Add program for student form view -->
+        <record id="view_student_form_school" model="ir.ui.view">
+            <field name="name">view.res.partner.form.school</field>
+            <field name="model">res.partner</field>
+            <field name="inherit_id" ref="view_partners_form_school"/>
+            <field eval="25" name="priority"/>
+            <field name="arch" type="xml">
+                <xpath expr="//sheet" position="before">
+                    <header>
+                        <button string="Assing Program" type="action" name="%(action_assing_program_view)d" class="oe_highlight" context="{'default_student_id': active_id}"/>
+                    </header>
+                </xpath>
+                <xpath expr="//field[@name='employee']" position="after">
+                    <field name="student_program_id"/>
+                </xpath>
+            </field>
+        </record>
 		
 		<record id="action_student_form" model="ir.actions.act_window">
             <field name="name">Students</field>
@@ -111,7 +129,7 @@
         <record id="action_student_form_view2" model="ir.actions.act_window.view">
             <field name="sequence" eval="2"/>
             <field name="view_mode">form</field>
-            <field name="view_id" ref="base.view_partner_form"/>
+            <field name="view_id" ref="view_student_form_school"/>
             <field name="act_window_id" ref="action_student_form"/>
         </record>
         <menuitem id="menu_student_form" parent="menu_contacts" action="action_student_form" sequence="5"/>
@@ -134,7 +152,7 @@
             </field>
         </record>
         
-        <!-- Add boolean for teacher, student, employee on partner form view -->
+        <!-- Add courses list for teacher form view -->
         <record id="view_teacher_form_school" model="ir.ui.view">
             <field name="name">view.res.partner.form.school</field>
             <field name="model">res.partner</field>

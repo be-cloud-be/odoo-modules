@@ -19,3 +19,4 @@
 #
 ##############################################################################
 import assignment_generation
+import assign_program

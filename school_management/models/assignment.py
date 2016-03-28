@@ -30,8 +30,11 @@ class Assignment(models.Model):
     _name = 'school.assignment'
     
     year_id = fields.Many2one(string='Year',related='bloc_id.year_id', store=True)
+    porgram_id = fields.Many2one('school.program', related='bloc_id.program_id', store=True)
     bloc_id = fields.Many2one('school.bloc', string='Bloc', required=True)
+    course_group_id = fields.Many2one('school.course_group', related='course_id.course_group_id', store=True)
     course_id = fields.Many2one('school.course', string='Course', required=True)
+    
     teacher_id = fields.Many2one('res.partner', string='Teacher', domain="[('teacher', '=', '1')]")
     
     schedule = fields.Char(string='Schedule')

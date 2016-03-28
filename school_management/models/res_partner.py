@@ -34,6 +34,8 @@ class Partner(models.Model):
     teacher = fields.Boolean("Teacher",default=False)
     employee = fields.Boolean("Teacher",default=False)
     
+    student_program_id = fields.Many2one('school.program', string='Program')
+    
     teacher_current_assigment_ids = fields.One2many('school.assignment', compute='_get_teacher_current_assigment_ids', string="Current Assignments")
     
     @api.one
