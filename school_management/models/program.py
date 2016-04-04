@@ -1,4 +1,4 @@
-﻿# -*- encoding: utf-8 -*-
+# -*- encoding: utf-8 -*-
 ##############################################################################
 #
 #    Copyright (c) 2015 be-cloud.be
@@ -42,32 +42,22 @@ class IndividualBloc(models.Model):
     total_credits = fields.Float(compute='_get_courses_total', string='Total Credits')
     total_hours = fields.Float(compute='_get_courses_total', string='Total Hours')
     total_weight = fields.Float(compute='_get_courses_total', string='Total Weight')
-        
-    @api.model
-    def create(self, vals):
-        _logger.info('create')
-        _logger.info(vals)
-        ret = super(IndividualBloc, self).create(vals)
-        if vals.has_key('source_bloc_id') :
-            _logger.info('create assign course groups')
-            source_bloc = self.env['school.bloc'].browse(vals['source_bloc_id'])
-            for course_group in source_bloc.course_group_ids:
-                ret.course_group_ids.create({'bloc_id':ret.id,'source_course_group_id': course_group.id})
-            ret._get_courses_total()
-        _logger.info(ret)
-        return ret
-    
+
     @api.one
-    @api.onchange('source_bloc_id')
-    def onchange_source_bloc(self):
-        raise UserError('Not Implemented : Cannot change, delete and create a new one.')
-        ## _logger.info('onchange')
-        ## _logger.info(self.source_bloc_id)
-        ## self.course_group_ids = []
-        ## for group in self.source_bloc_id.course_group_ids:   
-            ## _logger.info('onchange assign course groups')
-            ## self.course_group_ids += self.course_group_ids.new({'bloc_id': self.id,'source_course_group_id': group.id})
-    
+    @api.depends('source_bloc_id','course_group_ids')
+    def assign_source_bloc(self, source_bloc_id):
+        self.source_bloc_id = source_bloc_id
+        cg_ids = []
+        for group in source_bloc_id.course_group_ids:
+            _logger.info('assign course groups : ' + group.name)
+            cg = self.course_group_ids.create({'bloc_id': self.id,'source_course_group_id': group.id})
+            courses = []
+            for course in group.course_ids:
+                _logger.info('assign course : ' + course.name)
+                courses.append((0,0,{'source_course_id': course.id}))
+            _logger.info(courses)
+            cg.write({'course_ids': courses})
+
     @api.one
     @api.depends('course_group_ids')
     def _get_courses_total(self):
@@ -95,39 +85,23 @@ class IndividualCourseGroup(models.Model):
     
     name = fields.Char(related="source_course_group_id.name")
     
-    source_course_group_id = fields.Many2one('school.course_group', string="Source Course Group", required=True)
-    bloc_id = fields.Many2one('school.individual_bloc', string="Bloc", required=True, ondelete='cascade', readonly=True)
+    source_course_group_id = fields.Many2one('school.course_group', string="Source Course Group")
+    bloc_id = fields.Many2one('school.individual_bloc', string="Bloc", ondelete='cascade', readonly=True)
     course_ids = fields.One2many('school.individual_course', 'course_group_id', string='Courses')
     
     total_credits = fields.Float(compute='_get_courses_total', string='Total Credits')
     total_hours = fields.Float(compute='_get_courses_total', string='Total Hours')
     total_weight = fields.Float(compute='_get_courses_total', string='Total Weight')
-    
-    @api.model
-    def create(self, vals):
-        _logger.info('create')
-        _logger.info(vals)
-        ret = super(IndividualCourseGroup, self).create(vals)
-        if vals.has_key('source_course_group_id') :
-            source_cg = self.env['school.course_group'].browse(vals['source_course_group_id'])
-            for course in source_cg.course_ids:
-                ret.course_ids.create({'course_group_id':ret.id,'source_course_id': course.id})
-            ret._get_courses_total()
-        _logger.info(ret.course_ids)
-        return ret
-    
-    
+
     @api.onchange('source_course_group_id')
-    @api.depends('source_course_group_id','course_ids')
-    def onchange_source_course_group_id(self):
-        _logger.info(self.id)
-        ids = []
+    def onchange_source_cg(self):
+        courses = []
         for course in self.source_course_group_id.course_ids:
-            ids.append(self.course_ids.new({'course_group_id':self.id,'source_course_id': course.id}).id)
-        self.course_ids = ids
-        self._get_courses_total()
-        _logger.info(self.course_ids)
-    
+            _logger.info('assign course : ' + course.name)
+            courses.append((0,0,{'source_course_id':course.id}))
+        _logger.info(courses)
+        self.update({'course_ids': courses})
+
     @api.one
     @api.depends('course_ids')
     def _get_courses_total(self):
@@ -156,4 +130,4 @@ class IndividualCourse(models.Model):
     dispense = fields.Boolean(string="Dispensed",default=False)
     
     source_course_id = fields.Many2one('school.course', string="Source Course")
-    course_group_id = fields.Many2one('school.individual_course_group', string='Course Groups', required=True,ondelete='cascade')
+    course_group_id = fields.Many2one('school.individual_course_group', string='Course Groups', ondelete='cascade')
