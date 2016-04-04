@@ -395,7 +395,7 @@
               </group>
             </group>
             <field name="course_ids">
-              <tree string="Courses" editable="bottom" create="false" delete="false"/>
+              <tree string="Courses" editable="bottom" create="false" delete="false">
                 <field name="name" />
                 <field name="dispense" />
                 <field name="hours" />
@@ -416,7 +416,7 @@
       <field name="model">school.individual_bloc</field>
       <field eval="8" name="priority" />
       <field name="arch" type="xml">
-        <tree string="Individual Bloc">
+        <tree string="Individual Bloc" create="false">
           <field name="year_id" />
           <field name="student_id" />
           <field name="name" />
@@ -482,10 +482,7 @@
       <!--<field name="search_view_id" ref="view_individual_bloc_filter" />-->
       <field name="help" type="html">
         <p class="oe_view_nocontent_create">
-          Click to add a individual_bloc.
-        </p>
-        <p>
-          Odoo helps you easily track all activities related to a individual_bloc.
+          Please add individual program from Student view.
         </p>
       </field>
     </record>
