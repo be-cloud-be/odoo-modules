@@ -59,7 +59,7 @@
                 <tbody>
                     <t t-foreach="bloc.course_group_ids" t-as="course_group">
                     <tr class="oe_school_course_group">
-                        <td></td>
+                        <td><t t-esc="course_group.code_ue"/></td>
                         <td><t t-esc="course_group.name"/></td>
                         <td class="text-center"><t t-esc="course_group.total_hours"/></td>
                         <td class="text-center"><t t-esc="course_group.total_credits"/></td>
