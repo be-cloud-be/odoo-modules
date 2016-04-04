@@ -1,4 +1,4 @@
-# -*- encoding: utf-8 -*-
+﻿# -*- encoding: utf-8 -*-
 ##############################################################################
 #
 #    Copyright (c) 2015 be-cloud.be
@@ -19,17 +19,29 @@
 #
 ##############################################################################
 
+import logging
+
 from openerp import http
 from openerp.http import request
 from openerp import tools
 from openerp.tools.translate import _
 
+_logger = logging.getLogger(__name__)
+
 class website_portal_school_management(http.Controller):
     @http.route(['/my/info'], type='http', auth='user', website=True)
     def details(self, redirect=None, **post):
         user = request.env['res.users'].browse(request.uid)
+        year = request.env['school.year'].browse(1) #TODO set this as global parameter
+        _logger.info('HERHEEHREHREH')
+        _logger.info(year)
+        _logger.info(user)
+        bloc = request.env['school.individual_bloc'].search([('year_id','=',year.id),('student_id','=',user.partner_id.id)])
+        _logger.info(bloc)
         values = {
             'user': user,
+            'yead': year,
+            'bloc': bloc,
         }
         return request.website.render("website_portal_school_management.information", values)
         

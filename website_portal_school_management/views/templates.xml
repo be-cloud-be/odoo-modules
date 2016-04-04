@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8" ?>
+﻿<?xml version="1.0" encoding="utf-8" ?>
 <!--
 ##############################################################################
 #
@@ -30,16 +30,88 @@
         </xpath>
     </template>
 
+    <template id="school_bloc" name="Bloc">
+        <div class="col-md-12">
+            <table class="table table-condensed oe_school_program_table">
+                <caption style="font-size: 100%;">Grille du bloc - <t t-esc="bloc.name"/></caption>
+                <colgroup>
+                    <col style="width:75px"/>
+                    <col style="width:100%"/>
+                    <col style="width:60px"/>
+                    <col style="width:60px"/>
+                    <col style="width:60px"/>
+                    <col style="width:100px"/>
+                    <col style="width:100px"/>
+                    <col style="width:100px"/>
+                </colgroup>
+                <thead>
+                    <tr>
+                        <th>Code UE</th> 
+                        <th>Unités d’enseignement</th> 
+                        <th class="text-center">Heures</th> 
+                        <th class="text-center">ECTS</th>
+                        <th class="text-center">Pond</th>
+                        <th>Pré/Co-requis</th>
+                        <th>Quadrimestre</th>
+                        <th>Référentiel</th>
+                    </tr> 
+                </thead>
+                <tbody>
+                    <t t-foreach="bloc.course_group_ids" t-as="course_group">
+                    <tr class="oe_school_course_group">
+                        <td></td>
+                        <td><t t-esc="course_group.name"/></td>
+                        <td class="text-center"><t t-esc="course_group.total_hours"/></td>
+                        <td class="text-center"><t t-esc="course_group.total_credits"/></td>
+                        <td></td>
+                        <td class="text-center">Aucun</td>
+                        <td></td>
+                        <td></td>
+                    </tr>
+                    <tr t-foreach="course_group.course_ids" t-as="course">
+                        <td></td>
+                        <td><t t-esc="course.name"/></td>
+                        <td class="text-center"><t t-esc="course.hours"/></td>
+                        <td class="text-center"><t t-esc="course.credits"/></td>
+                        <td class="text-center"><t t-esc="course.weight"/></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                    </tr>
+                    </t>
+                    <tr>
+                        <td></td>
+                        <td class="text-right">Total :</td>
+                        <td class="text-center"><t t-esc="bloc.total_hours"/></td>
+                        <td class="text-center"><t t-esc="bloc.total_credits"/></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </template>
+
     <template id="information" name="Information">
         <t t-call="website.layout">
             <t t-set="title">Information</t>
             <div class="oe_structure">
                 <div class="container">
-                    <div id="o_my_information" class="col-md-12">
-                        <div class="o_my_details">
-                            <h3 class="page-header">Your Details</h3>
-                            <div t-field="user.partner_id" t-field-options='{"widget": "contact", "fields": ["email", "phone", "mobile", "address", "name"]}' />
+                    <div class="row">
+                        <div id="o_my_information" class="col-md-12">
+                            <div class="o_my_details">
+                                <h3 class="page-header">Your Personal Details</h3>
+                                <div t-field="user.partner_id" t-field-options='{"widget": "contact", "fields": ["email", "phone", "mobile", "address", "name"]}' />
+                            </div>
                         </div>
+                    </div>
+                    <div class="row" t-if="bloc">
+                        <div class="col-md-12">
+                            <h3 class="page-header">Your Personal Program</h3>
+                        </div>
+                        <t t-call="website_portal_school_management.school_bloc"/>
                     </div>
                 </div>
             </div>
@@ -140,70 +212,11 @@
                     </div>
                 </section>
                 <section class="row" t-foreach="program.bloc_ids" t-as="bloc">
-                    <div class="col-md-12">
-                        <table class="table table-condensed oe_school_program_table">
-                            <caption style="font-size: 100%;">Grille du bloc - <t t-esc="bloc.name"/></caption>
-                            <colgroup>
-                                <col style="width:75px"/>
-                                <col style="width:100%"/>
-                                <col style="width:60px"/>
-                                <col style="width:60px"/>
-                                <col style="width:60px"/>
-                                <col style="width:100px"/>
-                                <col style="width:100px"/>
-                                <col style="width:100px"/>
-                            </colgroup>
-                            <thead>
-                                <tr>
-                                    <th>Code UE</th> 
-                                    <th>Unités d’enseignement</th> 
-                                    <th class="text-center">Heures</th> 
-                                    <th class="text-center">ECTS</th>
-                                    <th class="text-center">Pond</th>
-                                    <th>Pré/Co-requis</th>
-                                    <th>Quadrimestre</th>
-                                    <th>Référentiel</th>
-                                </tr> 
-                            </thead>
-                            <tbody>
-                                <t t-foreach="bloc.course_group_ids" t-as="course_group">
-                                <tr class="oe_school_course_group">
-                                    <td></td>
-                                    <td><t t-esc="course_group.name"/></td>
-                                    <td class="text-center"><t t-esc="course_group.total_hours"/></td>
-                                    <td class="text-center"><t t-esc="course_group.total_credits"/></td>
-                                    <td></td>
-                                    <td class="text-center">Aucun</td>
-                                    <td></td>
-                                    <td></td>
-                                </tr>
-                                <tr t-foreach="course_group.course_ids" t-as="course">
-                                    <td></td>
-                                    <td><t t-esc="course.name"/></td>
-                                    <td class="text-center"><t t-esc="course.hours"/></td>
-                                    <td class="text-center"><t t-esc="course.credits"/></td>
-                                    <td class="text-center"><t t-esc="course.weight"/></td>
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
-                                </tr>
-                                </t>
-                                <tr>
-                                    <td></td>
-                                    <td class="text-right">Total :</td>
-                                    <td class="text-center"><t t-esc="bloc.total_hours"/></td>
-                                    <td class="text-center"><t t-esc="bloc.total_credits"/></td>
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
-                                </tr>
-                            </tbody>
-                        </table>
-                    </div>
+                    <t t-call="website_portal_school_management.school_bloc"/>
                 </section>
                 <hr/>
             </article>
         </t>
+    
     </template>
 </odoo>

@@ -1,4 +1,4 @@
-# -*- encoding: utf-8 -*-
+﻿# -*- encoding: utf-8 -*-
 ##############################################################################
 #
 #    Copyright (c) 2015 be-cloud.be
@@ -36,4 +36,4 @@ class AssignProgram(models.TransientModel):
     @api.one
     @api.depends('year_id','student_id','source_bloc_id')
     def assign_program(self):
-        self.env['school.individual_program'].create({'year_id':self.year_id.id,'student_id': self.student_id.id,'source_bloc_id':self.source_bloc_id.id})
+        self.env['school.individual_bloc'].create({'year_id':self.year_id.id,'student_id': self.student_id.id,'source_bloc_id':self.source_bloc_id.id})

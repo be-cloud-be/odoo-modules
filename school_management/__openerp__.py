@@ -1,4 +1,4 @@
-# -*- encoding: utf-8 -*-
+﻿# -*- encoding: utf-8 -*-
 ##############################################################################
 #
 #    Copyright (c) 2015 be-cloud.be
@@ -33,6 +33,7 @@
         'wizard/assign_program.xml',
         'views/res_partner_view.xml',
         'views/courses_view.xml',
+        'views/program_view.xml',
         'sequences/school_sequence.xml',
         'security/ir.model.access.csv',
     ],
