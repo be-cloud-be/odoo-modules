@@ -34,7 +34,7 @@
     "website": "http://www.be-cloud.be",
     'depends': ['sale'],
     'init_xml': [],
-    'data': [],
+    'data': ['views/sale_order_view.xml'],
     'installable': True,
     'active': True,
 }
