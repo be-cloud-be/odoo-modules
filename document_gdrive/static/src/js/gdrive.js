@@ -60,7 +60,7 @@ openerp.document_gdrive = function(instance, m) {
                                     immediate: false
                                 }, function(authResult) {
                                     if (authResult && !authResult.error) {
-                                        odoo.gdrive.oauthToken = authResult.access_token;
+                                        openerp.gdrive.oauthToken = authResult.access_token;
                                     }
                                     else {
                                         alert("Cannot get authorization token for Google Drive: " + authResult.error_subtype + " - " + authResult.error);
