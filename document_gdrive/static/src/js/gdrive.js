@@ -54,7 +54,18 @@ openerp.document_gdrive = function(instance, m) {
                                 openerp.gdrive.oauthToken = authResult.access_token;
                             }
                             else {
-                                alert("Cannot get authorization token for Google Drive: " + authResult.error_subtype + " - " + authResult.error);
+                                gapi.auth.authorize({
+                                    client_id: clientId,
+                                    scope: scope,
+                                    immediate: false
+                                }, function(authResult) {
+                                    if (authResult && !authResult.error) {
+                                        odoo.gdrive.oauthToken = authResult.access_token;
+                                    }
+                                    else {
+                                        alert("Cannot get authorization token for Google Drive: " + authResult.error_subtype + " - " + authResult.error);
+                                    }
+                                });
                             }
                         });
                 }
