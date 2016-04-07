@@ -37,5 +37,5 @@ class Chantier(models.Model):
     _description = 'Chantier'
     
     name = fields.Char(string='Nom du projet')
-    address_id = fields.Many2one('res.partner', string='Addresse du chantier')
-    note = fields.Text(string='Notes')
+    address_id = fields.Many2one('res.partner', string='Addresse du chantier', domain="[('type', '=', 'delivery')]")
+    notes = fields.Text(string='Notes')

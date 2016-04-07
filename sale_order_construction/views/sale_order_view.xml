@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="utf-8" ?>
 <!--
 ##############################################################################
 #
@@ -21,18 +21,59 @@
 ##############################################################################
 -->
 <openerp>
-	<data>
-	    <!-- Add link to Chantier on Sale Order form view -->
+    <data>
+        <!-- Add link to Chantier on Sale Order form view -->
         <record id="view_sale_order_form_construction" model="ir.ui.view">
             <field name="name">view.sale.order.form.construction</field>
             <field name="model">sale.order</field>
-            <field name="inherit_id" ref="sale.view_order_form"/>
-            <field eval="18" name="priority"/>
+            <field name="inherit_id" ref="sale.view_order_form" />
+            <field eval="18" name="priority" />
             <field name="arch" type="xml">
                 <xpath expr="//field[@name='project_id']" position="after">
-                    <field name='chantier_id'/>
+                    <field name='chantier_id' />
                 </xpath>
             </field>
         </record>
-	</data>
+
+        <record id="chantier_view" model="ir.ui.view">
+            <field name="name">Chantier</field>
+            <field name="model">sale_order_construction.chantier</field>
+            <field name="arch" type="xml">
+                <form string="Chantier">
+                    <group col="2">
+                        <field name="name" />
+                        <field name="address_id" context="{'form_view_ref':'sale_order_construction.chantier_address_view','default_name':name}"/>
+                        <field name="notes" />
+                    </group>
+                </form>
+            </field>
+        </record>
+        
+        <record id="chantier_address_view" model="ir.ui.view">
+            <field name="name">Addresse de Chantier</field>
+            <field name="model">res.partner</field>
+            <field name="arch" type="xml">
+                <form string="Addresse de chantier">
+                    <sheet>
+                        <group col="2">
+                            <field name="name" invisible="True" />
+                            <div>
+                                <div class="o_address_format" name="div_address">
+                                    <field name="street" placeholder="Street..." class="o_address_street" />
+                                    <field name="street2" placeholder="Street 2..." class="o_address_street" />
+                                    <field name="city" placeholder="City" class="o_address_city" />
+                                    <field name="state_id" class="o_address_state" placeholder="State" options="{&quot;no_open&quot;: True}" on_change="onchange_state(state_id)" context="{'country_id': country_id, 'zip': zip}" />
+                                    <field name="zip" placeholder="ZIP" class="o_address_zip" />
+                                    <field name="country_id" placeholder="Country" class="o_address_country" options="{&quot;no_open&quot;: True, &quot;no_create&quot;: True}" />
+                                </div>
+                            </div>
+                            <field name="supplier" invisible="True" />
+                            <field name="customer" invisible="True" />
+                            <field name="lang" invisible="True" />
+                        </group>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+    </data>
 </openerp>
