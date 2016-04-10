@@ -134,7 +134,12 @@
                     </div>
                     <div class="oe_structure" />
                     <div class="row">
+                        <t t-set="p" t-value="False"/>
                         <t t-foreach="programs" t-as="program">
+                            <t t-if="p != program.domain_id"> 
+                                <h3><t t-esc="program.domain_id.name" /></h3>
+                                <t t-set="p" t-value="program.domain_id"/>
+                            </t>
                             <div class="thumbnail oe_school_program">
                                 <div>
                                     <div class="caption">
