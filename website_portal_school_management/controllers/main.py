@@ -47,7 +47,7 @@ class website_portal_school_management(http.Controller):
         
     @http.route(['/program'], type='http', auth='public', website=True)
     def program(self, redirect=None, **post):
-        programs = request.env['school.program'].sudo().search([('state', '=', 'published')],order="section_id ASC")
+        programs = request.env['school.program'].sudo().search([('state', '=', 'published')],order="domain_id, name ASC")
         values = {
             'programs': programs,
         }
