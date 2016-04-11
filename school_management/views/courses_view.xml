@@ -716,7 +716,7 @@
             <filter string="Bloc" context="{'group_by':'bloc_id'}" />
             <filter string="Teacher" context="{'group_by':'teacher_id'}" />
           </group>
-          <filter string="My Assignments" name="my_assignments" domain="[('teacher_id','=',uid)]"/>
+          <filter string="My Assignments" name="my_assignments" domain="[('teacher_id.user_ids','=',uid)]"/>
         </search>
       </field>
     </record>
