@@ -124,11 +124,15 @@ class IndividualCourse(models.Model):
     
     name = fields.Char(related="source_course_id.name", readonly=True)
     
+    year_id = fields.Many2one('school.year', related="course_group_id.bloc_id.year_id")
+    student_id = fields.Many2one('res.partner', related="course_group_id.bloc_id.student_id")
+
     credits = fields.Float(related="source_course_id.credits", readonly=True)
     hours = fields.Float(related="source_course_id.hours", readonly=True)
     weight =  fields.Float(related="source_course_id.weight", readonly=True)
     
     dispense = fields.Boolean(string="Dispensed",default=False)
+    evaluation = fields.Float(string="Evaluation")
     
     source_course_id = fields.Many2one('school.course', string="Source Course")
     course_group_id = fields.Many2one('school.individual_course_group', string='Course Groups', ondelete='cascade')
