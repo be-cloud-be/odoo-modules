@@ -55,6 +55,6 @@
     <menuitem id="menu_assignment_generate"
         name="Generate assigments"
         action="action_assignment_generate_view"
-        parent="menu_assignment" sequence="50"/>
+        parent="menu_assignment" sequence="50" groups="group_employee"/>
     
 </odoo>
