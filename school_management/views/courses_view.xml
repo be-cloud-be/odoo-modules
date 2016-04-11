@@ -739,7 +739,7 @@
       </field>
     </record>
     
-    <record id="action_assignment_list" model="ir.actions.act_window">
+    <record id="action_my_assignment_list" model="ir.actions.act_window">
       <field name="name">My Assignments</field>
       <field name="type">ir.actions.act_window</field>
       <field name="res_model">school.assignment</field>
@@ -765,6 +765,7 @@
     </record>
 
     <menuitem id="menu_assignment_list" parent="menu_assignment" action="action_assignment_list" sequence="10" />
+    <menuitem id="menu_my_assignment_list" parent="menu_assignment" action="action_my_assignment_list" sequence="20" />
 
   </data>
 </openerp>
