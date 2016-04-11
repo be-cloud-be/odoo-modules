@@ -33,7 +33,6 @@
 
         <record id="group_student" model="res.groups">
             <field name="name">Students</field>
-            <field name="implied_ids" eval="[(4, ref('base.group_user'))]" />
         </record>
 
     </data>
