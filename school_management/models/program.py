@@ -92,7 +92,8 @@ class IndividualCourseGroup(models.Model):
     total_credits = fields.Float(compute='_get_courses_total', string='Total Credits')
     total_hours = fields.Float(compute='_get_courses_total', string='Total Hours')
     total_weight = fields.Float(compute='_get_courses_total', string='Total Weight')
-
+    code_ue =  fields.Char(related="source_course_group_id.code_ue", readonly=True)
+    
     @api.onchange('source_course_group_id')
     def onchange_source_cg(self):
         courses = []
