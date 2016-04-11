@@ -36,6 +36,7 @@ class IndividualBloc(models.Model):
     year_id = fields.Many2one('school.year', string='Year', readonly=True)
     student_id = fields.Many2one('res.partner', string='Student', domain="[('student', '=', '1')]", readonly=True)
     source_bloc_id = fields.Many2one('school.bloc', string="Source Bloc", readonly=True)
+    source_bloc_name = fields.Char(related='source_bloc_id.name', string="Source Bloc Name", readonly=True)
     
     course_group_ids = fields.One2many('school.individual_course_group', 'bloc_id', string='Courses Groups')
     

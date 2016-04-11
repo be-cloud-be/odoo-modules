@@ -34,9 +34,15 @@ class Partner(models.Model):
     teacher = fields.Boolean("Teacher",default=False)
     employee = fields.Boolean("Teacher",default=False)
     
-    student_program_id = fields.Many2one('school.program', string='Program')
+    student_program_id = fields.Many2one('school.bloc', compute='_get_student_program_id', string='Program')
     
     teacher_current_assigment_ids = fields.One2many('school.assignment', compute='_get_teacher_current_assigment_ids', string="Current Assignments")
+    
+    @api.one
+    def _get_student_program_id(self):
+        current_year_id = safe_eval(self.env['ir.config_parameter'].get_param('school.current_year_id','1'))
+        res = self.env['school.individual_bloc'].search([['year_id', '=', current_year_id], ['student_id', '=', self.id]])
+        self.student_program_id = res[0].source_bloc_id
     
     @api.one
     def _get_teacher_current_assigment_ids(self):

@@ -30,11 +30,20 @@ class AssignProgram(models.TransientModel):
     _description = "Assign Program to Student"
     
     year_id = fields.Many2one('school.year', string='Year')
-    student_id = fields.Many2one('res.partner', string='Student', domain="[('student', '=', '1')]")
+    student_id = fields.Many2one('res.partner', string='Students', domain="[('student', '=', '1')]")
     source_bloc_id = fields.Many2one('school.bloc', string="Source Bloc")
 
     @api.one
     @api.depends('year_id','student_id','source_bloc_id')
     def assign_program(self):
-        program = self.env['school.individual_bloc'].create({'year_id':self.year_id.id,'student_id': self.student_id.id})
-        program.assign_source_bloc(self.source_bloc_id)
+        if self.student_id:
+            _logger.info("Assing program to %s" % self.student_id.name)
+            program = self.env['school.individual_bloc'].create({'year_id':self.year_id.id,'student_id': self.student_id.id})
+            program.assign_source_bloc(self.source_bloc_id)
+        else :
+            context = dict(self._context or {})
+            student_ids = context.get('active_ids')
+            for student_id in student_ids:
+                _logger.info("Assing program to %s" % student_id)
+                program = self.env['school.individual_bloc'].create({'year_id':self.year_id.id,'student_id': student_id})
+                program.assign_source_bloc(self.source_bloc_id)
