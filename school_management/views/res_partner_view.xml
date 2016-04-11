@@ -92,6 +92,8 @@
                 </xpath>
                 <xpath expr="//field[@name='employee']" position="after">
                     <field name="student_program_id"/>
+                    <field name='sex'/>
+                    <field name='birthdate'/>
                 </xpath>
             </field>
         </record>
