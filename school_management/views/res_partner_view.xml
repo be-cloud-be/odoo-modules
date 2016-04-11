@@ -103,7 +103,7 @@
             <field name="type">ir.actions.act_window</field>
             <field name="res_model">res.partner</field>
             <field name="view_type">form</field>
-            <field name="view_mode">kanban,tree,form</field>
+            <field name="view_mode">kanban,tree,form,pivot</field>
             <field name="context">{"search_default_student":1,"default_student":1}</field>
             <field name="search_view_id" ref="view_res_partner_filter"/>
             <field name="help" type="html">
@@ -126,6 +126,12 @@
             <field name="sequence" eval="1"/>
             <field name="view_mode">tree</field>
             <field name="view_id" ref="base.view_partner_tree"/>
+            <field name="act_window_id" ref="action_student_form"/>
+        </record>
+        <record id="action_student_form_view2" model="ir.actions.act_window.view">
+            <field name="sequence" eval="2"/>
+            <field name="view_mode">form</field>
+            <field name="view_id" ref="view_student_form_school"/>
             <field name="act_window_id" ref="action_student_form"/>
         </record>
         <record id="action_student_form_view2" model="ir.actions.act_window.view">

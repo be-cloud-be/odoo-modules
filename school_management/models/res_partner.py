@@ -37,7 +37,7 @@ class Partner(models.Model):
     sex = fields.Selection([('m', 'Male'),('f', 'Female')])
     birthdate = fields.Date(string="Birthdate")
     
-    student_program_id = fields.Many2one('school.bloc', compute='_get_student_program_id', string='Program')
+    student_program_id = fields.Many2one('school.bloc', compute='_get_student_program_id', string='Program', store='True')
     
     teacher_current_assigment_ids = fields.One2many('school.assignment', compute='_get_teacher_current_assigment_ids', string="Current Assignments")
     
