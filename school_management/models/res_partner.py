@@ -37,12 +37,28 @@ class Partner(models.Model):
     sex = fields.Selection([('m', 'Male'),('f', 'Female')])
     birthdate = fields.Date(string="Birthdate")
     
-    student_program_id = fields.Many2one('school.bloc', compute='_get_student_program_id', string='Program', store='True')
+    minerval_ids = fields.One2many('school.minerval', 'student_id', string='Minerval')
+    has_paid_current_minerval = fields.Boolean(compute='_has_paid_current_minerval',string="Has paid current minerval")
+    student_current_program_id = fields.Many2one('school.bloc', compute='_get_student_current_program_id', string='Program')
     
     teacher_current_assigment_ids = fields.One2many('school.assignment', compute='_get_teacher_current_assigment_ids', string="Current Assignments")
     
     @api.one
-    def _get_student_program_id(self):
+    @api.depends('minerval_ids')
+    def _has_paid_current_minerval(self):
+        current_year_id = safe_eval(self.env['ir.config_parameter'].get_param('school.current_year_id','1'))
+        res = self.env['school.minerval'].search([['year_id', '=', current_year_id], ['student_id', '=', self.id]])
+        self.has_paid_current_minerval = len(res) > 0
+        
+    @api.one
+    @api.depends('has_paid_current_minerval')
+    def pay_current_minerval(self):
+        if not self.has_paid_current_minerval:
+            current_year_id = safe_eval(self.env['ir.config_parameter'].get_param('school.current_year_id','1'))
+            self.env['school.minerval'].create({'student_id': self.id,'year_id': current_year_id})
+        
+    @api.one
+    def _get_student_current_program_id(self):
         current_year_id = safe_eval(self.env['ir.config_parameter'].get_param('school.current_year_id','1'))
         res = self.env['school.individual_bloc'].search([['year_id', '=', current_year_id], ['student_id', '=', self.id]])
         if len(res) > 0:
@@ -53,3 +69,11 @@ class Partner(models.Model):
         current_year_id = safe_eval(self.env['ir.config_parameter'].get_param('school.current_year_id','1'))
         res = self.env['school.assignment'].search([['year_id', '=', current_year_id], ['teacher_id', '=', self.id]])
         self.teacher_current_assigment_ids = res
+        
+class Minerval(models.Model):
+    '''Minerval'''
+    _name = 'school.minerval'
+    
+    year_id = fields.Many2one('school.year', string='Year', readonly=True)
+    student_id = fields.Many2one('res.partner', string='Student', domain="[('student', '=', '1')]", readonly=True)
+    payment_date = fields.Date(string='Payment Date',default=fields.Date.context_today)
