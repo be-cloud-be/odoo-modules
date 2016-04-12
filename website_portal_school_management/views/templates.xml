@@ -102,14 +102,15 @@
                     <div class="row">
                         <div id="o_my_information" class="col-md-12">
                             <div class="o_my_details">
-                                <h3 class="page-header">Your Personal Details</h3>
+                                <h3 class="page-header">Vos détails personnels</h3>
                                 <div t-field="user.partner_id" t-field-options='{"widget": "contact", "fields": ["email", "phone", "mobile", "address", "name"]}' />
+                                <h4 t-if="not user.partner_id.has_paid_current_minerval">Vous n'avez pas réglé votre minerval, merci de vous mettre en ordre dès que possible.</h4>
                             </div>
                         </div>
                     </div>
                     <div class="row" t-if="bloc">
                         <div class="col-md-12">
-                            <h3 class="page-header">Your Personal Program</h3>
+                            <h3 class="page-header">Votre programme personnel</h3>
                         </div>
                         <t t-call="website_portal_school_management.school_bloc"/>
                     </div>
@@ -120,25 +121,30 @@
 
     <template id="my_info_link" name="Link to user informations" inherit_id="website.layout">
         <xpath expr="//li[@id='o_logout']" position="before">
-            <li><a href="/my/info" role="menuitem">My Information</a></li>
+            <li><a href="/my/info" role="menuitem">Mes Informations</a></li>
         </xpath>
     </template>
 
     <template id="program" name="Programs">
         <t t-call="website.layout">
-            <t t-set="title">Programs</t>
+            <t t-set="title">Programmes</t>
             <div class="oe_structure">
                 <div class="container">
                     <div class="row text-center">
-                        <h2>Programs</h2>
+                        <h2>Programmes</h2>
                     </div>
                     <div class="oe_structure" />
                     <div class="row">
-                        <t t-set="p" t-value="False"/>
+                        <t t-set="d" t-value="False"/>
+                        <t t-set="c" t-value="False"/>
                         <t t-foreach="programs" t-as="program">
-                            <t t-if="p != program.domain_id"> 
+                            <t t-if="d != program.domain_id"> 
                                 <h3><t t-esc="program.domain_id.name" /></h3>
-                                <t t-set="p" t-value="program.domain_id"/>
+                                <t t-set="d" t-value="program.domain_id"/>
+                            </t>
+                            <t t-if="c != program.cycle_id"> 
+                                <h4><t t-esc="program.cycle_id.name" /></h4>
+                                <t t-set="c" t-value="program.cycle_id"/>
                             </t>
                             <div class="thumbnail oe_school_program">
                                 <div>
@@ -156,11 +162,11 @@
     
     <template id="program_details" name="Program Details">
         <t t-call="website.layout">
-            <t t-set="title">Program Details</t>
+            <t t-set="title">Détails du programme</t>
             <div class="oe_structure"/>
             <article class="container oe_school_program_details">
                 <section class="row text-center">
-                    <h2>Program Details</h2>
+                    <h2>Détails du programme</h2>
                 </section>
                 <hr/>
                 <section class="row">
