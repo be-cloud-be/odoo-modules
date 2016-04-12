@@ -135,7 +135,7 @@
       <field name="model">school.course</field>
       <field name="arch" type="xml">
         <search string="Search Course">
-          <field name="title" filter_domain="['|',('title','ilike',self)]" />
+          <field name="title" filter_domain="[('title','ilike',self)]" />
           <group expand="1" string="Group By">
             <filter string="Program Tree" context="{'group_by':['program_id', 'bloc_id', 'course_group_id']}" />
           </group>
