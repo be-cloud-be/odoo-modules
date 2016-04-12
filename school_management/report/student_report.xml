@@ -32,7 +32,6 @@
                     <field name="bloc_id" type="row"/>
                     <field name="year_id" type="col"/>
                     <field name="sex" type="col"/>
-                    <field name="has_paid_current_minerval" type="measure"/>
                 </pivot>
             </field>
         </record>
