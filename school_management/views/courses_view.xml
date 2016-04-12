@@ -767,5 +767,19 @@
     <menuitem id="menu_assignment_list" parent="menu_assignment" action="action_assignment_list" sequence="10" />
     <menuitem id="menu_my_assignment_list" parent="menu_assignment" action="action_my_assignment_list" sequence="20" />
 
+
+    <!-- Competencies Tree View -->
+    <record id="view_competencies_tree" model="ir.ui.view">
+      <field name="name">school.competency.tree</field>
+      <field name="model">school.competency</field>
+      <field eval="8" name="priority" />
+      <field name="arch" type="xml">
+        <tree string="Competences">
+          <field name="sequence" />
+          <field name="description" />
+        </tree>
+      </field>
+    </record>
+
   </data>
 </openerp>
