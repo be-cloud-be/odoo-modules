@@ -38,7 +38,7 @@ class Partner(models.Model):
     birthdate = fields.Date(string="Birthdate")
     
     minerval_ids = fields.One2many('school.minerval', 'student_id', string='Minerval')
-    has_paid_current_minerval = fields.Boolean(compute='_has_paid_current_minerval',string="Has paid current minerval")
+    has_paid_current_minerval = fields.Boolean(compute='_has_paid_current_minerval',string="Has paid current minerval", store=True)
     student_current_program_id = fields.Many2one('school.bloc', compute='_get_student_current_program_id', string='Program')
     
     teacher_current_assigment_ids = fields.One2many('school.assignment', compute='_get_teacher_current_assigment_ids', string="Current Assignments")

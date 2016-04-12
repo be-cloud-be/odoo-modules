@@ -1,4 +1,4 @@
-﻿# -*- encoding: utf-8 -*-
+# -*- encoding: utf-8 -*-
 ##############################################################################
 #
 #    Copyright (c) 2015 be-cloud.be
@@ -18,31 +18,4 @@
 #    along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #
 ##############################################################################
-{
-    'name': 'School management',
-    'version': '0.1',
-    'license': 'AGPL-3',
-    'author': 'be-Cloud.be (Jerome Sonnet)',
-    'website': '',
-    'category': 'Association',
-    'depends': ['mail'],
-    'init_xml': [],
-    'update_xml': [
-        'school_data.xml',
-        'wizard/assignment_generation.xml',
-        'wizard/assign_program.xml',
-        'views/res_partner_view.xml',
-        'views/courses_view.xml',
-        'views/program_view.xml',
-        'report/student_report.xml',
-        'sequences/school_sequence.xml',
-        'security/ir.model.access.csv',
-    ],
-    'demo_xml': [],
-    'description': '''
-        This modules add management tools for a school.
-    ''',
-    'active': False,
-    'installable': True,
-    'application': True,
-}
+import student_report

@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!--
+##############################################################################
+#
+#    Copyright (c) 2015 be-cloud.be
+#                       Jerome Sonnet <jerome.sonnet@be-cloud.be>
+#
+#    This program is free software: you can redistribute it and/or modify
+#    it under the terms of the GNU Affero General Public License as
+#    published by the Free Software Foundation, either version 3 of the
+#    License, or (at your option) any later version.
+#
+#    This program is distributed in the hope that it will be useful,
+#    but WITHOUT ANY WARRANTY; without even the implied warranty of
+#    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+#    GNU Affero General Public License for more details.
+#
+#    You should have received a copy of the GNU Affero General Public License
+#    along with this program.  If not, see <http://www.gnu.org/licenses/>.
+#
+##############################################################################
+-->
+<openerp>
+  <data>
+        <!-- Student report pivot View -->
+        <record id="view_report_school_student_pivot" model="ir.ui.view">
+            <field name="name">school.student.pivot</field>
+            <field name="model">school.student.report</field>
+            <field name="arch" type="xml">
+                <pivot string="Students" disable_linking="True">
+                    <field name="program_id" type="row"/>
+                    <field name="bloc_id" type="row"/>
+                    <field name="year_id" type="col"/>
+                    <field name="sex" type="col"/>
+                    <field name="has_paid_current_minerval" type="measure"/>
+                </pivot>
+            </field>
+        </record>
+        
+        <record id="action_report_school_student" model="ir.actions.act_window">
+            <field name="name">Students Analysis</field>
+            <field name="res_model">school.student.report</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">pivot</field>
+        </record>
+        
+        <menuitem name="Rerporting" parent="menu_main_program" id="menu_report" sequence="90" />
+        
+        <menuitem id="menu_report_student_tree"
+            parent="menu_report" action="action_report_school_student" sequence="20"/>
+        
+    </data>
+</openerp>
