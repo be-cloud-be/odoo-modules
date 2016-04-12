@@ -194,7 +194,7 @@ class Program(models.Model):
     domain_id = fields.Many2one('school.domain', string='Domain')
     cycle_id = fields.Many2one('school.cycle', string='Cycle')
     section_id = fields.Many2one('school.section', string='Section')
-    track_id = fields.Many2one('school.track', string='Track')
+    track_id = fields.Many2one('school.track', string='Option')
     speciality_id = fields.Many2one('school.speciality', string='Speciality')
     
     total_credits = fields.Float(compute='_get_courses_total', string='Total Credits')
@@ -236,7 +236,7 @@ class Domain(models.Model):
 class Cycle(models.Model):
     '''Cycle'''
     _name = 'school.cycle'
-    name = fields.Char(required=True, string='Name', size=40)
+    name = fields.Char(required=True, string='Name', size=60)
     description = fields.Text(string='Description')
     
 class Section(models.Model):
