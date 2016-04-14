@@ -29,7 +29,22 @@ class SaleOrder(models.Model):
     '''Sale Order'''
     _inherit = 'sale.order'
     
-    chantier_id = fields.Many2one('sale_order_construction.chantier', string='Chantier', ondelete='cascade')
+    chantier_id = fields.Many2one('sale_order_construction.chantier', string='Chantier', ondelete='set null')
+    
+    @api.multi
+    def _prepare_invoice(self):
+        """
+        Add chantier adress to invoice
+        """
+        invoice_vals = super(SaleOrder, self)._prepare_invoice()
+        invoice_vals['chantier_id'] = self.chantier_id
+        return invoice_vals
+    
+class Invoice(models.Model):
+    '''Invoice'''
+    _inherit = 'account.invoice'
+    
+    chantier_id = fields.Many2one('sale_order_construction.chantier', string='Chantier', ondelete='set null')
     
 class Chantier(models.Model):
     '''Chantier'''
