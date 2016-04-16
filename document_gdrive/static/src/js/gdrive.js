@@ -86,11 +86,20 @@ odoo.define('document_gdrive.menu_item', function(require) {
         redraw: function() {
             var self = this;
             this._super.apply(this, arguments);
-            self.$el.find('.oe_sidebar_add_attachment').after(QWeb.render('AddGDriveDocumentItem', {
-                widget: self
-            }))
-            self.$el.find('.oe_file_attachment').attr( "target", "_new" );
-            self.$el.find('.oe_sidebar_add_gdrive').on('click', function(e) {
+            if (self.$el.find('.oe_sidebar_add_attachment')) {
+                // Community version
+                self.$el.find('.oe_sidebar_add_attachment').after(QWeb.render('AddGDriveDocumentItem', {
+                    widget: self
+                }))
+                self.$el.find('.oe_file_attachment').attr( "target", "_new" );
+            } else {
+                // Enterprise version
+                self.$el.find('.o_sidebar_add_attachment').after(QWeb.render('AddGDriveDocumentItem', {
+                    widget: self
+                }))
+                self.$el.find('a[data-section$="files"]'').attr( "target", "_new" );
+            }
+                self.$el.find('.oe_sidebar_add_gdrive').on('click', function(e) {
                 self.on_gdrive_doc();
             });
         },
