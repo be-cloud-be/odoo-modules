@@ -19,8 +19,10 @@
 #
 ##############################################################################
 import logging
+import threading
 
-from openerp import api, fields, models, _
+import openerp
+from openerp import tools, api, fields, models, _
 from openerp.exceptions import UserError
 from openerp.tools.safe_eval import safe_eval
 
@@ -69,6 +71,19 @@ class Partner(models.Model):
         current_year_id = safe_eval(self.env['ir.config_parameter'].get_param('school.current_year_id','1'))
         res = self.env['school.assignment'].search([['year_id', '=', current_year_id], ['teacher_id', '=', self.id]])
         self.teacher_current_assigment_ids = res
+        
+    @api.model
+    def _get_default_image(self, is_company, colorize=False):
+        if getattr(threading.currentThread(), 'testing', False) or self.env.context.get('install_mode'):
+            return False
+
+        if self.env.context.get('partner_type') == 'invoice':
+            img_path = openerp.modules.get_module_resource('school_management', 'static/src/img', 'home-icon.png')
+            with open(img_path, 'rb') as f:
+                image = f.read()
+            return tools.image_resize_image_big(image.encode('base64'))
+        else:
+            return super(Partner, self)._get_default_image(is_company, colorize)
         
 class Minerval(models.Model):
     '''Minerval'''
