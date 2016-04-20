@@ -71,9 +71,11 @@ class Partner(models.Model):
         current_year_id = safe_eval(self.env['ir.config_parameter'].get_param('school.current_year_id','1'))
         res = self.env['school.assignment'].search([['year_id', '=', current_year_id], ['teacher_id', '=', self.id]])
         self.teacher_current_assigment_ids = res
-        
+    
+    # TODO : This is not working but don't know why
     @api.model
     def _get_default_image(self, is_company, colorize=False):
+        _logger.info("YES WE ARE HERE")
         if getattr(threading.currentThread(), 'testing', False) or self.env.context.get('install_mode'):
             return False
 
