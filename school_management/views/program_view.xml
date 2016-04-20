@@ -25,7 +25,10 @@
     <!-- Top menu item -->
     <menuitem name="Programs" id="menu_main_program" icon="fa-book" web_icon="school,static/description/icon.png" sequence="60" />
 
+    <menuitem name="Course Groups" parent="menu_main_program" id="menu_course_groups" sequence="1" />
+    
     <menuitem name="Programs" parent="menu_main_program" id="menu_program" sequence="1" />
+    
     <menuitem name="Assignments" parent="menu_main_program" id="menu_assignment" sequence="10" />
 
     <!--
@@ -174,7 +177,7 @@
       <field name="act_window_id" ref="action_course_tree" />
     </record>
 
-    <menuitem id="menu_course_tree" parent="menu_program" action="action_course_tree" sequence="49" />
+    <menuitem id="menu_course_tree" parent="menu_course_groups" action="action_course_tree" sequence="49" />
 
     <record id="action_course_list" model="ir.actions.act_window">
       <field name="name">Course List</field>
@@ -212,7 +215,7 @@
       <field name="act_window_id" ref="action_course_list" />
     </record>
 
-    <menuitem id="menu_course_list" parent="menu_program" action="action_course_list" sequence="50" />
+    <menuitem id="menu_course_list" parent="menu_course_groups" action="action_course_list" sequence="50" />
     
 
     <!--
@@ -366,7 +369,7 @@
       <field name="view_id" ref="course_group_form" />
       <field name="act_window_id" ref="action_course_group_form" />
     </record>
-    <menuitem id="menu_course_group_form" parent="menu_program" action="action_course_group_form" sequence="25" />
+    <menuitem id="menu_course_group_form" parent="menu_course_groups" action="action_course_group_form" sequence="25" />
 
     <!--
     
