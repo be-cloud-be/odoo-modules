@@ -19,6 +19,6 @@
 #
 ##############################################################################
 import res_partner
-import courses
-import assignment
 import program
+import individual_program
+import assignment
