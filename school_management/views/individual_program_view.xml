@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8" ?>
+﻿<?xml version="1.0" encoding="utf-8" ?>
 <!--
 ##############################################################################
 #
@@ -22,19 +22,18 @@
 -->
 <openerp>
   <data>
+    
     <!-- Top menu item -->
-    <menuitem name="Programs" id="menu_main_program" icon="fa-book" web_icon="school,static/description/icon.png" sequence="60" />
+    <menuitem name="Individuals Programs" parent="menu_main_program" id="menu_individual_bloc" sequence="10" />
 
-    <menuitem name="Programs" parent="menu_main_program" id="menu_program" sequence="1" />
-    <menuitem name="Assignments" parent="menu_main_program" id="menu_assignment" sequence="10" />
-
-    <!--
+<!--
+    lt - -
     
         Course
         
-        -->
+        - - >
 
-    <!-- Course Kanban View 
+    lt - - Course Kanban View 
     <record model="ir.ui.view" id="course_kanban_view">
       <field name="name">school.course.kanban</field>
       <field name="model">school.course</field>
@@ -72,9 +71,9 @@
           </templates>
         </kanban>
       </field>
-    </record> -->
+    </record> - - >
 
-    <!-- Course Tree View -->
+    lt - - Course Tree View - - >
     <record id="view_course_tree" model="ir.ui.view">
       <field name="name">school.course.tree</field>
       <field name="model">school.course</field>
@@ -89,18 +88,18 @@
       </field>
     </record>
 
-    <!-- Course Form View -->
+    lt - - Course Form View - - >
     <record model="ir.ui.view" id="course_form">
       <field name="name">school.course.view</field>
       <field name="model">school.course</field>
       <field name="type">form</field>
       <field name="arch" type="xml">
         <form string="Course">
-          <!--<header>
+          lt - -<header>
     		            <button name="transfert_confirm" states="draft" string="Validate" class="oe_highlight" groups="account.group_account_invoice"/>
     		            <button name="transfert_cancel" states="draft,confirmed" string="Cancel Transfert" groups="account.group_account_invoice"/>
     		            <field name="state" widget="statusbar" statusbar_visible="draft,confirmed,paid"/>
-    		        </header>-->
+    		        </header>- - >
           <sheet>
             <group col="4">
               <field name="name" colspan="4" />
@@ -135,7 +134,7 @@
       <field name="model">school.course</field>
       <field name="arch" type="xml">
         <search string="Search Course">
-          <field name="title" filter_domain="[('title','ilike',self)]" />
+          <field name="title" filter_domain="['|',('title','ilike',self)]" />
           <group expand="1" string="Group By">
             <filter string="Program Tree" context="{'group_by':['program_id', 'bloc_id', 'course_group_id']}" />
           </group>
@@ -193,12 +192,12 @@
       </field>
     </record>
     
-    <!--<record id="action_course_form_view1" model="ir.actions.act_window.view">
+    lt - -<record id="action_course_form_view1" model="ir.actions.act_window.view">
       <field name="sequence" eval="0" />
       <field name="view_mode">kanban</field>
       <field name="view_id" ref="course_kanban_view" />
       <field name="act_window_id" ref="action_course_form" />
-    </record>-->
+    </record>- - >
     <record id="action_course_list_tree_view1" model="ir.actions.act_window.view">
       <field name="sequence" eval="1" />
       <field name="view_mode">tree</field>
@@ -215,13 +214,13 @@
     <menuitem id="menu_course_list" parent="menu_program" action="action_course_list" sequence="50" />
     
 
-    <!--
+    lt - -
     
         Course Group
         
-        -->
+        - - >
 
-    <!-- Course Group Kanban View 
+    lt - - Course Group Kanban View 
     <record model="ir.ui.view" id="course_group_kanban_view">
       <field name="name">shcool.course_group.kanban</field>
       <field name="model">school.course_group</field>
@@ -255,9 +254,9 @@
           </templates>
         </kanban>
       </field>
-    </record>-->
+    </record>- - >
 
-    <!-- Course Group Tree View -->
+    lt - - Course Group Tree View - - >
     <record id="view_course_group_tree" model="ir.ui.view">
       <field name="name">school.course_group.tree</field>
       <field name="model">school.course_group</field>
@@ -271,18 +270,18 @@
       </field>
     </record>
 
-    <!-- Course Group Form View -->
+    lt - - Course Group Form View - - >
     <record model="ir.ui.view" id="course_group_form">
       <field name="name">school.course_group.view</field>
       <field name="model">school.course_group</field>
       <field name="type">form</field>
       <field name="arch" type="xml">
         <form string="Course Group">
-          <!--<header>
+          lt - -<header>
     		            <button name="transfert_confirm" states="draft" string="Validate" class="oe_highlight" groups="account.group_account_invoice"/>
     		            <button name="transfert_cancel" states="draft,confirmed" string="Cancel Transfert" groups="account.group_account_invoice"/>
     		            <field name="state" widget="statusbar" statusbar_visible="draft,confirmed,paid"/>
-    		        </header>-->
+    		        </header>- - >
           <sheet>
             <group col="2">
               <field name="name" />
@@ -348,12 +347,12 @@
       </field>
     </record>
 
-    <!--<record id="action_course_group_form_view1" model="ir.actions.act_window.view">
+    lt - -<record id="action_course_group_form_view1" model="ir.actions.act_window.view">
       <field name="sequence" eval="0" />
       <field name="view_mode">kanban</field>
       <field name="view_id" ref="course_group_kanban_view" />
       <field name="act_window_id" ref="action_course_group_form" />
-    </record>-->
+    </record>- - >
     <record id="action_course_group_tree_view1" model="ir.actions.act_window.view">
       <field name="sequence" eval="1" />
       <field name="view_mode">tree</field>
@@ -367,260 +366,87 @@
       <field name="act_window_id" ref="action_course_group_form" />
     </record>
     <menuitem id="menu_course_group_form" parent="menu_program" action="action_course_group_form" sequence="25" />
-
+-->
     <!--
     
-        Bloc
+        Individual Bloc
         
         -->
 
-    <!-- Bloc Kanban View
-    <record model="ir.ui.view" id="bloc_kanban_view">
-      <field name="name">shcool.bloc.kanban</field>
-      <field name="model">school.bloc</field>
-      <field name="arch" type="xml">
-        <kanban class="o_bloc_kanban">
-          <field name="name" />
-          <templates>
-            <t t-name="kanban-box">
-              <div class="oe_kanban_global_click o_bloc_kanban">
-                <div class="o_kanban_card_header">
-                  <div class="o_kanban_card_header_title">
-                    <div class="o_primary">
-                      <strong><field name="name" /></strong>
-                    </div>
-                  </div>
-                  <div class="container o_kanban_card_content o_visible">
-                    <div class="row">
-                      <div class="col-xs-6 o_kanban_primary_left">
-                        <b>Credits : </b>
-                        <field name="total_credits" />
-                      </div>
-                      <div class="col-xs-6">
-                        <b>Hours : </b>
-                        <field name="total_hours" />
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </t>
-          </templates>
-        </kanban>
-      </field>
-    </record> -->
-
-    <!-- Bloc Tree View -->
-    <record id="view_bloc_tree" model="ir.ui.view">
-      <field name="name">school.bloc.tree</field>
-      <field name="model">school.bloc</field>
-      <field eval="8" name="priority" />
-      <field name="arch" type="xml">
-        <tree string="Blocs">
-          <field name="name" />
-          <field name="total_hours" />
-          <field name="total_credits" />
-        </tree>
-      </field>
-    </record>
-
-    <!-- Bloc Form View -->
-    <record model="ir.ui.view" id="bloc_form">
-      <field name="name">school.bloc.view</field>
-      <field name="model">school.bloc</field>
+    <!-- Course Group Form View -->
+    <record model="ir.ui.view" id="individual_course_group_form">
+      <field name="name">school.individual_course_group.view</field>
+      <field name="model">school.individual_course_group</field>
       <field name="type">form</field>
       <field name="arch" type="xml">
-        <form string="Bloc">
+        <form string="Course Group">
+          <!--<header>
+    		            <button name="transfert_confirm" states="draft" string="Validate" class="oe_highlight" groups="account.group_account_invoice"/>
+    		            <button name="transfert_cancel" states="draft,confirmed" string="Cancel Transfert" groups="account.group_account_invoice"/>
+    		            <field name="state" widget="statusbar" statusbar_visible="draft,confirmed,paid"/>
+    		        </header>-->
           <sheet>
             <group col="2">
               <field name="name" />
-              <field name="sequence" />
-              <field name="title" />
+              <field name="source_course_group_id" />
               <group col="4" colspan="2">
                 <field name="total_hours" />
                 <field name="total_credits" />
               </group>
-              <field name="program_id" />
             </group>
-            <field name="course_group_ids" context="{'default_bloc_id':active_id}">
-              <tree string="Course Groups">
-                <field name="title" />
-                <field name="total_hours" />
-                <field name="total_credits" />
+            <field name="course_ids">
+              <tree string="Courses" editable="bottom" create="false" delete="false">
+                <field name="name" />
+                <field name="dispense" />
+                <field name="hours" />
+                <field name="credits" />
+                <field name="weight" />
+                <field name="source_course_id" invisible="1"/>
               </tree>
             </field>
-            <notebook>
-              <page string="Description">
-                <field name="description" placeholder="Vade mecum..." colspan="4" />
-              </page>
-              <page string="Notes">
-                <field name="notes" />
-              </page>
-            </notebook>
           </sheet>
-          <div class="oe_chatter">
-            <field name="message_follower_ids" widget="mail_followers" />
-            <field name="message_ids" widget="mail_thread" />
-          </div>
         </form>
       </field>
     </record>
 
-    <record id="view_bloc_filter" model="ir.ui.view">
-      <field name="name">bloc.select</field>
-      <field name="model">school.bloc</field>
-      <field name="arch" type="xml">
-        <search string="Search Bloc">
-          <field name="title" filter_domain="[( 'title', 'ilike',self)]" />
-        </search>
-      </field>
-    </record>
 
-    <record id="action_bloc_form" model="ir.actions.act_window">
-      <field name="name">Blocs</field>
-      <field name="type">ir.actions.act_window</field>
-      <field name="res_model">school.bloc</field>
-      <field name="view_type">form</field>
-      <field name="view_mode">tree,form</field>
-      <field name="context">{}</field>
-      <field name="search_view_id" ref="view_bloc_filter" />
-      <field name="help" type="html">
-        <p class="oe_view_nocontent_create">
-          Click to add a bloc.
-        </p>
-        <p>
-          Odoo helps you easily track all activities related to a bloc.
-        </p>
-      </field>
-    </record>
-
-    <!--<record id="action_bloc_form_view1" model="ir.actions.act_window.view">
-      <field name="sequence" eval="0" />
-      <field name="view_mode">kanban</field>
-      <field name="view_id" ref="bloc_kanban_view" />
-      <field name="act_window_id" ref="action_bloc_form" />
-    </record>-->
-    <record id="action_bloc_tree_view1" model="ir.actions.act_window.view">
-      <field name="sequence" eval="1" />
-      <field name="view_mode">tree</field>
-      <field name="view_id" ref="view_bloc_tree" />
-      <field name="act_window_id" ref="action_bloc_form" />
-    </record>
-    <record id="action_bloc_form_view2" model="ir.actions.act_window.view">
-      <field name="sequence" eval="2" />
-      <field name="view_mode">form</field>
-      <field name="view_id" ref="bloc_form" />
-      <field name="act_window_id" ref="action_bloc_form" />
-    </record>
-    <menuitem id="menu_bloc_form" parent="menu_program" action="action_bloc_form" sequence="5" />
-
-    <!--
-    
-        Program
-        
-        -->
-
-    <!-- Program Kanban View -->
-    <record model="ir.ui.view" id="program_kanban_view">
-      <field name="name">school.program.kanban</field>
-      <field name="model">school.program</field>
-      <field name="arch" type="xml">
-        <kanban class="o_program_kanban" default_group_by="domain_id">
-          <field name="title" />
-          <templates>
-            <t t-name="kanban-box">
-              <div class="oe_kanban_global_click o_program_kanban">
-                <div class="o_kanban_card_header">
-                  <div class="o_kanban_card_header_title">
-                    <div class="o_primary">
-                      <strong><field name="title" /></strong>
-                    </div>
-                  </div>
-                  <div class="container o_kanban_card_content o_visible">
-                    <div class="row">
-                      <div class="col-xs-6 o_kanban_primary_left">
-                        <b>Credits : </b>
-                        <field name="total_credits" />
-                      </div>
-                      <div class="col-xs-6">
-                        <b>Hours : </b>
-                        <field name="total_hours" />
-                      </div>
-                    </div>
-                  </div>
-                  <!--<div class="o_kanban_manage_button_section">
-                    <a class="o_kanban_manage_toggle_button" href="#">More <i class="fa fa-caret-down"/></a>
-                  </div>-->
-                </div>
-              </div>
-            </t>
-          </templates>
-        </kanban>
-      </field>
-    </record>
-
-    <!-- Program Tree View -->
-    <record id="view_program_tree" model="ir.ui.view">
-      <field name="name">school.program.tree</field>
-      <field name="model">school.program</field>
+    <!-- Individual Bloc Tree View -->
+    <record id="view_individual_bloc_tree" model="ir.ui.view">
+      <field name="name">school.individual_bloc.tree</field>
+      <field name="model">school.individual_bloc</field>
       <field eval="8" name="priority" />
       <field name="arch" type="xml">
-        <tree string="Contacts">
+        <tree string="Individual Bloc" create="false">
+          <field name="year_id" />
+          <field name="student_id" />
           <field name="name" />
-          <field name="total_hours" />
-          <field name="total_credits" />
+          <field name="source_bloc_name" />
         </tree>
       </field>
     </record>
 
-    <!-- Program Form View -->
-    <record model="ir.ui.view" id="program_form">
-      <field name="name">school.program.view</field>
-      <field name="model">school.program</field>
+    <!-- Individual Bloc Form View -->
+    <record model="ir.ui.view" id="individual_bloc_form">
+      <field name="name">school.individual_bloc.view</field>
+      <field name="model">school.individual_bloc</field>
       <field name="type">form</field>
       <field name="arch" type="xml">
-        <form string="Program">
-          <header>
-            <button name="unpublish" type="object" states="published,archived" string="Set to Draft" />
-            <button name="publish" type="object" states="draft" string="Publish Program" class="oe_highlight" />
-            <button name="archive" type="object" states="draft,published" string="Archive Program" />
-            <field name="state" widget="statusbar" statusbar_visible="draft,published,archived" />
-          </header>
+        <form string="Individual Bloc">
           <sheet>
             <group col="4">
-              <field name="title"  colspan="4" />
               <field name="year_id" />
-              <field name="domain_id" />
-              <field name="cycle_id" />
-              <field name="section_id" />
-              <field name="track_id" />
-              <field name="speciality_id"/>
+              <field name="student_id" />
+              <field name="source_bloc_id" />
               <field name="total_hours" />
               <field name="total_credits" />
             </group>
-            <field name="bloc_ids" context="{'default_program_id':active_id}">
-              <tree string="Blocs">
-                <field name="title" />
+            <field name="course_group_ids">
+              <tree string="Course Groups" context="{'default_bloc_id':active_id}">
+                <field name="name"/>
                 <field name="total_hours" />
                 <field name="total_credits" />
               </tree>
             </field>
-            <notebook>
-              <page string="Description">
-                <field name="description" placeholder="Vade mecum..." colspan="4" />
-              </page>
-              <page string="Competencies">
-                <field name="competency_ids">
-                  <tree string="Competencies">
-                    <field name="sequence" />
-                    <field name="description" />
-                  </tree>
-                </field>
-              </page>
-              <page string="Notes">
-                <field name="notes" />
-              </page>
-            </notebook>
           </sheet>
           <div class="oe_chatter">
             <field name="message_follower_ids" widget="mail_followers" />
@@ -630,8 +456,8 @@
       </field>
     </record>
 
-    <record id="view_program_filter" model="ir.ui.view">
-      <field name="name">program.select</field>
+    <!--<record id="view_bloc_filter" model="ir.ui.view">
+      <field name="name">bloc.select</field>
       <field name="model">school.program</field>
       <field name="arch" type="xml">
         <search string="Search Program">
@@ -645,141 +471,82 @@
           </group>
         </search>
       </field>
-    </record>
+    </record>-->
 
-    <record id="action_program_form" model="ir.actions.act_window">
-      <field name="name">Programs</field>
+    <record id="action_individual_bloc_form" model="ir.actions.act_window">
+      <field name="name">Individual Programs</field>
       <field name="type">ir.actions.act_window</field>
-      <field name="res_model">school.program</field>
+      <field name="res_model">school.individual_bloc</field>
       <field name="view_type">form</field>
       <field name="view_mode">tree,form</field>
       <field name="context">{}</field>
-      <field name="search_view_id" ref="view_program_filter" />
+      <!--<field name="search_view_id" ref="view_individual_bloc_filter" />-->
       <field name="help" type="html">
         <p class="oe_view_nocontent_create">
-          Click to add a program.
-        </p>
-        <p>
-          Odoo helps you easily track all activities related to a program.
+          Please add individual program from Student view.
         </p>
       </field>
     </record>
 
-    <record id="action_program_form_view1" model="ir.actions.act_window.view">
-      <field name="sequence" eval="0" />
-      <field name="view_mode">kanban</field>
-      <field name="view_id" ref="program_kanban_view" />
-      <field name="act_window_id" ref="action_program_form" />
-    </record>
-    <record id="action_program_tree_view1" model="ir.actions.act_window.view">
+    <record id="action_individual_bloc_tree_view1" model="ir.actions.act_window.view">
       <field name="sequence" eval="1" />
       <field name="view_mode">tree</field>
-      <field name="view_id" ref="view_program_tree" />
-      <field name="act_window_id" ref="action_program_form" />
+      <field name="view_id" ref="view_individual_bloc_tree" />
+      <field name="act_window_id" ref="action_individual_bloc_form" />
     </record>
-    <record id="action_program_form_view2" model="ir.actions.act_window.view">
+    
+    <record id="action_individual_bloc_form_view2" model="ir.actions.act_window.view">
       <field name="sequence" eval="2" />
       <field name="view_mode">form</field>
-      <field name="view_id" ref="program_form" />
-      <field name="act_window_id" ref="action_program_form" />
+      <field name="view_id" ref="individual_bloc_form" />
+      <field name="act_window_id" ref="action_individual_bloc_form" />
     </record>
-    <menuitem id="menu_program_form" parent="menu_program" action="action_program_form" sequence="1" />
-
-
-    <!--
     
-        Assignment
-        
-        -->
+    <menuitem id="menu_individual_bloc_form" parent="menu_individual_bloc" action="action_individual_bloc_form" sequence="1" />
 
-    <!-- Assignment List View -->
-    <record id="view_assignment_list" model="ir.ui.view">
-      <field name="name">school.assignment.tree</field>
-      <field name="model">school.assignment</field>
+    <!-- Individual Course Tree View -->
+    <record id="view_individual_course_tree" model="ir.ui.view">
+      <field name="name">school.individual_course.tree</field>
+      <field name="model">school.individual_course</field>
       <field eval="8" name="priority" />
       <field name="arch" type="xml">
-        <tree string="Assignment" editable="top">
-          <field name="year_id" readonly="1" />
-          <field name="bloc_id" readonly="1" />
-          <field name="course_id" readonly="1" />
-          <field name="teacher_id" />
+        <tree string="Individual Bloc" editable="top" create="false" delete="false" >
+          <field name="year_id" />
+          <field name="student_id" />
+          <field name="name" />
+          <field name="dispense" />
+          <field name="evaluation" />
         </tree>
       </field>
     </record>
-
-    <record id="view_assignment_filter" model="ir.ui.view">
-      <field name="name">assignment.select</field>
-      <field name="model">school.assignment</field>
+    
+    <record id="view_individual_courses_filter" model="ir.ui.view">
+      <field name="name">individual_course.select</field>
+      <field name="model">school.individual_course</field>
       <field name="arch" type="xml">
-        <search string="Search an Assignment">
-          <group expand="1" string="Group By">
-            <filter string="Bloc" context="{'group_by':'bloc_id'}" />
-            <filter string="Teacher" context="{'group_by':'teacher_id'}" />
-          </group>
-          <filter string="My Assignments" name="my_assignments" domain="[('teacher_id.user_ids','=',uid)]"/>
+        <search string="Search Courses">
+          <field name="student_id" />
+          <field name="name" />
         </search>
       </field>
     </record>
 
-    <record id="action_assignment_list" model="ir.actions.act_window">
-      <field name="name">Assignments</field>
+    <record id="action_individual_course_form" model="ir.actions.act_window">
+      <field name="name">Individual Courses</field>
       <field name="type">ir.actions.act_window</field>
-      <field name="res_model">school.assignment</field>
+      <field name="res_model">school.individual_course</field>
       <field name="view_type">form</field>
       <field name="view_mode">tree</field>
       <field name="context">{}</field>
-      <field name="search_view_id" ref="view_assignment_filter" />
+      <field name="search_view_id" ref="view_individual_courses_filter" />
       <field name="help" type="html">
         <p class="oe_view_nocontent_create">
-          Click to assign a teacher to a course.
-        </p>
-        <p>
-          Odoo helps you easily track teacher assignment.
-        </p>
-      </field>
-    </record>
-    
-    <record id="action_my_assignment_list" model="ir.actions.act_window">
-      <field name="name">My Assignments</field>
-      <field name="type">ir.actions.act_window</field>
-      <field name="res_model">school.assignment</field>
-      <field name="view_type">form</field>
-      <field name="view_mode">tree</field>
-      <field name="context">{"search_default_my_assignments":1}</field>
-      <field name="search_view_id" ref="view_assignment_filter" />
-      <field name="help" type="html">
-        <p class="oe_view_nocontent_create">
-          Click to assign a teacher to a course.
-        </p>
-        <p>
-          Odoo helps you easily track teacher assignment.
+          Please add individual program from Student view.
         </p>
       </field>
     </record>
 
-    <record id="action_assignment_tree_view1" model="ir.actions.act_window.view">
-      <field name="sequence" eval="1" />
-      <field name="view_mode">tree</field>
-      <field name="view_id" ref="view_assignment_list" />
-      <field name="act_window_id" ref="action_assignment_list" />
-    </record>
-
-    <menuitem id="menu_assignment_list" parent="menu_assignment" action="action_assignment_list" sequence="10" />
-    <menuitem id="menu_my_assignment_list" parent="menu_assignment" action="action_my_assignment_list" sequence="20" />
-
-
-    <!-- Competencies Tree View -->
-    <record id="view_competencies_tree" model="ir.ui.view">
-      <field name="name">school.competency.tree</field>
-      <field name="model">school.competency</field>
-      <field eval="8" name="priority" />
-      <field name="arch" type="xml">
-        <tree string="Competences">
-          <field name="sequence" />
-          <field name="description" />
-        </tree>
-      </field>
-    </record>
+    <menuitem id="menu_individual_course_form" parent="menu_individual_bloc" action="action_individual_course_form" sequence="10" />
 
   </data>
 </openerp>
