@@ -102,7 +102,7 @@
                     <div class="row">
                         <div id="o_my_information" class="col-md-12">
                             <div class="o_my_details">
-                                <h3 class="page-header">Vos détails personnels</h3>
+                                <h3 class="page-header">Mes détails personnels</h3>
                                 <div t-field="user.partner_id" t-field-options='{"widget": "contact", "fields": ["email", "phone", "mobile", "address", "name"]}' />
                                 <h4 t-if="not user.partner_id.has_paid_current_minerval">Vous n'avez pas réglé votre minerval, merci de vous mettre en ordre dès que possible.</h4>
                             </div>
@@ -110,7 +110,7 @@
                     </div>
                     <div class="row" t-if="bloc">
                         <div class="col-md-12">
-                            <h3 class="page-header">Votre programme personnel</h3>
+                            <h3 class="page-header">Mon programme personnel</h3>
                         </div>
                         <t t-call="website_portal_school_management.school_bloc"/>
                     </div>
