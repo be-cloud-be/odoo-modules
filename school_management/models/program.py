@@ -25,45 +25,40 @@ from openerp.exceptions import UserError
 
 _logger = logging.getLogger(__name__)
 
-class Course(models.Model):
-    '''Course'''
-    _name = 'school.course'
-    _description = 'Course'
-    _inherit = ['mail.thread']
-    _order = 'program_id,bloc_id,course_group_id,sequence'
-    
-    sequence = fields.Integer(string='Sequence', required=True)
-    title = fields.Char(required=True, string='Title')
-    description = fields.Text(string='Description')
-    
-    credits = fields.Float(required=True, string = 'Credits',digits=(6,2))
-    hours = fields.Float(required=True, string = 'Hours',digits=(6,2))
-    weight =  fields.Float(string = 'Weight',digits=(6,2))
-    
-    notes = fields.Text(string='Notes')
-    
-    course_group_id = fields.Many2one('school.course_group', string='Course Groups', required=True)
-    bloc_id = fields.Many2one('school.bloc', related='course_group_id.bloc_id', store=True)
-    program_id = fields.Many2one('school.program', related='course_group_id.bloc_id.program_id', store=True)
-    
-    name = fields.Char(string='Name', compute='compute_name', store=True)
-    
-    @api.depends('bloc_id.sequence','course_group_id.sequence','sequence','title')
-    @api.multi
-    def compute_name(self):
-        for course in self:
-            course.name = "%d.%d.%d - %s" % (course.bloc_id.sequence,course.course_group_id.sequence,course.sequence,course.title)
-    
-    _sql_constraints = [
-	        ('uniq_course', 'unique(course_group_id, sequence)', 'There shall be only one course with a given sequence within a course group'),
-    ]
-    
 class CourseGroup(models.Model):
     '''Courses Group'''
     _name = 'school.course_group'
     _description = 'Courses Group'
     _inherit = ['mail.thread']
-    _order = 'bloc_id,sequence'
+    _order = 'speciality_id,title'
+    
+    speciality_id = fields.Many2one('school.speciality', string='Speciality')
+    domain_id = fields.Many2one(related='speciality_id.domain_id', string='Domain',store=True)
+    
+    title = fields.Char(required=True, string='Title')
+    
+    description = fields.Text(string='Description')
+    
+    course_ids = fields.One2many('school.course', 'course_group_id', string='Courses', copy=True)
+    
+    name = fields.Char(string='Name', compute='compute_name', store=True)
+    
+    @api.depends('title')
+    @api.multi
+    def compute_name(self):
+        for course_g in self:
+            course_g.name = "%s" % (course_g.title)
+            
+    code_ue = fields.Char(string='Code UE', compute='compute_code_ue', store=True)
+    
+    @api.multi
+    def compute_code_ue(self):
+        for course_g in self:
+            course_g.code_ue = "UE " % ()
+    
+    total_credits = fields.Float(compute='_get_courses_total', string='Total Credits')
+    total_hours = fields.Float(compute='_get_courses_total', string='Total Hours')
+    total_weight = fields.Float(compute='_get_courses_total', string='Total Weight')
 
     @api.one
     @api.depends('course_ids')
@@ -78,41 +73,39 @@ class CourseGroup(models.Model):
         self.total_hours = total_hours
         self.total_credits = total_credits
         self.total_weight = total_weight
-
-    sequence = fields.Integer(string='Sequence', required=True)
-    title = fields.Char(required=True, string='Title')
-    year_id = fields.Many2one('school.year', string="Year", related='bloc_id.year_id', store=True)
-    description = fields.Text(string='Description')
-    
-    total_credits = fields.Float(compute='_get_courses_total', string='Total Credits')
-    total_hours = fields.Float(compute='_get_courses_total', string='Total Hours')
-    total_weight = fields.Float(compute='_get_courses_total', string='Total Weight')
     
     notes = fields.Text(string='Notes')
     
-    course_ids = fields.One2many('school.course', 'course_group_id', string='Courses', copy=True)
-    bloc_id = fields.Many2one('school.bloc', required=True, string='Bloc')
+class Course(models.Model):
+    '''Course'''
+    _name = 'school.course'
+    _description = 'Course'
+    _inherit = ['mail.thread']
+    
+    sequence = fields.Integer(string='Sequence', required=True)
+    title = fields.Char(required=True, string='Title')
+    description = fields.Text(string='Description')
+    
+    credits = fields.Float(required=True, string = 'Credits',digits=(6,2))
+    hours = fields.Float(required=True, string = 'Hours',digits=(6,2))
+    weight =  fields.Float(string = 'Weight',digits=(6,2))
+    
+    course_group_id = fields.Many2one('school.course_group', string='Course Groups', required=True)
+    
+    notes = fields.Text(string='Notes')
     
     name = fields.Char(string='Name', compute='compute_name', store=True)
     
-    @api.depends('bloc_id.sequence','sequence','title')
+    @api.depends('sequence','title')
     @api.multi
     def compute_name(self):
-        for course_g in self:
-            course_g.name = "%d.%d - %s" % (course_g.bloc_id.sequence,course_g.sequence,course_g.title)
-            
-    code_ue = fields.Char(string='Code UE', compute='compute_code_ue', store=True)
-    
-    @api.depends('bloc_id.sequence','sequence')
-    @api.multi
-    def compute_code_ue(self):
-        for course_g in self:
-            course_g.code_ue = "UE %d.%d" % (course_g.bloc_id.sequence,course_g.sequence)
+        for course in self:
+            course.name = "%d - %s" % (course.sequence,course.title)
     
     _sql_constraints = [
-	        ('uniq_course_group', 'unique(bloc_id, sequence)', 'There shall be only one course group with a given sequence within a bloc'),
+	        ('uniq_course', 'unique(course_group_id, sequence)', 'There shall be only one course with a given sequence within a course group'),
     ]
-    
+
 class Bloc(models.Model):
     '''Bloc'''
     _name = 'school.bloc'
@@ -121,13 +114,13 @@ class Bloc(models.Model):
     _order = 'program_id,sequence'
     
     @api.one
-    @api.depends('course_group_ids')
+    #@api.depends('course_group_ids')
     def _get_courses_total(self):
         total_hours = 0.0
         total_credits = 0.0
-        for course_group in self.course_group_ids:
-            total_hours += course_group.total_hours
-            total_credits += course_group.total_credits
+    #    for course_group in self.course_group_ids:
+    #        total_hours += course_group.total_hours
+    #        total_credits += course_group.total_credits
         self.total_hours = total_hours
         self.total_credits = total_credits
 
@@ -141,8 +134,6 @@ class Bloc(models.Model):
 
     notes = fields.Text(string='Notes')
     
-    course_group_ids = fields.One2many('school.course_group', 'bloc_id', string='Courses Groups', copy=True)
-
     program_id = fields.Many2one('school.program', string='Program', copy=False)
 
     name = fields.Char(string='Name', compute='compute_name', store=True)
@@ -256,6 +247,7 @@ class Speciality(models.Model):
     _name = 'school.speciality'
     name = fields.Char(required=True, string='Name', size=40)
     description = fields.Text(string='Description')
+    domain_id = fields.Many2one('school.domain', string='Domain')
     
 class Year(models.Model):
     '''Year'''
