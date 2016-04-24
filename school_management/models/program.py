@@ -37,17 +37,22 @@ class CourseGroup(models.Model):
     
     title = fields.Char(required=True, string='Title')
     
+    level = fields.Integer(string='Level')
+    
     description = fields.Text(string='Description')
     
-    course_ids = fields.One2many('school.course', 'course_group_id', string='Courses', copy=True)
+    course_ids = fields.One2many('school.course', 'course_group_id', string='Courses', copy=True, ondelete='cascade')
     
     name = fields.Char(string='Name', compute='compute_name', store=True)
     
-    @api.depends('title')
+    @api.depends('title','level','speciality_id.name')
     @api.multi
     def compute_name(self):
         for course_g in self:
-            course_g.name = "%s" % (course_g.title)
+            if course_g.level:
+                course_g.name = "%s - %s - %s" % (course_g.title, course_g.speciality_id.name, course_g.level)
+            else:
+                course_g.name = "%s - %s" % (course_g.title, course_g.speciality_id.name)
             
     code_ue = fields.Char(string='Code UE', compute='compute_code_ue', store=True)
     
@@ -118,9 +123,9 @@ class Bloc(models.Model):
     def _get_courses_total(self):
         total_hours = 0.0
         total_credits = 0.0
-    #    for course_group in self.course_group_ids:
-    #        total_hours += course_group.total_hours
-    #        total_credits += course_group.total_credits
+        for course_group in self.course_group_ids:
+            total_hours += course_group.total_hours
+            total_credits += course_group.total_credits
         self.total_hours = total_hours
         self.total_credits = total_credits
 
@@ -137,6 +142,8 @@ class Bloc(models.Model):
     program_id = fields.Many2one('school.program', string='Program', copy=False)
 
     name = fields.Char(string='Name', compute='compute_name', store=True)
+    
+    course_group_ids = fields.Many2many('school.course_group','school_bloc_course_group_rel', id1='bloc_id', id2='group_id',string='Course Groups')
     
     @api.depends('sequence','title')
     @api.multi
@@ -248,6 +255,10 @@ class Speciality(models.Model):
     name = fields.Char(required=True, string='Name', size=40)
     description = fields.Text(string='Description')
     domain_id = fields.Many2one('school.domain', string='Domain')
+    
+    _sql_constraints = [
+	        ('uniq_speciality', 'unique(domain_id, name)', 'There shall be only one speciality in a domain'),
+    ]
     
 class Year(models.Model):
     '''Year'''

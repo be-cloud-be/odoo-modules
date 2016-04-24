@@ -105,6 +105,7 @@
               <!--<field name="name" />-->
               <field name="speciality_id"/>
               <field name="title" />
+              <field name="level" />
               <group col="4" colspan="2">
                 <field name="total_hours" />
                 <field name="total_credits" />
@@ -141,7 +142,7 @@
       <field name="model">school.course_group</field>
       <field name="arch" type="xml">
         <search string="Search Course Group">
-          <field name="title" filter_domain="[( 'title', 'ilike', self)]" />
+          <field name="title" filter_domain="[( 'name', 'ilike', self)]" />
           <group expand="1" string="Group By">
             <filter string="Domain" context="{'group_by':['domain_id']}" />
             <filter string="Speciality" context="{'group_by':['speciality_id']}" />
@@ -449,13 +450,13 @@
               </group>
               <field name="program_id" />
             </group>
-            <!--<field name="course_group_ids" context="{'default_bloc_id':active_id}">
+            <field name="course_group_ids">
               <tree string="Course Groups">
                 <field name="title" />
                 <field name="total_hours" />
                 <field name="total_credits" />
               </tree>
-            </field>-->
+            </field>
             <notebook>
               <page string="Description">
                 <field name="description" placeholder="Vade mecum..." colspan="4" />
