@@ -40,8 +40,8 @@ class IndividualBloc(models.Model):
     
     course_group_ids = fields.One2many('school.individual_course_group', 'bloc_id', string='Courses Groups')
     
-    total_credits = fields.Float(compute='_get_courses_total', string='Total Credits')
-    total_hours = fields.Float(compute='_get_courses_total', string='Total Hours')
+    total_credits = fields.Integer(compute='_get_courses_total', string='Total Credits')
+    total_hours = fields.Integer(compute='_get_courses_total', string='Total Hours')
     total_weight = fields.Float(compute='_get_courses_total', string='Total Weight')
 
     @api.one
@@ -90,8 +90,8 @@ class IndividualCourseGroup(models.Model):
     bloc_id = fields.Many2one('school.individual_bloc', string="Bloc", ondelete='cascade', readonly=True)
     course_ids = fields.One2many('school.individual_course', 'course_group_id', string='Courses')
     
-    total_credits = fields.Float(compute='_get_courses_total', string='Total Credits')
-    total_hours = fields.Float(compute='_get_courses_total', string='Total Hours')
+    total_credits = fields.Integer(compute='_get_courses_total', string='Total Credits')
+    total_hours = fields.Integer(compute='_get_courses_total', string='Total Hours')
     total_weight = fields.Float(compute='_get_courses_total', string='Total Weight')
     code_ue =  fields.Char(related="source_course_group_id.code_ue", readonly=True)
     
@@ -128,8 +128,8 @@ class IndividualCourse(models.Model):
     year_id = fields.Many2one('school.year', related="course_group_id.bloc_id.year_id")
     student_id = fields.Many2one('res.partner', related="course_group_id.bloc_id.student_id")
 
-    credits = fields.Float(related="source_course_id.credits", readonly=True)
-    hours = fields.Float(related="source_course_id.hours", readonly=True)
+    credits = fields.Integer(related="source_course_id.credits", readonly=True)
+    hours = fields.Integer(related="source_course_id.hours", readonly=True)
     weight =  fields.Float(related="source_course_id.weight", readonly=True)
     
     dispense = fields.Boolean(string="Dispensed",default=False)

@@ -30,18 +30,22 @@ class CourseGroup(models.Model):
     _name = 'school.course_group'
     _description = 'Courses Group'
     _inherit = ['mail.thread']
-    _order = 'speciality_id,title'
+    _order = 'sequence'
+    
+    sequence = fields.Integer(string='Sequence', required=True)
+    
+    title = fields.Char(required=True, string='Title')
     
     speciality_id = fields.Many2one('school.speciality', string='Speciality')
     domain_id = fields.Many2one(related='speciality_id.domain_id', string='Domain',store=True)
-    
-    title = fields.Char(required=True, string='Title')
+    section_id = fields.Many2one(related='speciality_id.section_id', string='Section',store=True)
+    track_id = fields.Many2one(related='speciality_id.track_id', string='Track',store=True)
     
     level = fields.Integer(string='Level')
     
     description = fields.Text(string='Description')
-    
-    course_ids = fields.One2many('school.course', 'course_group_id', string='Courses', copy=True, ondelete='cascade')
+
+    course_ids = fields.One2many('school.course', 'course_group_id', string='Courses', copy=True)
     
     name = fields.Char(string='Name', compute='compute_name', store=True)
     
@@ -61,9 +65,9 @@ class CourseGroup(models.Model):
         for course_g in self:
             course_g.code_ue = "UE " % ()
     
-    total_credits = fields.Float(compute='_get_courses_total', string='Total Credits')
-    total_hours = fields.Float(compute='_get_courses_total', string='Total Hours')
-    total_weight = fields.Float(compute='_get_courses_total', string='Total Weight')
+    total_credits = fields.Integer(compute='_get_courses_total', string='Total Credits')
+    total_hours = fields.Integer(compute='_get_courses_total', string='Total Hours')
+    total_weight = fields.Integer(compute='_get_courses_total', string='Total Weight')
 
     @api.one
     @api.depends('course_ids')
@@ -89,27 +93,38 @@ class Course(models.Model):
     
     sequence = fields.Integer(string='Sequence', required=True)
     title = fields.Char(required=True, string='Title')
+    
     description = fields.Text(string='Description')
     
-    credits = fields.Float(required=True, string = 'Credits',digits=(6,2))
-    hours = fields.Float(required=True, string = 'Hours',digits=(6,2))
-    weight =  fields.Float(string = 'Weight',digits=(6,2))
+    course_group_id = fields.Many2one('school.course_group', string='Course Group')
     
-    course_group_id = fields.Many2one('school.course_group', string='Course Groups', required=True)
+    level = fields.Integer(related='course_group_id.level',string='Level')
+    
+    speciality_id = fields.Many2one(related='course_group_id.speciality_id', string='Speciality',store=True)
+    domain_id = fields.Many2one(related='course_group_id.domain_id', string='Domain',store=True)
+    section_id = fields.Many2one(related='course_group_id.section_id', string='Section',store=True)
+    track_id = fields.Many2one(related='course_group_id.track_id', string='Track',store=True)
+    
+    credits = fields.Integer(required=True, string = 'Credits')
+    hours = fields.Integer(required=True, string = 'Hours')
+    weight =  fields.Float(string = 'Weight',digits=(6,2))
     
     notes = fields.Text(string='Notes')
     
     name = fields.Char(string='Name', compute='compute_name', store=True)
     
-    @api.depends('sequence','title')
+    @api.depends('title','level','speciality_id.name')
     @api.multi
     def compute_name(self):
         for course in self:
-            course.name = "%d - %s" % (course.sequence,course.title)
+            if course.level:
+                course.name = "%s - %s - %s" % (course.title, course.speciality_id.name, course.level)
+            else:
+                course.name = "%s - %s" % (course.title, course.speciality_id.name)
     
-    _sql_constraints = [
-	        ('uniq_course', 'unique(course_group_id, sequence)', 'There shall be only one course with a given sequence within a course group'),
-    ]
+    #_sql_constraints = [
+	#        ('uniq_course', 'unique(course_group_id, sequence)', 'There shall be only one course with a given sequence within a course group'),
+    #]
 
 class Bloc(models.Model):
     '''Bloc'''
@@ -119,7 +134,7 @@ class Bloc(models.Model):
     _order = 'program_id,sequence'
     
     @api.one
-    #@api.depends('course_group_ids')
+    @api.depends('course_group_ids')
     def _get_courses_total(self):
         total_hours = 0.0
         total_credits = 0.0
@@ -149,7 +164,7 @@ class Bloc(models.Model):
     @api.multi
     def compute_name(self):
         for bloc in self:
-            bloc.name = "%d - %s" % (bloc.sequence,bloc.title)
+            bloc.name = "%s - %d" % (bloc.title,bloc.sequence)
 
     _sql_constraints = [
 	        ('uniq_bloc', 'unique(program_id, sequence)', 'There shall be only one bloc with a given sequence within a program'),
@@ -189,14 +204,15 @@ class Program(models.Model):
     
     competency_ids = fields.Many2many('school.competency','school_competency_program_rel', id1='program_id', id2='competency_id', string='Competencies', ondelete='set null')
     
-    domain_id = fields.Many2one('school.domain', string='Domain')
     cycle_id = fields.Many2one('school.cycle', string='Cycle')
-    section_id = fields.Many2one('school.section', string='Section')
-    track_id = fields.Many2one('school.track', string='Option')
-    speciality_id = fields.Many2one('school.speciality', string='Speciality')
     
-    total_credits = fields.Float(compute='_get_courses_total', string='Total Credits')
-    total_hours = fields.Float(compute='_get_courses_total', string='Total Hours')
+    speciality_id = fields.Many2one('school.speciality', string='Speciality')
+    domain_id = fields.Many2one(related='speciality_id.domain_id', string='Domain',store=True)
+    section_id = fields.Many2one(related='speciality_id.section_id', string='Section',store=True)
+    track_id = fields.Many2one(related='speciality_id.track_id', string='Track',store=True)
+    
+    total_credits = fields.Integer(compute='_get_courses_total', string='Total Credits')
+    total_hours = fields.Integer(compute='_get_courses_total', string='Total Hours')
 
     notes = fields.Text(string='Notes')
     
@@ -255,6 +271,8 @@ class Speciality(models.Model):
     name = fields.Char(required=True, string='Name', size=40)
     description = fields.Text(string='Description')
     domain_id = fields.Many2one('school.domain', string='Domain')
+    section_id = fields.Many2one('school.section', string='Section')
+    track_id = fields.Many2one('school.track', string='Track')
     
     _sql_constraints = [
 	        ('uniq_speciality', 'unique(domain_id, name)', 'There shall be only one speciality in a domain'),

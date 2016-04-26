@@ -105,6 +105,7 @@
               <!--<field name="name" />-->
               <field name="speciality_id"/>
               <field name="title" />
+              <field name="sequence" />
               <field name="level" />
               <group col="4" colspan="2">
                 <field name="total_hours" />
@@ -114,7 +115,7 @@
 
             <field name="course_ids" context="{'default_course_group_id':active_id}">
               <tree string="Courses">
-                <field name="title" />
+                <field name="name" />
                 <field name="hours" />
                 <field name="credits" />
                 <field name="weight" />
@@ -241,7 +242,7 @@
       <field name="model">school.course</field>
       <field eval="8" name="priority" />
       <field name="arch" type="xml">
-        <tree string="Courses" editable="bottom" create="false" delete="false">
+        <tree string="Courses">
           <field name="name" />
           <field name="hours" />
           <field name="credits" />
@@ -264,10 +265,12 @@
     		        </header>-->
           <sheet>
             <group col="4">
-              <field name="course_group_id" colspan="4" readonly="1"/>
-              <!--<field name="name" colspan="4" />-->
+              <!--<field name="course_group_id" colspan="4" readonly="1"/>
+              <field name="name" colspan="4" />-->
               <field name="sequence" colspan="4" />
-              <field name="title" colspan="4" />
+              <field name="speciality_id"/>
+              <field name="title" />
+              <field name="level" />
               <group col="6" colspan="4">
                 <field name="hours" />
                 <field name="credits" />
@@ -298,7 +301,7 @@
         <search string="Search Course">
           <field name="title" filter_domain="[('title','ilike',self)]" />
           <group expand="1" string="Group By">
-            <filter string="Program Tree" context="{'group_by':['program_id', 'bloc_id', 'course_group_id']}" />
+            <filter string="Track Tree" context="{'group_by':['track_id', 'course_group_id']}" />
           </group>
         </search>
       </field>
@@ -310,7 +313,7 @@
       <field name="res_model">school.course</field>
       <field name="view_type">form</field>
       <field name="view_mode">tree,form</field>
-      <field name="context">{'group_by':['program_id', 'bloc_id', 'course_group_id']}</field>
+      <field name="context">{'group_by':['track_id', 'course_group_id']}</field>
       <field name="search_view_id" ref="view_course_filter" />
       <field name="help" type="html">
         <p class="oe_view_nocontent_create">
@@ -452,7 +455,7 @@
             </group>
             <field name="course_group_ids">
               <tree string="Course Groups">
-                <field name="title" />
+                <field name="name" />
                 <field name="total_hours" />
                 <field name="total_credits" />
               </tree>
@@ -533,7 +536,7 @@
       <field name="name">school.program.kanban</field>
       <field name="model">school.program</field>
       <field name="arch" type="xml">
-        <kanban class="o_program_kanban" default_group_by="domain_id">
+        <kanban class="o_program_kanban" default_group_by="track_id">
           <field name="title" />
           <templates>
             <t t-name="kanban-box">
@@ -598,17 +601,17 @@
             <group col="4">
               <field name="title"  colspan="4" />
               <field name="year_id" />
-              <field name="domain_id" />
+              <field name="domain_id" readonly="1"/>
               <field name="cycle_id" />
-              <field name="section_id" />
-              <field name="track_id" />
+              <field name="section_id" readonly="1"/>
+              <field name="track_id" readonly="1"/>
               <field name="speciality_id"/>
               <field name="total_hours" />
               <field name="total_credits" />
             </group>
             <field name="bloc_ids" context="{'default_program_id':active_id}">
               <tree string="Blocs">
-                <field name="title" />
+                <field name="name" />
                 <field name="total_hours" />
                 <field name="total_credits" />
               </tree>
@@ -707,8 +710,8 @@
       <field eval="8" name="priority" />
       <field name="arch" type="xml">
         <tree string="Assignment" editable="top">
-          <field name="year_id" readonly="1" />
-          <field name="bloc_id" readonly="1" />
+          <!--<field name="year_id" readonly="1" />
+          <field name="bloc_id" readonly="1" />-->
           <field name="course_id" readonly="1" />
           <field name="teacher_id" />
         </tree>
