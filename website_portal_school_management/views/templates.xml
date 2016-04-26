@@ -1,4 +1,4 @@
-﻿<?xml version="1.0" encoding="utf-8" ?>
+<?xml version="1.0" encoding="utf-8" ?>
 <!--
 ##############################################################################
 #
@@ -60,7 +60,7 @@
                     <t t-foreach="bloc.course_group_ids" t-as="course_group">
                     <tr class="oe_school_course_group">
                         <td><t t-esc="course_group.code_ue"/></td>
-                        <td><t t-esc="course_group.name"/></td>
+                        <td><t t-esc="course_group.title"/></td>
                         <td class="text-center"><t t-esc="course_group.total_hours"/></td>
                         <td class="text-center"><t t-esc="course_group.total_credits"/></td>
                         <td></td>
@@ -70,7 +70,7 @@
                     </tr>
                     <tr t-foreach="course_group.course_ids" t-as="course">
                         <td></td>
-                        <td><t t-esc="course.name"/></td>
+                        <td><t t-esc="course.title"/></td>
                         <td class="text-center"><t t-esc="course.hours"/></td>
                         <td class="text-center"><t t-esc="course.credits"/></td>
                         <td class="text-center"><t t-esc="course.weight"/></td>
@@ -141,13 +141,14 @@
                             <t t-if="d != program.domain_id"> 
                                 <h3><t t-esc="program.domain_id.name" /></h3>
                                 <t t-set="d" t-value="program.domain_id"/>
+                                <t t-set="c" t-value="False"/>
                             </t>
                             <t t-if="c != program.cycle_id"> 
                                 <h4><t t-esc="program.cycle_id.name" /></h4>
                                 <t t-set="c" t-value="program.cycle_id"/>
                             </t>
-                            <div class="thumbnail oe_school_program">
-                                <div>
+                            <div class="col-md-4">
+                                <div class="thumbnail oe_school_program">
                                     <div class="caption">
                                         <a itemprop="url" t-att-href="'/program/%s' % slug(program)"><t t-esc="program.name" /></a>
                                     </div>
