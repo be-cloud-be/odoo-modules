@@ -28,8 +28,6 @@
     <menuitem name="Course Groups" parent="menu_main_program" id="menu_course_groups" sequence="1" />
     
     <menuitem name="Programs" parent="menu_main_program" id="menu_program" sequence="10" />
-    
-    <menuitem name="Assignments" parent="menu_main_program" id="menu_assignment" sequence="20" />
 
     <!--
     

@@ -43,7 +43,7 @@ class Partner(models.Model):
     has_paid_current_minerval = fields.Boolean(compute='_has_paid_current_minerval',string="Has paid current minerval", store=True)
     student_current_program_id = fields.Many2one('school.bloc', compute='_get_student_current_program_id', string='Program')
     
-    teacher_current_assigment_ids = fields.One2many('school.assignment', compute='_get_teacher_current_assigment_ids', string="Current Assignments")
+    teacher_current_course_session_ids = fields.One2many('school.course_session', compute='_get_teacher_current_course_session_ids', string="Current Course Sessions")
     
     @api.one
     @api.depends('minerval_ids')
@@ -67,11 +67,10 @@ class Partner(models.Model):
             self.student_current_program_id = res[0].source_bloc_id
     
     @api.one
-    def _get_teacher_current_assigment_ids(self):
-        #current_year_id = safe_eval(self.env['ir.config_parameter'].get_param('school.current_year_id','1'))
-        #res = self.env['school.assignment'].search([['year_id', '=', current_year_id], ['teacher_id', '=', self.id]])
-        #self.teacher_current_assigment_ids = res
-        self.teacher_current_assigment_ids = None
+    def _get_teacher_current_course_session_ids(self):
+        current_year_id = safe_eval(self.env['ir.config_parameter'].get_param('school.current_year_id','1'))
+        res = self.env['school.course_session'].search([['year_id', '=', current_year_id], ['teacher_id', '=', self.id]])
+        self.teacher_current_assigment_ids = res
     
     # TODO : This is not working but don't know why
     @api.model
