@@ -467,7 +467,7 @@
                 <field name="total_hours" />
                 <field name="total_credits" />
                 <field name="program_id" />
-                <field name="total_credits" />
+                <field name="total_weight" />
               </group>
             </group>
             <field name="course_group_ids">
@@ -475,6 +475,7 @@
                 <field name="name" />
                 <field name="total_hours" />
                 <field name="total_credits" />
+                <field name="total_weight" />
               </tree>
             </field>
             <notebook>
@@ -716,89 +717,6 @@
       <field name="act_window_id" ref="action_program_form" />
     </record>
     <menuitem id="menu_program_form" parent="menu_program" action="action_program_form" sequence="1" />
-
-
-    <!--
-    
-        Assignment
-        
-        -->
-
-    <!-- Assignment List View -->
-    <record id="view_assignment_list" model="ir.ui.view">
-      <field name="name">school.assignment.tree</field>
-      <field name="model">school.assignment</field>
-      <field eval="8" name="priority" />
-      <field name="arch" type="xml">
-        <tree string="Assignment" editable="top">
-          <!--<field name="year_id" readonly="1" />
-          <field name="bloc_id" readonly="1" />-->
-          <field name="course_id" readonly="1" />
-          <field name="teacher_id" />
-        </tree>
-      </field>
-    </record>
-
-    <record id="view_assignment_filter" model="ir.ui.view">
-      <field name="name">assignment.select</field>
-      <field name="model">school.assignment</field>
-      <field name="arch" type="xml">
-        <search string="Search an Assignment">
-          <group expand="1" string="Group By">
-            <filter string="Bloc" context="{'group_by':'bloc_id'}" />
-            <filter string="Teacher" context="{'group_by':'teacher_id'}" />
-          </group>
-          <filter string="My Assignments" name="my_assignments" domain="[('teacher_id.user_ids','=',uid)]"/>
-        </search>
-      </field>
-    </record>
-
-    <record id="action_assignment_list" model="ir.actions.act_window">
-      <field name="name">Assignments</field>
-      <field name="type">ir.actions.act_window</field>
-      <field name="res_model">school.assignment</field>
-      <field name="view_type">form</field>
-      <field name="view_mode">tree</field>
-      <field name="context">{}</field>
-      <field name="search_view_id" ref="view_assignment_filter" />
-      <field name="help" type="html">
-        <p class="oe_view_nocontent_create">
-          Click to assign a teacher to a course.
-        </p>
-        <p>
-          Odoo helps you easily track teacher assignment.
-        </p>
-      </field>
-    </record>
-    
-    <record id="action_my_assignment_list" model="ir.actions.act_window">
-      <field name="name">My Assignments</field>
-      <field name="type">ir.actions.act_window</field>
-      <field name="res_model">school.assignment</field>
-      <field name="view_type">form</field>
-      <field name="view_mode">tree</field>
-      <field name="context">{"search_default_my_assignments":1}</field>
-      <field name="search_view_id" ref="view_assignment_filter" />
-      <field name="help" type="html">
-        <p class="oe_view_nocontent_create">
-          Click to assign a teacher to a course.
-        </p>
-        <p>
-          Odoo helps you easily track teacher assignment.
-        </p>
-      </field>
-    </record>
-
-    <record id="action_assignment_tree_view1" model="ir.actions.act_window.view">
-      <field name="sequence" eval="1" />
-      <field name="view_mode">tree</field>
-      <field name="view_id" ref="view_assignment_list" />
-      <field name="act_window_id" ref="action_assignment_list" />
-    </record>
-
-    <menuitem id="menu_assignment_list" parent="menu_assignment" action="action_assignment_list" sequence="10" />
-    <menuitem id="menu_my_assignment_list" parent="menu_assignment" action="action_my_assignment_list" sequence="20" />
-
 
     <!-- Competencies Tree View -->
     <record id="view_competencies_tree" model="ir.ui.view">

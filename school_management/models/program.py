@@ -69,7 +69,7 @@ class CourseGroup(models.Model):
     
     total_credits = fields.Integer(compute='_get_courses_total', string='Total Credits')
     total_hours = fields.Integer(compute='_get_courses_total', string='Total Hours')
-    total_weight = fields.Integer(compute='_get_courses_total', string='Total Weight')
+    total_weight = fields.Float(compute='_get_courses_total', string='Total Weight')
 
     @api.one
     @api.depends('course_ids')
@@ -142,11 +142,14 @@ class Bloc(models.Model):
     def _get_courses_total(self):
         total_hours = 0.0
         total_credits = 0.0
+        total_weight = 0.0
         for course_group in self.course_group_ids:
             total_hours += course_group.total_hours
             total_credits += course_group.total_credits
+            total_weight += course_group.total_weight
         self.total_hours = total_hours
         self.total_credits = total_credits
+        self.total_weight = total_weight
 
     sequence = fields.Integer(string='Sequence', required=True)
     title = fields.Char(required=True, string='Title')
@@ -162,6 +165,7 @@ class Bloc(models.Model):
     
     total_credits = fields.Integer(compute='_get_courses_total', string='Total Credits')
     total_hours = fields.Integer(compute='_get_courses_total', string='Total Hours')
+    total_weight = fields.Float(compute='_get_courses_total', string='Total Weight')
 
     notes = fields.Text(string='Notes')
     

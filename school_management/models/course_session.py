@@ -25,21 +25,16 @@ from openerp.exceptions import UserError
 
 _logger = logging.getLogger(__name__)
 
-class Assignment(models.Model):
-    '''Assignment'''
-    _name = 'school.assignment'
+class CourseSession(models.Model):
+    '''Course Session'''
+    _name = 'school.course_session'
     
-    #year_id = fields.Many2one(string='Year',related='bloc_id.year_id', store=True)
-    #porgram_id = fields.Many2one('school.program', related='bloc_id.program_id', store=True)
-    #bloc_id = fields.Many2one('school.bloc', string='Bloc', required=True)
-    #course_group_id = fields.Many2one('school.course_group', related='course_id.course_group_id', store=True)
+    year_id = fields.Many2one('school.year', string='Year', readonly=True)
     course_id = fields.Many2one('school.course', string='Course', required=True)
-    
     teacher_id = fields.Many2one('res.partner', string='Teacher', domain="[('teacher', '=', '1')]")
     
+    quarter = fields.Selection([('q1', 'Q1'),('q2', 'Q2')],string='Quarter')
     schedule = fields.Char(string='Schedule')
     room = fields.Char(string='Room')
     
-    _sql_constraints = [
-	        ('uniq_bloc_course', 'unique(bloc_id, course_id)', 'There shall be only one assigment for a course within a bloc'),
-    ]
+    student_ids = fields.Many2many()

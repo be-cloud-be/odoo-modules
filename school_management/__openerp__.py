@@ -33,6 +33,7 @@
         'wizard/assign_program.xml',
         'views/res_partner_view.xml',
         'views/program_view.xml',
+        'views/course_session_view.xml',
         'views/individual_program_view.xml',
         'report/student_report.xml',
         'sequences/school_sequence.xml',
