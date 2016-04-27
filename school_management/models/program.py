@@ -45,7 +45,9 @@ class CourseGroup(models.Model):
     
     description = fields.Text(string='Description')
 
-    course_ids = fields.One2many('school.course', 'course_group_id', string='Courses', copy=True)
+    course_ids = fields.One2many('school.course', 'course_group_id', string='Courses', copy=True, ondelete="cascade")
+
+    bloc_ids = fields.Many2many('school.bloc','school_bloc_course_group_rel', id1='group_id', id2='bloc_id',string='Blocs')
     
     name = fields.Char(string='Name', compute='compute_name', store=True)
     
@@ -96,14 +98,16 @@ class Course(models.Model):
     
     description = fields.Text(string='Description')
     
+    url_ref = fields.Char(string='Url Reference')
+    
     course_group_id = fields.Many2one('school.course_group', string='Course Group')
     
-    level = fields.Integer(related='course_group_id.level',string='Level')
+    level = fields.Integer(related='course_group_id.level',string='Level', readonly=True)
     
-    speciality_id = fields.Many2one(related='course_group_id.speciality_id', string='Speciality',store=True)
-    domain_id = fields.Many2one(related='course_group_id.domain_id', string='Domain',store=True)
-    section_id = fields.Many2one(related='course_group_id.section_id', string='Section',store=True)
-    track_id = fields.Many2one(related='course_group_id.track_id', string='Track',store=True)
+    speciality_id = fields.Many2one(related='course_group_id.speciality_id', string='Speciality',store=True, readonly=True)
+    domain_id = fields.Many2one(related='course_group_id.domain_id', string='Domain',store=True, readonly=True)
+    section_id = fields.Many2one(related='course_group_id.section_id', string='Section',store=True, readonly=True)
+    track_id = fields.Many2one(related='course_group_id.track_id', string='Track',store=True, readonly=True)
     
     credits = fields.Integer(required=True, string = 'Credits')
     hours = fields.Integer(required=True, string = 'Hours')
@@ -148,6 +152,11 @@ class Bloc(models.Model):
     title = fields.Char(required=True, string='Title')
     year_id = fields.Many2one('school.year', string="Year", related='program_id.year_id', store=True)
     description = fields.Text(string='Description')
+    
+    speciality_id = fields.Many2one(related='program_id.speciality_id', string='Speciality',store=True)
+    domain_id = fields.Many2one(related='program_id.domain_id', string='Domain',store=True)
+    section_id = fields.Many2one(related='program_id.section_id', string='Section',store=True)
+    track_id = fields.Many2one(related='program_id.track_id', string='Track',store=True)
     
     total_credits = fields.Integer(compute='_get_courses_total', string='Total Credits')
     total_hours = fields.Integer(compute='_get_courses_total', string='Total Hours')

@@ -434,9 +434,9 @@
         <form string="Individual Bloc">
           <sheet>
             <group col="4">
-              <field name="year_id" />
-              <field name="student_id" />
-              <field name="source_bloc_id" />
+              <field name="year_id" colspan="4"/>
+              <field name="student_id"  colspan="4"/>
+              <field name="source_bloc_id"  colspan="4"/>
               <field name="total_hours" />
               <field name="total_credits" />
             </group>
@@ -510,7 +510,7 @@
       <field name="model">school.individual_course</field>
       <field eval="8" name="priority" />
       <field name="arch" type="xml">
-        <tree string="Individual Bloc" editable="top" create="false" delete="false" >
+        <tree string="Individual Course" editable="top" create="false" delete="false" >
           <field name="year_id" />
           <field name="student_id" />
           <field name="name" />

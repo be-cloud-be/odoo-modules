@@ -101,16 +101,18 @@
     		            <field name="state" widget="statusbar" statusbar_visible="draft,confirmed,paid"/>
     		        </header>-->
           <sheet>
-            <group col="2">
-              <!--<field name="name" />-->
-              <field name="speciality_id"/>
-              <field name="title" />
+            <div class="oe_title">
+              <h1>
+               <field name="name"/>
+              </h1>
+            </div>
+            <group col="4">
+              <field name="speciality_id" colspan="4"/>
+              <field name="title" colspan="4"/>
               <field name="sequence" />
               <field name="level" />
-              <group col="4" colspan="2">
-                <field name="total_hours" />
-                <field name="total_credits" />
-              </group>
+              <field name="total_hours" />
+              <field name="total_credits" />
             </group>
 
             <field name="course_ids" context="{'default_course_group_id':active_id}">
@@ -122,6 +124,13 @@
               </tree>
             </field>
             <notebook>
+              <page string="Blocs">
+                <field name="bloc_ids" readonly="1">
+                  <tree string="Blocs">
+                    <field name="name" />
+                  </tree>
+                </field>
+              </page>
               <page string="Description">
                 <field name="description" placeholder="Vade mecum..." colspan="4" />
               </page>
@@ -264,18 +273,21 @@
     		            <field name="state" widget="statusbar" statusbar_visible="draft,confirmed,paid"/>
     		        </header>-->
           <sheet>
+            <div class="oe_title">
+              <h1>
+               <field name="name"/>
+              </h1>
+            </div>
             <group col="4">
               <!--<field name="course_group_id" colspan="4" readonly="1"/>
               <field name="name" colspan="4" />-->
-              <field name="sequence" colspan="4" />
+              <field name="sequence" />
               <field name="speciality_id"/>
-              <field name="title" />
-              <field name="level" />
-              <group col="6" colspan="4">
-                <field name="hours" />
-                <field name="credits" />
-                <field name="weight" />
-              </group>
+              <field name="title" colspan="4"/>
+              <field name="hours" />
+              <field name="credits" />
+              <field name="weight" />
+              <field name="url_ref" widget="url"/>
             </group>
             <notebook>
               <page string="Description">
@@ -443,8 +455,12 @@
       <field name="arch" type="xml">
         <form string="Bloc">
           <sheet>
+            <div class="oe_title">
+              <h1>
+               <field name="name"/>
+              </h1>
+            </div>
             <group col="2">
-              <field name="name" />
               <field name="sequence" />
               <field name="title" />
               <group col="4" colspan="2">
@@ -523,7 +539,7 @@
       <field name="view_id" ref="bloc_form" />
       <field name="act_window_id" ref="action_bloc_form" />
     </record>
-    <menuitem id="menu_bloc_form" parent="menu_program" action="action_bloc_form" sequence="5" />
+    <!-- <menuitem id="menu_bloc_form" parent="menu_program" action="action_bloc_form" sequence="5" /> -->
 
     <!--
     
@@ -576,7 +592,7 @@
       <field name="model">school.program</field>
       <field eval="8" name="priority" />
       <field name="arch" type="xml">
-        <tree string="Contacts">
+        <tree string="Program">
           <field name="name" />
           <field name="total_hours" />
           <field name="total_credits" />
@@ -598,8 +614,12 @@
             <field name="state" widget="statusbar" statusbar_visible="draft,published,archived" />
           </header>
           <sheet>
+            <div class="oe_title">
+              <h1>
+               <field name="title"/>
+              </h1>
+            </div>
             <group col="4">
-              <field name="title"  colspan="4" />
               <field name="year_id" />
               <field name="domain_id" readonly="1"/>
               <field name="cycle_id" />

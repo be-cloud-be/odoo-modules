@@ -30,12 +30,17 @@ class IndividualBloc(models.Model):
     _name='school.individual_bloc'
     _description='Individual Bloc'
     _inherit = ['mail.thread']
+    _inherits = {
+        'school.bloc': 'source_bloc_id',
+    }
     
-    name = fields.Char(compute='_compute_name',string='Name')
+    name = fields.Char(compute='_compute_name',string='Name', readonly=True)
+    title = fields.Char(related="source_bloc_id.title", readonly=True)
     
     year_id = fields.Many2one('school.year', string='Year', readonly=True)
     student_id = fields.Many2one('res.partner', string='Student', domain="[('student', '=', '1')]", readonly=True)
-    source_bloc_id = fields.Many2one('school.bloc', string="Source Bloc", readonly=True)
+    
+    source_bloc_id = fields.Many2one('school.bloc', string="Source Bloc", readonly=True, auto_join=True)
     source_bloc_name = fields.Char(related='source_bloc_id.name', string="Source Bloc Name", readonly=True)
     
     course_group_ids = fields.One2many('school.individual_course_group', 'bloc_id', string='Courses Groups')
@@ -84,16 +89,17 @@ class IndividualCourseGroup(models.Model):
     _name='school.individual_course_group'
     _description='Individual Course Group'
     
-    name = fields.Char(related="source_course_group_id.name")
+    _inherits = {
+        'school.course_group': 'source_course_group_id',
+    }
     
-    source_course_group_id = fields.Many2one('school.course_group', string="Source Course Group")
+    source_course_group_id = fields.Many2one('school.course_group', string="Source Course Group", auto_join=True)
     bloc_id = fields.Many2one('school.individual_bloc', string="Bloc", ondelete='cascade', readonly=True)
     course_ids = fields.One2many('school.individual_course', 'course_group_id', string='Courses')
     
     total_credits = fields.Integer(compute='_get_courses_total', string='Total Credits')
     total_hours = fields.Integer(compute='_get_courses_total', string='Total Hours')
     total_weight = fields.Float(compute='_get_courses_total', string='Total Weight')
-    code_ue =  fields.Char(related="source_course_group_id.code_ue", readonly=True)
     
     @api.onchange('source_course_group_id')
     def onchange_source_cg(self):
@@ -123,17 +129,15 @@ class IndividualCourse(models.Model):
     _name = 'school.individual_course'
     _description = 'Individual Course'
     
-    name = fields.Char(related="source_course_id.name", readonly=True)
-    
-    year_id = fields.Many2one('school.year', related="course_group_id.bloc_id.year_id")
-    student_id = fields.Many2one('res.partner', related="course_group_id.bloc_id.student_id")
-
-    credits = fields.Integer(related="source_course_id.credits", readonly=True)
-    hours = fields.Integer(related="source_course_id.hours", readonly=True)
-    weight =  fields.Float(related="source_course_id.weight", readonly=True)
+    _inherits = {
+        'school.course': 'source_course_id',
+    }
     
     dispense = fields.Boolean(string="Dispensed",default=False)
     evaluation = fields.Float(string="Evaluation")
     
-    source_course_id = fields.Many2one('school.course', string="Source Course")
+    year_id = fields.Many2one('school.year', related="course_group_id.bloc_id.year_id")
+    student_id = fields.Many2one('res.partner', related="course_group_id.bloc_id.student_id")
+    
+    source_course_id = fields.Many2one('school.course', string="Source Course", auto_join=True)
     course_group_id = fields.Many2one('school.individual_course_group', string='Course Groups', ondelete='cascade')

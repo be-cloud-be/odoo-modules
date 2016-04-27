@@ -34,10 +34,10 @@ class Partner(models.Model):
     
     student = fields.Boolean("Student",default=False)
     teacher = fields.Boolean("Teacher",default=False)
-    employee = fields.Boolean("Teacher",default=False)
+    employee = fields.Boolean("Employee",default=False)
     
-    sex = fields.Selection([('m', 'Male'),('f', 'Female')])
-    birthdate = fields.Date(string="Birthdate")
+    #sex = fields.Selection([('m', 'Male'),('f', 'Female')])
+    #birthdate = fields.Date(string="Birthdate")
     
     minerval_ids = fields.One2many('school.minerval', 'student_id', string='Minerval')
     has_paid_current_minerval = fields.Boolean(compute='_has_paid_current_minerval',string="Has paid current minerval", store=True)
