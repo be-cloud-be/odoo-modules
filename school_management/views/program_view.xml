@@ -109,7 +109,6 @@
               <field name="title" colspan="4"/>
               <field name="sequence" />
               <field name="level" />
-              <field name="ue_credits" />
               <group col="4" colspan="4">
                 <field name="total_hours" />
                 <field name="total_credits" />
@@ -153,7 +152,7 @@
       <field name="model">school.course_group</field>
       <field name="arch" type="xml">
         <search string="Search Course Group">
-          <field name="title" filter_domain="[( 'name', 'ilike', self)]" />
+          <field name="name" filter_domain="[( 'name', 'ilike', self)]" />
           <group expand="1" string="Group By">
             <filter string="Domain" context="{'group_by':['domain_id']}" />
             <filter string="Speciality" context="{'group_by':['speciality_id']}" />
@@ -312,7 +311,7 @@
       <field name="model">school.course</field>
       <field name="arch" type="xml">
         <search string="Search Course">
-          <field name="title" filter_domain="[('title','ilike',self)]" />
+          <field name="name" filter_domain="[('name','ilike',self)]" />
           <group expand="1" string="Group By">
             <filter string="Track Tree" context="{'group_by':['track_id', 'course_group_id']}" />
           </group>

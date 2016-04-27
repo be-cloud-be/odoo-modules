@@ -71,8 +71,6 @@ class CourseGroup(models.Model):
     total_hours = fields.Integer(compute='_get_courses_total', string='Total Hours')
     total_weight = fields.Float(compute='_get_courses_total', string='Total Weight')
 
-    ue_credits = fields.Integer(string='UE Credits')
-
     @api.one
     @api.depends('course_ids')
     def _get_courses_total(self):
@@ -84,10 +82,7 @@ class CourseGroup(models.Model):
             total_credits += course.credits
             total_weight += course.weight
         self.total_hours = total_hours
-        if self.ue_credits :
-            self.total_credits = self.ue_credits
-        else :
-            self.total_credits = total_credits
+        self.total_credits = total_credits
         self.total_weight = total_weight
     
     notes = fields.Text(string='Notes')
@@ -98,7 +93,7 @@ class Course(models.Model):
     _description = 'Course'
     _inherit = ['mail.thread']
     
-    sequence = fields.Integer(string='Sequence', required=True)
+    sequence = fields.Integer(string='Sequence')
     title = fields.Char(required=True, string='Title')
     
     description = fields.Text(string='Description')
@@ -131,6 +126,15 @@ class Course(models.Model):
             else:
                 course.name = "%s - %s" % (course.title, course.speciality_id.name)
     
+    current_teacher_ids = fields.Many2many('res.partner',compute='_get_teacher_ids',string='Current Teachers')
+    
+    @api.one
+    def _get_teacher_ids(self):
+        current_year_id = safe_eval(self.env['ir.config_parameter'].get_param('school.current_year_id','1'))
+        res = self.env['school.course_session'].search([['year_id', '=', current_year_id], ['course_id', '=', self.id]])
+        self.teacher_ids = res
+        
+    
     #_sql_constraints = [
 	#        ('uniq_course', 'unique(course_group_id, sequence)', 'There shall be only one course with a given sequence within a course group'),
     #]
@@ -156,7 +160,7 @@ class Bloc(models.Model):
         self.total_credits = total_credits
         self.total_weight = total_weight
 
-    sequence = fields.Integer(string='Sequence', required=True)
+    sequence = fields.Integer(string='Sequence')
     title = fields.Char(required=True, string='Title')
     year_id = fields.Many2one('school.year', string="Year", related='program_id.year_id', store=True)
     description = fields.Text(string='Description')
@@ -256,7 +260,7 @@ class Competency(models.Model):
     '''Competency'''
     _name = 'school.competency'
     _order = 'sequence asc'
-    sequence = fields.Integer(required=True, string='Sequence')
+    sequence = fields.Integer(string='Sequence')
     description = fields.Text(string='Description')
     
     program_ids = fields.Many2many('school.program','school_competency_program_rel', id1='competency_id', id2='program_id', string='Programs', ondelete='set null')
