@@ -43,6 +43,7 @@ class IndividualBloc(models.Model):
     source_bloc_id = fields.Many2one('school.bloc', string="Source Bloc", readonly=True, auto_join=True)
     source_bloc_name = fields.Char(related='source_bloc_id.name', string="Source Bloc Name", readonly=True)
     
+    cycle_id = fields.Many2one(related='source_bloc_id.cycle_id', string='Cycle',store=True)
     speciality_id = fields.Many2one(related='source_bloc_id.speciality_id', string='Speciality',store=True)
     domain_id = fields.Many2one(related='source_bloc_id.domain_id', string='Domain',store=True)
     section_id = fields.Many2one(related='source_bloc_id.section_id', string='Section',store=True)

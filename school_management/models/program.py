@@ -153,6 +153,8 @@ class Bloc(models.Model):
     year_id = fields.Many2one('school.year', string="Year", related='program_id.year_id', store=True)
     description = fields.Text(string='Description')
     
+    cycle_id = fields.Many2one(related='program_id.cycle_id', string='Cycle',store=True)
+    
     speciality_id = fields.Many2one(related='program_id.speciality_id', string='Speciality',store=True)
     domain_id = fields.Many2one(related='program_id.domain_id', string='Domain',store=True)
     section_id = fields.Many2one(related='program_id.section_id', string='Section',store=True)
