@@ -466,8 +466,9 @@
               <group col="4" colspan="2">
                 <field name="total_hours" />
                 <field name="total_credits" />
+                <field name="program_id" />
+                <field name="total_credits" />
               </group>
-              <field name="program_id" />
             </group>
             <field name="course_group_ids">
               <tree string="Course Groups">
