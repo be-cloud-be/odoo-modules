@@ -97,7 +97,7 @@
                     </header>
                 </xpath>
                 <xpath expr="//field[@name='employee']" position="after">
-                    <field name="student_current_program_id"/>
+                    <field name="student_current_program_id" attrs="{'invisible': [('student','=',False)]}"/>
                     <!--<field name='sex'/>
                     <field name='birthdate'/>-->
                 </xpath>
