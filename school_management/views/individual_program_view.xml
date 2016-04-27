@@ -456,12 +456,12 @@
       </field>
     </record>
 
-    <!--<record id="view_bloc_filter" model="ir.ui.view">
+    <record id="view_individual_bloc_filter" model="ir.ui.view">
       <field name="name">bloc.select</field>
-      <field name="model">school.program</field>
+      <field name="model">school.individual_bloc</field>
       <field name="arch" type="xml">
-        <search string="Search Program">
-          <field name="title" filter_domain="[('title', 'ilike',self)]" />
+        <search string="Search Blocs">
+          <field name="name" filter_domain="[('name', 'ilike',self)]" />
           <group expand="1" string="Group By">
             <filter string="Domain" context="{'group_by':'domain_id'}" />
             <filter string="Cycle" context="{'group_by':'cycle_id'}" />
@@ -471,7 +471,7 @@
           </group>
         </search>
       </field>
-    </record>-->
+    </record>
 
     <record id="action_individual_bloc_form" model="ir.actions.act_window">
       <field name="name">Individual Programs</field>
@@ -480,7 +480,7 @@
       <field name="view_type">form</field>
       <field name="view_mode">tree,form</field>
       <field name="context">{}</field>
-      <!--<field name="search_view_id" ref="view_individual_bloc_filter" />-->
+      <field name="search_view_id" ref="view_individual_bloc_filter" />
       <field name="help" type="html">
         <p class="oe_view_nocontent_create">
           Please add individual program from Student view.
