@@ -109,8 +109,11 @@
               <field name="title" colspan="4"/>
               <field name="sequence" />
               <field name="level" />
-              <field name="total_hours" />
-              <field name="total_credits" />
+              <field name="ue_credits" />
+              <group col="4" colspan="4">
+                <field name="total_hours" />
+                <field name="total_credits" />
+              </group>
             </group>
 
             <field name="course_ids" context="{'default_course_group_id':active_id}">

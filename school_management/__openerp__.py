@@ -1,4 +1,4 @@
-﻿# -*- encoding: utf-8 -*-
+# -*- encoding: utf-8 -*-
 ##############################################################################
 #
 #    Copyright (c) 2015 be-cloud.be
@@ -29,12 +29,12 @@
     'init_xml': [],
     'update_xml': [
         'school_data.xml',
-        'wizard/assignment_generation.xml',
-        'wizard/assign_program.xml',
         'views/res_partner_view.xml',
         'views/program_view.xml',
         'views/course_session_view.xml',
         'views/individual_program_view.xml',
+        'wizard/course_session_generation.xml',
+        'wizard/assign_program.xml',
         'report/student_report.xml',
         'sequences/school_sequence.xml',
         'security/ir.model.access.csv',

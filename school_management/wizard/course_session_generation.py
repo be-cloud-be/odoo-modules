@@ -25,9 +25,9 @@ from openerp.exceptions import MissingError
 
 _logger = logging.getLogger(__name__)
 
-class AccountCommonReport(models.TransientModel):
-    _name = "school.assigment.generate"
-    _description = "Assignment Generation"
+class CourseSessionGeneration(models.TransientModel):
+    _name = "school.course_session.generate"
+    _description = "Course Session Generation"
     
     year_id = fields.Many2one('school.year', string="Year")
 
@@ -39,10 +39,10 @@ class AccountCommonReport(models.TransientModel):
         res = self.env.cr.fetchall()
         for (bloc_id,course_id) in res:
             try:
-                _logger.info('Create assigment %s - %s',bloc_id,course_id)
-                self.env['school.assignment'].create({'bloc_id':bloc_id, "course_id":course_id})
+                _logger.info('Create course session %s - %s',bloc_id,course_id)
+                self.env['school.course_session'].create({'bloc_id':bloc_id, "course_id":course_id})
             except Exception as e:
-                _logger.info(_('Error during creation of assingment %s' % e))
+                _logger.info(_('Error during creation of course session %s' % e))
                 pass
-                #TODO : detect missing assignment and insert them
+                #TODO : detect missing course_session and insert them
             

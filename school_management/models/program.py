@@ -71,6 +71,8 @@ class CourseGroup(models.Model):
     total_hours = fields.Integer(compute='_get_courses_total', string='Total Hours')
     total_weight = fields.Float(compute='_get_courses_total', string='Total Weight')
 
+    ue_credits = fields.Integer(string='UE Credits')
+
     @api.one
     @api.depends('course_ids')
     def _get_courses_total(self):
@@ -82,7 +84,10 @@ class CourseGroup(models.Model):
             total_credits += course.credits
             total_weight += course.weight
         self.total_hours = total_hours
-        self.total_credits = total_credits
+        if self.ue_credits :
+            self.total_credits = self.ue_credits
+        else :
+            self.total_credits = total_credits
         self.total_weight = total_weight
     
     notes = fields.Text(string='Notes')
@@ -109,8 +114,8 @@ class Course(models.Model):
     section_id = fields.Many2one(related='course_group_id.section_id', string='Section',store=True, readonly=True)
     track_id = fields.Many2one(related='course_group_id.track_id', string='Track',store=True, readonly=True)
     
-    credits = fields.Integer(required=True, string = 'Credits')
-    hours = fields.Integer(required=True, string = 'Hours')
+    hours = fields.Integer(string = 'Hours')
+    credits = fields.Integer(string = 'Credits')
     weight =  fields.Float(string = 'Weight',digits=(6,2))
     
     notes = fields.Text(string='Notes')
