@@ -70,7 +70,8 @@
                     </tr>
                     <tr t-foreach="course_group.course_ids" t-as="course">
                         <td></td>
-                        <td><t t-esc="course.title"/></td>
+                        <td t-if="course.url_ref"><a t-esc="course.title" t-att-href="course.url_ref" target="new"/></td>
+                        <td t-if="not course.url_ref"><t t-esc="course.title"/></td>
                         <td class="text-center"><t t-esc="course.hours"/></td>
                         <td class="text-center"><t t-esc="course.credits"/></td>
                         <td class="text-center"><t t-esc="course.weight"/></td>
@@ -139,11 +140,13 @@
                         <t t-set="c" t-value="False"/>
                         <t t-foreach="programs" t-as="program">
                             <t t-if="d != program.domain_id"> 
+                                <div class="clearfix"></div>
                                 <h3><t t-esc="program.domain_id.name" /></h3>
                                 <t t-set="d" t-value="program.domain_id"/>
                                 <t t-set="c" t-value="False"/>
                             </t>
-                            <t t-if="c != program.cycle_id"> 
+                            <t t-if="c != program.cycle_id">
+                                <div class="clearfix"></div>
                                 <h4><t t-esc="program.cycle_id.name" /></h4>
                                 <t t-set="c" t-value="program.cycle_id"/>
                             </t>
