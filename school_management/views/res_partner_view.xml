@@ -82,6 +82,23 @@
         <record id="view_student_form_school" model="ir.ui.view">
             <field name="name">view.res.partner.form.school</field>
             <field name="model">res.partner</field>
+            <field name="inherit_id" ref="base.res_partner_kanban_view"/>
+            <field eval="25" name="priority"/>
+            <field name="arch" type="xml">
+                <field name="mobile" position="after">
+                    <field name="has_paid_current_minerval"/>
+                </field>
+                <xpath expr="//div[@class='oe_kanban_partner_links']" position="inside">
+                    <span t-if="record.has_paid_current_minerval" class="badge"><i class="fa-li fa fa-check-square" aria-hidden="true"></i></span>
+                    <span t-if="not record.has_paid_current_minerval" class="badge"><i class="fa-li fa fa-square" aria-hidden="true"></i></span>
+                </xpath>
+            </field>
+        </record>
+        
+        <!-- Add program for student form view -->
+        <record id="view_student_form_school" model="ir.ui.view">
+            <field name="name">view.res.partner.form.school</field>
+            <field name="model">res.partner</field>
             <field name="inherit_id" ref="view_partners_form_school"/>
             <field eval="25" name="priority"/>
             <field name="arch" type="xml">

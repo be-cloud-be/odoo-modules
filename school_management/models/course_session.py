@@ -30,12 +30,14 @@ class CourseSession(models.Model):
     _name = 'school.course_session'
     _inherit = ['mail.thread']
     
+    title = fields.Char(related="course_id.title")
+    
     year_id = fields.Many2one('school.year', string='Year', required=True)
     course_id = fields.Many2one('school.course', string='Course', required=True)
-    teacher_id = fields.Many2one('res.partner', string='Teacher', domain="[('teacher', '=', '1')]", required=True)
+    teacher_id = fields.Many2one('res.partner', string='Teacher', domain="[('teacher', '=', '1')]")
     
     quarter = fields.Selection([('q1', 'Q1'),('q2', 'Q2')],string='Quarter')
-    schedule = fields.Char(string='Schedule')
-    room = fields.Char(string='Room')
+    schedule = fields.Text(string='Schedule')
+    room = fields.Text(string='Room')
     
     student_ids = fields.Many2many('res.partner','school_course_session_student_rel', id1='course_session_id', id2='student_id', string='Students')

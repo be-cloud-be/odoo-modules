@@ -515,7 +515,6 @@
           <field name="student_id" />
           <field name="name" />
           <field name="dispense" />
-          <field name="evaluation" />
         </tree>
       </field>
     </record>

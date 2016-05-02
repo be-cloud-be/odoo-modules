@@ -133,7 +133,6 @@ class IndividualCourse(models.Model):
     weight =  fields.Float(related="source_course_id.weight", readonly=True)
     
     dispense = fields.Boolean(string="Dispensed",default=False)
-    evaluation = fields.Float(string="Evaluation")
     
     source_course_id = fields.Many2one('school.course', string="Source Course")
     course_group_id = fields.Many2one('school.individual_course_group', string='Course Groups', ondelete='cascade')

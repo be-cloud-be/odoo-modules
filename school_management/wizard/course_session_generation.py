@@ -34,13 +34,22 @@ class CourseSessionGeneration(models.TransientModel):
     @api.one
     @api.depends('year_id')
     def generate_assigments(self):
-        self.env.cr.execute("SELECT school_bloc.id, school_course.id from school_program, school_bloc, school_course_group, school_course WHERE school_program.year_id = %s AND school_program.id = school_bloc.program_id AND school_bloc.id = school_course_group.bloc_id AND school_course_group.id =  school_course.course_group_id" % (self.year_id.id))
+        self.env.cr.execute("""
+        SELECT school_course.id 
+        from 
+            school_bloc, school_bloc_course_group_rel, school_course_group, school_course
+        WHERE 
+            school_bloc.year_id = %s
+            AND school_bloc.id = school_bloc_course_group_rel.bloc_id
+            AND school_bloc_course_group_rel.group_id = school_course_group.id
+            AND school_course_group.id = school_course.course_group_id;
+        """ % (self.year_id.id))
         
         res = self.env.cr.fetchall()
-        for (bloc_id,course_id) in res:
+        for (course_id) in res:
             try:
-                _logger.info('Create course session %s - %s',bloc_id,course_id)
-                self.env['school.course_session'].create({'bloc_id':bloc_id, "course_id":course_id})
+                _logger.info('Create course session %s',course_id)
+                self.env['school.course_session'].create({"year_id":self.year_id,"course_id":course_id})
             except Exception as e:
                 _logger.info(_('Error during creation of course session %s' % e))
                 pass
