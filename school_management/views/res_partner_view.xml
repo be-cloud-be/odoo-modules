@@ -120,9 +120,11 @@
                 </xpath>
                 <xpath expr="//field[@name='employee']" position="after">
                     <field name="student_current_program_id" attrs="{'invisible': [('student','=',False)]}"/>
+                    <field name='email_personnel'/>
+                </xpath>
+                <xpath expr="//page[@name='personal_information_page']" position="inside">
                     <field name='sex'/>
                     <field name='birthdate'/>
-                    <field name='email_personnel'/>
                 </xpath>
                 <xpath expr="//notebook[last()]" position="inside">
                     <page name="minerval_list" string="Minervals" attrs="{'invisible': [('student','=',False)]}">

@@ -19,7 +19,7 @@
 #
 ##############################################################################
 {
-    'name': 'Website Portal schoold management',
+    'name': 'Website Portal school management',
     'version': '0.1',
     'license': 'AGPL-3',
     'author': 'be-Cloud.be (Jerome Sonnet)',
@@ -35,4 +35,5 @@
     ''',
     'active': False,
     'installable': True,
+    'application': True,
 }
