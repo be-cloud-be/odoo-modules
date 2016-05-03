@@ -170,68 +170,79 @@
             <div class="oe_structure"/>
             <article class="container oe_school_program_details">
                 <section class="row text-center">
-                    <h2>Détails du programme</h2>
-                </section>
-                <hr/>
-                <section class="row">
-                    <div class="col-md-4"><h4>PROFIL D’ENSEIGNEMENT</h4></div>
-                    <div class="col-md-6"><h4><t t-esc="program.name" /></h4></div>
-                    <div class="col-md-2"><h4><t t-esc="program.year_id.name" /></h4></div>
-                </section>
-                <hr/>
-                <section>
-                    <div class="row">
-                        <div class="col-md-2"><font color="grey">DOMAINE</font></div>
-                        <div class="col-md-10"><t t-esc="program.domain_id.name" /></div>
-                    </div>
-                    <div class="row">
-                        <div class="col-md-2"><font color="grey">CYCLE</font></div>
-                        <div class="col-md-10"><t t-esc="program.cycle_id.name" /></div>
-                    </div>
-                    <div class="row">
-                        <div class="col-md-2"><font color="grey">SECTION</font></div>
-                        <div class="col-md-10"><t t-esc="program.section_id.name" /></div>
-                    </div>
-                    <div class="row">
-                        <div class="col-md-2"><font color="grey">ORIENTATION</font></div>
-                        <div class="col-md-10"><t t-esc="program.track_id.name" /></div>
-                    </div>
-                    <div class="row">
-                        <div class="col-md-2"><font color="grey">SPÉCIALITÉ</font></div>
-                        <div class="col-md-10"><t t-esc="program.speciality_id.name" /></div>
+                    <div class="col-md-10"><h2>Détails du programme</h2></div>
+                    <div class="col-md-2">
+                        <span class="row">
+                            <a class="btn btn-default" t-att-href="'/print_program/%s' % slug(program)" target="new">
+                              <i class="fa fa-print fa-2x" title="Settings" aria-hidden="true"></i>
+                              <span class="sr-only">Print</span>
+                            </a>
+                        </span>
                     </div>
                 </section>
                 <hr/>
-                <section class="row">
-                    <div class="col-md-12"><h4>VADE MECUM</h4></div>
-                    <div class="col-md-12" style='white-space: pre-wrap;'><t t-esc="program.description"/></div>
-                </section>
-                <hr/>
-                <section class="row">
-                    <div class="col-md-12"><h4>RÉFÉRENTIELS DE COMPÉTENCES ATTENDUES</h4></div>
-                    <div class="col-md-12">
-                        <table class="table table-striped">
-                            <caption>A la fin du cycle, l’étudiant doit être capable :</caption>
-                            <col width='50px'/>
-                            <col width="100%"/><t t-set="comp_cnt" t-value="0"/>
-                            <tr t-foreach="program.competency_ids" t-as="comp"><t t-set="comp_cnt" t-value="comp_cnt+1"/>
-                                <th scope="row"><bold><t t-esc="comp_cnt"/></bold></th><td><t t-esc="comp.description"/></td>
-                            </tr>
-                        </table>
-                    </div>
-                </section>
-                <hr/>
-                <section class="row">
-                    <div class="col-md-12">
-                        <h4>PROGRAMME DES COURS</h4>
-                    </div>
-                </section>
-                <section class="row" t-foreach="program.bloc_ids" t-as="bloc">
-                    <t t-call="website_portal_school_management.school_bloc"/>
-                </section>
-                <hr/>
+                <t t-call="website_portal_school_management.program_details_content"/>
             </article>
         </t>
+    </template>
     
+    <template id="program_details_content" name="Program Details Content">
+        <section class="row">
+            <div class="col-md-4"><h4>PROFIL D’ENSEIGNEMENT</h4></div>
+            <div class="col-md-6"><h4><t t-esc="program.name" /></h4></div>
+            <div class="col-md-2"><h4><t t-esc="program.year_id.name" /></h4></div>
+        </section>
+        <hr/>
+        <section>
+            <div class="row">
+                <div class="col-md-2"><font color="grey">DOMAINE</font></div>
+                <div class="col-md-10"><t t-esc="program.domain_id.name" /></div>
+            </div>
+            <div class="row">
+                <div class="col-md-2"><font color="grey">CYCLE</font></div>
+                <div class="col-md-10"><t t-esc="program.cycle_id.name" /></div>
+            </div>
+            <div class="row">
+                <div class="col-md-2"><font color="grey">SECTION</font></div>
+                <div class="col-md-10"><t t-esc="program.section_id.name" /></div>
+            </div>
+            <div class="row">
+                <div class="col-md-2"><font color="grey">ORIENTATION</font></div>
+                <div class="col-md-10"><t t-esc="program.track_id.name" /></div>
+            </div>
+            <div class="row">
+                <div class="col-md-2"><font color="grey">SPÉCIALITÉ</font></div>
+                <div class="col-md-10"><t t-esc="program.speciality_id.name" /></div>
+            </div>
+        </section>
+        <hr/>
+        <section class="row">
+            <div class="col-md-12"><h4>VADE MECUM</h4></div>
+            <div class="col-md-12" style='white-space: pre-wrap;'><t t-esc="program.description"/></div>
+        </section>
+        <hr/>
+        <section class="row">
+            <div class="col-md-12"><h4>RÉFÉRENTIELS DE COMPÉTENCES ATTENDUES</h4></div>
+            <div class="col-md-12">
+                <table class="table table-striped">
+                    <caption>A la fin du cycle, l’étudiant doit être capable :</caption>
+                    <col width='50px'/>
+                    <col width="100%"/><t t-set="comp_cnt" t-value="0"/>
+                    <tr t-foreach="program.competency_ids" t-as="comp"><t t-set="comp_cnt" t-value="comp_cnt+1"/>
+                        <th scope="row"><bold><t t-esc="comp_cnt"/></bold></th><td><t t-esc="comp.description"/></td>
+                    </tr>
+                </table>
+            </div>
+        </section>
+        <hr/>
+        <section class="row">
+            <div class="col-md-12">
+                <h4>PROGRAMME DES COURS</h4>
+            </div>
+        </section>
+        <section class="row" t-foreach="program.bloc_ids" t-as="bloc">
+            <t t-call="website_portal_school_management.school_bloc"/>
+        </section>
+        <hr/>
     </template>
 </odoo>
