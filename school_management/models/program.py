@@ -306,3 +306,17 @@ class Year(models.Model):
     '''Year'''
     _name = 'school.year'
     name = fields.Char(required=True, string='Name', size=15)
+    
+    
+class ReportProgram(models.AbstractModel):
+    _name = 'report.school_management.report_program'
+
+    @api.multi
+    def render_html(self, data):
+        _logger.info('render_html')
+        docargs = {
+            'doc_ids': data['id'],
+            'doc_model': 'school.program',
+            'docs': self.env['school.program'].browse(data['id']),
+        }
+        return self.env['report'].render('school.report_program', docargs)
