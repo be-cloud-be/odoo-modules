@@ -65,7 +65,7 @@
                     <field name="session_id" />
                     <field name="student_id" />
                     <field name="teacher_id" />
-                    <field name="course_id" />
+                    <field name="course_group_id" />
                     <field name="result" />
                     <field name="acquired" />
                 </tree>
