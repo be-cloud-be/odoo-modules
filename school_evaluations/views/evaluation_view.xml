@@ -1,0 +1,129 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!--
+##############################################################################
+#
+#    Copyright (c) 2015 be-cloud.be
+#                       Jerome Sonnet <jerome.sonnet@be-cloud.be>
+#
+#    This program is free software: you can redistribute it and/or modify
+#    it under the terms of the GNU Affero General Public License as
+#    published by the Free Software Foundation, either version 3 of the
+#    License, or (at your option) any later version.
+#
+#    This program is distributed in the hope that it will be useful,
+#    but WITHOUT ANY WARRANTY; without even the implied warranty of
+#    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+#    GNU Affero General Public License for more details.
+#
+#    You should have received a copy of the GNU Affero General Public License
+#    along with this program.  If not, see <http://www.gnu.org/licenses/>.
+#
+##############################################################################
+-->
+<openerp>
+    <data>
+        
+        <template id="assets_backend" name="school_evaluations_assets" inherit_id="web.assets_backend">
+            <xpath expr="." position="inside">
+                <link rel="stylesheet" href="/school_evaluations/static/src/css/school_evaluations.css"/>
+                <script type="text/javascript" src="/school_evaluations/static/src/js/school_evaluations.js"/>
+            </xpath>
+        </template>
+        
+        <!-- Top menu item -->
+        <menuitem name="Evaluations" id="menu_main_eval" icon="fa-book" web_icon="school,static/description/icon.png" sequence="80" />
+
+        <!-- Group Evaluations -->
+
+        <menuitem name="Evaluations" parent="menu_main_eval" id="menu_eval" sequence="1" />
+
+        <!-- Group Evaluations List View -->
+        <record id="action_eval_list" model="ir.actions.act_window">
+            <field name="name">Group Evaluations</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">school.group_evaluation</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">tree</field>
+            <field name="context">{}</field>
+            <!--<field name="search_view_id" ref="view_eval_filter" />-->
+            <field name="help" type="html">
+                <p class="oe_view_nocontent_create">
+                    Click to add an course group evaluation.
+                </p>
+                <p>
+                    Odoo helps you easily track of course group evaluations.
+                </p>
+            </field>
+        </record>
+
+        <record id="view_eval_list" model="ir.ui.view">
+            <field name="name">school.eval.tree</field>
+            <field name="model">school.group_evaluation</field>
+            <field eval="8" name="priority" />
+            <field name="arch" type="xml">
+                <tree string="Group Evaluations" editable="top">
+                    <field name="session_id" />
+                    <field name="student_id" />
+                    <field name="teacher_id" />
+                    <field name="course_id" />
+                    <field name="result" />
+                    <field name="acquired" />
+                </tree>
+            </field>
+        </record>
+
+        <record id="action_eval_tree_view1" model="ir.actions.act_window.view">
+            <field name="sequence" eval="1" />
+            <field name="view_mode">tree</field>
+            <field name="view_id" ref="view_eval_list" />
+            <field name="act_window_id" ref="action_eval_list" />
+        </record>
+
+        <menuitem id="action_eval_list_menu" parent="menu_eval" action="action_eval_list" sequence="10" />
+        
+        <!-- Evaluations -->
+
+        <!-- Evaluations List View -->
+        <record id="action_eval_list" model="ir.actions.act_window">
+            <field name="name">Evaluations</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">school.evaluation</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">tree</field>
+            <field name="context">{}</field>
+            <!--<field name="search_view_id" ref="view_eval_filter" />-->
+            <field name="help" type="html">
+                <p class="oe_view_nocontent_create">
+                    Click to add an evaluation.
+                </p>
+                <p>
+                    Odoo helps you easily track of course evaluations.
+                </p>
+            </field>
+        </record>
+
+        <record id="view_eval_list" model="ir.ui.view">
+            <field name="name">school.eval.tree</field>
+            <field name="model">school.evaluation</field>
+            <field eval="8" name="priority" />
+            <field name="arch" type="xml">
+                <tree string="Evaluations" editable="top">
+                    <field name="session_id" />
+                    <field name="student_id" />
+                    <field name="teacher_id" />
+                    <field name="course_id" />
+                    <field name="result" />
+                </tree>
+            </field>
+        </record>
+
+        <record id="action_eval_tree_view1" model="ir.actions.act_window.view">
+            <field name="sequence" eval="1" />
+            <field name="view_mode">tree</field>
+            <field name="view_id" ref="view_eval_list" />
+            <field name="act_window_id" ref="action_eval_list" />
+        </record>
+
+        <menuitem id="action_eval_list_menu" parent="menu_eval" action="action_eval_list" sequence="20" />
+    </data>
+</openerp>
