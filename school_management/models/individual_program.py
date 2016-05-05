@@ -40,9 +40,9 @@ class IndividualBloc(models.Model):
     
     course_group_ids = fields.One2many('school.individual_course_group', 'bloc_id', string='Courses Groups')
     
-    total_credits = fields.Integer(compute='_get_courses_total', string='Total Credits')
-    total_hours = fields.Integer(compute='_get_courses_total', string='Total Hours')
-    total_weight = fields.Float(compute='_get_courses_total', string='Total Weight')
+    total_credits = fields.Integer(compute='_get_courses_total', string='Credits')
+    total_hours = fields.Integer(compute='_get_courses_total', string='Hours')
+    total_weight = fields.Float(compute='_get_courses_total', string='Weight')
 
     @api.one
     @api.depends('source_bloc_id','course_group_ids')
@@ -90,9 +90,9 @@ class IndividualCourseGroup(models.Model):
     bloc_id = fields.Many2one('school.individual_bloc', string="Bloc", ondelete='cascade', readonly=True)
     course_ids = fields.One2many('school.individual_course', 'course_group_id', string='Courses')
     
-    total_credits = fields.Integer(compute='_get_courses_total', string='Total Credits')
-    total_hours = fields.Integer(compute='_get_courses_total', string='Total Hours')
-    total_weight = fields.Float(compute='_get_courses_total', string='Total Weight')
+    total_credits = fields.Integer(compute='_get_courses_total', string='Credits')
+    total_hours = fields.Integer(compute='_get_courses_total', string='Hours')
+    total_weight = fields.Float(compute='_get_courses_total', string='Weight')
     code_ue =  fields.Char(related="source_course_group_id.code_ue", readonly=True)
     
     @api.onchange('source_course_group_id')
