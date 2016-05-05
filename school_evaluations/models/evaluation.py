@@ -35,7 +35,7 @@ class GroupEvaluation(models.Model):
     teacher_id = fields.Many2one('res.partner', string='Teacher', domain="[('teacher', '=', '1')]", required=True)
     course_group_id = fields.Many2one('school.course_group', string='Course Group', required=True)
     
-    acquired = fields.Boolean(string='Acquied', required=True, default=False)
+    acquired = fields.Boolean(string='Acquired', required=True, default=False)
     
     _sql_constraints = [
 	        ('uniq_evaluation', 'unique(session_id, student_id, course_group_id)', 'This evaluation already exists.'),
