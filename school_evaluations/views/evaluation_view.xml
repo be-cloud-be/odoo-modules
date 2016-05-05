@@ -62,10 +62,10 @@
             <field eval="8" name="priority" />
             <field name="arch" type="xml">
                 <tree string="Group Evaluations" editable="top">
-                    <field name="session_id" />
-                    <field name="student_id" />
-                    <field name="teacher_id" />
-                    <field name="course_group_id" />
+                    <field name="session_id" options="{'no_open': True, 'no_create': True}"/>
+                    <field name="student_id" options="{'no_open': True, 'no_create': True}"/>
+                    <field name="teacher_id" options="{'no_open': True, 'no_create': True}"/>
+                    <field name="course_group_id" options="{'no_open': True, 'no_create': True}"/>
                     <field name="result" />
                     <field name="acquired" />
                 </tree>
@@ -108,10 +108,10 @@
             <field eval="8" name="priority" />
             <field name="arch" type="xml">
                 <tree string="Evaluations" editable="top">
-                    <field name="session_id" />
-                    <field name="student_id" />
-                    <field name="teacher_id" />
-                    <field name="course_id" />
+                    <field name="session_id" options="{'no_open': True, 'no_create': True}"/>
+                    <field name="student_id" options="{'no_open': True, 'no_create': True}"/>
+                    <field name="teacher_id" options="{'no_open': True, 'no_create': True}"/>
+                    <field name="course_id" options="{'no_open': True, 'no_create': True}"/>
                     <field name="result" />
                 </tree>
             </field>
