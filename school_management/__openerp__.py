@@ -33,6 +33,7 @@
         'views/program_view.xml',
         'views/course_session_view.xml',
         'views/individual_program_view.xml',
+        'views/configuration_view.xml',
         'wizard/course_session_generation.xml',
         'wizard/assign_program.xml',
         'report/student_report.xml',
