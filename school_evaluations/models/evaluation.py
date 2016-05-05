@@ -25,56 +25,82 @@ from openerp.exceptions import UserError
 
 _logger = logging.getLogger(__name__)
 
+class IndividualCourseGroup(models.Model):
+    '''Individual Course Group'''
+    _inherit = 'school.individual_course_group'
+    
+    first_evaluation_result = fields.Float(related='first_evaluation_id.result',string='S1')
+    second_evaluation_result = fields.Float(related='second_evaluation_id.result',string='S2')
+    final_evaluation_result = fields.Float(compute='get_final_eval',string='Fin')
+    acquired = fields.Boolean(compute='get_final_eval',string='Acquired')
+    
+    first_evaluation_id = fields.Many2one('school.group_evaluation', string='First Session', delete='cascade')
+    second_evaluation_id = fields.Many2one('school.group_evaluation', string='Second Session', delete='cascade')
+    
+    final_evaluation_id = fields.Many2one('school.group_evaluation', compute='get_final_eval')
+    
+    @api.depends('first_evaluation_id','second_evaluation_id')
+    @api.multi
+    def get_final_eval(self):
+        for cg in self:
+            if cg.second_evaluation_id :
+                cg.final_evaluation_id = cg.second_evaluation_id
+                cg.final_evaluation_result = cg.second_evaluation_id.result
+                cg.acquired = cg.second_evaluation_id.acquired
+            else:
+                cg.final_evaluation_id = cg.first_evaluation_id
+                cg.final_evaluation_result = cg.first_evaluation_id.result
+                cg.acquired = cg.first_evaluation_id.acquired
+
 class GroupEvaluation(models.Model):
     '''Group Evaluation'''
     _name = 'school.group_evaluation'
     _description = 'Group Evaluation'
     
-    session_id = fields.Many2one('school.session', string='Session', required=True)
-    student_id = fields.Many2one('res.partner', string='Student', domain="[('student', '=', '1')]", required=True)
-    teacher_id = fields.Many2one('res.partner', string='Teacher', domain="[('teacher', '=', '1')]", required=True)
-    course_group_id = fields.Many2one('school.course_group', string='Course Group', required=True)
-    
+    computed_result = fields.Float(string='Computed Result')
+    deliberated_result = fields.Float(string='Deliberated Result', default=-1)
     acquired = fields.Boolean(string='Acquired', required=True, default=False)
+    notes = fields.Text(string='Notes')
+
+    result = fields.Float(string='Result', compute='get_result')
     
-    _sql_constraints = [
-	        ('uniq_evaluation', 'unique(session_id, student_id, course_group_id)', 'This evaluation already exists.'),
-    ]
+    @api.depends('computed_result','deliberated_result')
+    @api.multi
+    def get_final_eval(self):
+        for ge in self:
+            if self.deliberated_result < 0:
+                ge.result = ge.deliberated_result
+            else:
+                ge.result = ge.computed_result
+
+class IndividualCourse(models.Model):
+    '''Individual Course'''
+    _inherit = 'school.individual_course'
     
-    result = fields.Float(string='result')
+    first_evaluation_result = fields.Float(related='first_evaluation_id.result',string='S1')
+    second_evaluation_result = fields.Float(related='second_evaluation_id.result',string='S2')
+    final_evaluation_result = fields.Float(compute='get_final_eval',string='Fin')
+    
+    first_evaluation_id = fields.Many2one('school.evaluation', string='First Session', delete='cascade')
+    second_evaluation_id = fields.Many2one('school.evaluation', string='Second Session', delete='cascade')
+    
+    final_evaluation_id = fields.Many2one('school.evaluation', compute='get_final_eval')
+    
+    @api.depends('first_evaluation_id','second_evaluation_id')
+    @api.multi
+    def get_final_eval(self):
+        for ic in self:
+            if ic.second_evaluation_id :
+                ic.final_evaluation_id = ic.second_evaluation_id
+                ic.final_evaluation_result = ic.second_evaluation_id.result
+            else:
+                ic.final_evaluation_id = ic.first_evaluation_id
+                ic.final_evaluation_result = ic.first_evaluation_id.result
 
 class Evaluation(models.Model):
     '''Evaluation'''
     _name = 'school.evaluation'
     _description = 'Evaluation'
     
-    session_id = fields.Many2one('school.session', string='Session', required=True)
-    student_id = fields.Many2one('res.partner', string='Student', domain="[('student', '=', '1')]", required=True)
-    teacher_id = fields.Many2one('res.partner', string='Teacher', domain="[('teacher', '=', '1')]")
-    course_id = fields.Many2one('school.course', string='Course', required=True)
-    
-    _sql_constraints = [
-	        ('uniq_evaluation', 'unique(session_id, student_id, course_id)', 'This evaluation already exists.'),
-    ]
-    
-    result = fields.Float(string='result')
-    
-class Session(models.Model):
-    '''Session'''
-    _name = 'school.session'
-    _description = 'Session'
-    
-    year_id = fields.Many2one('school.year', string='Year')
-    type = fields.Selection([('S1', 'Frist'),('S2', 'Second'),('F','Final')],string="Type")
-    
-    name = fields.Char(string='Name', compute='compute_name', store=True)
-    
-    @api.depends('year_id','type')
-    @api.multi
-    def compute_name(self):
-        for session in self:
-            session.name = "%s - %s" % (session.year_id.name, session.type)
-            
-    _sql_constraints = [
-	        ('uniq_session', 'unique(year_id, type)', 'This session already exists.'),
-    ]
+    result = fields.Float(string='Result')
+    notes = fields.Text(string='Notes')
