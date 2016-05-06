@@ -29,78 +29,116 @@ class IndividualCourseGroup(models.Model):
     '''Individual Course Group'''
     _inherit = 'school.individual_course_group'
     
-    first_evaluation_result = fields.Float(related='first_evaluation_id.result',string='S1')
-    second_evaluation_result = fields.Float(related='second_evaluation_id.result',string='S2')
-    final_evaluation_result = fields.Float(compute='get_final_eval',string='Fin')
-    acquired = fields.Boolean(compute='get_final_eval',string='Acquired')
+    ## First Session ##
     
-    first_evaluation_id = fields.Many2one('school.group_evaluation', string='First Session', delete='cascade')
-    second_evaluation_id = fields.Many2one('school.group_evaluation', string='Second Session', delete='cascade')
+    first_session_computed_result = fields.Float(computed='compute_results', string='First Session Computed Result')
+    first_session_computed_result_bool= fields.Boolean(string='First Session Computed Active')
+    first_session_deliberated_result = fields.Float(string='First Session Deliberated Result')
+    first_session_deliberated_result_bool= fields.Boolean(string='First Session Deliberated Active')
+    first_session_result= fields.Float(computed='compute_results', string='First Session Result')
+    first_session_result_bool= fields.Boolean(computed='compute_results', string='First Session Active')
+    first_session_acquiered = fields.Selection(([('A', 'Aquired'),('NA', 'Not Acquired')]),string='First Session Acquired Credits',default='NA',required=True)
+    first_session_note = fields.Text(string='First Session Notes')
     
-    final_evaluation_id = fields.Many2one('school.group_evaluation', compute='get_final_eval')
+    ## Second Session ##
     
-    @api.depends('first_evaluation_id','second_evaluation_id')
+    second_session_computed_result = fields.Float(computed='compute_results', string='Second Session Computed Result')
+    second_session_computed_result_bool= fields.Boolean(string='Second Session Computed Active')
+    second_session_deliberated_result = fields.Float(string='Second Session Deliberated Result')
+    second_session_deliberated_result_bool= fields.Boolean(string='Second Session Deliberated Active')
+    second_session_result= fields.Float(computed='compute_results', string='Second Session Result')
+    second_session_result_bool= fields.Boolean(computed='compute_results', string='Second Session Active')
+    second_session_acquiered = fields.Selection(([('A', 'Aquired'),('NA', 'Not Acquired')]),string='Second Session Acquired Credits',default='NA',required=True)
+    second_session_note = fields.Text(string='Second Session Notes')
+    
+    ## Final ##
+    
+    final_result = fields.Float(compute='compute_results', string='Final Result')
+    final_result_bool = fields.Boolean(compute='compute_results', string='Final Active')
+    acquiered = fields.Selection(([('A', 'Aquired'),('NA', 'Not Acquired')]),string='Acquired Credits',default='NA',required=True)
+    final_note = fields.Text(string='Final Notes')
+    
+    @api.depends('course_ids','total_weight','first_session_deliberated_result','second_session_deliberated_result')
     @api.multi
-    def get_final_eval(self):
+    def compute_results(self):
         for cg in self:
-            if cg.second_evaluation_id :
-                cg.final_evaluation_id = cg.second_evaluation_id
-                cg.final_evaluation_result = cg.second_evaluation_id.result
-                cg.acquired = cg.second_evaluation_id.acquired
-            else:
-                cg.final_evaluation_id = cg.first_evaluation_id
-                cg.final_evaluation_result = cg.first_evaluation_id.result
-                cg.acquired = cg.first_evaluation_id.acquired
-
-class GroupEvaluation(models.Model):
-    '''Group Evaluation'''
-    _name = 'school.group_evaluation'
-    _description = 'Group Evaluation'
-    
-    computed_result = fields.Float(string='Computed Result')
-    deliberated_result = fields.Float(string='Deliberated Result', default=-1)
-    acquired = fields.Boolean(string='Acquired', required=True, default=False)
-    notes = fields.Text(string='Notes')
-
-    result = fields.Float(string='Result', compute='get_result')
-    
-    @api.depends('computed_result','deliberated_result')
-    @api.multi
-    def get_final_eval(self):
-        for ge in self:
-            if self.deliberated_result < 0:
-                ge.result = ge.deliberated_result
-            else:
-                ge.result = ge.computed_result
+            ## Compute Weighted Average
+            running_first_session_result = 0
+            running_second_session_result = 0
+            for ic in cg.course_ids:
+                if ic.first_session_result_bool :
+                    running_first_session_result += ic.first_session_result * ic.weight
+                    cg.first_session_computed_result_bool = True
+                if ic.second_session_result_bool :
+                    running_second_session_result += ic.second_session_result * ic.weight
+                    cg.second_session_computed_result_bool = True
+            if cg.first_session_computed_result_bool :
+                cg.first_session_computed_result = running_first_session_result / cg.total_weight
+            if cg.second_session_computed_result_bool :
+                cg.second_session_computed_result = running_second_session_result / cg.total_weight
+            
+            ## Compute Session Results
+            if cg.first_session_deliberated_result_bool :
+                cg.first_session_result = cg.first_session_deliberated_result
+                cg.first_session_result_bool = True
+            elif cg.first_session_computed_result_bool :
+                cg.first_session_result = cg.first_session_computed_result
+                cg.first_session_result_bool = True
+            else :
+                cg.first_session_result_bool = False
+            
+            if cg.second_session_deliberated_result_bool :
+                cg.second_session_result = cg.second_session_deliberated_result
+                cg.second_session_result_bool = True
+            elif cg.second_session_computed_result_bool :
+                cg.second_session_result = cg.second_session_computed_result
+                cg.second_session_result_bool = True
+            else :
+                cg.second_session_result_bool = False
+            
+            ## Compute Final Results
+            if cg.second_session_result_bool :
+                cg.final_result = cg.second_session_result
+                cg.final_result_bool = True
+                cg.acquired = cg.second_session_acquiered
+            elif cg.first_session_result_bool :
+                cg.final_result = cg.first_session_result
+                cg.final_result_bool = True
+                cg.acquired = cg.first_session_acquiered
+            else :
+                cg.final_result_bool = False
 
 class IndividualCourse(models.Model):
     '''Individual Course'''
     _inherit = 'school.individual_course'
     
-    first_evaluation_result = fields.Float(related='first_evaluation_id.result',string='S1')
-    second_evaluation_result = fields.Float(related='second_evaluation_id.result',string='S2')
-    final_evaluation_result = fields.Float(compute='get_final_eval',string='Fin')
+    ## First Session ##
     
-    first_evaluation_id = fields.Many2one('school.evaluation', string='First Session', delete='cascade')
-    second_evaluation_id = fields.Many2one('school.evaluation', string='Second Session', delete='cascade')
+    first_session_result= fields.Float(string='First Session Result')
+    first_session_result_bool= fields.Boolean(string='First Session Active')
+    first_session_note = fields.Text(string='First Session Notes')
     
-    final_evaluation_id = fields.Many2one('school.evaluation', compute='get_final_eval')
+    ## Second Session ##
     
-    @api.depends('first_evaluation_id','second_evaluation_id')
+    second_session_result= fields.Float(string='Second Session Result')
+    second_session_result_bool= fields.Boolean(string='Second Session Active')
+    second_session_note = fields.Text(string='Second Session Notes')
+    
+    ## Final ##
+    
+    final_result = fields.Float(compute='compute_results', string='Final Result')
+    final_result_bool = fields.Boolean(compute='compute_results', string='Final Active')
+    final_note = fields.Text(string='Final Notes')
+    
+    @api.depends('first_session_result','second_session_result')
     @api.multi
-    def get_final_eval(self):
+    def compute_results(self):
         for ic in self:
-            if ic.second_evaluation_id :
-                ic.final_evaluation_id = ic.second_evaluation_id
-                ic.final_evaluation_result = ic.second_evaluation_id.result
-            else:
-                ic.final_evaluation_id = ic.first_evaluation_id
-                ic.final_evaluation_result = ic.first_evaluation_id.result
-
-class Evaluation(models.Model):
-    '''Evaluation'''
-    _name = 'school.evaluation'
-    _description = 'Evaluation'
-    
-    result = fields.Float(string='Result')
-    notes = fields.Text(string='Notes')
+            if ic.second_session_result_bool :
+                ic.final_result = ic.second_session_result
+                ic.final_result_bool = True
+            elif ic.first_session_result_bool :
+                ic.final_result = ic.first_session_result
+                ic.final_result_bool = True
+            else :
+                ic.final_result_bool = False

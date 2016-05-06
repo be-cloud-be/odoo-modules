@@ -38,10 +38,10 @@
             <field eval="25" name="priority"/>
             <field name="arch" type="xml">
                 <xpath expr="//field[@name='source_course_group_id']" position="before">
-                    <field name="first_evaluation_result"/>
-                    <field name="second_evaluation_result"/>
-                    <field name="final_evaluation_result"/>
-                    <field name="acquired"/>
+                    <field name="first_session_result" string="S1"/>
+                    <field name="second_session_result" string="S2"/>
+                    <field name="final_result" string="Fin"/>
+                    <field name="acquiered" string="Acq"/>
                 </xpath>
             </field>
         </record>
@@ -54,9 +54,46 @@
             <field eval="25" name="priority"/>
             <field name="arch" type="xml">
                 <xpath expr="//field[@name='source_course_id']" position="before">
-                    <field name="first_evaluation_result"/>
-                    <field name="second_evaluation_result"/>
-                    <field name="final_evaluation_result"/>
+                    <field name="first_session_result" string="S1"/>
+                    <field name="second_session_result" string="S2"/>
+                    <field name="final_result" string="Fin"/>
+                </xpath>
+                <xpath expr="//field[@name='total_credits']" position="after">
+                    <separator string="Course Group Results" colspan="4"/>
+                    <group col="2" colspan="2" string="First Session">
+                        <field name="first_session_computed_result"/>
+                        <field name="first_session_deliberated_result"/>
+                        <field name="first_session_deliberated_result_bool"/>
+                        <field name="first_session_result"/>
+                        <field name="first_session_acquiered"/>
+                    </group>
+                    <group col="2" colspan="2" string="Second Session">
+                        <field name="second_session_computed_result"/>
+                        <field name="second_session_deliberated_result" attrs="{'readonly':[('second_session_deliberated_result_bool','==',False)]}"/>
+                        <field name="second_session_deliberated_result_bool"/>
+                        <field name="second_session_result"/>
+                        <field name="second_session_acquiered"/>
+                    </group>
+                    <separator string="Final Results" colspan="4"/>
+                    <field name="final_result"/><newline/>
+                    <field name="acquiered"/>
+                </xpath>
+            </field>
+        </record>
+        
+        <!-- Add evaluation to Individual Course form view -->
+        <record id="individual_course_eval_form" model="ir.ui.view">
+            <field name="name">school.individual_course.eval.view</field>
+            <field name="model">school.individual_course</field>
+            <field name="inherit_id" ref="school_management.view_individual_course_form"/>
+            <field eval="25" name="priority"/>
+            <field name="arch" type="xml">
+                <xpath expr="//field[@name='weight']" position="after">
+                    <field name="first_session_result"/>
+                    <field name="first_session_result_bool" nolabel="1"/>
+                    <field name="second_session_result"/>
+                    <field name="first_session_result_bool" nolabel="1"/>
+                    <field name="final_result"/>
                 </xpath>
             </field>
         </record>
