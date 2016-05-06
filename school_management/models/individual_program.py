@@ -135,4 +135,4 @@ class IndividualCourse(models.Model):
     dispense = fields.Boolean(string="Dispensed",default=False)
     
     source_course_id = fields.Many2one('school.course', string="Source Course")
-    course_group_id = fields.Many2one('school.individual_course_group', string='Course Groups', ondelete='cascade')
+    course_group_id = fields.Many2one('school.individual_course_group', string='Course Groups', ondelete='cascade', readonly=True)

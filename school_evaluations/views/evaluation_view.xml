@@ -60,17 +60,17 @@
                 </xpath>
                 <xpath expr="//field[@name='total_credits']" position="after">
                     <group col="2" colspan="2" string="First Session">
-                        <field name="first_session_computed_result"/>
-                        <field name="first_session_deliberated_result"/>
+                        <field name="first_session_computed_result" />
                         <field name="first_session_deliberated_result_bool"/>
+                        <field name="first_session_deliberated_result" attrs="{'readonly':[('first_session_deliberated_result_bool','==',False)]}"/>
                         <field name="first_session_result"/>
                         <field name="first_session_acquiered"/>
                     </group>
                     <group col="2" colspan="2" string="Second Session">
                         <field name="second_session_computed_result"/>
-                        <field name="second_session_deliberated_result" attrs="{'readonly':[('second_session_deliberated_result_bool','==',False)]}"/>
                         <field name="second_session_deliberated_result_bool"/>
-                        <field name="second_session_result"/>
+                        <field name="second_session_deliberated_result" attrs="{'readonly':[('second_session_deliberated_result_bool','==',False)]}"/>
+                        <field name="second_session_result"/><newline/>
                         <field name="second_session_acquiered"/>
                     </group>
                     <separator string="Final Results" colspan="4"/>
@@ -87,12 +87,19 @@
             <field name="inherit_id" ref="school_management.view_individual_course_form"/>
             <field eval="25" name="priority"/>
             <field name="arch" type="xml">
-                <xpath expr="//field[@name='weight']" position="after">
-                    <field name="first_session_result"/>
-                    <field name="first_session_result_bool" nolabel="1"/>
-                    <field name="second_session_result"/>
-                    <field name="first_session_result_bool" nolabel="1"/>
-                    <field name="final_result"/>
+                <xpath expr="//sheet" position="inside">
+                    <group col="4">
+                        <group col="2" colspan="2" string="First Session">
+                            <field name="first_session_result_bool"/>
+                            <field name="first_session_result" attrs="{'readonly':[('first_session_result_bool','==',False)]}"/>
+                        </group>
+                        <group col="2" colspan="2" string="First Session">
+                            <field name="second_session_result_bool"/>
+                            <field name="second_session_result" attrs="{'readonly':[('second_session_result_bool','==',False)]}"/>
+                        </group>
+                        <separator string="Final Results" colspan="4"/>
+                        <field name="final_result"/>
+                    </group>
                 </xpath>
             </field>
         </record>

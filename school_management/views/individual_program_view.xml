@@ -390,6 +390,9 @@
               <h1>
                <field name="name"/>
               </h1>
+              <h3 class="oe_fade">
+               <field name="bloc_id" options='{"no_open":True}'/>
+              </h3>
             </div>
             <group col="4" colspan="2">
               <field name="total_hours" />
@@ -438,6 +441,9 @@
               <h1>
                <field name="name"/>
               </h1>
+              <h3 class="oe_fade">
+               Based on <field name="source_bloc_id" options='{"no_open":True}' class="oe_inline"/>
+              </h3>
             </div>
             <group col="4">
               <field name="year_id" colspan="4"/>
@@ -538,9 +544,15 @@
     		            <field name="state" widget="statusbar" statusbar_visible="draft,confirmed,paid"/>
     		        </header>-->
           <sheet>
-            <group col="2">
-              <field name="course_group_id"/>
-              <field name="name"/>
+            <div class="oe_title">
+              <h1>
+               <field name="name"/>
+              </h1>
+              <h3 class="oe_fade">
+               <field name="course_group_id" options='{"no_open":True}'/>
+              </h3>
+            </div>
+            <group col="6">
               <field name="hours" />
               <field name="credits" />
               <field name="weight" />
