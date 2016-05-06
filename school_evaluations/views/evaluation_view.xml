@@ -59,7 +59,6 @@
                     <field name="final_result" string="Fin"/>
                 </xpath>
                 <xpath expr="//field[@name='total_credits']" position="after">
-                    <separator string="Course Group Results" colspan="4"/>
                     <group col="2" colspan="2" string="First Session">
                         <field name="first_session_computed_result"/>
                         <field name="first_session_deliberated_result"/>
