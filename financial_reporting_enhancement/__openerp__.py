@@ -34,7 +34,9 @@
     "website": "http://www.be-cloud.be",
     'depends': ['account'],
     'init_xml': [],
-    'data': [],
+    'data': [
+        'financial_reporting_enhancement.xml',
+    ],
     'installable': True,
     'active': True,
 }
