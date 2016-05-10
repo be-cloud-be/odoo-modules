@@ -51,7 +51,7 @@ class IndividualBloc(models.Model):
         cg_ids = []
         for group in source_bloc_id.course_group_ids:
             _logger.info('assign course groups : ' + group.name)
-            cg = self.course_group_ids.create({'bloc_id': self.id,'source_course_group_id': group.id})
+            cg = self.course_group_ids.create({'bloc_id': self.id,'source_course_group_id': group.id, 'acquiered' : 'NA'}) # TODO FIX DEPENDENCIE TO EVALUATION
             courses = []
             for course in group.course_ids:
                 _logger.info('assign course : ' + course.name)
@@ -85,6 +85,9 @@ class IndividualCourseGroup(models.Model):
     _description='Individual Course Group'
     
     name = fields.Char(related="source_course_group_id.name")
+    
+    year_id = fields.Many2one(related="bloc_id.year_id", string='Year', store=True)
+    student_id = fields.Many2one(related="bloc_id.student_id", string='Student', store=True)
     
     source_course_group_id = fields.Many2one('school.course_group', string="Source Course Group")
     bloc_id = fields.Many2one('school.individual_bloc', string="Bloc", ondelete='cascade', readonly=True)
