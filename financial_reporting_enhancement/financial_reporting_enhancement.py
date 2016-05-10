@@ -18,7 +18,7 @@
 #    along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #
 ##############################################################################
-from openerp import api, fields, models, _
+from openerp import api, fields, models, tools, _
 from openerp.exceptions import UserError
 import logging
 
@@ -50,3 +50,26 @@ class AccountMoveLine(models.Model):
             
     reversed_balance = fields.Monetary(string="Reversed Balance", compute='_store_reversed_balance', currency_field='company_currency_id', store=True, default=0.0, help="Technical field holding the credit - debit in order to open meaningful graph views from reports using reversed sign balance")
     
+class TaxBaseReport(models.Model):
+    _name = "account.tax.base.report"
+    _auto = False
+    
+    date = fields.Date(string="Date")
+    name = fields.Char(string="Name")
+    tax_name = fields.Char(string="Tax Name")
+    move_id = fields.Many2one('account.move', string='Account Move')
+    partner_id = fields.Many2one('res.partner', 'Partner')
+    untaxed_amount = fields.Float(string="Untaxed Amount",digits=(10, 2))
+    
+    def init(self, cr):
+        """ School Student main report """
+        tools.drop_view_if_exists(cr, 'account_tax_base_report')
+        cr.execute(""" CREATE VIEW account_tax_base_report AS (
+                        select CONCAT('hr',hr_expense.id) id, hr_expense.date, hr_expense.name, hr_expense.account_move_id as move_id, hr_expense.employee_id as partner_id, account_tax.name as tax_name, untaxed_amount 
+                        from hr_expense, expense_tax, account_tax
+                        where hr_expense.id = expense_tax.expense_id and account_tax.id = expense_tax.tax_id
+                        union all
+                        select CONCAT('in',account_invoice_line.id) id, account_invoice.date, account_invoice_line.name, account_invoice.move_id, account_invoice.partner_id, account_tax.name, account_invoice_line.price_subtotal_signed
+                        from account_invoice, account_invoice_line, account_invoice_line_tax, account_tax 
+                        where account_invoice.id = account_invoice_line.invoice_id and account_invoice_line.id = account_invoice_line_tax.invoice_line_id and account_tax.id = account_invoice_line_tax.tax_id
+                        )""")
