@@ -60,22 +60,27 @@
                 </xpath>
                 <xpath expr="//field[@name='total_credits']" position="after">
                     <group col="2" colspan="2" string="First Session">
-                        <field name="first_session_computed_result" />
+                        <field name="first_session_computed_result_bool" readonly="1"/>
+                        <field name="first_session_computed_result" readonly="1"/>
                         <field name="first_session_deliberated_result_bool"/>
                         <field name="first_session_deliberated_result" attrs="{'readonly':[('first_session_deliberated_result_bool','==',False)]}"/>
-                        <field name="first_session_result"/>
+                        <field name="first_session_result" readonly="1"/>
                         <field name="first_session_acquiered"/>
+                        <field name="first_session_result_bool" readonly="1"/>
                     </group>
                     <group col="2" colspan="2" string="Second Session">
-                        <field name="second_session_computed_result"/>
+                        <field name="second_session_computed_result_bool" readonly="1"/>
+                        <field name="second_session_computed_result" readonly="1"/>
                         <field name="second_session_deliberated_result_bool"/>
                         <field name="second_session_deliberated_result" attrs="{'readonly':[('second_session_deliberated_result_bool','==',False)]}"/>
-                        <field name="second_session_result"/><newline/>
+                        <field name="second_session_result" readonly="1"/>
                         <field name="second_session_acquiered"/>
+                        <field name="second_session_result_bool" readonly="1"/>
                     </group>
                     <separator string="Final Results" colspan="4"/>
-                    <field name="final_result"/><newline/>
-                    <field name="acquiered"/>
+                    <field name="final_result" readonly="1"/>
+                    <field name="acquiered" readonly="1"/>
+                    <field name="final_result_bool" readonly="1"/>
                 </xpath>
             </field>
         </record>
@@ -99,6 +104,7 @@
                         </group>
                         <separator string="Final Results" colspan="4"/>
                         <field name="final_result"/>
+                        <field name="final_result_bool"/>
                     </group>
                 </xpath>
             </field>

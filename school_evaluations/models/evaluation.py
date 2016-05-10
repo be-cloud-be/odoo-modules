@@ -32,7 +32,7 @@ class IndividualCourseGroup(models.Model):
     ## First Session ##
     
     first_session_computed_result = fields.Float(computed='compute_results', string='First Session Computed Result')
-    first_session_computed_result_bool= fields.Boolean(string='First Session Computed Active')
+    first_session_computed_result_bool= fields.Boolean(computed='compute_results', string='First Session Computed Active')
     first_session_deliberated_result = fields.Float(string='First Session Deliberated Result')
     first_session_deliberated_result_bool= fields.Boolean(string='First Session Deliberated Active')
     first_session_result= fields.Float(computed='compute_results', string='First Session Result')
@@ -43,7 +43,7 @@ class IndividualCourseGroup(models.Model):
     ## Second Session ##
     
     second_session_computed_result = fields.Float(computed='compute_results', string='Second Session Computed Result')
-    second_session_computed_result_bool= fields.Boolean(string='Second Session Computed Active')
+    second_session_computed_result_bool= fields.Boolean(computed='compute_results', string='Second Session Computed Active')
     second_session_deliberated_result = fields.Float(string='Second Session Deliberated Result')
     second_session_deliberated_result_bool= fields.Boolean(string='Second Session Deliberated Active')
     second_session_result= fields.Float(computed='compute_results', string='Second Session Result')
@@ -55,16 +55,24 @@ class IndividualCourseGroup(models.Model):
     
     final_result = fields.Float(compute='compute_results', string='Final Result')
     final_result_bool = fields.Boolean(compute='compute_results', string='Final Active')
-    acquiered = fields.Selection(([('A', 'Aquired'),('NA', 'Not Acquired')]),string='Acquired Credits',default='NA',required=True)
+    acquiered = fields.Selection(([('A', 'Aquired'),('NA', 'Not Acquired')]),computed='compute_results',string='Acquired Credits',default='NA',required=True)
     final_note = fields.Text(string='Final Notes')
     
-    @api.depends('course_ids','total_weight','first_session_deliberated_result','second_session_deliberated_result')
+    @api.depends('course_ids','total_weight',
+                 'first_session_deliberated_result_bool',
+                 'first_session_deliberated_result',
+                 'first_session_acquiered',
+                 'second_session_deliberated_result_bool',
+                 'second_session_deliberated_result',
+                 'second_session_acquiered')
     @api.multi
     def compute_results(self):
         for cg in self:
             ## Compute Weighted Average
             running_first_session_result = 0
             running_second_session_result = 0
+            cg.first_session_computed_result_bool = False
+            cg.second_session_computed_result_bool = False
             for ic in cg.course_ids:
                 if ic.first_session_result_bool :
                     running_first_session_result += ic.first_session_result * ic.weight
@@ -130,7 +138,7 @@ class IndividualCourse(models.Model):
     final_result_bool = fields.Boolean(compute='compute_results', string='Final Active')
     final_note = fields.Text(string='Final Notes')
     
-    @api.depends('first_session_result','second_session_result')
+    @api.depends('first_session_result','second_session_result','first_session_result_bool','second_session_result_bool')
     @api.multi
     def compute_results(self):
         for ic in self:
