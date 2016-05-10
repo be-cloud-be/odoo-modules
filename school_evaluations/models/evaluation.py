@@ -31,90 +31,91 @@ class IndividualCourseGroup(models.Model):
     
     ## First Session ##
     
-    first_session_computed_result = fields.Float(computed='compute_results', string='First Session Computed Result')
-    first_session_computed_result_bool= fields.Boolean(computed='compute_results', string='First Session Computed Active')
-    first_session_deliberated_result = fields.Float(string='First Session Deliberated Result')
+    first_session_computed_result = fields.Float(computed='compute_results', string='First Session Computed Result', store=True, digits=(5, 2))
+    first_session_computed_result_bool= fields.Boolean(computed='compute_results', string='First Session Computed Active', store=True)
+    first_session_deliberated_result = fields.Float(string='First Session Deliberated Result', digits=(5, 2))
     first_session_deliberated_result_bool= fields.Boolean(string='First Session Deliberated Active')
-    first_session_result= fields.Float(computed='compute_results', string='First Session Result')
-    first_session_result_bool= fields.Boolean(computed='compute_results', string='First Session Active')
+    first_session_result= fields.Float(computed='compute_results', string='First Session Result', store=True, digits=(5, 2))
+    first_session_result_bool= fields.Boolean(computed='compute_results', string='First Session Active', store=True)
     first_session_acquiered = fields.Selection(([('A', 'Aquired'),('NA', 'Not Acquired')]),string='First Session Acquired Credits',default='NA',required=True)
     first_session_note = fields.Text(string='First Session Notes')
     
     ## Second Session ##
     
-    second_session_computed_result = fields.Float(computed='compute_results', string='Second Session Computed Result')
-    second_session_computed_result_bool= fields.Boolean(computed='compute_results', string='Second Session Computed Active')
-    second_session_deliberated_result = fields.Float(string='Second Session Deliberated Result')
+    second_session_computed_result = fields.Float(computed='compute_results', string='Second Session Computed Result', store=True, digits=(5, 2))
+    second_session_computed_result_bool= fields.Boolean(computed='compute_results', string='Second Session Computed Active', store=True)
+    second_session_deliberated_result = fields.Float(string='Second Session Deliberated Result', digits=(5, 2))
     second_session_deliberated_result_bool= fields.Boolean(string='Second Session Deliberated Active')
-    second_session_result= fields.Float(computed='compute_results', string='Second Session Result')
-    second_session_result_bool= fields.Boolean(computed='compute_results', string='Second Session Active')
+    second_session_result= fields.Float(computed='compute_results', string='Second Session Result', store=True, digits=(5, 2))
+    second_session_result_bool= fields.Boolean(computed='compute_results', string='Second Session Active', store=True)
     second_session_acquiered = fields.Selection(([('A', 'Aquired'),('NA', 'Not Acquired')]),string='Second Session Acquired Credits',default='NA',required=True)
     second_session_note = fields.Text(string='Second Session Notes')
     
     ## Final ##
     
-    final_result = fields.Float(compute='compute_results', string='Final Result')
+    final_result = fields.Float(compute='compute_results', string='Final Result', store=True, digits=(5, 2))
     final_result_bool = fields.Boolean(compute='compute_results', string='Final Active')
-    acquiered = fields.Selection(([('A', 'Aquired'),('NA', 'Not Acquired')]),computed='compute_results',string='Acquired Credits',default='NA',required=True)
+    acquiered = fields.Selection(([('A', 'Aquiered'),('NA', 'Not Acquiered')]), compute='compute_results', string='Acquired Credits',required=True, store=True)
     final_note = fields.Text(string='Final Notes')
     
-    @api.depends('course_ids','total_weight',
+    @api.depends('course_ids',
                  'first_session_deliberated_result_bool',
                  'first_session_deliberated_result',
                  'first_session_acquiered',
                  'second_session_deliberated_result_bool',
                  'second_session_deliberated_result',
                  'second_session_acquiered')
-    @api.multi
+    @api.one
     def compute_results(self):
-        for cg in self:
-            ## Compute Weighted Average
-            running_first_session_result = 0
-            running_second_session_result = 0
-            cg.first_session_computed_result_bool = False
-            cg.second_session_computed_result_bool = False
-            for ic in cg.course_ids:
-                if ic.first_session_result_bool :
-                    running_first_session_result += ic.first_session_result * ic.weight
-                    cg.first_session_computed_result_bool = True
-                if ic.second_session_result_bool :
-                    running_second_session_result += ic.second_session_result * ic.weight
-                    cg.second_session_computed_result_bool = True
-            if cg.first_session_computed_result_bool :
-                cg.first_session_computed_result = running_first_session_result / cg.total_weight
-            if cg.second_session_computed_result_bool :
-                cg.second_session_computed_result = running_second_session_result / cg.total_weight
-            
-            ## Compute Session Results
-            if cg.first_session_deliberated_result_bool :
-                cg.first_session_result = cg.first_session_deliberated_result
-                cg.first_session_result_bool = True
-            elif cg.first_session_computed_result_bool :
-                cg.first_session_result = cg.first_session_computed_result
-                cg.first_session_result_bool = True
-            else :
-                cg.first_session_result_bool = False
-            
-            if cg.second_session_deliberated_result_bool :
-                cg.second_session_result = cg.second_session_deliberated_result
-                cg.second_session_result_bool = True
-            elif cg.second_session_computed_result_bool :
-                cg.second_session_result = cg.second_session_computed_result
-                cg.second_session_result_bool = True
-            else :
-                cg.second_session_result_bool = False
-            
-            ## Compute Final Results
-            if cg.second_session_result_bool :
-                cg.final_result = cg.second_session_result
-                cg.final_result_bool = True
-                cg.acquired = cg.second_session_acquiered
-            elif cg.first_session_result_bool :
-                cg.final_result = cg.first_session_result
-                cg.final_result_bool = True
-                cg.acquired = cg.first_session_acquiered
-            else :
-                cg.final_result_bool = False
+        ## Compute Weighted Average
+        running_first_session_result = 0
+        running_second_session_result = 0
+        self.first_session_computed_result_bool = False
+        self.second_session_computed_result_bool = False
+        for ic in self.course_ids:
+            if ic.first_session_result_bool :
+                running_first_session_result += ic.first_session_result * ic.weight
+                self.first_session_computed_result_bool = True
+            if ic.second_session_result_bool :
+                running_second_session_result += ic.second_session_result * ic.weight
+                self.second_session_computed_result_bool = True
+        if self.first_session_computed_result_bool :
+            self.first_session_computed_result = running_first_session_result / self.total_weight
+        if self.second_session_computed_result_bool :
+            self.second_session_computed_result = running_second_session_result / self.total_weight
+        
+        ## Compute Session Results
+        if self.first_session_deliberated_result_bool :
+            self.first_session_result = self.first_session_deliberated_result
+            self.first_session_result_bool = True
+        elif self.first_session_computed_result_bool :
+            self.first_session_result = self.first_session_computed_result
+            self.first_session_result_bool = True
+        else :
+            self.first_session_result_bool = False
+        
+        if self.second_session_deliberated_result_bool :
+            self.second_session_result = self.second_session_deliberated_result
+            self.second_session_result_bool = True
+        elif self.second_session_computed_result_bool :
+            self.second_session_result = self.second_session_computed_result
+            self.second_session_result_bool = True
+        else :
+            self.second_session_result_bool = False
+        
+        ## Compute Final Results
+        if self.second_session_result_bool :
+            self.final_result = self.second_session_result
+            self.acquiered = self.second_session_acquiered
+            self.final_result_bool = True
+        elif self.first_session_result_bool :
+            self.final_result = self.first_session_result
+            self.acquiered = self.first_session_acquiered
+            self.final_result_bool = True
+        else :
+            self.acquiered = 'NA'
+            self.final_result_bool = False
+        
 
 class IndividualCourse(models.Model):
     '''Individual Course'''
@@ -122,19 +123,19 @@ class IndividualCourse(models.Model):
     
     ## First Session ##
     
-    first_session_result= fields.Float(string='First Session Result')
+    first_session_result= fields.Float(string='First Session Result', digits=(5, 2))
     first_session_result_bool= fields.Boolean(string='First Session Active')
     first_session_note = fields.Text(string='First Session Notes')
     
     ## Second Session ##
     
-    second_session_result= fields.Float(string='Second Session Result')
+    second_session_result= fields.Float(string='Second Session Result', digits=(5, 2))
     second_session_result_bool= fields.Boolean(string='Second Session Active')
     second_session_note = fields.Text(string='Second Session Notes')
     
     ## Final ##
     
-    final_result = fields.Float(compute='compute_results', string='Final Result')
+    final_result = fields.Float(compute='compute_results', string='Final Result', digits=(5, 2))
     final_result_bool = fields.Boolean(compute='compute_results', string='Final Active')
     final_note = fields.Text(string='Final Notes')
     

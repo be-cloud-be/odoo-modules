@@ -60,27 +60,28 @@
                 </xpath>
                 <xpath expr="//field[@name='total_credits']" position="after">
                     <group col="2" colspan="2" string="First Session">
-                        <field name="first_session_computed_result_bool" readonly="1"/>
-                        <field name="first_session_computed_result" readonly="1"/>
-                        <field name="first_session_deliberated_result_bool"/>
-                        <field name="first_session_deliberated_result" attrs="{'readonly':[('first_session_deliberated_result_bool','==',False)]}"/>
-                        <field name="first_session_result" readonly="1"/>
-                        <field name="first_session_acquiered"/>
-                        <field name="first_session_result_bool" readonly="1"/>
+                        <field name="first_session_computed_result_bool" invisible="1"/>
+                        <field name="first_session_computed_result" widget="statinfo" string="Result"/>
+                        <field name="first_session_deliberated_result_bool" string="Deliberated"/>
+                        <field name="first_session_deliberated_result" attrs="{'readonly':[('first_session_deliberated_result_bool','==',False)]}" string="Deliberated Result"/>
+                        <field name="first_session_result" widget="statinfo" />
+                        <field name="first_session_acquiered" string="Acquired"/>
+                        <field name="first_session_result_bool" invisible="1"/>
                     </group>
                     <group col="2" colspan="2" string="Second Session">
-                        <field name="second_session_computed_result_bool" readonly="1"/>
-                        <field name="second_session_computed_result" readonly="1"/>
-                        <field name="second_session_deliberated_result_bool"/>
-                        <field name="second_session_deliberated_result" attrs="{'readonly':[('second_session_deliberated_result_bool','==',False)]}"/>
-                        <field name="second_session_result" readonly="1"/>
-                        <field name="second_session_acquiered"/>
-                        <field name="second_session_result_bool" readonly="1"/>
+                        <field name="second_session_computed_result_bool" invisible="1"/>
+                        <field name="second_session_computed_result" widget="statinfo" string="Result"/>
+                        <field name="second_session_deliberated_result_bool" string="Deliberated"/>
+                        <field name="second_session_deliberated_result" attrs="{'readonly':[('second_session_deliberated_result_bool','==',False)]}" string="Deliberated Result"/>
+                        <field name="second_session_result" widget="statinfo" />
+                        <field name="second_session_acquiered" string="Acquired"/>
+                        <field name="second_session_result_bool" invisible="1"/>
                     </group>
                     <separator string="Final Results" colspan="4"/>
-                    <field name="final_result" readonly="1"/>
-                    <field name="acquiered" readonly="1"/>
-                    <field name="final_result_bool" readonly="1"/>
+                    <field name="final_result" widget="statinfo" />
+                    <field name="acquiered"/>
+                    <field name="final_result_bool"  invisible="1"/><newline/>
+                    <field name="final_note" colspan="4"/>
                 </xpath>
             </field>
         </record>
@@ -109,6 +110,12 @@
                 </xpath>
             </field>
         </record>
+        
+        <menuitem name="Evaluation" id="menu_school_eval" icon="fa-book" web_icon="school,static/description/icon.png" sequence="250" />
+        
+        <menuitem name="Evaluation" parent="menu_school_eval" id="menu_school_eval_program" sequence="20" />
+        
+        
 
     </data>
 </openerp>
