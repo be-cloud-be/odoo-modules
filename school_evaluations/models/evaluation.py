@@ -79,6 +79,9 @@ class IndividualCourseGroup(models.Model):
             if ic.second_session_result_bool :
                 running_second_session_result += ic.second_session_result * ic.weight
                 self.second_session_computed_result_bool = True
+            # In case there is a result for first session and not second one while a second exists
+            elif ic.first_session_result_bool : 
+                running_second_session_result += ic.first_session_result * ic.weight
         if self.first_session_computed_result_bool :
             self.first_session_computed_result = running_first_session_result / self.total_weight
         if self.second_session_computed_result_bool :
@@ -121,6 +124,8 @@ class IndividualCourse(models.Model):
     '''Individual Course'''
     _inherit = 'school.individual_course'
     
+    type = fields.Selection(([('S', 'Simple'),('T', 'Triple'),('C', 'Complex')]), string='Type',required=True)
+    
     ## First Session ##
     
     first_session_result= fields.Float(string='First Session Result', digits=(5, 2))
@@ -151,3 +156,31 @@ class IndividualCourse(models.Model):
                 ic.final_result_bool = True
             else :
                 ic.final_result_bool = False
+                
+class Program(models.Model):
+    '''Program'''
+    _inherit = 'school.program'
+    
+    @api.model
+    def get_data_for_evaluation_widget(self):
+        """ Returns the data required to display an evaluation widget """
+        ret = []
+        
+        for program in self.search([('state', '=', 'published')]):
+            ret.append({
+                'id' : program.id,
+                'name': program.name,
+                'blocs': program.get_blocs_for_evaluation_widget(program)
+            })
+
+        return ret
+
+    def get_blocs_for_evaluation_widget(self, program):
+        """ Returns the data required by the evaluation widget to display a bloc """
+        ret = []
+        for bloc in program.bloc_ids:
+            ret.append({
+                'id' : bloc.id,
+                'name': bloc.name,
+            })
+        return ret
