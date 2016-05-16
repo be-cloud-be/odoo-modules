@@ -340,6 +340,7 @@
     		            <field name="state" widget="statusbar" statusbar_visible="draft,confirmed,paid"/>
     		        </header>-->
           <sheet>
+            <field name="image" widget="image" class="oe_avatar" options="{&quot;preview_image&quot;: &quot;image_medium&quot;, &quot;size&quot;: [90, 90]}"/>
             <div class="oe_title">
               <h1>
                <field name="name"/>
@@ -348,11 +349,15 @@
                <field name="bloc_id" options='{"no_open":True}'/>
               </h3>
             </div>
-            <group col="4" colspan="2">
+            <group col="2" colspan="2">
+              <field name="source_course_group_id" />
+            </group>
+            <group col="4" colspan="2" attrs="{'invisible': [('source_course_group_id','=',False)]}">
               <field name="total_hours" />
               <field name="total_credits" />
             </group>
-            <field name="course_ids">
+            <separator string="Courses" colspan="4"/>
+            <field name="course_ids" colspan="4">
               <tree string="Courses">
                 <field name="name" />
                 <field name="dispense" />
@@ -391,7 +396,8 @@
       <field name="arch" type="xml">
         <form string="Individual Bloc">
           <sheet>
-            <div class="oe_title">
+            <field name="image" widget="image" class="oe_avatar" options="{&quot;preview_image&quot;: &quot;image_medium&quot;, &quot;size&quot;: [150, 150]}"/>
+            <div class="oe_title" style="padding-left: 130px;">
               <h1>
                <field name="name"/>
               </h1>
@@ -507,6 +513,7 @@
               </h3>
             </div>
             <group col="6">
+              <field name="source_course_id" colspan="6" readonly="1"/>
               <field name="hours" />
               <field name="credits" />
               <field name="weight" />

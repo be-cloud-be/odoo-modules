@@ -38,6 +38,10 @@ class IndividualBloc(models.Model):
     source_bloc_id = fields.Many2one('school.bloc', string="Source Bloc", readonly=True)
     source_bloc_name = fields.Char(related='source_bloc_id.name', string="Source Bloc Name", readonly=True)
     
+    image = fields.Binary('Image', attachment=True, related='student_id.image')
+    image_medium = fields.Binary('Image', attachment=True, related='student_id.image_medium')
+    image_small = fields.Binary('Image', attachment=True, related='student_id.image_small')
+    
     course_group_ids = fields.One2many('school.individual_course_group', 'bloc_id', string='Courses Groups')
     
     total_credits = fields.Integer(compute='_get_courses_total', string='Credits')
@@ -88,6 +92,10 @@ class IndividualCourseGroup(models.Model):
     
     year_id = fields.Many2one(related="bloc_id.year_id", string='Year', store=True)
     student_id = fields.Many2one(related="bloc_id.student_id", string='Student', store=True)
+    
+    image = fields.Binary('Image', attachment=True, related='student_id.image')
+    image_medium = fields.Binary('Image', attachment=True, related='student_id.image_medium')
+    image_small = fields.Binary('Image', attachment=True, related='student_id.image_small')
     
     source_course_group_id = fields.Many2one('school.course_group', string="Source Course Group")
     bloc_id = fields.Many2one('school.individual_bloc', string="Bloc", ondelete='cascade', readonly=True)

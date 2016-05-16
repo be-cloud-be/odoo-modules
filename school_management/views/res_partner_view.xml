@@ -30,7 +30,11 @@
             <field name="inherit_id" ref="base.view_partner_form"/>
             <field eval="18" name="priority"/>
             <field name="arch" type="xml">
+                <xpath expr="//field[@name='parent_id']" position="replace">
+                    <field name="parent_id" placeholder="Company" domain="[('is_company', '=', True)]" context="{'default_is_company': True, 'default_supplier': supplier, 'default_customer': customer}" invisible="1" on_change="onchange_parent_id(parent_id)"/>
+                </xpath>
                 <xpath expr="//field[@name='website']" position="after">
+                    <field name='initials'/>
                     <field name='student'/>
                     <field name='teacher'/>
                     <field name='employee'/>
