@@ -36,6 +36,8 @@ class AssignProgram(models.TransientModel):
     @api.multi
     @api.depends('year_id','student_id','source_bloc_id')
     def assign_program(self):
+        import wdb
+        wdb.set_trace()
         if self.student_id:
             _logger.info("Assing program to %s" % self.student_id.name)
             program = self.env['school.individual_bloc'].create({'year_id':self.year_id.id,'student_id': self.student_id.id})
@@ -51,11 +53,11 @@ class AssignProgram(models.TransientModel):
             context = dict(self._context or {})
             student_ids = context.get('active_ids')
             ids = []
-            for student_id in student_ids:
-                _logger.info("Assing program to %s" % student_id)
-                program = self.env['school.individual_bloc'].create({'year_id':self.year_id.id,'student_id': student_id})
+            for student in self.env['res.partner'].browse(student_ids):
+                _logger.info("Assing program to %s" % student.id)
+                program = self.env['school.individual_bloc'].create({'year_id':self.year_id.id,'student_id': student.id})
                 program.assign_source_bloc(self.source_bloc_id)
-                student_id._get_student_current_program_id()
+                student._get_student_current_program_id()
                 ids.append(program.id)
             #return an action showing the created programs
             action = self.env.ref('school_management.action_individual_bloc_form')
