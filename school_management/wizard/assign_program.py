@@ -36,8 +36,6 @@ class AssignProgram(models.TransientModel):
     @api.multi
     @api.depends('year_id','student_id','source_bloc_id')
     def assign_program(self):
-        import wdb
-        wdb.set_trace()
         if self.student_id:
             _logger.info("Assing program to %s" % self.student_id.name)
             program = self.env['school.individual_bloc'].create({'year_id':self.year_id.id,'student_id': self.student_id.id})
