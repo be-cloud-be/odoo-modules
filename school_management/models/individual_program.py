@@ -35,8 +35,9 @@ class IndividualBloc(models.Model):
     
     year_id = fields.Many2one('school.year', string='Year', readonly=True)
     student_id = fields.Many2one('res.partner', string='Student', domain="[('student', '=', '1')]", readonly=True)
-    source_bloc_id = fields.Many2one('school.bloc', string="Source Bloc", readonly=True)
+    source_bloc_id = fields.Many2one('school.bloc', string="Source Bloc", readonly=True, auto_join=True)
     source_bloc_name = fields.Char(related='source_bloc_id.name', string="Source Bloc Name", readonly=True)
+    source_bloc_level = fields.Integer(related='source_bloc_id.level', string="Source Bloc Level", readonly=True)
     
     image = fields.Binary('Image', attachment=True, related='student_id.image')
     image_medium = fields.Binary('Image', attachment=True, related='student_id.image_medium')

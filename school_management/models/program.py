@@ -167,6 +167,8 @@ class Bloc(models.Model):
     
     cycle_id = fields.Many2one(related='program_id.cycle_id', string='Cycle',store=True)
     
+    level = fields.Integer(string='Level')
+    
     speciality_id = fields.Many2one(related='program_id.speciality_id', string='Speciality',store=True)
     domain_id = fields.Many2one(related='program_id.domain_id', string='Domain',store=True)
     section_id = fields.Many2one(related='program_id.section_id', string='Section',store=True)
