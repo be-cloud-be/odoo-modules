@@ -72,6 +72,9 @@
                    <filter string="Archived" name="archived" domain="[('active','=',False)]"/>
                    <separator/>
                    <filter string="No Program" name="no_program" domain="[('student_current_program_id','=',False)]"/>
+                   <group expand="0" name="group_by" string="Group By">
+                       <filter string="Program" context="{'group_by': 'student_current_program_id'}"/>
+                   </group>
                    <!-- <separator/>
                    <field name="category_id" string="Tag" filter_domain="[('category_id','ilike', self)]"/>
                    <field name="user_id"/>
@@ -144,6 +147,26 @@
                 </xpath>
             </field>
         </record>
+        
+        <!-- Speciality List View -->
+        <record id="view_student_tree_school" model="ir.ui.view">
+            <field name="name">school.res.partner.tree</field>
+            <field name="model">res.partner</field>
+            <field eval="8" name="priority" />
+            <field name="arch" type="xml">
+                <tree string="Contacts">
+                    <field name="display_name"/>
+                    <field name="function" invisible="1"/>
+                    <field name="student_current_program_id"/>
+                    <field name="has_paid_current_minerval"/>
+                    <field name="email"/>
+                    <field name="user_id" invisible="1"/>
+                    <field name="is_company" invisible="1"/>
+                    <field name="country_id" invisible="1"/>
+                    <field name="parent_id" invisible="1"/>
+                </tree>
+            </field>
+        </record>
 		
 		<record id="action_student_form" model="ir.actions.act_window">
             <field name="name">Students</field>
@@ -172,7 +195,7 @@
         <record id="action_student_tree_view1" model="ir.actions.act_window.view">
             <field name="sequence" eval="1"/>
             <field name="view_mode">tree</field>
-            <field name="view_id" ref="base.view_partner_tree"/>
+            <field name="view_id" ref="view_student_tree_school"/>
             <field name="act_window_id" ref="action_student_form"/>
         </record>
         <record id="action_student_form_view2" model="ir.actions.act_window.view">
