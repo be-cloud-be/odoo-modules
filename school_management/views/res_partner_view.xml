@@ -70,6 +70,8 @@
                    <filter string="Students" name="student" domain="[('student','=',1), ('parent_id', '=', False)]"/>
                    <filter string="Others" name="other" domain="[('employee','=',0),('teacher','=',0),('student','=',0), ('parent_id', '=', False)]"/>
                    <filter string="Archived" name="archived" domain="[('active','=',False)]"/>
+                   <separator/>
+                   <filter string="No Program" name="no_program" domain="[('student_current_program_id','=',False)]"/>
                    <!-- <separator/>
                    <field name="category_id" string="Tag" filter_domain="[('category_id','ilike', self)]"/>
                    <field name="user_id"/>
