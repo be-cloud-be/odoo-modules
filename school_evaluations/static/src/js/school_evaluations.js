@@ -12,28 +12,42 @@ var _t = core._t;
 var EvaluationsAction = Widget.extend({
     template: 'MainView',
     
+    events: {
+        "click .o_school_group_item": function (event) {
+            event.preventDefault();
+            var group_id = this.$(event.currentTarget).data('group-id');
+            this.set_group(group_id);
+        },
+    },
+    
     init: function(parent, title) {
         this._super.apply(this, arguments);
         var self = this;
         this.title = title;
+
+        var IndividualBloc = new Model('school.individual_bloc');
         
-        this.programs = [];
-        
-        var Programs = new Model('school.program');
-        
-        Programs.call('get_data_for_evaluation_widget').then(function(data) {
-            self.programs = data;
+        IndividualBloc.call('get_data_for_evaluation_widget').then(function(data) {
+            self.$el.extend( true, self, data )
             self.render_sidebar();
         });
         
     },
     
     render_sidebar: function () {
-        var $sidebar = $(QWeb.render("SideBar", {
-            programs: this.programs,
-        }));
-        this.$(".sidebar").html($sidebar.contents());
-        this.$('.sidebar').metisMenu();
+        var $sidebar = $(QWeb.render("SideBar", this));
+        this.$(".sidebar").html($sidebar);
+        this.$('.main_navbar').metisMenu();
+    },
+    
+    set_group: function(group_id) {
+        if(this.groups[group_id]) {
+            var $sidebar = $(QWeb.render("SubSideBar", this.groups[group_id]));
+            this.$(".sub_sidebar").html($sidebar);
+            this.$('.sub_navbar').metisMenu();
+        } else {
+            this.$(".sub_sidebar").empty();
+        }
     },
     
 });

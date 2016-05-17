@@ -126,6 +126,18 @@ class IndividualCourse(models.Model):
     
     type = fields.Selection(([('S', 'Simple'),('T', 'Triple'),('C', 'Complex')]), string='Type',required=True)
     
+    ## Annual Evaluation ##
+    
+    annual_result= fields.Float(string='Annual Result', digits=(5, 2))
+    annual_result_bool= fields.Boolean(string='Annual Active')
+    annual_note = fields.Text(string='Annual Notes')
+    
+    ## January Evaluation ##
+    
+    jan_result= fields.Float(string='January Result', digits=(5, 2))
+    jan_result_bool= fields.Boolean(string='January Active')
+    jan_note = fields.Text(string='January Notes')
+    
     ## First Session ##
     
     first_session_result= fields.Float(string='First Session Result', digits=(5, 2))
@@ -157,30 +169,46 @@ class IndividualCourse(models.Model):
             else :
                 ic.final_result_bool = False
                 
-class Program(models.Model):
-    '''Program'''
-    _inherit = 'school.program'
+class IndividualBloc(models.Model):
+    '''Individual Bloc'''
+    _inherit = 'school.individual_bloc'
     
     @api.model
     def get_data_for_evaluation_widget(self):
         """ Returns the data required to display an evaluation widget """
-        ret = []
-        
-        for program in self.search([('state', '=', 'published')]):
-            ret.append({
-                'id' : program.id,
-                'name': program.name,
-                'blocs': program.get_blocs_for_evaluation_widget(program)
-            })
-
+        ret =   {
+            "res_company" :
+                {
+                    "name" : self.env.user.company_id.name
+                    },
+            "groups" : [
+                        {   
+                            'id' : 1, 
+                            'title' : "Bloc 1",
+                            'blocs' : self.get_blocs_for_evaluation_widget(level=1),
+                        },
+                        { 
+                            'id' : 2, 
+                            'title' : "Bloc 2",
+                            'blocs' : self.get_blocs_for_evaluation_widget(level=2),
+                        },
+                        { 
+                            'id' : 3, 
+                            'title' : "Bloc 3",
+                            'blocs' : self.get_blocs_for_evaluation_widget(level=3),
+                        },
+            ],
+        }
         return ret
 
-    def get_blocs_for_evaluation_widget(self, program):
+    def get_blocs_for_evaluation_widget(self, level):
         """ Returns the data required by the evaluation widget to display a bloc """
         ret = []
-        for bloc in program.bloc_ids:
+        bloc_ids = self.env['school.individual_bloc'].search([('source_bloc_level','=',level)])
+        for bloc in bloc_ids:
             ret.append({
                 'id' : bloc.id,
                 'name': bloc.name,
+                'student': bloc.student_id.name,
             })
         return ret
