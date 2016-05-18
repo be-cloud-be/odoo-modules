@@ -57,7 +57,9 @@ var EvaluationsAction = Widget.extend({
     },
     
     set_group: function(group_id) {
+        var self = this;
         if(this.groups[group_id]) {
+            this.$(".sub_sidebar").hide();
             var $sidebar = $(QWeb.render("SubSideBar", this.groups[group_id]));
             this.$(".sub_sidebar").html($sidebar);
             this.$('.sub_navbar').metisMenu();
@@ -68,7 +70,11 @@ var EvaluationsAction = Widget.extend({
                 ids.push(group.blocs[i].id);
             }
             
-            this.evaluation_bloc_editor.read_ids(ids);
+            this.evaluation_bloc_editor.read_ids(ids).then(
+                function(){
+                    self.$(".sub_sidebar").show();
+                } 
+            );
             
         } else {
             this.$(".sub_sidebar").empty();
