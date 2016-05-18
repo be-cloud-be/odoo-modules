@@ -1,0 +1,25 @@
+.sub_navbar {
+    height: 470px;
+    overflow: auto;
+}
+
+.o_school_evaluations .oe_form_container{
+transform: scale(1.2);
+-ms-transform: scale(1.2); /* IE 9 */
+-webkit-transform: scale(1.2); /* Safari and Chrome */
+-o-transform: scale(1.2); /* Opera */
+-moz-transform: scale(1.2); /* Firefox */      
+}
+
+.o_school_evaluations .oe-view-manager {
+  position : initial;
+}
+
+.o_school_evaluations .oe-view-manager .oe-view-manager-content {
+  position : absolute;
+  top : 150px;
+}
+
+.o_school_evaluations .o_chatter {
+    visibility: hidden;
+}
