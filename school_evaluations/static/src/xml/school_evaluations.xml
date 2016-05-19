@@ -69,7 +69,9 @@
                     <t t-set="is_first" t-value="true" />
                     <t t-foreach="blocs" t-as="bloc">
                         <li>
-                            <a t-att-class="'o_school_bloc_item'+ (is_first ? ' active':'')" t-att-data-bloc-id="bloc.id" href="#"><i class="fa fa-user fa-fw"></i><t t-esc="bloc.student"/><span class="fa"></span></a>
+                            <a t-att-class="'o_school_bloc_item'+ (is_first ? ' active':'')" t-att-data-bloc-id="bloc.id" href="#">
+                                <i class="fa fa-user fa-fw"></i><t t-esc="bloc.student"/><span t-att-class="(bloc.state == 'confirmed' ? 'fa pull-right fa-check' : '')"></span>
+                            </a>
                         </li>
                         <t t-set="is_first" t-value="false" />
                     </t>
@@ -135,7 +137,7 @@
                             </tr>
                         </thead>
                         <tbody>
-                            <t t-set="counter" t-value="0"/>
+                            <t t-set="counter" t-value="1"/>
                             <t t-foreach="widget.course_groups" t-as="course_group">
                             <tr>
                                 <th scope="row" class="text-center"><t t-esc="counter"/></th>
@@ -147,6 +149,15 @@
                                 </td>
                             </tr>
                             <t t-set="counter" t-value="counter + 1"/>
+                            <t t-debug="pdb"/>
+                            <t t-foreach="course_group.courses" t-as="course">
+                                <tr>
+                                    <th scope="row" class="text-center"></th>
+                                    <td><t t-esc="course.name"/></td>
+                                    <td><t t-esc="course.final_result"/></td>
+                                    <td></td>
+                                </tr>
+                            </t>    
                             </t>
                         </tbody>
                     </table>

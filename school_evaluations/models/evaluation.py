@@ -238,5 +238,6 @@ class IndividualBloc(models.Model):
                 'id' : bloc.id,
                 'name': bloc.name,
                 'student': bloc.student_id.name,
+                'state': bloc.state,
             })
         return ret

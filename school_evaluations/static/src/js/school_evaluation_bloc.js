@@ -19,6 +19,7 @@ return Widget.extend({
             event.preventDefault();
             var self = this;
             new Model(self.dataset.model).call("confirm",[self.datarecord.id,self.dataset.get_context()]).then(function(result) {
+                self.parent.$(".o_school_bloc_item.active span").addClass('fa pull-right fa-check');
                 self.next().then(function(){
                     self.parent.$('.o_school_bloc_item.active').removeClass('active');
                     self.parent.$("a[data-bloc-id='" + self.datarecord.id + "']").addClass('active');
@@ -51,8 +52,7 @@ return Widget.extend({
             function(data){
                 self.datarecord = data;
                 self.bloc = data;
-                self._read_bloc_data().done(
-                    function(){
+                self._read_bloc_data().done( function(){
                         self.renderElement();
                     }  
                 );
@@ -78,36 +78,40 @@ return Widget.extend({
     
     _read_bloc_data: function(bloc){
         var self = this;
+        
+        self.student_image = session.url('/web/image', {
+            model: 'res.partner',
+            id: self.bloc.student_id[0],
+            field: 'image',
+            unique: (self.datarecord.__last_update || '').replace(/[^0-9]/g, '')
+        });
+        
         var all_data_loaded = $.Deferred();
         
-        var model_res_partner = new Model('res.partner');
-        var model_individual_course_group = new Model('school.individual_course_group');
-        var model_individual_course = new Model('school.individual_course');
-        
-        $.when(
-            model_res_partner.query().filter([['id', '=', self.bloc.student_id[0]]]).all().then(
-                function(student) {
-                    self.student = student[0];
-                    self.student_image = session.url('/web/image', {
-                                                        model: 'res.partner',
-                                                        id: self.student.id,
-                                                        field: 'image',
-                                                        unique: (self.datarecord.__last_update || '').replace(/[^0-9]/g, '')
-                    });
-                }    
-            ),
-            model_individual_course_group.query().filter([['id', 'in', self.bloc.course_group_ids]]).all().then(
-                function(course_groups) {
-                    self.course_groups = course_groups;
-                    var defereds = [];
-                    for (var i=0, ii=course_groups.length; i<ii; i++) {
-                        var course_group = course_groups[i];
-                        // TODO Load course details
-                    }
+        new Model('school.individual_course_group').query(['id','name','course_ids']).filter([['id', 'in', self.bloc.course_group_ids]]).all().then(
+            function(course_groups) {
+                self.course_groups = course_groups;
+                var defs = [];
+                for (var i=0, ii=course_groups.length; i<ii; i++) {
+                    var course_group = course_groups[i];
+                    defs.push(new Model('school.individual_course').query().filter([['id', 'in', course_group.course_ids]]).all().then(
+                        function(courses) {
+                            var idx = 0;
+                            for (var j=0, jj=course_groups.length; j<jj; j++) {
+                                if(self.course_groups[j].id == courses[0].course_group_id[0]){
+                                    idx = j;
+                                    break;
+                                }
+                            }
+                            self.course_groups[idx].courses=courses;
+                        }   
+                    ));
                 }
-            )
-        ).then(function(){all_data_loaded.resolve();});
-        
+                $.when.apply($,defs).then(function(){
+                    all_data_loaded.resolve();
+                });
+            }
+        )
         return all_data_loaded.promise();
     },
     

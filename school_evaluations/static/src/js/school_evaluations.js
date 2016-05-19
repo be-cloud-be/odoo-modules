@@ -37,15 +37,12 @@ var EvaluationsAction = Widget.extend({
     start: function() {
         var self = this;
         
-        var IndividualBloc = new Model('school.individual_bloc');
-        
-        IndividualBloc.call('get_data_for_evaluation_widget').then(function(data) {
+        new Model('school.individual_bloc').call('get_data_for_evaluation_widget').then(function(data) {
             self.$el.extend( true, self, data )
             self.render_sidebar();
         });
         
         this.evaluation_bloc_editor = new BlocEditor(this, {});
-        
         this.evaluation_bloc_editor.appendTo(this.$('.o_evaluation_bloc_container'));
         
     },
