@@ -15,13 +15,23 @@ var _t = core._t;
 return Widget.extend({
     template: "BlocEditor",
     events: {
-    
+        "click .bloc_confirm": function (event) {
+            event.preventDefault();
+            var self = this;
+            new Model(self.dataset.model).call("confirm",[self.datarecord.id,self.dataset.get_context()]).then(function(result) {
+                self.next().then(function(){
+                    self.parent.$('.o_school_bloc_item.active').removeClass('active');
+                    self.parent.$("a[data-bloc-id='" + self.datarecord.id + "']").addClass('active');
+                });
+            });
+        },
         
     },
     
     init: function(parent, title) {
         this._super.apply(this, arguments);
         this.title = title;
+        this.parent = parent;
     },
     
     start: function() {
@@ -39,11 +49,68 @@ return Widget.extend({
         this.dataset.select_id(bloc_id)
         this.dataset.read_index().then(
             function(data){
+                self.datarecord = data;
                 self.bloc = data;
-                self.renderElement();
+                self._read_bloc_data().done(
+                    function(){
+                        self.renderElement();
+                    }  
+                );
             }
         );
     },
+    
+    next: function() {
+        var self = this;
+        this.dataset.next();
+        return this.dataset.read_index().then(
+            function(data){
+                self.datarecord = data;
+                self.bloc = data;
+                self._read_bloc_data().done(
+                    function(){
+                        self.renderElement();
+                    }  
+                );
+            }
+        );
+    },
+    
+    _read_bloc_data: function(bloc){
+        var self = this;
+        var all_data_loaded = $.Deferred();
+        
+        var model_res_partner = new Model('res.partner');
+        var model_individual_course_group = new Model('school.individual_course_group');
+        var model_individual_course = new Model('school.individual_course');
+        
+        $.when(
+            model_res_partner.query().filter([['id', '=', self.bloc.student_id[0]]]).all().then(
+                function(student) {
+                    self.student = student[0];
+                    self.student_image = session.url('/web/image', {
+                                                        model: 'res.partner',
+                                                        id: self.student.id,
+                                                        field: 'image',
+                                                        unique: (self.datarecord.__last_update || '').replace(/[^0-9]/g, '')
+                    });
+                }    
+            ),
+            model_individual_course_group.query().filter([['id', 'in', self.bloc.course_group_ids]]).all().then(
+                function(course_groups) {
+                    self.course_groups = course_groups;
+                    var defereds = [];
+                    for (var i=0, ii=course_groups.length; i<ii; i++) {
+                        var course_group = course_groups[i];
+                        // TODO Load course details
+                    }
+                }
+            )
+        ).then(function(){all_data_loaded.resolve();});
+        
+        return all_data_loaded.promise();
+    },
+    
     
     /*render_form: function() {
         var self = this;

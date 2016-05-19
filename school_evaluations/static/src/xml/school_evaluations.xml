@@ -39,7 +39,10 @@
                 <ul class="nav" id="side-menu">
                     <t t-foreach="groups" t-as="group">
                         <li>
-                            <a t-att-data-group-id="group.id" href="#" class="o_school_group_item"><i class="fa fa-users fa-fw"></i><t t-esc="group.title"/><span class="fa"></span></a>
+                            <a t-att-data-group-id="group.id" href="#" class="o_school_group_item">
+                                <i class="fa fa-users fa-fw"></i>
+                                <t t-esc="group.title"/><span class="fa"></span><span class="badge pull-right"><t t-esc="group.blocs.length"/></span>
+                            </a>
                         </li>
                     </t>
                     <li class="sidebar-search">
@@ -76,15 +79,80 @@
     </t>
 
     <t t-name="BlocEditor">
-        <div class="">
-            <span t-if="widget.bloc"><t t-esc="widget.bloc.name"/></span>
-            <form>
-                <fieldset class="form-group">
-                    <label for="exampleInputEmail1">Email address</label>
-                    <input type="email" class="form-control" id="exampleInputEmail1" placeholder="Enter email"/>
-                    <small class="text-muted">We'll never share your email with anyone else.</small>
-                </fieldset>
-            </form>
+        <div class="container">
+            <div class="row bloc_form highlight" t-if="widget.bloc">
+                <div class="panel panel-default">
+                    <div class="panel-heading">
+                        <div class="row">
+                            <div class="col-md-3">
+                                <span class="oe_form_field oe_form_field_image oe_avatar" data-original-title="" title="">
+                                                                <img border="1" name="image" t-att-src="widget.student_image" class="img-rounded" style="max-width: 200px; max-height: 200px;"/>
+                                                            </span>
+                            </div>
+                            <div class="col-md-9">
+                                <h2><t t-esc="widget.bloc.name"/></h2>
+                                <h2><t t-esc="widget.bloc.source_bloc_name"/></h2>
+                                <h2>Crédits acquis : <t t-esc="widget.bloc.totat_acquiered_credits"/></h2>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="panel-body">
+                        <form>
+                            <div class="row" t-if="widget.bloc.totat_acquiered_credits &gt; 59">
+                                <div class="col-md-10">
+                                    <div class="alert alert-success" role="alert">A obtenu les 60 crédits requis pour l'année en cours.</div>
+                                </div>
+                                <div class="col-md-2">
+                                    <button t-if="widget.bloc.state == 'draft'" type="button" class="btn btn-success dropdown-toggle bloc_confirm" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">Confirmer<span class="caret"></span></button>
+                                    <button t-if="widget.bloc.state == 'confirmed'" type="button" class="btn btn-success dropdown-toggle disabled" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">Confirmé<span class="caret"></span></button>
+                                </div>
+                            </div>
+                            <div class="row" t-if="(widget.bloc.totat_acquiered_credits &lt; 60) &amp;&amp; (widget.bloc.totat_acquiered_credits &gt; 50)">
+                                <div class="col-md-10">
+                                    <div class="alert alert-warning" role="alert">A obtenu au moins 50 crédits et peut donc entammer le bloc suivant.</div>
+                                </div>
+                                <div class="col-md-2">
+                                    <button t-if="widget.bloc.state == 'draft'" type="button" class="btn btn-warning dropdown-toggle bloc_confirm" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">Confirmer<span class="caret"></span></button>
+                                    <button t-if="widget.bloc.state == 'confirmed'" type="button" class="btn btn-warning dropdown-toggle disabled" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">Confirmé<span class="caret"></span></button>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                    <!-- Table -->
+                    <table class="table">
+                        <colgroup>
+                            <col style="width:50px"/>
+                            <col style="width:1000px"/>
+                            <col style="width:200px"/>
+                            <col style="width:200px"/>
+                        </colgroup>
+                        <thead>
+                            <tr>
+                                <th class="text-center">#</th>
+                                <th>Intitulé</th>
+                                <th>Résultat</th>
+                                <th>Acquis</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <t t-set="counter" t-value="0"/>
+                            <t t-foreach="widget.course_groups" t-as="course_group">
+                            <tr>
+                                <th scope="row" class="text-center"><t t-esc="counter"/></th>
+                                <td><t t-esc="course_group.name"/></td>
+                                <td><t t-esc="course_group.final_result"/></td>
+                                <td>
+                                    <span class="label label-success" t-if="course_group.acquiered === 'A'">Acquis</span>
+                                    <span class="label label-warning" t-if="course_group.acquiered === 'NA'">Non-Acquis</span>
+                                </td>
+                            </tr>
+                            <t t-set="counter" t-value="counter + 1"/>
+                            </t>
+                        </tbody>
+                    </table>
+
+                </div>
+            </div>
         </div>
     </t>
 

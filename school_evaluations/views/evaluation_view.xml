@@ -44,6 +44,18 @@
             <field name="inherit_id" ref="school_management.individual_bloc_form"/>
             <field eval="25" name="priority"/>
             <field name="arch" type="xml">
+                <xpath expr="//sheet" position="before">
+                    <header>
+                        <button name="set_to_draft" type="object" states="confirmed" string="Set to Draft" />
+                        <button name="confirm" type="object" states="draft" string="Confirm Results"/>
+                        <field name="state" widget="statusbar" statusbar_visible="draft,confirmed" />
+                    </header>
+                </xpath>
+                <xpath expr="//field[@name='course_group_ids']" position="before">
+                    <group>
+                        <field name="totat_acquiered_credits"/>
+                    </group>
+                </xpath>
                 <xpath expr="//field[@name='source_course_group_id']" position="before">
                     <field name="first_session_result" string="S1"/>
                     <field name="second_session_result" string="S2"/>

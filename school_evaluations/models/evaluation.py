@@ -173,6 +173,34 @@ class IndividualBloc(models.Model):
     '''Individual Bloc'''
     _inherit = 'school.individual_bloc'
     
+    state = fields.Selection([
+            ('draft','Draft'),
+            ('confirmed', 'Confirmed'),
+        ], string='Status', index=True, readonly=True, default='draft',
+        #track_visibility='onchange', TODO : is this useful for this case ?
+        copy=False,
+        help=" * The 'Draft' status is used when results are not confirmed yet.\n"
+             " * The 'Confirmed' status is when restults are confirmed.")
+    
+    @api.multi
+    def set_to_draft(self):
+        return self.write({'state': 'draft'})
+    
+    @api.multi
+    def confirm(self):
+        return self.write({'state': 'confirmed'})
+    
+    totat_acquiered_credits = fields.Integer(string="Acquiered Credits",compute="compute_credits", store=True)
+    
+    @api.depends('course_group_ids')
+    @api.one
+    def compute_credits(self):
+        total = 0
+        for icg in self.course_group_ids:
+            if icg.acquiered == 'A':
+                total += icg.total_credits
+        self.totat_acquiered_credits = total
+    
     @api.model
     def get_data_for_evaluation_widget(self):
         """ Returns the data required to display an evaluation widget """
@@ -183,17 +211,17 @@ class IndividualBloc(models.Model):
                     },
             "groups" : [
                         {   
-                            'id' : 1, 
+                            'id' : 0, 
                             'title' : "Bloc 1",
                             'blocs' : self.get_blocs_for_evaluation_widget(level=1),
                         },
                         { 
-                            'id' : 2, 
+                            'id' : 1, 
                             'title' : "Bloc 2",
                             'blocs' : self.get_blocs_for_evaluation_widget(level=2),
                         },
                         { 
-                            'id' : 3, 
+                            'id' : 2, 
                             'title' : "Bloc 3",
                             'blocs' : self.get_blocs_for_evaluation_widget(level=3),
                         },
