@@ -266,7 +266,7 @@
       <field name="model">school.course</field>
       <field name="type">form</field>
       <field name="arch" type="xml">
-        <form string="Course">
+        <form string="Course" create="0">
           <!--<header>
     		            <button name="transfert_confirm" states="draft" string="Validate" class="oe_highlight" groups="account.group_account_invoice"/>
     		            <button name="transfert_cancel" states="draft,confirmed" string="Cancel Transfert" groups="account.group_account_invoice"/>
