@@ -251,7 +251,7 @@
       <field name="model">school.course</field>
       <field eval="8" name="priority" />
       <field name="arch" type="xml">
-        <tree string="Courses">
+        <tree string="Courses" create="0">
           <field name="name" />
           <field name="hours" />
           <field name="credits" />
