@@ -48,7 +48,11 @@ class Partner(models.Model):
     
     minerval_ids = fields.One2many('school.minerval', 'student_id', string='Minerval')
     has_paid_current_minerval = fields.Boolean(compute='_has_paid_current_minerval',string="Has paid current minerval", store=True)
-    student_current_program_id = fields.Many2one('school.bloc', compute='_get_student_current_program_id', string='Program', store=True)
+    student_current_program_id = fields.Many2one('school.individual_bloc', compute='_get_student_current_program_id', string='Program', store=True)
+    student_current_program_name = fields.Char(related='student_current_program_id.source_bloc_name', string='Current Program', store=True)
+    
+    
+    student_program_ids = fields.One2many('school.individual_bloc', 'student_id', string="Programs")
     
     teacher_current_course_session_ids = fields.One2many('school.course_session', compute='_get_teacher_current_course_session_ids', string="Current Course Sessions")
     
@@ -67,11 +71,12 @@ class Partner(models.Model):
             self.env['school.minerval'].create({'student_id': self.id,'year_id': current_year_id})
         
     @api.one
+    @api.depends('student_program_ids')
     def _get_student_current_program_id(self):
         current_year_id = safe_eval(self.env['ir.config_parameter'].get_param('school.current_year_id','1'))
-        res = self.env['school.individual_bloc'].search([['year_id', '=', current_year_id], ['student_id', '=', self.id]])
-        if len(res) > 0:
-            self.student_current_program_id = res[0].source_bloc_id
+        for program in self.student_program_ids:
+            if program.year_id.id == current_year_id:
+                self.student_current_program_id = program
     
     @api.one
     def _get_teacher_current_course_session_ids(self):

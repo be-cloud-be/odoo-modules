@@ -81,7 +81,7 @@ class IndividualBloc(models.Model):
         self.name = "%s - %s" % (self.year_id.name,self.student_id.name)
     
     _sql_constraints = [
-	        ('uniq_student_bloc', 'unique(year_id, student_id)', 'A student can only do one bloc in a given year'),
+	        ('uniq_student_bloc', 'unique(year_id, student_id, source_bloc_id)', 'This individual bloc already exists.'),
     ]
             
 class IndividualCourseGroup(models.Model):

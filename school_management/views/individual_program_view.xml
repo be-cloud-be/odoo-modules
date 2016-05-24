@@ -262,7 +262,7 @@
       <field name="model">school.individual_course_group</field>
       <field eval="8" name="priority" />
       <field name="arch" type="xml">
-        <tree string="Course Group">
+        <tree string="Course Group" create="0">
           <field name="year_id" />
           <field name="student_id" />
           <field name="name" />
@@ -482,7 +482,7 @@
       <field name="model">school.individual_course</field>
       <field eval="8" name="priority" />
       <field name="arch" type="xml">
-        <tree string="Individual Course" >
+        <tree string="Individual Course" editable="top" create="0">
           <field name="year_id" />
           <field name="student_id" />
           <field name="name" />

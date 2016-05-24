@@ -73,7 +73,7 @@
                    <separator/>
                    <filter string="No Program" name="no_program" domain="[('student_current_program_id','=',False)]"/>
                    <group expand="0" name="group_by" string="Group By">
-                       <filter string="Program" context="{'group_by': 'student_current_program_id'}"/>
+                       <filter string="Program" context="{'group_by': 'student_current_program_name'}"/>
                    </group>
                    <!-- <separator/>
                    <field name="category_id" string="Tag" filter_domain="[('category_id','ilike', self)]"/>
@@ -97,7 +97,11 @@
                 <field name="mobile" position="after">
                     <field name="has_paid_current_minerval"/>
                     <field name="student"/>
+                    <field name="student_current_program_name" attrs="{'invisible': [('student','=',False)]}"/>
                 </field>
+                <xpath expr="//div[@class='oe_kanban_details']//ul" position="replace">
+                    <li t-if="record.student_current_program_name.value" class="o_text_overflow"><field name="student_current_program_name"/></li>
+                </xpath>
                 <xpath expr="//div[@class='oe_kanban_partner_links']" position="inside">
                     <t t-if="record.has_paid_current_minerval.raw_value == true">
                         <span class="badge" attrs="{'invisible': [('student','=',False)]}"><i class="fa fa-check-square" aria-hidden="true"></i></span>
@@ -128,7 +132,7 @@
                     </header>
                 </xpath>
                 <xpath expr="//field[@name='employee']" position="after">
-                    <field name="student_current_program_id" attrs="{'invisible': [('student','=',False)]}"/>
+                    <field name="student_current_program_name" attrs="{'invisible': [('student','=',False)]}"/>
                     <field name='email_personnel'/>
                 </xpath>
                 <xpath expr="//page[@name='personal_information_page']" position="inside">
@@ -136,6 +140,14 @@
                     <field name='birthdate'/>
                 </xpath>
                 <xpath expr="//notebook[last()]" position="inside">
+                    <page name="programs_list" string="Programs" attrs="{'invisible': [('student','=',False)]}">
+                        <field name="student_program_ids">
+                            <tree string="Programs">
+                                <field name="year_id" />
+                                <field name="source_bloc_name" />
+                            </tree>
+                        </field>
+                    </page>
                     <page name="minerval_list" string="Minervals" attrs="{'invisible': [('student','=',False)]}">
                         <field name="minerval_ids">
                             <tree string="Mindervals">
