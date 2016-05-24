@@ -88,7 +88,7 @@ return Widget.extend({
         
         var all_data_loaded = $.Deferred();
         
-        new Model('school.individual_course_group').query(['id','name','course_ids']).filter([['id', 'in', self.bloc.course_group_ids]]).all().then(
+        new Model('school.individual_course_group').query(['id','name','course_ids','acquiered','final_result']).filter([['id', 'in', self.bloc.course_group_ids]]).all().then(
             function(course_groups) {
                 self.course_groups = course_groups;
                 var defs = [];

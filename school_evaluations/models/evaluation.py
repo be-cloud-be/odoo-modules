@@ -8,7 +8,6 @@
 #    it under the terms of the GNU Affero General Public License as
 #    published by the Free Software Foundation, either version 3 of the
 #    License, or (at your option) any later version.
-#
 #    This program is distributed in the hope that it will be useful,
 #    but WITHOUT ANY WARRANTY; without even the implied warranty of
 #    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
@@ -31,23 +30,23 @@ class IndividualCourseGroup(models.Model):
     
     ## First Session ##
     
-    first_session_computed_result = fields.Float(computed='compute_results', string='First Session Computed Result', store=True, digits=(5, 2))
-    first_session_computed_result_bool= fields.Boolean(computed='compute_results', string='First Session Computed Active', store=True)
-    first_session_deliberated_result = fields.Float(string='First Session Deliberated Result', digits=(5, 2))
+    first_session_computed_result = fields.Float(compute='compute_results', string='First Session Computed Result', store=True, digits=(5, 2))
+    first_session_computed_result_bool= fields.Boolean(compute='compute_results', string='First Session Computed Active', store=True)
+    first_session_deliberated_result = fields.Char(string='First Session Deliberated Result')
     first_session_deliberated_result_bool= fields.Boolean(string='First Session Deliberated Active')
-    first_session_result= fields.Float(computed='compute_results', string='First Session Result', store=True, digits=(5, 2))
-    first_session_result_bool= fields.Boolean(computed='compute_results', string='First Session Active', store=True)
+    first_session_result= fields.Float(compute='compute_results', string='First Session Result', store=True, digits=(5, 2))
+    first_session_result_bool= fields.Boolean(compute='compute_results', string='First Session Active', store=True)
     first_session_acquiered = fields.Selection(([('A', 'Aquired'),('NA', 'Not Acquired')]),string='First Session Acquired Credits',default='NA',required=True)
     first_session_note = fields.Text(string='First Session Notes')
     
     ## Second Session ##
     
-    second_session_computed_result = fields.Float(computed='compute_results', string='Second Session Computed Result', store=True, digits=(5, 2))
-    second_session_computed_result_bool= fields.Boolean(computed='compute_results', string='Second Session Computed Active', store=True)
-    second_session_deliberated_result = fields.Float(string='Second Session Deliberated Result', digits=(5, 2))
+    second_session_computed_result = fields.Float(compute='compute_results', string='Second Session Computed Result', store=True, digits=(5, 2))
+    second_session_computed_result_bool= fields.Boolean(compute='compute_results', string='Second Session Computed Active', store=True)
+    second_session_deliberated_result = fields.Char(string='Second Session Deliberated Result', digits=(5, 2))
     second_session_deliberated_result_bool= fields.Boolean(string='Second Session Deliberated Active')
-    second_session_result= fields.Float(computed='compute_results', string='Second Session Result', store=True, digits=(5, 2))
-    second_session_result_bool= fields.Boolean(computed='compute_results', string='Second Session Active', store=True)
+    second_session_result= fields.Float(compute='compute_results', string='Second Session Result', store=True, digits=(5, 2))
+    second_session_result_bool= fields.Boolean(compute='compute_results', string='Second Session Active', store=True)
     second_session_acquiered = fields.Selection(([('A', 'Aquired'),('NA', 'Not Acquired')]),string='Second Session Acquired Credits',default='NA',required=True)
     second_session_note = fields.Text(string='Second Session Notes')
     
@@ -88,9 +87,14 @@ class IndividualCourseGroup(models.Model):
             self.second_session_computed_result = running_second_session_result / self.total_weight
         
         ## Compute Session Results
-        if self.first_session_deliberated_result_bool :
-            self.first_session_result = self.first_session_deliberated_result
-            self.first_session_result_bool = True
+        if self.first_session_deliberated_result :
+            try:
+                f = float(self.first_session_deliberated_result)
+                self.first_session_result = f
+                self.first_session_result_bool = True
+            except ValueError:
+                self.write('first_session_deliberated_result', None)
+                raise UserError(_('Cannot decode %s, please encode a Float eg "12.00".' % self.first_session_deliberated_result))
         elif self.first_session_computed_result_bool :
             self.first_session_result = self.first_session_computed_result
             self.first_session_result_bool = True
@@ -98,8 +102,13 @@ class IndividualCourseGroup(models.Model):
             self.first_session_result_bool = False
         
         if self.second_session_deliberated_result_bool :
-            self.second_session_result = self.second_session_deliberated_result
-            self.second_session_result_bool = True
+            try:
+                f = float(self.second_session_deliberated_result)
+                self.second_session_result = f
+                self.second_session_result_bool = True
+            except ValueError:
+                self.write('second_session_deliberated_result', None)
+                raise UserError(_('Cannot decode %s, please encode a Float eg "12.00".' % self.second_session_deliberated_result))
         elif self.second_session_computed_result_bool :
             self.second_session_result = self.second_session_computed_result
             self.second_session_result_bool = True
@@ -120,62 +129,136 @@ class IndividualCourseGroup(models.Model):
             self.final_result_bool = False
         
 
+class Course(models.Model):
+    '''Course'''
+    _inherit = 'school.course'
+    
+    type = fields.Selection(([('S', 'Simple'),('T', 'Triple'),('C', 'Complex')]), string='Type')
+
 class IndividualCourse(models.Model):
     '''Individual Course'''
     _inherit = 'school.individual_course'
     
-    type = fields.Selection(([('S', 'Simple'),('T', 'Triple'),('C', 'Complex')]), string='Type',required=True)
+    type = fields.Selection(([('S', 'Simple'),('T', 'Triple'),('C', 'Complex'),('D','Deferral')]), string='Type', required=True, default="S")
     
+    @api.model
+    def create(self, values):
+        if not(values.get('type', False)) and values.get('source_course_id', False):
+            course = self.env['school.course'].browse(values['source_course_id'])
+            values['type'] = course.type or 'S'
+        result = super(IndividualCourse, self).create(values)
+        return result
+
     ## Annual Evaluation ##
     
-    annual_result= fields.Float(string='Annual Result', digits=(5, 2))
-    annual_result_bool= fields.Boolean(string='Annual Active')
-    annual_note = fields.Text(string='Annual Notes')
+    ann_result= fields.Char(string='Annual Result')
     
     ## January Evaluation ##
     
-    jan_result= fields.Float(string='January Result', digits=(5, 2))
-    jan_result_bool= fields.Boolean(string='January Active')
-    jan_note = fields.Text(string='January Notes')
+    jan_result= fields.Char(string='January Result')
+    
+    ## June Evaluation ##
+    
+    jun_result= fields.Char(string='June Result')
+    
+    ## September Evaluation ##
+    
+    sept_result= fields.Char(string='September Result')
     
     ## First Session ##
     
-    first_session_result= fields.Float(string='First Session Result', digits=(5, 2))
-    first_session_result_bool= fields.Boolean(string='First Session Active')
+    first_session_result= fields.Float(compute='compute_results', string='First Session Result', store=True)
+    first_session_result_bool = fields.Boolean(compute='compute_results', string='First Session Active', store=True)
     first_session_note = fields.Text(string='First Session Notes')
     
     ## Second Session ##
     
-    second_session_result= fields.Float(string='Second Session Result', digits=(5, 2))
-    second_session_result_bool= fields.Boolean(string='Second Session Active')
+    second_session_result= fields.Float(compute='compute_results', string='Second Session Result', store=True)
+    second_session_result_bool = fields.Boolean(compute='compute_results', string='Second Session Active', store=True)
     second_session_note = fields.Text(string='Second Session Notes')
     
-    ## Final ##
-    
-    final_result = fields.Float(compute='compute_results', string='Final Result', digits=(5, 2))
-    final_result_bool = fields.Boolean(compute='compute_results', string='Final Active')
-    final_note = fields.Text(string='Final Notes')
-    
-    @api.depends('first_session_result','second_session_result','first_session_result_bool','second_session_result_bool')
-    @api.multi
+    @api.depends('ann_result','jan_result','jun_result','sept_result')
+    @api.one
     def compute_results(self):
-        for ic in self:
-            if ic.second_session_result_bool :
-                ic.final_result = ic.second_session_result
-                ic.final_result_bool = True
-            elif ic.first_session_result_bool :
-                ic.final_result = ic.first_session_result
-                ic.final_result_bool = True
-            else :
-                ic.final_result_bool = False
-                
+        if self.type in ['S','D','T']:
+            if self.jan_result :
+                try:
+                    f = float(self.jan_result)
+                    self.first_session_result = f
+                    self.first_session_result_bool = True
+                except ValueError:
+                    self.first_session_result = 0
+                    self.first_session_result_bool = False
+                    raise UserError(_('Cannot decode %s in January Result, please encode a Float eg "12.00".' % self.jan_result))
+            if self.jun_result :
+                try:
+                    f = float(self.jun_result)
+                    self.first_session_result = f
+                    self.first_session_result_bool = True
+                except ValueError:
+                    self.first_session_result = 0
+                    self.first_session_result_bool = False
+                    raise UserError(_('Cannot decode %s in June Result, please encode a Float eg "12.00".' % self.jun_result))
+            if self.sept_result :
+                try:
+                    f = float(self.sept_result)
+                    self.second_session_result = f
+                    self.second_session_result_bool = True 
+                except ValueError:
+                    self.second_session_result = 0
+                    self.second_session_result_bool = False
+                    raise UserError(_('Cannot decode %s in September Result, please encode a Float eg "12.00".' % self.sept_result))
+        if self.type in ['C']:
+            ann = None
+            jan = None
+            if self.ann_result :
+                try:
+                    ann = float(self.ann_result)
+                except ValueError:
+                    raise UserError(_('Cannot decode %s in January Result, please encode a Float eg "12.00".' % self.ann_result))
+            if self.jan_result :
+                try:
+                    jan = float(self.jan_result)
+                except ValueError:
+                    raise UserError(_('Cannot decode %s in January Result, please encode a Float eg "12.00".' % self.jan_result))
+            if self.jun_result :
+                try:
+                    jun = float(self.jun_result)
+                    if ann and jan and jun :
+                        self.first_session_result = ann * 0.5 + (jan * 0.5 + jun * 0.5) * 0.5
+                        self.first_session_result_bool = True
+                    else:
+                        self.first_session_result = 0
+                        self.first_session_result_bool = False
+                except ValueError:
+                    self.first_session_result = 0
+                    self.first_session_result_bool = False
+                    raise UserError(_('Cannot decode %s in June Result, please encode a Float eg "12.00".' % self.jun_result))
+            if self.sept_result :
+                try:
+                    sept = float(self.sept_result)
+                    if ann and sept :
+                        self.second_session_result = ann * 0.5 + sept * 0.5
+                        self.second_session_result_bool = True 
+                    else:
+                        self.first_session_result = 0
+                        self.first_session_result_bool = False
+                except ValueError:
+                    self.second_session_result = 0
+                    self.second_session_result_bool = False
+                    raise UserError(_('Cannot decode %s in September Result, please encode a Float eg "12.00".' % self.sept_result))
+        
+    
+
 class IndividualBloc(models.Model):
     '''Individual Bloc'''
     _inherit = 'school.individual_bloc'
     
     state = fields.Selection([
             ('draft','Draft'),
-            ('confirmed', 'Confirmed'),
+            ('postponed', 'Postponed'),
+            ('awarded', 'Awarded'),
+            ('failed', 'Failed'),
         ], string='Status', index=True, readonly=True, default='draft',
         #track_visibility='onchange', TODO : is this useful for this case ?
         copy=False,
@@ -187,8 +270,16 @@ class IndividualBloc(models.Model):
         return self.write({'state': 'draft'})
     
     @api.multi
-    def confirm(self):
-        return self.write({'state': 'confirmed'})
+    def set_to_postponed(self):
+        return self.write({'state': 'postponed'})
+    
+    @api.multi
+    def set_to_awarded(self):
+        return self.write({'state': 'awarded'})
+        
+    @api.multi
+    def set_to_fail(self):
+        return self.write({'state': 'failed'})
     
     totat_acquiered_credits = fields.Integer(string="Acquiered Credits",compute="compute_credits", store=True)
     
