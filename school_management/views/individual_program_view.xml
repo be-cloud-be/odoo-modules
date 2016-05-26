@@ -351,6 +351,7 @@
             </div>
             <group col="2" colspan="2">
               <field name="source_course_group_id" />
+              <field name="teacher_id" />
             </group>
             <group col="4" colspan="2" attrs="{'invisible': [('source_course_group_id','=',False)]}">
               <field name="total_hours" />
@@ -413,7 +414,7 @@
             </group>
             <field name="course_group_ids">
               <tree string="Course Groups" context="{'default_bloc_id':active_id}">
-                <field name="name"/>
+                <field name="name" />
                 <field name="total_hours" />
                 <field name="total_credits" />
                 <field name="source_course_group_id" invisible="1"/>
@@ -483,9 +484,10 @@
       <field eval="8" name="priority" />
       <field name="arch" type="xml">
         <tree string="Individual Course" editable="top" create="0">
-          <field name="year_id" />
+          <field name="year_id"/>
           <field name="student_id" />
           <field name="name" />
+          <field name="teacher_id" />
           <field name="dispense" />
         </tree>
       </field>
@@ -504,16 +506,15 @@
     		            <field name="state" widget="statusbar" statusbar_visible="draft,confirmed,paid"/>
     		        </header>-->
           <sheet>
-            <div class="oe_title">
+            <field name="image" widget="image" class="oe_avatar" options="{&quot;preview_image&quot;: &quot;image_medium&quot;, &quot;size&quot;: [150, 150]}"/>
+            <div class="oe_title" style="padding-left: 130px;">
               <h1>
                <field name="name"/>
               </h1>
-              <h3 class="oe_fade">
-               <field name="course_group_id" options='{"no_open":True}'/>
-              </h3>
             </div>
             <group col="6">
               <field name="source_course_id" colspan="6" readonly="1"/>
+              <field name="teacher_id" colspan="6" />
               <field name="hours" />
               <field name="credits" />
               <field name="weight" />
@@ -529,7 +530,14 @@
       <field name="arch" type="xml">
         <search string="Search Courses">
           <field name="student_id" />
-          <field name="name" />
+          <field name="teacher_id" />
+          <field name="source_bloc_id" string="Programme"/>
+          <filter name="bloc_1" string="Bloc 1" domain="[('source_bloc_level', '=', 1)]"/>
+          <filter name="bloc_2" string="Bloc 2" domain="[('source_bloc_level', '=', 2)]"/>
+          <filter name="bloc_3" string="Bloc 3" domain="[('source_bloc_level', '=', 3)]"/>
+          <separator/>
+          <filter name="dispensed" string="Dispensed" domain="[('dispense', '=', True)]"/>
+          <filter name="not_dispensed" string="Not Dispensed" domain="[('dispense', '=', False)]"/>
         </search>
       </field>
     </record>

@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="utf-8" ?>
 <!--
 ##############################################################################
 #
@@ -21,61 +21,57 @@
 ##############################################################################
 -->
 <openerp>
-	<data>
-	
-	    <!-- Add boolean for teacher, student, employee on partner form view -->
+    <data>
+
+        <!-- Add boolean for teacher, student, employee on partner form view -->
         <record id="view_partners_form_school" model="ir.ui.view">
             <field name="name">view.res.partner.form.school</field>
             <field name="model">res.partner</field>
-            <field name="inherit_id" ref="base.view_partner_form"/>
-            <field eval="18" name="priority"/>
+            <field name="inherit_id" ref="base.view_partner_form" />
+            <field eval="18" name="priority" />
             <field name="arch" type="xml">
                 <xpath expr="//field[@name='parent_id']" position="replace">
-                    <field name="parent_id" placeholder="Company" domain="[('is_company', '=', True)]" context="{'default_is_company': True, 'default_supplier': supplier, 'default_customer': customer}" invisible="1" on_change="onchange_parent_id(parent_id)"/>
+                    <field name="parent_id" placeholder="Company" domain="[('is_company', '=', True)]" context="{'default_is_company': True, 'default_supplier': supplier, 'default_customer': customer}" invisible="1" on_change="onchange_parent_id(parent_id)" />
                 </xpath>
                 <xpath expr="//field[@name='website']" position="after">
-                    <field name='initials'/>
-                    <field name='student'/>
-                    <field name='teacher'/>
-                    <field name='employee'/>
-                    <field name="supplier" invisible="True"/>
-                    <field name="customer" invisible="True"/>
+                    <field name='initials' />
+                    <field name='student' />
+                    <field name='teacher' />
+                    <field name='employee' />
+                    <field name="supplier" invisible="True" />
+                    <field name="customer" invisible="True" />
                 </xpath>
-                <xpath expr="//page[@name='sales_purchases']" position="replace"/>
+                <xpath expr="//page[@name='sales_purchases']" position="replace" />
             </field>
         </record>
-	
-		<!-- Top menu item -->
-        <menuitem name="Contacts"
-            id="menu_main_contacts"
-            icon="fa-user"
-            web_icon="school,static/description/icon.png"
-            sequence="40"/>
-		
-		<menuitem name="Contacts" parent="menu_main_contacts" id="menu_contacts" sequence="1"/>
-		
-		<record id="view_res_partner_filter" model="ir.ui.view">
+
+        <!-- Top menu item -->
+        <menuitem name="Contacts" id="menu_main_contacts" icon="fa-user" web_icon="school,static/description/icon.png" sequence="40" />
+
+        <menuitem name="Contacts" parent="menu_main_contacts" id="menu_contacts" sequence="1" />
+
+        <record id="view_res_partner_filter" model="ir.ui.view">
             <field name="name">res.partner.select</field>
             <field name="model">res.partner</field>
             <field name="arch" type="xml">
                 <search string="Search Partner">
-                   <field name="name"
-                       filter_domain="['|','|',('display_name','ilike',self),('ref','=',self),('email','ilike',self)]"/>
-                   <separator/>
-                   <filter string="Persons" name="type_person" domain="[('is_company','=',0)]"/>
-                   <filter string="Companies" name="type_company" domain="[('is_company','=',1)]"/>
-                   <separator/>
-                   <filter string="Employees" name="employee" domain="[('employee','=',1), ('parent_id', '=', False)]"/>
-                   <filter string="Teachers" name="teacher" domain="[('teacher','=',1), ('parent_id', '=', False)]"/>
-                   <filter string="Students" name="student" domain="[('student','=',1), ('parent_id', '=', False)]"/>
-                   <filter string="Others" name="other" domain="[('employee','=',0),('teacher','=',0),('student','=',0), ('parent_id', '=', False)]"/>
-                   <filter string="Archived" name="archived" domain="[('active','=',False)]"/>
-                   <separator/>
-                   <filter string="No Program" name="no_program" domain="[('student_current_program_id','=',False)]"/>
-                   <group expand="0" name="group_by" string="Group By">
-                       <filter string="Program" context="{'group_by': 'student_current_program_name'}"/>
-                   </group>
-                   <!-- <separator/>
+                    <field name="name" filter_domain="['|','|',('display_name','ilike',self),('ref','=',self),('email','ilike',self)]" />
+                    <field name="student_current_program_name" filter_domain="[('student_current_program_name','ilike',self)]" string="Programme"/>
+                    <separator/>
+                    <filter string="Persons" name="type_person" domain="[('is_company','=',0)]" />
+                    <filter string="Companies" name="type_company" domain="[('is_company','=',1)]" />
+                    <separator/>
+                    <filter string="Employees" name="employee" domain="[('employee','=',1), ('parent_id', '=', False)]" />
+                    <filter string="Teachers" name="teacher" domain="[('teacher','=',1), ('parent_id', '=', False)]" />
+                    <filter string="Students" name="student" domain="[('student','=',1), ('parent_id', '=', False)]" />
+                    <filter string="Others" name="other" domain="[('employee','=',0),('teacher','=',0),('student','=',0), ('parent_id', '=', False)]" />
+                    <filter string="Archived" name="archived" domain="[('active','=',False)]" />
+                    <separator/>
+                    <filter string="No Program" name="no_program" domain="[('student_current_program_id','=',False)]" />
+                    <group expand="0" name="group_by" string="Group By">
+                        <filter string="Program" context="{'group_by': 'student_current_program_name'}" />
+                    </group>
+                    <!-- <separator/>
                    <field name="category_id" string="Tag" filter_domain="[('category_id','ilike', self)]"/>
                    <field name="user_id"/>
                    <field name="parent_id" domain="[('is_company','=',1)]" operator="child_of"/>
@@ -83,24 +79,26 @@
                        <filter string="Company" context="{'group_by': 'parent_id'}"/>
                        <filter string="Country" context="{'group_by': 'country_id'}"/>
                    </group>-->
-               </search>
+                </search>
             </field>
         </record>
-        
+
         <!-- Add program for student form view -->
         <record id="view_student_kanban_school" model="ir.ui.view">
             <field name="name">view.res.partner.kanban.school</field>
             <field name="model">res.partner</field>
-            <field name="inherit_id" ref="base.res_partner_kanban_view"/>
-            <field eval="25" name="priority"/>
+            <field name="inherit_id" ref="base.res_partner_kanban_view" />
+            <field eval="25" name="priority" />
             <field name="arch" type="xml">
                 <field name="mobile" position="after">
-                    <field name="has_paid_current_minerval"/>
-                    <field name="student"/>
-                    <field name="student_current_program_name" attrs="{'invisible': [('student','=',False)]}"/>
+                    <field name="has_paid_current_minerval" />
+                    <field name="student" />
+                    <field name="student_current_program_name" attrs="{'invisible': [('student','=',False)]}" />
                 </field>
                 <xpath expr="//div[@class='oe_kanban_details']//ul" position="replace">
-                    <li t-if="record.student_current_program_name.value" class="o_text_overflow"><field name="student_current_program_name"/></li>
+                    <li t-if="record.student_current_program_name.value" class="o_text_overflow">
+                        <field name="student_current_program_name" />
+                    </li>
                 </xpath>
                 <xpath expr="//div[@class='oe_kanban_partner_links']" position="inside">
                     <t t-if="record.has_paid_current_minerval.raw_value == true">
@@ -112,32 +110,31 @@
                 </xpath>
             </field>
         </record>
-        
+
         <!-- Add program for student form view -->
         <record id="view_student_form_school" model="ir.ui.view">
             <field name="name">view.res.partner.form.school</field>
             <field name="model">res.partner</field>
-            <field name="inherit_id" ref="view_partners_form_school"/>
-            <field eval="25" name="priority"/>
+            <field name="inherit_id" ref="view_partners_form_school" />
+            <field eval="25" name="priority" />
             <field name="arch" type="xml">
                 <xpath expr="//div[@name='button_box']" position="inside">
-                    <button name="pay_current_minerval" type="object"
-                            class="oe_stat_button" icon="fa-eur" attrs="{'invisible': [('student','=',False)]}">
-                        <field name="has_paid_current_minerval" widget="boolean_button"/>
+                    <button name="pay_current_minerval" type="object" class="oe_stat_button" icon="fa-eur" attrs="{'invisible': [('student','=',False)]}">
+                        <field name="has_paid_current_minerval" widget="boolean_button" />
                     </button>
                 </xpath>
                 <xpath expr="//sheet" position="before">
                     <header>
-                        <button string="Assing Program" type="action" name="%(action_assing_program_view)d" class="oe_highlight" context="{'default_student_id': active_id}" attrs="{'invisible': [('student','=',False)]}"/>
+                        <button string="Assing Program" type="action" name="%(action_assing_program_view)d" class="oe_highlight" context="{'default_student_id': active_id}" attrs="{'invisible': [('student','=',False)]}" />
                     </header>
                 </xpath>
                 <xpath expr="//field[@name='employee']" position="after">
-                    <field name="student_current_program_name" attrs="{'invisible': [('student','=',False)]}"/>
-                    <field name='email_personnel'/>
+                    <field name="student_current_program_name" attrs="{'invisible': [('student','=',False)]}" />
+                    <field name='email_personnel' />
                 </xpath>
                 <xpath expr="//page[@name='personal_information_page']" position="inside">
-                    <field name='sex'/>
-                    <field name='birthdate'/>
+                    <field name='sex' />
+                    <field name='birthdate' />
                 </xpath>
                 <xpath expr="//notebook[last()]" position="inside">
                     <page name="programs_list" string="Programs" attrs="{'invisible': [('student','=',False)]}">
@@ -159,7 +156,7 @@
                 </xpath>
             </field>
         </record>
-        
+
         <!-- Speciality List View -->
         <record id="view_student_tree_school" model="ir.ui.view">
             <field name="name">school.res.partner.tree</field>
@@ -167,63 +164,63 @@
             <field eval="8" name="priority" />
             <field name="arch" type="xml">
                 <tree string="Contacts">
-                    <field name="display_name"/>
-                    <field name="function" invisible="1"/>
-                    <field name="student_current_program_id"/>
-                    <field name="has_paid_current_minerval"/>
-                    <field name="email"/>
-                    <field name="user_id" invisible="1"/>
-                    <field name="is_company" invisible="1"/>
-                    <field name="country_id" invisible="1"/>
-                    <field name="parent_id" invisible="1"/>
+                    <field name="display_name" />
+                    <field name="function" invisible="1" />
+                    <field name="student_current_program_id" />
+                    <field name="has_paid_current_minerval" />
+                    <field name="email" />
+                    <field name="user_id" invisible="1" />
+                    <field name="is_company" invisible="1" />
+                    <field name="country_id" invisible="1" />
+                    <field name="parent_id" invisible="1" />
                 </tree>
             </field>
         </record>
-		
-		<record id="action_student_form" model="ir.actions.act_window">
+
+        <record id="action_student_form" model="ir.actions.act_window">
             <field name="name">Students</field>
             <field name="type">ir.actions.act_window</field>
             <field name="res_model">res.partner</field>
             <field name="view_type">form</field>
             <field name="view_mode">kanban,tree,form</field>
             <field name="context">{"search_default_student":1,"default_student":1}</field>
-            <field name="search_view_id" ref="view_res_partner_filter"/>
+            <field name="search_view_id" ref="view_res_partner_filter" />
             <field name="help" type="html">
-              <p class="oe_view_nocontent_create">
-                Click to add a student.
-              </p><p>
-                Odoo helps you easily track all activities related to
-                a student; courses, discussions, documents, etc.
-              </p>
+                <p class="oe_view_nocontent_create">
+                    Click to add a student.
+                </p>
+                <p>
+                    Odoo helps you easily track all activities related to a student; courses, discussions, documents, etc.
+                </p>
             </field>
         </record>
-	
-		<record id="action_student_form_view1" model="ir.actions.act_window.view">
-            <field name="sequence" eval="0"/>
+
+        <record id="action_student_form_view1" model="ir.actions.act_window.view">
+            <field name="sequence" eval="0" />
             <field name="view_mode">kanban</field>
-            <field name="view_id" ref="view_student_kanban_school"/>
-            <field name="act_window_id" ref="action_student_form"/>
+            <field name="view_id" ref="view_student_kanban_school" />
+            <field name="act_window_id" ref="action_student_form" />
         </record>
         <record id="action_student_tree_view1" model="ir.actions.act_window.view">
-            <field name="sequence" eval="1"/>
+            <field name="sequence" eval="1" />
             <field name="view_mode">tree</field>
-            <field name="view_id" ref="view_student_tree_school"/>
-            <field name="act_window_id" ref="action_student_form"/>
+            <field name="view_id" ref="view_student_tree_school" />
+            <field name="act_window_id" ref="action_student_form" />
         </record>
         <record id="action_student_form_view2" model="ir.actions.act_window.view">
-            <field name="sequence" eval="2"/>
+            <field name="sequence" eval="2" />
             <field name="view_mode">form</field>
-            <field name="view_id" ref="view_student_form_school"/>
-            <field name="act_window_id" ref="action_student_form"/>
+            <field name="view_id" ref="view_student_form_school" />
+            <field name="act_window_id" ref="action_student_form" />
         </record>
         <record id="action_student_form_view2" model="ir.actions.act_window.view">
-            <field name="sequence" eval="2"/>
+            <field name="sequence" eval="2" />
             <field name="view_mode">form</field>
-            <field name="view_id" ref="view_student_form_school"/>
-            <field name="act_window_id" ref="action_student_form"/>
+            <field name="view_id" ref="view_student_form_school" />
+            <field name="act_window_id" ref="action_student_form" />
         </record>
-        <menuitem id="menu_student_form" parent="menu_contacts" action="action_student_form" sequence="5"/>
-        
+        <menuitem id="menu_student_form" parent="menu_contacts" action="action_student_form" sequence="5" />
+
         <record id="action_teacher_form" model="ir.actions.act_window">
             <field name="name">Teachers</field>
             <field name="type">ir.actions.act_window</field>
@@ -231,23 +228,23 @@
             <field name="view_type">form</field>
             <field name="view_mode">kanban,tree,form</field>
             <field name="context">{"search_default_teacher":1,"default_teacher":1}</field>
-            <field name="search_view_id" ref="view_res_partner_filter"/>
+            <field name="search_view_id" ref="view_res_partner_filter" />
             <field name="help" type="html">
-              <p class="oe_view_nocontent_create">
-                Click to add a teacher.
-              </p><p>
-                Odoo helps you easily track all activities related to
-                a teacher; courses, discussions, documents, etc.
-              </p>
+                <p class="oe_view_nocontent_create">
+                    Click to add a teacher.
+                </p>
+                <p>
+                    Odoo helps you easily track all activities related to a teacher; courses, discussions, documents, etc.
+                </p>
             </field>
         </record>
-        
+
         <!-- Add courses list for teacher form view -->
         <record id="view_teacher_form_school" model="ir.ui.view">
             <field name="name">view.res.partner.form.school</field>
             <field name="model">res.partner</field>
-            <field name="inherit_id" ref="base.view_partner_form"/>
-            <field eval="25" name="priority"/>
+            <field name="inherit_id" ref="base.view_partner_form" />
+            <field eval="25" name="priority" />
             <field name="arch" type="xml">
                 <xpath expr="//notebook[last()]" position="inside">
                     <page name="course_session_list" string="Current Course Session" attrs="{'invisible': [('teacher','=',False)]}">
@@ -260,27 +257,27 @@
                 </xpath>
             </field>
         </record>
-	
-		<record id="action_teacher_form_view1" model="ir.actions.act_window.view">
-            <field name="sequence" eval="0"/>
+
+        <record id="action_teacher_form_view1" model="ir.actions.act_window.view">
+            <field name="sequence" eval="0" />
             <field name="view_mode">kanban</field>
-            <field name="view_id" ref="base.res_partner_kanban_view"/>
-            <field name="act_window_id" ref="action_teacher_form"/>
+            <field name="view_id" ref="base.res_partner_kanban_view" />
+            <field name="act_window_id" ref="action_teacher_form" />
         </record>
         <record id="action_teacher_tree_view1" model="ir.actions.act_window.view">
-            <field name="sequence" eval="1"/>
+            <field name="sequence" eval="1" />
             <field name="view_mode">tree</field>
-            <field name="view_id" ref="base.view_partner_tree"/>
-            <field name="act_window_id" ref="action_teacher_form"/>
+            <field name="view_id" ref="base.view_partner_tree" />
+            <field name="act_window_id" ref="action_teacher_form" />
         </record>
         <record id="action_teacher_form_view2" model="ir.actions.act_window.view">
-            <field name="sequence" eval="2"/>
+            <field name="sequence" eval="2" />
             <field name="view_mode">form</field>
-            <field name="view_id" ref="view_teacher_form_school"/>
-            <field name="act_window_id" ref="action_teacher_form"/>
+            <field name="view_id" ref="view_teacher_form_school" />
+            <field name="act_window_id" ref="action_teacher_form" />
         </record>
-        <menuitem id="menu_teacher_form" parent="menu_contacts" action="action_teacher_form" sequence="10"/>
-        
+        <menuitem id="menu_teacher_form" parent="menu_contacts" action="action_teacher_form" sequence="10" />
+
         <record id="action_employee_form" model="ir.actions.act_window">
             <field name="name">Employees</field>
             <field name="type">ir.actions.act_window</field>
@@ -288,38 +285,38 @@
             <field name="view_type">form</field>
             <field name="view_mode">kanban,tree,form</field>
             <field name="context">{"search_default_employee":1,"default_employee":1}</field>
-            <field name="search_view_id" ref="view_res_partner_filter"/>
+            <field name="search_view_id" ref="view_res_partner_filter" />
             <field name="help" type="html">
-              <p class="oe_view_nocontent_create">
-                Click to add an Employee.
-              </p><p>
-                Odoo helps you easily track all activities related to
-                an employee; discussions, documents, etc.
-              </p>
+                <p class="oe_view_nocontent_create">
+                    Click to add an Employee.
+                </p>
+                <p>
+                    Odoo helps you easily track all activities related to an employee; discussions, documents, etc.
+                </p>
             </field>
         </record>
-	
-		<record id="action_employee_form_view1" model="ir.actions.act_window.view">
-            <field name="sequence" eval="0"/>
+
+        <record id="action_employee_form_view1" model="ir.actions.act_window.view">
+            <field name="sequence" eval="0" />
             <field name="view_mode">kanban</field>
-            <field name="view_id" ref="base.res_partner_kanban_view"/>
-            <field name="act_window_id" ref="action_employee_form"/>
+            <field name="view_id" ref="base.res_partner_kanban_view" />
+            <field name="act_window_id" ref="action_employee_form" />
         </record>
         <record id="action_employee_tree_view1" model="ir.actions.act_window.view">
-            <field name="sequence" eval="1"/>
+            <field name="sequence" eval="1" />
             <field name="view_mode">tree</field>
-            <field name="view_id" ref="base.view_partner_tree"/>
-            <field name="act_window_id" ref="action_employee_form"/>
+            <field name="view_id" ref="base.view_partner_tree" />
+            <field name="act_window_id" ref="action_employee_form" />
         </record>
         <record id="action_employee_form_view2" model="ir.actions.act_window.view">
-            <field name="sequence" eval="2"/>
+            <field name="sequence" eval="2" />
             <field name="view_mode">form</field>
-            <field name="view_id" ref="base.view_partner_form"/>
-            <field name="act_window_id" ref="action_employee_form"/>
+            <field name="view_id" ref="base.view_partner_form" />
+            <field name="act_window_id" ref="action_employee_form" />
         </record>
-        <menuitem id="menu_employee_form" parent="menu_contacts" action="action_employee_form" sequence="20"/>
-        
-        
+        <menuitem id="menu_employee_form" parent="menu_contacts" action="action_employee_form" sequence="20" />
+
+
         <record id="action_other_form" model="ir.actions.act_window">
             <field name="name">Others</field>
             <field name="type">ir.actions.act_window</field>
@@ -327,75 +324,75 @@
             <field name="view_type">form</field>
             <field name="view_mode">kanban,tree,form</field>
             <field name="context">{"search_default_other":1,"default_other":1}</field>
-            <field name="search_view_id" ref="view_res_partner_filter"/>
+            <field name="search_view_id" ref="view_res_partner_filter" />
             <field name="help" type="html">
-              <p class="oe_view_nocontent_create">
-                Click to add an other type of contact.
-              </p><p>
-                Odoo helps you easily track all activities related to
-                all the other types of contacts; discussions, documents, etc.
-              </p>
+                <p class="oe_view_nocontent_create">
+                    Click to add an other type of contact.
+                </p>
+                <p>
+                    Odoo helps you easily track all activities related to all the other types of contacts; discussions, documents, etc.
+                </p>
             </field>
         </record>
-	
-		<record id="action_other_form_view1" model="ir.actions.act_window.view">
-            <field name="sequence" eval="0"/>
+
+        <record id="action_other_form_view1" model="ir.actions.act_window.view">
+            <field name="sequence" eval="0" />
             <field name="view_mode">kanban</field>
-            <field name="view_id" ref="base.res_partner_kanban_view"/>
-            <field name="act_window_id" ref="action_other_form"/>
+            <field name="view_id" ref="base.res_partner_kanban_view" />
+            <field name="act_window_id" ref="action_other_form" />
         </record>
         <record id="action_other_tree_view1" model="ir.actions.act_window.view">
-            <field name="sequence" eval="1"/>
+            <field name="sequence" eval="1" />
             <field name="view_mode">tree</field>
-            <field name="view_id" ref="base.view_partner_tree"/>
-            <field name="act_window_id" ref="action_other_form"/>
+            <field name="view_id" ref="base.view_partner_tree" />
+            <field name="act_window_id" ref="action_other_form" />
         </record>
         <record id="action_other_form_view2" model="ir.actions.act_window.view">
-            <field name="sequence" eval="2"/>
+            <field name="sequence" eval="2" />
             <field name="view_mode">form</field>
-            <field name="view_id" ref="base.view_partner_form"/>
-            <field name="act_window_id" ref="action_other_form"/>
+            <field name="view_id" ref="base.view_partner_form" />
+            <field name="act_window_id" ref="action_other_form" />
         </record>
-        <menuitem id="menu_other_form" parent="menu_contacts" action="action_other_form" sequence="90"/>
-		
-		
-		<record id="action_archived_form" model="ir.actions.act_window">
+        <menuitem id="menu_other_form" parent="menu_contacts" action="action_other_form" sequence="90" />
+
+
+        <record id="action_archived_form" model="ir.actions.act_window">
             <field name="name">Archived</field>
             <field name="type">ir.actions.act_window</field>
             <field name="res_model">res.partner</field>
             <field name="view_type">form</field>
             <field name="view_mode">kanban,tree,form</field>
             <field name="context">{"search_default_archived":1,"default_archived":1}</field>
-            <field name="search_view_id" ref="view_res_partner_filter"/>
+            <field name="search_view_id" ref="view_res_partner_filter" />
             <field name="help" type="html">
-              <p class="oe_view_nocontent_create">
-                This screen will contains the archived contacts.
-              </p>
-              <p>
-                  You can retrieve them from here if necessary.
-              </p>
+                <p class="oe_view_nocontent_create">
+                    This screen will contains the archived contacts.
+                </p>
+                <p>
+                    You can retrieve them from here if necessary.
+                </p>
             </field>
         </record>
-		
-		<record id="action_archived_form_view1" model="ir.actions.act_window.view">
-            <field name="sequence" eval="0"/>
+
+        <record id="action_archived_form_view1" model="ir.actions.act_window.view">
+            <field name="sequence" eval="0" />
             <field name="view_mode">kanban</field>
-            <field name="view_id" ref="base.res_partner_kanban_view"/>
-            <field name="act_window_id" ref="action_archived_form"/>
+            <field name="view_id" ref="base.res_partner_kanban_view" />
+            <field name="act_window_id" ref="action_archived_form" />
         </record>
         <record id="action_archived_tree_view1" model="ir.actions.act_window.view">
-            <field name="sequence" eval="1"/>
+            <field name="sequence" eval="1" />
             <field name="view_mode">tree</field>
-            <field name="view_id" ref="base.view_partner_tree"/>
-            <field name="act_window_id" ref="action_archived_form"/>
+            <field name="view_id" ref="base.view_partner_tree" />
+            <field name="act_window_id" ref="action_archived_form" />
         </record>
         <record id="action_archived_form_view2" model="ir.actions.act_window.view">
-            <field name="sequence" eval="2"/>
+            <field name="sequence" eval="2" />
             <field name="view_mode">form</field>
-            <field name="view_id" ref="base.view_partner_form"/>
-            <field name="act_window_id" ref="action_archived_form"/>
+            <field name="view_id" ref="base.view_partner_form" />
+            <field name="act_window_id" ref="action_archived_form" />
         </record>
-        <menuitem id="menu_archived_form" parent="menu_contacts" action="action_archived_form" sequence="99"/>
-		
+        <menuitem id="menu_archived_form" parent="menu_contacts" action="action_archived_form" sequence="99" />
+
     </data>
 </openerp>
