@@ -2,12 +2,14 @@ odoo.define('school_evaluations.school_evaluations_bloc_editor', function (requi
 "use strict";
 
 var config = require('web.config');
+var form_common = require('web.form_common');
 var core = require('web.core');
 var data = require('web.data');
 var session = require('web.session');
 
 var Widget = require('web.Widget');
 var Model = require('web.DataModel');
+var Dialog = require('web.Dialog');
 
 var QWeb = core.qweb;
 var _t = core._t;
@@ -27,6 +29,35 @@ return Widget.extend({
             });
         },
         
+        "click .o_school_edit_icg": function (event) {
+            var self = this;
+            event.preventDefault();
+            var id = this.$(event.currentTarget).data('cg-id');
+            var dialog = new form_common.FormViewDialog(this, {
+                res_model: 'school.individual_course_group',
+                res_id: parseInt(id).toString() == id ? parseInt(id) : id,
+                context: this.dataset.get_context(),
+                title: _t("Edit Course Group"),
+                view_id: false,
+                readonly: true,
+                buttons: [
+                    {text: _t("Edit"), classes: 'btn-primary oe_school_edit_cgi_button', close: false, click: function() {
+                        this.view_form.to_edit_mode();
+                        dialog.$footer.children('.oe_school_edit_cgi_button').hide();
+                        dialog.$footer.children('.oe_school_save_cgi_button').show();
+                    }},
+                    {text: _t("Save"), classes: 'btn-primary oe_school_save_cgi_button', close: true, click: function() {
+                        this.view_form.save()
+                    }},
+                    {text: _t("Close"), close: true}
+                ]
+            }).open();
+            dialog.$footer.children('.oe_school_save_cgi_button').hide(); //TODO how to hide a button ??
+            dialog.on('closed', self, function () {
+                self.update();
+            });
+        },
+        
     },
     
     init: function(parent, title) {
@@ -36,6 +67,7 @@ return Widget.extend({
     },
     
     start: function() {
+        this.context = 
         this.dataset = new data.DataSet(this, 'school.individual_bloc', {});
         this.bloc = false;
     },
@@ -48,21 +80,18 @@ return Widget.extend({
         var self = this;
         this.bloc_id = bloc_id;
         this.dataset.select_id(bloc_id)
-        this.dataset.read_index().then(
-            function(data){
-                self.datarecord = data;
-                self.bloc = data;
-                self._read_bloc_data().done( function(){
-                        self.renderElement();
-                    }  
-                );
-            }
-        );
+        return self.update();
     },
     
     next: function() {
         var self = this;
         this.dataset.next();
+        this.bloc_id = this.dataset.record_id;
+        return self.update();
+    },
+    
+    update: function() {
+        var self = this;
         return this.dataset.read_index().then(
             function(data){
                 self.datarecord = data;

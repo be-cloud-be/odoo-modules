@@ -33,5 +33,10 @@
 }
 
 .o_school_evaluations .o_chatter {
-    visibility: hidden;
+  visibility: hidden;
+}
+
+.eval_top_buttons {
+  padding-top: 15px;
+  padding-bottom: 15px;
 }

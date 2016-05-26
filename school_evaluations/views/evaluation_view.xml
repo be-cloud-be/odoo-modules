@@ -46,9 +46,12 @@
             <field name="arch" type="xml">
                 <xpath expr="//sheet" position="before">
                     <header>
-                        <button name="set_to_draft" type="object" states="confirmed" string="Set to Draft" />
-                        <button name="confirm" type="object" states="draft" string="Confirm Results"/>
-                        <field name="state" widget="statusbar" statusbar_visible="draft,confirmed" />
+                        <button name="set_to_progress" type="object" states="draft" string="Progress" class="oe_highlight"/>
+                        <button name="set_to_postponed" type="object" states="progress" string="Postpone" class="oe_highlight"/>
+                        <button name="set_to_awarded" type="object" states="progress,postponed" string="Awarded" class="oe_highlight"/>
+                        <button name="set_to_failed" type="object" states="progress,postponed" string="Failed" class="oe_highlight"/>
+                        <button name="set_to_draft" type="object" states="progress,postponed,awarded,failed" string="Reset to Draft" />
+                        <field name="state" widget="statusbar" statusbar_visible="draft,progress,postponed,awarded,failed" />
                     </header>
                 </xpath>
                 <xpath expr="//field[@name='course_group_ids']" position="before">

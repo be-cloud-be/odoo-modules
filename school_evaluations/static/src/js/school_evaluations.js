@@ -5,6 +5,7 @@ var core = require('web.core');
 
 var Widget = require('web.Widget');
 var Model = require('web.DataModel');
+var data = require('web.data');
 
 var BlocEditor = require('school_evaluations.school_evaluations_bloc_editor');
 
@@ -27,24 +28,78 @@ var EvaluationsAction = Widget.extend({
             var bloc_id = this.$(event.currentTarget).data('bloc-id');
             this.set_bloc(bloc_id);
         },
+        "click .o_school_musique": function (event) {
+            event.preventDefault();
+            this.school_domain = 1;
+            this.$('.o_school_theatre').removeClass('active');
+            this.$(event.currentTarget).addClass('active');
+            this.update_blocs();
+        },
+        "click .o_school_theatre": function (event) {
+            event.preventDefault();
+            this.school_domain = 2;
+            this.$('.o_school_musique').removeClass('active');
+            this.$(event.currentTarget).addClass('active');
+            this.update_blocs();
+        },
     },
     
     init: function(parent, title) {
         this._super.apply(this, arguments);
         this.title = title;
+        this.context = new data.CompoundContext();
+        this.school_domain = 1;
+    },
+    
+    build_domain: function() {
+        return new data.CompoundDomain([['source_bloc_domain_id','=',this.school_domain]]);
     },
     
     start: function() {
         var self = this;
-        
-        new Model('school.individual_bloc').call('get_data_for_evaluation_widget').then(function(data) {
-            self.$el.extend( true, self, data )
-            self.render_sidebar();
-        });
-        
+        this.model = new Model('school.individual_bloc');
+
+        this.update_blocs();
+
         this.evaluation_bloc_editor = new BlocEditor(this, {});
         this.evaluation_bloc_editor.appendTo(this.$('.o_evaluation_bloc_container'));
+    
+    },
+    
+    update_blocs: function() {
+        var self = this;
         
+        this.groups = [
+            {   
+                'id' : 0, 
+                'title' : "Bloc 1",
+                'blocs' : [],
+            },
+            { 
+                'id' : 1, 
+                'title' : "Bloc 2",
+                'blocs' : [],
+            },
+            { 
+                'id' : 2, 
+                'title' : "Bloc 3",
+                'blocs' : [],
+            },
+            
+        ];
+        var defs = [];
+        for (var i=0, ii=3; i<ii; i++) {
+            defs.push(this.model.query(['id','name','student_id','student_name','source_bloc_level']).context(this.context).order_by('student_name').filter(self.build_domain()).filter([['source_bloc_level', '=', i+1]]).all().then(
+                function(data){
+                    if(data.length > 0){
+                        self.groups[data[0].source_bloc_level-1].blocs = data;
+                    }
+                }
+            ));
+        }
+        $.when.apply($,defs).then(function(){
+            self.render_sidebar();
+        });  
     },
     
     render_sidebar: function () {

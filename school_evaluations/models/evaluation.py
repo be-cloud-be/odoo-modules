@@ -36,7 +36,7 @@ class IndividualCourseGroup(models.Model):
     first_session_deliberated_result_bool= fields.Boolean(string='First Session Deliberated Active')
     first_session_result= fields.Float(compute='compute_results', string='First Session Result', store=True, digits=(5, 2))
     first_session_result_bool= fields.Boolean(compute='compute_results', string='First Session Active', store=True)
-    first_session_acquiered = fields.Selection(([('A', 'Aquired'),('NA', 'Not Acquired')]),string='First Session Acquired Credits',default='NA',required=True)
+    first_session_acquiered = fields.Selection(([('A', 'Acquired'),('NA', 'Not Acquired')]),string='First Session Acquired Credits',default='NA',required=True)
     first_session_note = fields.Text(string='First Session Notes')
     
     ## Second Session ##
@@ -47,14 +47,14 @@ class IndividualCourseGroup(models.Model):
     second_session_deliberated_result_bool= fields.Boolean(string='Second Session Deliberated Active')
     second_session_result= fields.Float(compute='compute_results', string='Second Session Result', store=True, digits=(5, 2))
     second_session_result_bool= fields.Boolean(compute='compute_results', string='Second Session Active', store=True)
-    second_session_acquiered = fields.Selection(([('A', 'Aquired'),('NA', 'Not Acquired')]),string='Second Session Acquired Credits',default='NA',required=True)
+    second_session_acquiered = fields.Selection(([('A', 'Acquired'),('NA', 'Not Acquired')]),string='Second Session Acquired Credits',default='NA',required=True)
     second_session_note = fields.Text(string='Second Session Notes')
     
     ## Final ##
     
     final_result = fields.Float(compute='compute_results', string='Final Result', store=True, digits=(5, 2))
     final_result_bool = fields.Boolean(compute='compute_results', string='Final Active')
-    acquiered = fields.Selection(([('A', 'Aquiered'),('NA', 'Not Acquiered')]), compute='compute_results', string='Acquired Credits',required=True, store=True)
+    acquiered = fields.Selection(([('A', 'Acquiered'),('NA', 'Not Acquiered')]), compute='compute_results', string='Acquired Credits', store=True)
     final_note = fields.Text(string='Final Notes')
     
     @api.depends('course_ids',
@@ -82,9 +82,11 @@ class IndividualCourseGroup(models.Model):
             elif ic.first_session_result_bool : 
                 running_second_session_result += ic.first_session_result * ic.weight
         if self.first_session_computed_result_bool :
-            self.first_session_computed_result = running_first_session_result / self.total_weight
+            if self.total_weight > 0:
+                self.first_session_computed_result = running_first_session_result / self.total_weight
         if self.second_session_computed_result_bool :
-            self.second_session_computed_result = running_second_session_result / self.total_weight
+            if self.total_weight > 0:
+                self.second_session_computed_result = running_second_session_result / self.total_weight
         
         ## Compute Session Results
         if self.first_session_deliberated_result :
@@ -256,6 +258,7 @@ class IndividualBloc(models.Model):
     
     state = fields.Selection([
             ('draft','Draft'),
+            ('progress','In Progress'),
             ('postponed', 'Postponed'),
             ('awarded', 'Awarded'),
             ('failed', 'Failed'),
@@ -265,9 +268,14 @@ class IndividualBloc(models.Model):
         help=" * The 'Draft' status is used when results are not confirmed yet.\n"
              " * The 'Confirmed' status is when restults are confirmed.")
     
+    
     @api.multi
     def set_to_draft(self):
         return self.write({'state': 'draft'})
+    
+    @api.multi
+    def set_to_progress(self):
+        return self.write({'state': 'progress'})
     
     @api.multi
     def set_to_postponed(self):
@@ -278,12 +286,12 @@ class IndividualBloc(models.Model):
         return self.write({'state': 'awarded'})
         
     @api.multi
-    def set_to_fail(self):
+    def set_to_failed(self):
         return self.write({'state': 'failed'})
     
     totat_acquiered_credits = fields.Integer(string="Acquiered Credits",compute="compute_credits", store=True)
     
-    @api.depends('course_group_ids')
+    @api.depends('course_group_ids','course_group_ids.acquiered')
     @api.one
     def compute_credits(self):
         total = 0
@@ -291,44 +299,3 @@ class IndividualBloc(models.Model):
             if icg.acquiered == 'A':
                 total += icg.total_credits
         self.totat_acquiered_credits = total
-    
-    @api.model
-    def get_data_for_evaluation_widget(self):
-        """ Returns the data required to display an evaluation widget """
-        ret =   {
-            "res_company" :
-                {
-                    "name" : self.env.user.company_id.name
-                    },
-            "groups" : [
-                        {   
-                            'id' : 0, 
-                            'title' : "Bloc 1",
-                            'blocs' : self.get_blocs_for_evaluation_widget(level=1),
-                        },
-                        { 
-                            'id' : 1, 
-                            'title' : "Bloc 2",
-                            'blocs' : self.get_blocs_for_evaluation_widget(level=2),
-                        },
-                        { 
-                            'id' : 2, 
-                            'title' : "Bloc 3",
-                            'blocs' : self.get_blocs_for_evaluation_widget(level=3),
-                        },
-            ],
-        }
-        return ret
-
-    def get_blocs_for_evaluation_widget(self, level):
-        """ Returns the data required by the evaluation widget to display a bloc """
-        ret = []
-        bloc_ids = self.env['school.individual_bloc'].search([('source_bloc_level','=',level)])
-        for bloc in bloc_ids:
-            ret.append({
-                'id' : bloc.id,
-                'name': bloc.name,
-                'student': bloc.student_id.name,
-                'state': bloc.state,
-            })
-        return ret

@@ -37,6 +37,14 @@
         <div class="navbar-default main_navbar" role="navigation">
             <div class="sidebar-nav navbar-collapse">
                 <ul class="nav" id="side-menu">
+                    <li>
+                        <div class="text-center eval_top_buttons">
+                            <div class="btn-group" data-toggle="buttons">
+                                <label t-att-class="'btn btn-primary center-block o_school_theatre ' + (school_domain == 2 ? 'active' : '')"><input type="radio">THEATRE</input></label>
+                                <label t-att-class="'btn btn-primary center-block o_school_musique ' + (school_domain == 1 ? 'active' : '')"><input type="radio">MUSIQUE</input></label>
+                            </div>
+                        </div>
+                    </li>
                     <t t-foreach="groups" t-as="group">
                         <li>
                             <a t-att-data-group-id="group.id" href="#" class="o_school_group_item">
@@ -70,7 +78,7 @@
                     <t t-foreach="blocs" t-as="bloc">
                         <li>
                             <a t-att-class="'o_school_bloc_item'+ (is_first ? ' active':'')" t-att-data-bloc-id="bloc.id" href="#">
-                                <i class="fa fa-user fa-fw"></i><t t-esc="bloc.student"/><span t-att-class="(bloc.state == 'confirmed' ? 'fa pull-right fa-check' : '')"></span>
+                                <i class="fa fa-user fa-fw"></i><t t-esc="bloc.student_id[1]"/><span t-att-class="(bloc.state == 'confirmed' ? 'fa pull-right fa-check' : '')"></span>
                             </a>
                         </li>
                         <t t-set="is_first" t-value="false" />
@@ -142,6 +150,7 @@
                                 <th>Intitulé</th>
                                 <th>Résultat</th>
                                 <th>Acquis</th>
+                                <th></th>
                             </tr>
                         </thead>
                         <tbody>
@@ -155,13 +164,17 @@
                                     <span class="label label-success" t-if="course_group.acquiered === 'A'">Acquis</span>
                                     <span class="label label-warning" t-if="course_group.acquiered === 'NA'">Non-Acquis</span>
                                 </td>
+                                <td>
+                                    <i class="fa fa-pencil o_school_edit_icg" aria-hidden="true" t-att-data-cg-id="course_group.id"></i>
+                                </td>
                             </tr>
                             <t t-set="counter" t-value="counter + 1"/>
-                            <t t-foreach="course_group.courses" t-if="course_group.courses.length &gt; 1" t-as="course">
-                                <tr style="font-style: italic;">
+                            <t t-foreach="course_group.courses" t-if="course_group.acquiered === 'NA'" t-as="course">
+                                <tr style="font-style: italic;font-size:80%;">
                                     <th scope="row" class="text-center"></th>
-                                    <td><t t-esc="course.name"/></td>
-                                    <td><t t-esc="course.final_result"/></td>
+                                    <td><t t-esc="course.name"/><i t-if="course.teacher_id" class="oe_fade"> - <t t-esc="course.teacher_id[1]"/></i></td>
+                                    <td><t t-esc="course.first_session_result"/></td>
+                                    <td></td>
                                     <td></td>
                                 </tr>
                             </t>
