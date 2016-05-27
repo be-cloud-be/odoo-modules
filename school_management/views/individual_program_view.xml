@@ -383,7 +383,6 @@
         <tree string="Individual Bloc" create="false">
           <field name="year_id" />
           <field name="student_id" />
-          <field name="name" />
           <field name="source_bloc_name" />
         </tree>
       </field>
@@ -434,7 +433,10 @@
       <field name="model">school.individual_bloc</field>
       <field name="arch" type="xml">
         <search string="Search Blocs">
-          <field name="name" filter_domain="[('name', 'ilike',self)]" />
+          <field name="name" filter_domain="['|',('student_name', 'ilike',self),('source_bloc_name', 'ilike',self)]" />
+          <filter name="bloc_1" string="Bloc 1" domain="[('source_bloc_level', '=', 1)]"/>
+          <filter name="bloc_2" string="Bloc 2" domain="[('source_bloc_level', '=', 2)]"/>
+          <filter name="bloc_3" string="Bloc 3" domain="[('source_bloc_level', '=', 3)]"/>
           <group expand="1" string="Group By">
             <filter string="Domain" context="{'group_by':'domain_id'}" />
             <filter string="Cycle" context="{'group_by':'cycle_id'}" />
