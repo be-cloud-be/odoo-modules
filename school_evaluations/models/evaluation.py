@@ -150,6 +150,20 @@ class IndividualCourse(models.Model):
             values['type'] = course.type or 'S'
         result = super(IndividualCourse, self).create(values)
         return result
+    
+    @api.one
+    def write(self, vals):
+        res = super(IndividualCourse, self).write(vals)
+        self.course_group_id.compute_results()
+        return res
+    
+    @api.onchange('type')
+    @api.depends('ann_result','jan_result','jun_result','sept_result')
+    def onchange_type(self):
+        self.ann_result = ""
+        self.jan_result = ""
+        self.jun_result = ""
+        self.sept_result = ""
 
     ## Annual Evaluation ##
     
