@@ -115,33 +115,26 @@ return Widget.extend({
             unique: (self.datarecord.__last_update || '').replace(/[^0-9]/g, '')
         });
         
-        var all_data_loaded = $.Deferred();
-        
-        new Model('school.individual_course_group').query(['id','name','course_ids','acquiered','final_result']).filter([['id', 'in', self.bloc.course_group_ids]]).all().then(
+        return new Model('school.individual_course_group').query(['id','name','course_ids','acquiered','final_result']).filter([['id', 'in', self.bloc.course_group_ids]]).all().then(
             function(course_groups) {
                 self.course_groups = course_groups;
-                var defs = [];
-                for (var i=0, ii=course_groups.length; i<ii; i++) {
-                    var course_group = course_groups[i];
-                    defs.push(new Model('school.individual_course').query().filter([['id', 'in', course_group.course_ids]]).all().then(
-                        function(courses) {
-                            var idx = 0;
-                            for (var j=0, jj=course_groups.length; j<jj; j++) {
-                                if(self.course_groups[j].id == courses[0].course_group_id[0]){
-                                    idx = j;
-                                    break;
-                                }
-                            }
-                            self.course_groups[idx].courses=courses;
-                        }   
-                    ));
+                var all_course_ids = [];
+                var course_group_id_map = {}
+                for (var i=0, ii=self.course_groups.length; i<ii; i++) {
+                    all_course_ids = all_course_ids.concat(self.course_groups[i].course_ids);
+                    course_group_id_map[self.course_groups[i].id] = i;
+                    self.course_groups[i].courses = [];
                 }
-                $.when.apply($,defs).then(function(){
-                    all_data_loaded.resolve();
+                
+                return new Model('school.individual_course').query().filter([['id', 'in', all_course_ids]]).all().then(
+                    function(courses) {
+                        for (var i=0, ii=courses.length; i<ii; i++) {
+                            var course = courses[i];
+                            self.course_groups[course_group_id_map[course.course_group_id[0]]].courses.push(course);
+                        }
                 });
             }
-        )
-        return all_data_loaded.promise();
+        );
     },
     
     
