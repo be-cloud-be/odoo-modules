@@ -29,6 +29,12 @@
             </div>
         </div>
     </t>
+    
+    <t t-name="ConfigDialog">
+        <div>
+            <h2>This is the config dialog</h2>
+        </div>
+    </t>
 
     <t t-name="SideBar">
         <a class="oe_logo" href="#">
@@ -59,12 +65,17 @@
                     </t>
                     <li class="sidebar-search">
                         <div class="input-group custom-search-form">
+                            <span class="input-group-btn">
+                                <button class="btn btn-default evaluation_config" type="button">
+                                    <i class="fa fa-gear fa-fw"></i>
+                                </button>
+                            </span>
                             <input type="text" class="form-control" placeholder="Search..." />
                             <span class="input-group-btn">
-                            <button class="btn btn-default" type="button">
-                                <i class="fa fa-search"></i>
-                            </button>
-                        </span>
+                                <button class="btn btn-default" type="button">
+                                    <i class="fa fa-search"></i>
+                                </button>
+                            </span>
                         </div>
                         <!-- /input-group -->
                     </li>
@@ -123,7 +134,8 @@
                             </div>
                             <div class="row" t-if="(widget.bloc.totat_acquiered_credits &lt; 60) &amp;&amp; (widget.bloc.totat_acquiered_credits &gt; 44)">
                                 <div class="col-md-10">
-                                    <div class="alert alert-warning" role="alert" style="font-size:90%;">Au moins 45 crédits ECTS acquis ou valorisés, autorisation de compléter son programme annuel d'unités d'enseignement du cycle conformément aux dispositions générales du paragraphe 2 de l'article 100 du décret du 7 novembre 2013. L'étudiant est considéré comme s'inscrivant en deuxième année.</div>
+                                    <div class="alert alert-warning" role="alert" style="font-size:90%;">Au moins 45 crédits ECTS acquis ou valorisés, autorisation de compléter son programme annuel d'unités d'enseignement du cycle conformément aux dispositions générales du paragraphe 2 de l'article 100 du décret du 7 novembre
+                                        2013. L'étudiant est considéré comme s'inscrivant en deuxième année.</div>
                                 </div>
                                 <div class="col-md-2">
                                     <button t-if="widget.bloc.state == 'progress'" type="button" class="btn btn-warning btn-lg bloc_confirm" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">Valider</button>
@@ -132,7 +144,8 @@
                             </div>
                             <div class="row" t-if="(widget.bloc.totat_acquiered_credits &lt; 45) &amp;&amp; (widget.bloc.totat_acquiered_credits &gt; 29)">
                                 <div class="col-md-10">
-                                    <div class="alert alert-warning" role="alert" style="font-size:90%;">Au moins 30 crédits ECTS acquis ou valorisés, autorisation de compléter son programme annuel d'unités d'enseignement du cycle conformément aux dispositions générales du paragraphe 2 de l'article 100 du décret du 7 novembre 2013 sans excéder 60 crédits. L'étudiant est cependant considéré comme se réinscrivant en première année.</div>
+                                    <div class="alert alert-warning" role="alert" style="font-size:90%;">Au moins 30 crédits ECTS acquis ou valorisés, autorisation de compléter son programme annuel d'unités d'enseignement du cycle conformément aux dispositions générales du paragraphe 2 de l'article 100 du décret du 7 novembre
+                                        2013 sans excéder 60 crédits. L'étudiant est cependant considéré comme se réinscrivant en première année.</div>
                                 </div>
                                 <div class="col-md-2">
                                     <button t-if="widget.bloc.state == 'progress'" type="button" class="btn btn-warning btn-lg bloc_confirm" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">Valider</button>

@@ -4,6 +4,7 @@ odoo.define('school_evaluations.action_school_evaluations_main', function (requi
 var core = require('web.core');
 
 var Widget = require('web.Widget');
+var Dialog = require('web.Dialog');
 var Model = require('web.DataModel');
 var data = require('web.data');
 
@@ -11,6 +12,12 @@ var BlocEditor = require('school_evaluations.school_evaluations_bloc_editor');
 
 var QWeb = core.qweb;
 var _t = core._t;
+
+var EvaluationConfigDialog = Dialog.extend({
+    template: 'ConfigDialog',
+    
+    
+});
 
 var EvaluationsAction = Widget.extend({
     template: 'MainView',
@@ -20,6 +27,10 @@ var EvaluationsAction = Widget.extend({
             event.preventDefault();
             var group_id = this.$(event.currentTarget).data('group-id');
             this.set_group(group_id);
+        },
+        "click .evaluation_config": function (event) {
+            event.preventDefault();
+            new EvaluationConfigDialog(this, {title : 'Evaluation Config'}).open();
         },
         "click .o_school_bloc_item": function (event) {
             event.preventDefault();

@@ -28,6 +28,16 @@ class IndividualCourseGroup(models.Model):
     '''Individual Course Group'''
     _inherit = 'school.individual_course_group'
     
+    state = fields.Selection([
+            ('draft','Draft'),
+            ('progress','In Progress'),
+            ('finish', 'Awarded'),
+        ], string='Status', index=True, readonly=True, default='draft',
+        #track_visibility='onchange', TODO : is this useful for this case ?
+        copy=False,
+        help=" * The 'Draft' status is used when results are not confirmed yet.\n"
+             " * The 'Confirmed' status is when restults are confirmed.")
+    
     ## First Session ##
     
     first_session_computed_result = fields.Float(compute='compute_results', string='First Session Computed Result', store=True, digits=(5, 2))
@@ -280,28 +290,16 @@ class IndividualBloc(models.Model):
         #track_visibility='onchange', TODO : is this useful for this case ?
         copy=False,
         help=" * The 'Draft' status is used when results are not confirmed yet.\n"
-             " * The 'Confirmed' status is when restults are confirmed.")
-    
-    
-    @api.multi
-    def set_to_draft(self):
-        return self.write({'state': 'draft'})
-    
-    @api.multi
-    def set_to_progress(self):
-        return self.write({'state': 'progress'})
+             " * The 'In Progress' status is used during the courses.\n"
+             " * The 'Postponed' status is used when a second session is required.\n"
+             " * The 'Awarded' status is used when the bloc is awarded.\n"
+             " * The 'Failed' status is used during the bloc is definitively considered as failed.\n"
+             )
     
     @api.multi
-    def set_to_postponed(self):
-        return self.write({'state': 'postponed'})
-    
-    @api.multi
-    def set_to_awarded(self):
-        return self.write({'state': 'awarded'})
-        
-    @api.multi
-    def set_to_failed(self):
-        return self.write({'state': 'failed'})
+    def set_state(self, state):
+        # TODO use a workflow to make sure only valid changes are used.
+        return self.write({'state': state})
     
     totat_acquiered_credits = fields.Integer(string="Acquiered Credits",compute="compute_credits", store=True)
     
