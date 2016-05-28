@@ -68,12 +68,12 @@ return Widget.extend({
     
     start: function() {
         this.context = 
-        this.dataset = new data.DataSet(this, 'school.individual_bloc', {});
+        this.dataset = new data.DataSet(this, 'school.individual_bloc', new data.CompoundContext());
         this.bloc = false;
     },
     
     read_ids: function(ids) {
-        return this.dataset.read_slice(false,[['id', 'in', ids]]);
+        return this.dataset.read_slice(['id','name','student_id','course_group_ids'],[['id', 'in', ids]]);
     },
     
     set_bloc_id: function(bloc_id) {
