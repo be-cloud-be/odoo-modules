@@ -206,7 +206,7 @@
                     <field name="ann_result" string="Ann" attrs="{'readonly': [('type','in',['S','T','D'])]}" />
                 </xpath>
                 <xpath expr="//field[@name='jan_result']" position="replace">
-                    <field name="jan_result" string="Ann" attrs="{'readonly': [('type','in',['S','D'])]}" />
+                    <field name="jan_result" string="Jan" attrs="{'readonly': [('type','in',['S','D'])]}" />
                 </xpath>
                 <xpath expr="//field[@name='jun_result']" position="replace">
                     <field name="jun_result" string="June"/>
