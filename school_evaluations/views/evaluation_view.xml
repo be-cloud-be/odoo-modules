@@ -22,224 +22,234 @@
 -->
 <openerp>
     <data>
-        
+
         <template id="assets_backend" name="school_evaluations_assets" inherit_id="web.assets_backend">
             <xpath expr="." position="inside">
-                <script type="text/javascript"> localStorage.clear();</script>
-                <link rel="stylesheet" href="/school_evaluations/static/src/css/school_evaluation_bloc.css"/>
-                <link rel="stylesheet" href="/school_evaluations/static/src/css/school_evaluations.css"/>
-                <link rel="stylesheet" href="/school_evaluations/static/src/css/metisMenu.min.css"/>
-                <link rel="stylesheet" href="/school_evaluations/static/src/css/sb-admin-2.css"/>
+                <script type="text/javascript">
+                    localStorage.clear();
+                </script>
+                <link rel="stylesheet" href="/school_evaluations/static/src/css/school_evaluation_bloc.css" />
+                <link rel="stylesheet" href="/school_evaluations/static/src/css/school_evaluations.css" />
+                <link rel="stylesheet" href="/school_evaluations/static/src/css/metisMenu.min.css" />
+                <link rel="stylesheet" href="/school_evaluations/static/src/css/sb-admin-2.css" />
                 <script type="text/javascript" src="/school_evaluations/static/src/js/metisMenu.min.js"></script>
                 <script type="text/javascript" src="/school_evaluations/static/src/js/sb-admin-2.js"></script>
                 <script type="text/javascript" src="/school_evaluations/static/src/js/school_evaluations.js"></script>
                 <script type="text/javascript" src="/school_evaluations/static/src/js/school_evaluation_bloc.js"></script>
             </xpath>
         </template>
-        
+
         <!-- Add evaluation to Individual Bloc form view -->
         <record id="individual_bloc_eval_form" model="ir.ui.view">
             <field name="name">school.individual_bloc.eval.view</field>
             <field name="model">school.individual_bloc</field>
-            <field name="inherit_id" ref="school_management.individual_bloc_form"/>
-            <field eval="25" name="priority"/>
+            <field name="inherit_id" ref="school_management.individual_bloc_form" />
+            <field eval="25" name="priority" />
             <field name="arch" type="xml">
                 <xpath expr="//sheet" position="before">
                     <header>
-                        <button name="set_to_progress" type="object" states="draft" string="Progress" class="oe_highlight"/>
-                        <button name="set_to_postponed" type="object" states="progress" string="Postpone" class="oe_highlight"/>
-                        <button name="set_to_awarded" type="object" states="progress,postponed" string="Awarded" class="oe_highlight"/>
-                        <button name="set_to_failed" type="object" states="progress,postponed" string="Failed" class="oe_highlight"/>
+                        <button name="set_to_progress" type="object" states="draft" string="Progress" class="oe_highlight" />
+                        <button name="set_to_postponed" type="object" states="progress" string="Postpone" class="oe_highlight" />
+                        <button name="set_to_awarded" type="object" states="progress,postponed" string="Awarded" class="oe_highlight" />
+                        <button name="set_to_failed" type="object" states="progress,postponed" string="Failed" class="oe_highlight" />
                         <button name="set_to_draft" type="object" states="progress,postponed,awarded,failed" string="Reset to Draft" />
                         <field name="state" widget="statusbar" statusbar_visible="draft,progress,postponed,awarded,failed" />
                     </header>
                 </xpath>
                 <xpath expr="//field[@name='course_group_ids']" position="before">
                     <group>
-                        <field name="totat_acquiered_credits"/>
+                        <field name="totat_acquiered_credits" />
                     </group>
                 </xpath>
                 <xpath expr="//field[@name='source_course_group_id']" position="before">
-                    <field name="first_session_result" string="S1"/>
-                    <field name="second_session_result" string="S2"/>
-                    <field name="final_result" string="Fin"/>
-                    <field name="acquiered" string="Acq"/>
+                    <field name="first_session_result" string="S1" />
+                    <field name="second_session_result" string="S2" />
+                    <field name="final_result" string="Fin" />
+                    <field name="acquiered" string="Acq" />
                 </xpath>
             </field>
         </record>
-        
+
         <!-- Add evaluation to Individual Course Group form view -->
         <record id="individual_course_group_eval_form" model="ir.ui.view">
             <field name="name">school.individual_course_group.eval.view</field>
             <field name="model">school.individual_course_group</field>
-            <field name="inherit_id" ref="school_management.individual_course_group_form"/>
-            <field eval="25" name="priority"/>
+            <field name="inherit_id" ref="school_management.individual_course_group_form" />
+            <field eval="25" name="priority" />
             <field name="arch" type="xml">
                 <xpath expr="//field[@name='source_course_id']" position="before">
-                    <field name="first_session_result" string="S1"/>
-                    <field name="second_session_result" string="S2"/>
+                    <field name="first_session_result" string="S1" />
+                    <field name="second_session_result" string="S2" />
                 </xpath>
                 <xpath expr="//field[@name='total_credits']" position="after">
                     <group col="2" colspan="2" string="First Session">
-                        <field name="first_session_computed_result_bool" invisible="1"/>
-                        <field name="first_session_computed_result" widget="statinfo" string="Result"/>
-                        <field name="first_session_deliberated_result_bool" string="Deliberated"/>
-                        <field name="first_session_deliberated_result" attrs="{'readonly':[('first_session_deliberated_result_bool','==',False)]}" string="Deliberated Result"/>
-                        <field name="first_session_result" widget="statinfo" string="Session Result"/>
-                        <field name="first_session_acquiered" string="Acquired"/>
-                        <field name="first_session_result_bool" invisible="1"/>
+                        <field name="first_session_computed_result_bool" invisible="1" />
+                        <field name="first_session_computed_result" widget="statinfo" string="Result" />
+                        <field name="first_session_deliberated_result_bool" string="Deliberated" />
+                        <field name="first_session_deliberated_result" attrs="{'readonly':[('first_session_deliberated_result_bool','==',False)]}" string="Deliberated Result" />
+                        <field name="first_session_result" widget="statinfo" string="Session Result" />
+                        <field name="first_session_acquiered" string="Acquired" />
+                        <field name="first_session_result_bool" invisible="1" />
                     </group>
                     <group col="2" colspan="2" string="Second Session">
-                        <field name="second_session_computed_result_bool" invisible="1"/>
-                        <field name="second_session_computed_result" widget="statinfo" string="Result"/>
-                        <field name="second_session_deliberated_result_bool" string="Deliberated"/>
-                        <field name="second_session_deliberated_result" attrs="{'readonly':[('second_session_deliberated_result_bool','==',False)]}" string="Deliberated Result"/>
-                        <field name="second_session_result" widget="statinfo" string="Session Result"/>
-                        <field name="second_session_acquiered" string="Acquired"/>
-                        <field name="second_session_result_bool" invisible="1"/>
+                        <field name="second_session_computed_result_bool" invisible="1" />
+                        <field name="second_session_computed_result" widget="statinfo" string="Result" />
+                        <field name="second_session_deliberated_result_bool" string="Deliberated" />
+                        <field name="second_session_deliberated_result" attrs="{'readonly':[('second_session_deliberated_result_bool','==',False)]}" string="Deliberated Result" />
+                        <field name="second_session_result" widget="statinfo" string="Session Result" />
+                        <field name="second_session_acquiered" string="Acquired" />
+                        <field name="second_session_result_bool" invisible="1" />
                     </group>
-                    <separator string="Final Results" colspan="4"/>
+                    <separator string="Final Results" colspan="4" />
                     <field name="final_result" widget="statinfo" />
-                    <field name="acquiered"/>
-                    <field name="final_result_bool"  invisible="1"/><newline/>
+                    <field name="acquiered" />
+                    <field name="final_result_bool" invisible="1" />
+                    <newline/>
                 </xpath>
                 <xpath expr="//field[@name='total_credits']/parent::group" position="after">
-                    <field name="final_note" colspan="4" placeholder="Justify the final evaluation here."/>
+                    <field name="final_note" colspan="4" placeholder="Justify the final evaluation here." />
                 </xpath>
             </field>
         </record>
-        
+
         <!-- Add evaluation to Individual Course form view -->
         <record id="course_eval_form" model="ir.ui.view">
             <field name="name">school.course.eval.view</field>
             <field name="model">school.course</field>
-            <field name="inherit_id" ref="school_management.course_form"/>
-            <field eval="25" name="priority"/>
+            <field name="inherit_id" ref="school_management.course_form" />
+            <field eval="25" name="priority" />
             <field name="arch" type="xml">
                 <xpath expr="//field[@name='url_ref']" position="after">
-                    <label for="type" string="Type of results"/>
-                    <field name="type" widget="radio" colspan="3" nolabel="1" options="{'horizontal': true}"/>
+                    <label for="type" string="Type of results" />
+                    <field name="type" widget="radio" colspan="3" nolabel="1" options="{'horizontal': true}" />
                 </xpath>
             </field>
         </record>
-        
+
         <!-- Add evaluation to Individual Course form view -->
         <record id="individual_course_eval_form" model="ir.ui.view">
             <field name="name">school.individual_course.eval.view</field>
             <field name="model">school.individual_course</field>
-            <field name="inherit_id" ref="school_management.view_individual_course_form"/>
-            <field eval="25" name="priority"/>
+            <field name="inherit_id" ref="school_management.view_individual_course_form" />
+            <field eval="25" name="priority" />
             <field name="arch" type="xml">
                 <xpath expr="//field[@name='weight']" position="after">
-                    <label for="type" string="Type of results"/>
-                    <field name="type" widget="radio" colspan="5" nolabel="1" options="{'horizontal': true}"/>
+                    <label for="type" string="Type of results" />
+                    <field name="type" widget="radio" colspan="5" nolabel="1" options="{'horizontal': true}" />
                 </xpath>
                 <xpath expr="//sheet" position="inside">
-                    <group col="4" string="Results" >
-                        <field name="ann_result" attrs="{'invisible': [('type','in',['S','T','D'])]}"/>
-                        <field name="jan_result" attrs="{'invisible': [('type','in',['S','C','D'])]}"/>
-                        <field name="jun_result"/>
-                        <field name="sept_result" attrs="{'invisible': [('type','in',['D'])]}"/>
+                    <group col="4" string="Results">
+                        <field name="ann_result" attrs="{'invisible': [('type','in',['S','T','D'])]}" />
+                        <field name="jan_result" attrs="{'invisible': [('type','in',['S','C','D'])]}" />
+                        <field name="jun_result" />
+                        <field name="sept_result" attrs="{'invisible': [('type','in',['D'])]}" />
                     </group>
                     <group col="4">
                         <group col="2" colspan="2" string="First Session">
-                            <field name="first_session_result_bool" invisible="1"/>
+                            <field name="first_session_result_bool" invisible="1" />
                             <div class="col-md-5">
                                 <h1>
                                     <field name="first_session_result" attrs="{'invisible':[('first_session_result_bool','==',False)]}"  nolabel="1" class="label label-primary" readonly="1" style="padding:.2em .6em .3em;"/>
                                 </h1>
                             </div>
-                            <field name="first_session_note" colspan="2" nolabel="1" placeholder="Justify the evaluation here."/>
+                            <field name="first_session_note" colspan="2" nolabel="1" placeholder="Justify the evaluation here." />
                         </group>
                         <group col="2" colspan="2" string="Second Session">
-                            <field name="second_session_result_bool" invisible="1"/>
+                            <field name="second_session_result_bool" invisible="1" />
                             <div class="col-md-5">
                                 <h1>
                                     <field name="second_session_result" attrs="{'invisible':[('second_session_result_bool','==',False)]}"  nolabel="1" class="label label-primary" readonly="1" style="padding:.2em .6em .3em;"/>
                                 </h1>
                             </div>
-                            <field name="second_session_note" colspan="2" nolabel="1" placeholder="Justify the evaluation here."/>
+                            <field name="second_session_note" colspan="2" nolabel="1" placeholder="Justify the evaluation here." />
                         </group>
                     </group>
                 </xpath>
             </field>
         </record>
-        
+
         <!-- Add evaluation to Individual Course form view -->
         <record id="individual_course_eval_tree" model="ir.ui.view">
             <field name="name">school.individual_course.eval.tree</field>
             <field name="model">school.individual_course</field>
-            <field name="inherit_id" ref="school_management.view_individual_course_tree"/>
-            <field eval="25" name="priority"/>
+            <field name="inherit_id" ref="school_management.view_individual_course_tree" />
+            <field eval="25" name="priority" />
             <field name="arch" type="xml">
                 <xpath expr="//field[@name='dispense']" position="replace">
-                    <field name="dispense" string="Dis" readonly="1"/>
-                    <field name="type" readonly="1"/>
-                    <field name="ann_result"  string="Ann" readonly="1"/>
-                    <field name="jan_result"  string="Jan"  readonly="1"/>
-                    <field name="jun_result"  string="June"  readonly="1"/>
-                    <field name="first_session_result"  string="S1"/>
-                    <field name="sept_result"  string="Sept"  readonly="1"/>
-                    <field name="second_session_result"  string="S2"/>
+                    <field name="dispense" string="Dis" readonly="1" />
+                    <field name="type" readonly="1" />
+                    <field name="ann_result" string="Ann" readonly="1" />
+                    <field name="jan_result" string="Jan" readonly="1" />
+                    <field name="jun_result" string="June" readonly="1" />
+                    <field name="first_session_result" string="S1" />
+                    <field name="sept_result" string="Sept" readonly="1" />
+                    <field name="second_session_result" string="S2" />
                 </xpath>
             </field>
         </record>
-        
+
         <!-- Add evaluation to Individual Course form view -->
         <record id="individual_course_eval_tree_security" model="ir.ui.view">
             <field name="name">school.individual_course.eval.tree.sec</field>
             <field name="model">school.individual_course</field>
-            <field name="inherit_id" ref="individual_course_eval_tree"/>
-            <field eval="25" name="priority"/>
+            <field name="inherit_id" ref="individual_course_eval_tree" />
+            <field eval="25" name="priority" />
             <field name="groups_id" eval="[(6, 0, [ref('school_management.group_evaluation') ])]" />
             <field name="arch" type="xml">
                 <xpath expr="//field[@name='dispense']" position="replace">
-                    <field name="dispense" string="Dis"/>
+                    <field name="dispense" string="Dis" />
                 </xpath>
                 <xpath expr="//field[@name='type']" position="replace">
-                    <field name="type"/>
+                    <field name="type" />
                 </xpath>
                 <xpath expr="//field[@name='ann_result']" position="replace">
-                    <field name="ann_result"  string="Ann" attrs="{'readonly': [('type','in',['S','T','D'])]}"/>
+                    <field name="ann_result" string="Ann" attrs="{'readonly': [('type','in',['S','T','D'])]}" />
                 </xpath>
                 <xpath expr="//field[@name='jan_result']" position="replace">
-                    <field name="jan_result"  string="Ann" attrs="{'readonly': [('type','in',['S','D'])]}"/>
+                    <field name="jan_result" string="Ann" attrs="{'readonly': [('type','in',['S','D'])]}" />
                 </xpath>
                 <xpath expr="//field[@name='jun_result']" position="replace">
-                    <field name="jun_result"/>
+                    <field name="jun_result" string="June"/>
                 </xpath>
                 <xpath expr="//field[@name='sept_result']" position="replace">
-                    <field name="sept_result"  string="Sept" attrs="{'readonly': [('type','in',['D'])]}"/>
+                    <field name="sept_result" string="Sept" attrs="{'readonly': [('type','in',['D'])]}" />
                 </xpath>
             </field>
         </record>
-        
+
+        <record id="view_individual_courses_filter_eval" model="ir.ui.view">
+            <field name="name">individual_course.select.eval</field>
+            <field name="model">school.individual_course</field>
+            <field name="inherit_id" ref="school_management.view_individual_courses_filter" />
+            <field name="arch" type="xml">
+                <xpath expr="//filter[@name='not_dispensed']" position="after">
+                    <separator/>
+                    <filter name="dispensed" string="No result for S1" domain="[('first_session_result_bool', '=', False)]" />
+                    <filter name="dispensed" string="No result for S2" domain="[('second_session_result_bool', '=', False)]" />
+                </xpath>
+            </field>
+        </record>
+
         <!-- Add evaluation to Individual Course form view -->
         <record id="course_eval_tree" model="ir.ui.view">
             <field name="name">school.course.eval.tree</field>
             <field name="model">school.course</field>
-            <field name="inherit_id" ref="school_management.view_course_tree"/>
-            <field eval="25" name="priority"/>
+            <field name="inherit_id" ref="school_management.view_course_tree" />
+            <field eval="25" name="priority" />
             <field name="arch" type="xml">
                 <xpath expr="//field[@name='hours']" position="before">
-                    <field name="type"/>
+                    <field name="type" />
                 </xpath>
             </field>
         </record>
-        
+
         <record id="action_school_evaluations" model="ir.actions.client">
             <field name="name">Evaluations</field>
             <field name="tag">school_evaluations.main</field>
             <field name="res_model">school.bloc</field>
         </record>
-        
-        <menuitem
-            id="school_evaluations.menu_school_eval"
-            name="Evaluations"
-            action="action_school_evaluations"
-            icon="fa-envelope"
-            web_icon="school_evaluations,static/description/icon.png"
-            sequence="70"/>
+
+        <menuitem id="school_evaluations.menu_school_eval" name="Evaluations" action="action_school_evaluations" icon="fa-envelope" web_icon="school_evaluations,static/description/icon.png" sequence="70" />
 
     </data>
 </openerp>
