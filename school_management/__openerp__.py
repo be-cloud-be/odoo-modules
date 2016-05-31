@@ -24,7 +24,7 @@
     'license': 'AGPL-3',
     'author': 'be-Cloud.be (Jerome Sonnet)',
     'website': '',
-    'category': 'Association',
+    'category': 'School Management',
     'depends': ['mail'],
     'init_xml': [],
     'update_xml': [

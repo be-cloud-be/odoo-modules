@@ -369,6 +369,10 @@
               </tree>
             </field>
           </sheet>
+          <div class="oe_chatter">
+            <field name="message_follower_ids" widget="mail_followers" />
+            <field name="message_ids" widget="mail_thread" />
+          </div>
         </form>
       </field>
     </record>
@@ -522,6 +526,10 @@
               <field name="weight" />
             </group>
           </sheet>
+          <div class="oe_chatter">
+            <field name="message_follower_ids" widget="mail_followers" />
+            <field name="message_ids" widget="mail_thread" />
+          </div>
         </form>
       </field>
     </record>
@@ -534,6 +542,7 @@
           <field name="student_id" />
           <field name="teacher_id" />
           <field name="source_bloc_id" string="Programme"/>
+          <field name="source_course_id" string="Activité"/>
           <filter name="bloc_1" string="Bloc 1" domain="[('source_bloc_level', '=', 1)]"/>
           <filter name="bloc_2" string="Bloc 2" domain="[('source_bloc_level', '=', 2)]"/>
           <filter name="bloc_3" string="Bloc 3" domain="[('source_bloc_level', '=', 3)]"/>

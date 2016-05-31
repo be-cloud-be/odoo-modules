@@ -1,4 +1,4 @@
-﻿<?xml version="1.0" encoding="utf-8" ?>
+<?xml version="1.0" encoding="utf-8" ?>
 <!--
 ##############################################################################
 #
@@ -33,6 +33,10 @@
 
         <record id="group_student" model="res.groups">
             <field name="name">Students</field>
+        </record>
+
+        <record id="group_evaluation" model="res.groups">
+            <field name="name">Evaluations</field>
         </record>
 
     </data>

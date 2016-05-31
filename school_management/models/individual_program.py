@@ -20,7 +20,7 @@
 ##############################################################################
 import logging
 
-from openerp import api, fields, models, _
+from openerp import api, fields, models, tools, _
 from openerp.exceptions import UserError
 
 _logger = logging.getLogger(__name__)
@@ -90,6 +90,7 @@ class IndividualCourseGroup(models.Model):
     '''Individual Course Group'''
     _name='school.individual_course_group'
     _description='Individual Course Group'
+    _inherit = ['mail.thread']
     
     name = fields.Char(related="source_course_group_id.name", readonly=True)
     title = fields.Char(related="source_course_group_id.title", readonly=True, store=True)
@@ -138,13 +139,14 @@ class IndividualCourse(models.Model):
     '''Individual Course'''
     _name = 'school.individual_course'
     _description = 'Individual Course'
+    _inherit = ['mail.thread']
     
-    name = fields.Char(related="source_course_id.name", readonly=True)
+    name = fields.Char(related="source_course_id.name", readonly=True, store=True)
     title = fields.Char(related="source_course_id.title", readonly=True, store=True)
     
-    year_id = fields.Many2one('school.year', related="course_group_id.bloc_id.year_id")
+    year_id = fields.Many2one('school.year', related="course_group_id.bloc_id.year_id",store=True)
     student_id = fields.Many2one('res.partner', related="course_group_id.bloc_id.student_id",store=True)
-    teacher_id = fields.Many2one('res.partner', string='Teacher', store=True, domain=[('teacher', '=', True)])
+    teacher_id = fields.Many2one('res.partner', string='Teacher', domain=[('teacher', '=', True)], store=True)
 
     image = fields.Binary('Image', attachment=True, related='student_id.image')
     image_medium = fields.Binary('Image', attachment=True, related='student_id.image_medium')
@@ -164,3 +166,57 @@ class IndividualCourse(models.Model):
     source_bloc_level = fields.Integer(related='course_group_id.bloc_id.source_bloc_level', string="Source Course Bloc Level", readonly=True, store=True)
     
     course_group_id = fields.Many2one('school.individual_course_group', string='Course Groups', ondelete='cascade', readonly=True)
+    
+class IndividualCourseProxy(models.Model):
+    _name = 'school.individual_course_proxy'
+    _auto = False
+
+    name = fields.Char(string="Name", readonly=True)
+    title = fields.Char(string="Title", readonly=True)
+    
+    year_id = fields.Many2one('school.year', string='Year', readonly=True)
+    teacher_id = fields.Many2one('res.partner', string='Teacher', readonly=True)
+    source_course_id = fields.Many2one('school.course', string="Source Course", readonly=True)
+
+    def init(self, cr):
+        """ School Individual Course Proxy """
+        tools.drop_view_if_exists(cr, 'school_individual_course_proxy')
+        cr.execute(""" CREATE VIEW school_individual_course_proxy AS (
+            SELECT
+                CAST(CAST(school_individual_course.year_id AS text)||
+                CAST(school_individual_course.teacher_id AS text)||
+                CAST(school_individual_course.source_course_id AS text) AS INTEGER) as id,
+                school_individual_course.name,
+                school_individual_course.title,
+                school_individual_course.year_id,
+                school_individual_course.teacher_id,
+                school_individual_course.source_course_id
+            FROM
+                school_individual_course
+            WHERE
+                school_individual_course.teacher_id IS NOT NULL
+            GROUP BY CAST(CAST(school_individual_course.year_id AS text)||
+                CAST(school_individual_course.teacher_id AS text)||
+                CAST(school_individual_course.source_course_id AS text) AS INTEGER),
+                school_individual_course.name,
+                school_individual_course.title,
+                school_individual_course.year_id,
+                school_individual_course.teacher_id,
+                school_individual_course.source_course_id
+        )""")
+        
+        
+    @api.multi
+    def edit_course(self):
+        self.ensure_one()
+        value = {
+            'domain': "[]",
+            'view_type': 'form',
+            'view_mode': 'tree,form',
+            'res_model': 'school.individual_course',
+            'view_id': False,
+            'context': dict(self._context or {}),
+            'type': 'ir.actions.act_window',
+            'search_view_id': False
+        }
+        return value

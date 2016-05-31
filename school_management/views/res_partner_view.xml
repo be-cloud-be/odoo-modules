@@ -41,7 +41,10 @@
                     <field name="supplier" invisible="True" />
                     <field name="customer" invisible="True" />
                 </xpath>
-                <xpath expr="//page[@name='sales_purchases']" position="replace" />
+                <page name="sales_purchases" position="replace"/>
+                <!--
+                    <attribute name="invisible">1</attribute>
+                </page>-->
             </field>
         </record>
 
@@ -244,13 +247,18 @@
             <field name="name">view.res.partner.form.school</field>
             <field name="model">res.partner</field>
             <field name="inherit_id" ref="base.view_partner_form" />
-            <field eval="25" name="priority" />
+            <field eval="15" name="priority" />
             <field name="arch" type="xml">
                 <xpath expr="//notebook[last()]" position="inside">
                     <page name="course_session_list" string="Current Course Session" attrs="{'invisible': [('teacher','=',False)]}">
-                        <field name="teacher_current_course_session_ids">
-                            <tree string="Current Course Sessions">
-                                <field name="course_id" />
+                        <field name="teacher_current_course_ids">
+                            <tree string="Current Course">
+                                <field name="name" />
+                                <field name="teacher_id" invisible="1"/>
+                                <field name="source_course_id" invisible="1"/>
+                                <button class="oe_stat_button" type="object" name="edit_course" 
+                                            context="{'search_default_teacher_id': teacher_id, 'search_default_source_course_id': source_course_id}"
+                                            icon="fa-list-alt">Edit Evaluations</button>
                             </tree>
                         </field>
                     </page>
