@@ -1,4 +1,5 @@
-# -*- encoding: utf-8 -*-
+<?xml version="1.0" encoding="utf-8" ?>
+<!--
 ##############################################################################
 #
 #    Copyright (c) 2015 be-cloud.be
@@ -18,26 +19,29 @@
 #    along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #
 ##############################################################################
-{
-    'name': 'School evaluations',
-    'version': '0.1',
-    'license': 'AGPL-3',
-    'author': 'be-Cloud.be (Jerome Sonnet)',
-    'website': '',
-    'category': 'School Management',
-    'depends': ['school_management'],
-    'init_xml': [],
-    'update_xml': [
-        'views/evaluation_view.xml',
-        'views/configuration_view.xml',
-        'report/report_evaluation.xml',
-    ],
-    'demo_xml': [],
-    'description': '''
-        This modules addevaluation management for a school.
-    ''',
-    'qweb': ['static/src/xml/*.xml'],
-    'active': False,
-    'installable': True,
-    'application': True,
-}
+-->
+<odoo>
+    
+    <!-- report -->
+    <report 
+        id="report_evaluation_by_teacher"
+        model="school.individual_course"
+        string="Evaluation by Teacher"
+        report_type="qweb-pdf"
+        name="school_evaluation.report_evaluation_by_teacher_content"
+        file="school_evaluation.report_evaluation_by_teacher_content"
+        />
+
+    <template id="report_evaluation_by_teacher_content">
+        <t t-call="report.html_container">
+            <t t-set="data_report_margin_top" t-value="45" />
+            <t t-set="data_report_header_spacing" t-value="40" />
+            <t t-set="program" t-value="docs[0]" />
+            <t t-call="report.external_layout">
+                <div class="page">
+                    
+                </div>
+            </t>
+        </t>
+    </template>
+</odoo>

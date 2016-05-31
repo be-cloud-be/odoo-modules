@@ -18,26 +18,4 @@
 #    along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #
 ##############################################################################
-{
-    'name': 'School evaluations',
-    'version': '0.1',
-    'license': 'AGPL-3',
-    'author': 'be-Cloud.be (Jerome Sonnet)',
-    'website': '',
-    'category': 'School Management',
-    'depends': ['school_management'],
-    'init_xml': [],
-    'update_xml': [
-        'views/evaluation_view.xml',
-        'views/configuration_view.xml',
-        'report/report_evaluation.xml',
-    ],
-    'demo_xml': [],
-    'description': '''
-        This modules addevaluation management for a school.
-    ''',
-    'qweb': ['static/src/xml/*.xml'],
-    'active': False,
-    'installable': True,
-    'application': True,
-}
+import evaluation_report

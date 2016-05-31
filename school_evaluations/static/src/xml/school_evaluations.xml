@@ -30,6 +30,73 @@
         </div>
     </t>
     
+    <t t-name="DetailResultDialog">
+        <t t-set="cg" t-value="widget.course_group"/>
+        <div class="container">
+            <div class="row">
+                <div class="col-md-12">
+                    <h2 class=""><t t-esc="cg.name" /></h2>
+                </div>
+            </div>
+            <t t-foreach="cg.courses" t-as="course">
+            <div class="row">
+                <div class="col-md-12">
+                    <h3 class=""><t t-esc="course.name" /></h3>
+                </div>
+            </div>
+            <t t-if="!course.dispense">
+            <div class="row" t-if="course.type in ['C']">
+                <div class="col-md-4 col-md-offset-1">
+                    Cote d'année :
+                </div>
+                <div class="col-md-2">
+                    <t t-esc="course.ann_result"/>
+                </div>
+            </div>
+            <div class="row" t-if="course.type in ['C','T']">
+                <div class="col-md-4 col-md-offset-1">
+                    Résultat de Janvier :
+                </div>
+                <div class="col-md-2">
+                    <t t-esc="course.jan_result"/>
+                </div>
+            </div>
+            <div class="row" t-if="course.type in ['C','T','S']">
+                <div class="col-md-4 col-md-offset-1">
+                    Résultat de Juin :
+                </div>
+                <div class="col-md-2">
+                    <t t-esc="course.jun_result"/>
+                </div>
+            </div>
+            <div class="row" t-if="course.type in ['D']">
+                <div class="col-md-4 col-md-offset-1">
+                    Résultat reporté :
+                </div>
+                <div class="col-md-2">
+                    <t t-esc="course.jun_result"/>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-4 col-md-offset-1">
+                    <h4 class="">Evaluation Finale :</h4>
+                </div>
+                <div class="col-md-2">
+                    <h4 class=""><t t-esc="cg.final_result" /></h4>
+                </div>
+            </div>
+            </t>
+            <t t-if="course.dispense">
+            <div class="row">
+                <div class="col-md-4 col-md-offset-1">
+                    Dispensé
+                </div>
+            </div>
+            </t>
+            </t>
+        </div>
+    </t>
+    
     <t t-name="ConfigDialog">
         <div>
             <h2>This is the config dialog</h2>
@@ -198,7 +265,7 @@
                                         <span class="label label-warning" t-if="course_group.acquiered === 'NA'">Non-Acquis</span>
                                     </td>
                                     <td>
-                                        <i class="fa fa-pencil o_school_edit_icg" aria-hidden="true" t-att-data-cg-id="course_group.id"></i>
+                                        <i class="fa fa-search o_school_edit_icg" role="button" aria-hidden="true" t-att-data-cg-id="course_group.id"></i>
                                     </td>
                                 </tr>
                                 <t t-set="counter" t-value="counter + 1" />

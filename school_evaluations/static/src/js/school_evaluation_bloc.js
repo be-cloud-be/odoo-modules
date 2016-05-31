@@ -14,6 +14,18 @@ var Dialog = require('web.Dialog');
 var QWeb = core.qweb;
 var _t = core._t;
 
+var DetailResultDialog = Dialog.extend({
+    template: 'DetailResultDialog',
+    
+    init: function(parent, options) {
+        this._super.apply(this, arguments);
+        this.title = options.title;
+        this.course_group = options.course_group;
+        this.parent = parent;
+    },
+    
+});
+
 return Widget.extend({
     template: "BlocEditor",
     events: {
@@ -33,7 +45,9 @@ return Widget.extend({
             var self = this;
             event.preventDefault();
             var id = this.$(event.currentTarget).data('cg-id');
-            var dialog = new form_common.FormViewDialog(this, {
+            var res_id = parseInt(id).toString() == id ? parseInt(id) : id;
+            new DetailResultDialog(this, {title : _t('Detailed Results'), course_group : self.course_groups[self.course_group_id_map[res_id]]}).open();
+            /*var dialog = new form_common.FormViewDialog(this, {
                 res_model: 'school.individual_course_group',
                 res_id: parseInt(id).toString() == id ? parseInt(id) : id,
                 context: this.dataset.get_context(),
@@ -55,7 +69,7 @@ return Widget.extend({
             dialog.$footer.children('.oe_school_save_cgi_button').hide(); //TODO how to hide a button ??
             dialog.on('closed', self, function () {
                 self.update();
-            });
+            });*/
         },
         
     },
@@ -67,7 +81,6 @@ return Widget.extend({
     },
     
     start: function() {
-        this.context = 
         this.dataset = new data.DataSet(this, 'school.individual_bloc', new data.CompoundContext());
         this.bloc = false;
     },
@@ -119,10 +132,10 @@ return Widget.extend({
             function(course_groups) {
                 self.course_groups = course_groups;
                 var all_course_ids = [];
-                var course_group_id_map = {}
+                self.course_group_id_map = {}
                 for (var i=0, ii=self.course_groups.length; i<ii; i++) {
                     all_course_ids = all_course_ids.concat(self.course_groups[i].course_ids);
-                    course_group_id_map[self.course_groups[i].id] = i;
+                    self.course_group_id_map[self.course_groups[i].id] = i;
                     self.course_groups[i].courses = [];
                 }
                 
@@ -130,7 +143,7 @@ return Widget.extend({
                     function(courses) {
                         for (var i=0, ii=courses.length; i<ii; i++) {
                             var course = courses[i];
-                            self.course_groups[course_group_id_map[course.course_group_id[0]]].courses.push(course);
+                            self.course_groups[self.course_group_id_map[course.course_group_id[0]]].courses.push(course);
                         }
                 });
             }

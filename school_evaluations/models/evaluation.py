@@ -40,66 +40,69 @@ class IndividualCourseGroup(models.Model):
     
     ## First Session ##
     
-    first_session_computed_result = fields.Float(compute='compute_results', string='First Session Computed Result', store=True, digits=(5, 2))
-    first_session_computed_result_bool= fields.Boolean(compute='compute_results', string='First Session Computed Active', store=True)
-    first_session_deliberated_result = fields.Char(string='First Session Deliberated Result')
-    first_session_deliberated_result_bool= fields.Boolean(string='First Session Deliberated Active')
-    first_session_result= fields.Float(compute='compute_results', string='First Session Result', store=True, digits=(5, 2))
-    first_session_result_bool= fields.Boolean(compute='compute_results', string='First Session Active', store=True)
-    first_session_acquiered = fields.Selection(([('A', 'Acquired'),('NA', 'Not Acquired')]),string='First Session Acquired Credits',default='NA',required=True)
+    first_session_computed_result = fields.Float(compute='compute_average_results', string='First Session Computed Result', store=True, digits=(5, 2))
+    first_session_computed_result_bool= fields.Boolean(compute='compute_average_results', string='First Session Computed Active', store=True)
+    first_session_deliberated_result = fields.Char(string='First Session Deliberated Result',track_visibility='onchange')
+    first_session_deliberated_result_bool= fields.Boolean(string='First Session Deliberated Active',track_visibility='onchange')
+    first_session_result= fields.Float(compute='compute_first_session_results', string='First Session Result', store=True, digits=(5, 2))
+    first_session_result_bool= fields.Boolean(compute='compute_first_session_results', string='First Session Active', store=True)
+    first_session_acquiered = fields.Selection(([('A', 'Acquired'),('NA', 'Not Acquired')]),string='First Session Acquired Credits',default='NA',required=True,track_visibility='onchange')
     first_session_note = fields.Text(string='First Session Notes')
     
     ## Second Session ##
     
-    second_session_computed_result = fields.Float(compute='compute_results', string='Second Session Computed Result', store=True, digits=(5, 2))
-    second_session_computed_result_bool= fields.Boolean(compute='compute_results', string='Second Session Computed Active', store=True)
-    second_session_deliberated_result = fields.Char(string='Second Session Deliberated Result', digits=(5, 2))
-    second_session_deliberated_result_bool= fields.Boolean(string='Second Session Deliberated Active')
-    second_session_result= fields.Float(compute='compute_results', string='Second Session Result', store=True, digits=(5, 2))
-    second_session_result_bool= fields.Boolean(compute='compute_results', string='Second Session Active', store=True)
-    second_session_acquiered = fields.Selection(([('A', 'Acquired'),('NA', 'Not Acquired')]),string='Second Session Acquired Credits',default='NA',required=True)
+    second_session_computed_result = fields.Float(compute='compute_average_results', string='Second Session Computed Result', store=True, digits=(5, 2))
+    second_session_computed_result_bool= fields.Boolean(compute='compute_average_results', string='Second Session Computed Active', store=True)
+    second_session_deliberated_result = fields.Char(string='Second Session Deliberated Result', digits=(5, 2),track_visibility='onchange')
+    second_session_deliberated_result_bool= fields.Boolean(string='Second Session Deliberated Active',track_visibility='onchange')
+    second_session_result= fields.Float(compute='compute_second_session_results', string='Second Session Result', store=True, digits=(5, 2))
+    second_session_result_bool= fields.Boolean(compute='compute_second_session_results', string='Second Session Active', store=True)
+    second_session_acquiered = fields.Selection(([('A', 'Acquired'),('NA', 'Not Acquired')]),string='Second Session Acquired Credits',default='NA',required=True,track_visibility='onchange')
     second_session_note = fields.Text(string='Second Session Notes')
     
     ## Final ##
     
-    final_result = fields.Float(compute='compute_results', string='Final Result', store=True, digits=(5, 2))
-    final_result_bool = fields.Boolean(compute='compute_results', string='Final Active')
-    acquiered = fields.Selection(([('A', 'Acquiered'),('NA', 'Not Acquiered')]), compute='compute_results', string='Acquired Credits', store=True)
+    final_result = fields.Float(compute='compute_final_results', string='Final Result', store=True, digits=(5, 2),track_visibility='onchange')
+    final_result_bool = fields.Boolean(compute='compute_final_results', string='Final Active')
+    acquiered = fields.Selection(([('A', 'Acquiered'),('NA', 'Not Acquiered')]), compute='compute_final_results', string='Acquired Credits', store=True,track_visibility='onchange')
     final_note = fields.Text(string='Final Notes')
     
-    @api.depends('course_ids',
-                 'first_session_deliberated_result_bool',
-                 'first_session_deliberated_result',
-                 'first_session_acquiered',
-                 'second_session_deliberated_result_bool',
-                 'second_session_deliberated_result',
-                 'second_session_acquiered')
+    @api.depends('course_ids')
     @api.one
-    def compute_results(self):
+    def compute_average_results(self):
         ## Compute Weighted Average
         running_first_session_result = 0
         running_second_session_result = 0
         self.first_session_computed_result_bool = False
         self.second_session_computed_result_bool = False
         for ic in self.course_ids:
+            # Compute First Session 
             if ic.first_session_result_bool :
                 running_first_session_result += ic.first_session_result * ic.weight
                 self.first_session_computed_result_bool = True
+                
+            # Compute Second Session
             if ic.second_session_result_bool :
                 running_second_session_result += ic.second_session_result * ic.weight
                 self.second_session_computed_result_bool = True
-            # In case there is a result for first session and not second one while a second exists
-            elif ic.first_session_result_bool : 
+            elif ic.first_session_result_bool :
+                # Use First session in computation of the second final
                 running_second_session_result += ic.first_session_result * ic.weight
+                
         if self.first_session_computed_result_bool :
             if self.total_weight > 0:
                 self.first_session_computed_result = running_first_session_result / self.total_weight
         if self.second_session_computed_result_bool :
             if self.total_weight > 0:
                 self.second_session_computed_result = running_second_session_result / self.total_weight
-        
+    
+    @api.depends('first_session_deliberated_result_bool','first_session_deliberated_result')
+    @api.one
+    def compute_first_session_results(self):
         ## Compute Session Results
-        if self.first_session_deliberated_result :
+        #import wdb
+        #wdb.set_trace()
+        if self.first_session_deliberated_result_bool :
             try:
                 f = float(self.first_session_deliberated_result)
                 self.first_session_result = f
@@ -111,8 +114,12 @@ class IndividualCourseGroup(models.Model):
             self.first_session_result = self.first_session_computed_result
             self.first_session_result_bool = True
         else :
+            self.first_session_result = 0
             self.first_session_result_bool = False
-        
+    
+    @api.depends('second_session_deliberated_result_bool','second_session_deliberated_result')
+    @api.one
+    def compute_second_session_results(self):
         if self.second_session_deliberated_result_bool :
             try:
                 f = float(self.second_session_deliberated_result)
@@ -125,8 +132,17 @@ class IndividualCourseGroup(models.Model):
             self.second_session_result = self.second_session_computed_result
             self.second_session_result_bool = True
         else :
+            self.first_session_result = 0
             self.second_session_result_bool = False
-        
+    
+    @api.depends('first_session_result',
+                 'first_session_result_bool',
+                 'first_session_acquiered',
+                 'second_session_result',
+                 'second_session_result_bool',
+                 'second_session_acquiered')
+    @api.one
+    def compute_final_results(self):
         ## Compute Final Results
         if self.second_session_result_bool :
             self.final_result = self.second_session_result
@@ -139,7 +155,14 @@ class IndividualCourseGroup(models.Model):
         else :
             self.acquiered = 'NA'
             self.final_result_bool = False
-        
+    
+    @api.one
+    def recompute_results(self):
+        self.compute_average_results()
+        self.compute_first_session_results()
+        self.compute_second_session_results()
+        self.compute_final_results()
+
 
 class Course(models.Model):
     '''Course'''
@@ -151,7 +174,7 @@ class IndividualCourse(models.Model):
     '''Individual Course'''
     _inherit = 'school.individual_course'
     
-    type = fields.Selection(([('S', 'Simple'),('T', 'Triple'),('C', 'Complex'),('D','Deferral')]), string='Type', required=True, default="S")
+    type = fields.Selection(([('S', 'Simple'),('T', 'Triple'),('C', 'Complex'),('D','Deferral')]), string='Type', required=True, default="S",track_visibility='onchange')
     
     @api.model
     def create(self, values):
@@ -169,7 +192,7 @@ class IndividualCourse(models.Model):
         elif self.type == 'T':
             vals['ann_result'] = False
         res = super(IndividualCourse, self).write(vals)
-        self.course_group_id.compute_results()
+        self.course_group_id.recompute_results()
         return res
     
     @api.onchange('type')
@@ -182,19 +205,19 @@ class IndividualCourse(models.Model):
 
     ## Annual Evaluation ##
     
-    ann_result= fields.Char(string='Annual Result')
+    ann_result= fields.Char(string='Annual Result',track_visibility='onchange')
     
     ## January Evaluation ##
     
-    jan_result= fields.Char(string='January Result')
+    jan_result= fields.Char(string='January Result',track_visibility='onchange')
     
     ## June Evaluation ##
     
-    jun_result= fields.Char(string='June Result')
+    jun_result= fields.Char(string='June Result',track_visibility='onchange')
     
     ## September Evaluation ##
     
-    sept_result= fields.Char(string='September Result')
+    sept_result= fields.Char(string='September Result',track_visibility='onchange')
     
     ## First Session ##
     
@@ -299,13 +322,33 @@ class IndividualBloc(models.Model):
              " * The 'Postponed' status is used when a second session is required.\n"
              " * The 'Awarded' status is used when the bloc is awarded.\n"
              " * The 'Failed' status is used during the bloc is definitively considered as failed.\n"
-             )
+             ,track_visibility='onchange')
     
     @api.multi
-    def set_state(self, state):
+    def set_to_draft(self, state):
         # TODO use a workflow to make sure only valid changes are used.
-        return self.write({'state': state})
+        return self.write({'state': 'draft'})
     
+    @api.multi
+    def set_to_progress(self, state):
+        # TODO use a workflow to make sure only valid changes are used.
+        return self.write({'state': 'progress'})
+    
+    @api.multi
+    def set_to_postponed(self, state):
+        # TODO use a workflow to make sure only valid changes are used.
+        return self.write({'state': 'postponed'})
+    
+    @api.multi
+    def set_to_awarded(self, state):
+        # TODO use a workflow to make sure only valid changes are used.
+        return self.write({'state': 'awarded'})
+    
+    @api.multi
+    def set_to_failed(self, state):
+        # TODO use a workflow to make sure only valid changes are used.
+        return self.write({'state': 'failed'})
+        
     totat_acquiered_credits = fields.Integer(string="Acquiered Credits",compute="compute_credits", store=True)
     
     @api.depends('course_group_ids','course_group_ids.acquiered')

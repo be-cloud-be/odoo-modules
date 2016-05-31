@@ -18,26 +18,23 @@
 #    along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #
 ##############################################################################
-{
-    'name': 'School evaluations',
-    'version': '0.1',
-    'license': 'AGPL-3',
-    'author': 'be-Cloud.be (Jerome Sonnet)',
-    'website': '',
-    'category': 'School Management',
-    'depends': ['school_management'],
-    'init_xml': [],
-    'update_xml': [
-        'views/evaluation_view.xml',
-        'views/configuration_view.xml',
-        'report/report_evaluation.xml',
-    ],
-    'demo_xml': [],
-    'description': '''
-        This modules addevaluation management for a school.
-    ''',
-    'qweb': ['static/src/xml/*.xml'],
-    'active': False,
-    'installable': True,
-    'application': True,
-}
+import logging
+import time
+
+from openerp import api, fields, models, tools, _
+from openerp.exceptions import MissingError
+
+_logger = logging.getLogger(__name__)
+
+class ReportEvaluationByTeacher(models.AbstractModel):
+    _name = 'report.school_evaluation.report_evaluation_by_teacher_content'
+    
+    @api.multi
+    def render_html(self, data):
+        docargs = {
+            'doc_ids': data.mapped('id'),
+            'doc_model': self.env['school.individual_course'],
+            'docs': data.sorted(key=lambda r: r.teacher_id),
+            'time': time,
+        }
+        return self.env['report'].render('school_evaluation.report_evaluation_by_teacher_content', docargs)
