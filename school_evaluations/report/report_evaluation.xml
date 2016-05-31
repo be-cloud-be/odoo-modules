@@ -126,13 +126,19 @@
                                                         <t t-esc="course.student_id.firstname" />
                                                     </td>
                                                     <td>
-                                                        <t t-if="display_results" t-esc="course.ann_result" />
+                                                        <t t-if="display_results == True">
+                                                            <t t-esc="course.ann_result" />
+                                                        </t>
                                                     </td>
                                                     <td>
-                                                        <t t-if="display_results" t-esc="course.jan_result" />
+                                                        <t t-if="display_results == True">
+                                                            <t t-esc="course.jan_result" />
+                                                        </t>
                                                     </td>
                                                     <td>
-                                                        <t t-if="display_results" t-esc="course.jun_result" />
+                                                        <t t-if="display_results == True">
+                                                            <t t-esc="course.jun_result" />
+                                                        </t>
                                                     </td>
                                                     <td></td>
                                                 </tr>
