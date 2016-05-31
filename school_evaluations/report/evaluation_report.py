@@ -31,7 +31,7 @@ class ReportEvaluationByTeacherWizard(models.TransientModel):
     _name = "school_evaluations.report_evaluation_by_teacher"
     _description = "Evaluations by Teacher Report"
 
-    year_id = fields.Many2one('school.year', string='Year')
+    year_id = fields.Many2one('school.year', string='Year', default=lambda self: safe_eval(self.env['ir.config_parameter'].get_param('school.current_year_id','1')))
     teacher_id = fields.Many2one('res.partner', string='Teacher')
     display_results = fields.Boolean(string='Display Current Results')
     message = fields.Text(string="Message")
@@ -66,10 +66,10 @@ class ReportEvaluationByTeacher(models.AbstractModel):
             source_course_ids = self.env['school.individual_course_proxy'].search([['year_id', '=', data['year_id'] or current_year_id], ['teacher_id', '=', teacher_id.id]]).mapped('source_course_id').sorted(key=lambda r: r.name)
             courses = []
             for source_course_id in source_course_ids:
-                student_ids = self.env['school.individual_course'].search([['year_id', '=', data['year_id'] or current_year_id], ['teacher_id', '=', teacher_id.id], ['source_course_id', '=', source_course_id.id]]).mapped('student_id').sorted(key=lambda r: r.name)
+                individual_courses_ids = self.env['school.individual_course'].search([['year_id', '=', data['year_id'] or current_year_id], ['teacher_id', '=', teacher_id.id], ['source_course_id', '=', source_course_id.id]]).sorted(key=lambda r: r.student_id.name)
                 courses.append({
                     'course':source_course_id,
-                    'students':student_ids,
+                    'individual_courses':individual_courses_ids,
                 })
             res_data.append({
                 'teacher_id':teacher_id,
@@ -78,7 +78,7 @@ class ReportEvaluationByTeacher(models.AbstractModel):
             ids.append(teacher_id.id)
         docargs = {
             'doc_ids': ids,
-            'doc_model': self.env['school.individual_course'],
+            'doc_model': self.env['res.partner'],
             'data': res_data,
             'time': time,
             'message': data['message'],

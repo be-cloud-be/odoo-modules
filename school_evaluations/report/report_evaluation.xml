@@ -113,21 +113,27 @@
                                                 <th>Jun</th>
                                                 <th>Comments</th>
                                             </tr>
-                                            <t t-set="counter" t-value="0"/>
-                                            <t t-foreach="course_item['students']" t-as="student">
+                                            <t t-set="counter" t-value="1"/>
+                                            <t t-foreach="course_item['individual_courses']" t-as="course">
                                                 <tr>
                                                     <td>
                                                         <t t-esc="counter" />
                                                     </td>
                                                     <td>
-                                                        <t t-esc="student.lastname" />
+                                                        <t t-esc="course.student_id.lastname" />
                                                     </td>
                                                     <td>
-                                                        <t t-esc="student.firstname" />
+                                                        <t t-esc="course.student_id.firstname" />
                                                     </td>
-                                                    <td></td>
-                                                    <td></td>
-                                                    <td></td>
+                                                    <td>
+                                                        <t t-if="display_results" t-esc="course.ann_result" />
+                                                    </td>
+                                                    <td>
+                                                        <t t-if="display_results" t-esc="course.jan_result" />
+                                                    </td>
+                                                    <td>
+                                                        <t t-if="display_results" t-esc="course.jun_result" />
+                                                    </td>
                                                     <td></td>
                                                 </tr>
                                                 <t t-set="counter" t-value="counter + 1"/>
