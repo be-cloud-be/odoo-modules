@@ -21,25 +21,123 @@
 ##############################################################################
 -->
 <odoo>
-    
+
     <!-- report -->
-    <report 
-        id="report_evaluation_by_teacher"
-        model="school.individual_course"
-        string="Evaluation by Teacher"
-        report_type="qweb-pdf"
-        name="school_evaluation.report_evaluation_by_teacher_content"
-        file="school_evaluation.report_evaluation_by_teacher_content"
-        />
+    <record id="school_evaluation_report_view" model="ir.ui.view">
+        <field name="name">Evaluation by Teacher</field>
+        <field name="model">school_evaluations.report_evaluation_by_teacher</field>
+        <field name="arch" type="xml">
+            <form string="Evaluations by teatcher">
+                <group col="4">
+                    <field name="year_id" create="false" delete='false' />
+                    <field name="display_results" />
+                    <field name="message" colspan="4" nolabel="1" default="Merci de ramener le document au secrétariat." />
+                </group>
+                <footer>
+                    <button name="print_report" string="Print" type="object" default_focus="1" class="oe_highlight" /> or
+                    <button string="Cancel" class="oe_link" special="cancel" />
+                </footer>
+            </form>
+        </field>
+    </record>
+
+    <report id="report_evaluation_by_teacher" 
+            model="school.individual_course" 
+            string="Evaluation by Teacher" 
+            report_type="qweb-pdf" 
+            name="school_evaluations.report_evaluation_by_teacher_content" 
+            file="school_evaluations.report_evaluation_by_teacher_content"
+    />
+
+    <record id="action_evaluation_report_by_teacher" model="ir.actions.act_window">
+        <field name="name">Evaluations by teatcher</field>
+        <field name="res_model">school_evaluations.report_evaluation_by_teacher</field>
+        <field name="type">ir.actions.act_window</field>
+        <field name="view_type">form</field>
+        <field name="view_mode">form</field>
+        <field name="view_id" ref="school_evaluation_report_view" />
+        <field name="target">new</field>
+    </record>
+
+    <menuitem id="menu_evaluation_report_by_teacher" name="Evaluation by Teacher" action="action_evaluation_report_by_teacher" parent="school_management.menu_individual_bloc" />
+
+    <!--  Add wizard -->
+    <act_window name="Evaluation by Teacher"
+                res_model="school_evaluations.report_evaluation_by_teacher"
+                src_model="res.partner"
+                view_mode="form"
+                target="new"
+                key2="client_action_multi"
+                id="action_evaluation_report_by_teacher"
+                context="{'default_teacher_id': '${object.id or \'\'}'}"/>
 
     <template id="report_evaluation_by_teacher_content">
         <t t-call="report.html_container">
             <t t-set="data_report_margin_top" t-value="45" />
             <t t-set="data_report_header_spacing" t-value="40" />
-            <t t-set="program" t-value="docs[0]" />
             <t t-call="report.external_layout">
                 <div class="page">
-                    
+                    <t t-foreach="data" t-as="item">
+                        <t t-set="teacher" t-value="item['teacher_id']" />
+                        <div class="container" style="page-break-before:always;">
+                            <t t-foreach="item['courses']" t-as="course_item">
+                                <t t-set="course" t-value="course_item['course']" />
+                                <div class="panel panel-default">
+                                    <!-- Default panel contents -->
+                                    <div class="panel-heading">
+                                        <h3><t t-esc="teacher.name" /> - <t t-esc="course.name"/></h3>
+                                    </div>
+                                    <div class="panel-body">
+                                        <p>
+                                            <t t-esc="message" />
+                                        </p>
+                                    </div>
+                                    <!-- Table -->
+                                    <table class="table table-bordered">
+                                        <thead>
+                                            <colgroup>
+                                                <col style="width:2px" />
+                                                <col style="width:10px" />
+                                                <col style="width:10px" />
+                                                <col style="width:5px" />
+                                                <col style="width:5px" />
+                                                <col style="width:5px" />
+                                                <col style="width:50px" />
+                                            </colgroup>
+                                            <tr>
+                                                <th>Row</th>
+                                                <th>Last Name</th>
+                                                <th>First Name</th>
+                                                <th>Ann</th>
+                                                <th>Jan</th>
+                                                <th>Jun</th>
+                                                <th>Comments</th>
+                                            </tr>
+                                            <t t-set="counter" t-value="0"/>
+                                            <t t-foreach="course_item['students']" t-as="student">
+                                                <tr>
+                                                    <td>
+                                                        <t t-esc="counter" />
+                                                    </td>
+                                                    <td>
+                                                        <t t-esc="student.lastname" />
+                                                    </td>
+                                                    <td>
+                                                        <t t-esc="student.firstname" />
+                                                    </td>
+                                                    <td></td>
+                                                    <td></td>
+                                                    <td></td>
+                                                    <td></td>
+                                                </tr>
+                                                <t t-set="counter" t-value="counter + 1"/>
+                                            </t>
+                                        </thead>
+                                    </table>
+                                </div>
+                            </t>
+                        </div>
+                    </t>
                 </div>
             </t>
         </t>
