@@ -1,4 +1,4 @@
-﻿# -*- encoding: utf-8 -*-
+# -*- encoding: utf-8 -*-
 ##############################################################################
 #
 #    Copyright (c) 2015 be-cloud.be
@@ -22,6 +22,7 @@ import logging
 
 from openerp import api, fields, models, _
 from openerp.exceptions import MissingError
+from openerp.tools.safe_eval import safe_eval
 
 _logger = logging.getLogger(__name__)
 
@@ -29,7 +30,7 @@ class AssignProgram(models.TransientModel):
     _name = "school.assign.program"
     _description = "Assign Program to Student"
     
-    year_id = fields.Many2one('school.year', string='Year')
+    year_id = fields.Many2one('school.year', string='Year', default=lambda self: safe_eval(self.env['ir.config_parameter'].get_param('school.current_year_id','1')))
     student_id = fields.Many2one('res.partner', string='Students', domain="[('student', '=', '1')]")
     source_bloc_id = fields.Many2one('school.bloc', string="Source Bloc")
 
