@@ -42,22 +42,27 @@ class IndividualCourseGroup(models.Model):
     
     first_session_computed_result = fields.Float(compute='compute_average_results', string='First Session Computed Result', store=True, digits=(5, 2))
     first_session_computed_result_bool= fields.Boolean(compute='compute_average_results', string='First Session Computed Active', store=True)
+    
     first_session_deliberated_result = fields.Char(string='First Session Deliberated Result',track_visibility='onchange')
     first_session_deliberated_result_bool= fields.Boolean(string='First Session Deliberated Active',track_visibility='onchange')
+    
     first_session_result= fields.Float(compute='compute_first_session_results', string='First Session Result', store=True, digits=(5, 2))
     first_session_result_bool= fields.Boolean(compute='compute_first_session_results', string='First Session Active', store=True)
-    first_session_acquiered = fields.Selection(([('A', 'Acquired'),('NA', 'Not Acquired')]),string='First Session Acquired Credits',default='NA',required=True,track_visibility='onchange')
+    first_session_acquiered = fields.Selection(([('A', 'Acquired'),('NA', 'Not Acquired')]), compute='compute_first_session_acquiered', string='First Session Acquired Credits',default='NA',store=True,required=True,track_visibility='onchange')
     first_session_note = fields.Text(string='First Session Notes')
     
     ## Second Session ##
     
     second_session_computed_result = fields.Float(compute='compute_average_results', string='Second Session Computed Result', store=True, digits=(5, 2))
     second_session_computed_result_bool= fields.Boolean(compute='compute_average_results', string='Second Session Computed Active', store=True)
+    second_session_computed_exclusion_result_bool= fields.Boolean(compute='compute_average_results', string='Second Session Exclusion Result', store=True)
+    
     second_session_deliberated_result = fields.Char(string='Second Session Deliberated Result', digits=(5, 2),track_visibility='onchange')
     second_session_deliberated_result_bool= fields.Boolean(string='Second Session Deliberated Active',track_visibility='onchange')
+    
     second_session_result= fields.Float(compute='compute_second_session_results', string='Second Session Result', store=True, digits=(5, 2))
     second_session_result_bool= fields.Boolean(compute='compute_second_session_results', string='Second Session Active', store=True)
-    second_session_acquiered = fields.Selection(([('A', 'Acquired'),('NA', 'Not Acquired')]),string='Second Session Acquired Credits',default='NA',required=True,track_visibility='onchange')
+    second_session_acquiered = fields.Selection(([('A', 'Acquired'),('NA', 'Not Acquired')]), compute='compute_second_session_acquiered',string='Second Session Acquired Credits',default='NA',store=True,required=True,track_visibility='onchange')
     second_session_note = fields.Text(string='Second Session Notes')
     
     ## Final ##
@@ -74,20 +79,29 @@ class IndividualCourseGroup(models.Model):
         running_first_session_result = 0
         running_second_session_result = 0
         self.first_session_computed_result_bool = False
+        self.first_session_computed_exclusion_result_bool = False
         self.second_session_computed_result_bool = False
+        self.second_session_computed_exclusion_result_bool = False
+        
         for ic in self.course_ids:
             # Compute First Session 
             if ic.first_session_result_bool :
                 running_first_session_result += ic.first_session_result * ic.weight
                 self.first_session_computed_result_bool = True
+                if ic.first_session_result < 10 :
+                    self.first_session_computed_exclusion_result_bool = True
                 
             # Compute Second Session
             if ic.second_session_result_bool :
                 running_second_session_result += ic.second_session_result * ic.weight
                 self.second_session_computed_result_bool = True
+                if ic.second_session_result < 10 :
+                    self.second_session_computed_exclusion_result_bool = True
             elif ic.first_session_result_bool :
-                # Use First session in computation of the second final
+                # Use First session in computation of the second one if no second one
                 running_second_session_result += ic.first_session_result * ic.weight
+                if ic.first_session_result < 10 :
+                    self.second_session_computed_exclusion_result_bool = True
                 
         if self.first_session_computed_result_bool :
             if self.total_weight > 0:
@@ -100,8 +114,6 @@ class IndividualCourseGroup(models.Model):
     @api.one
     def compute_first_session_results(self):
         ## Compute Session Results
-        #import wdb
-        #wdb.set_trace()
         if self.first_session_deliberated_result_bool :
             try:
                 f = float(self.first_session_deliberated_result)
@@ -116,6 +128,20 @@ class IndividualCourseGroup(models.Model):
         else :
             self.first_session_result = 0
             self.first_session_result_bool = False
+    
+    @api.depends('first_session_deliberated_result_bool','first_session_deliberated_result')
+    @api.one
+    def compute_first_session_acquiered(self):
+        self.first_session_acquiered = 'NA'
+        if self.first_session_result > 10 and (not self.first_session_computed_exclusion_result_bool or self.first_session_deliberated_result_bool):
+            self.first_session_acquiered = 'A'
+            
+    @api.depends('second_session_deliberated_result_bool','second_session_deliberated_result')
+    @api.one
+    def compute_second_session_acquiered(self):
+        self.second_session_acquiered = 'NA'
+        if self.second_session_result > 10 and (not self.second_session_computed_exclusion_result_bool or self.second_session_deliberated_result_bool):
+            self.second_session_acquiered = 'A'
     
     @api.depends('second_session_deliberated_result_bool','second_session_deliberated_result')
     @api.one
@@ -132,7 +158,7 @@ class IndividualCourseGroup(models.Model):
             self.second_session_result = self.second_session_computed_result
             self.second_session_result_bool = True
         else :
-            self.first_session_result = 0
+            self.second_session_result = 0
             self.second_session_result_bool = False
     
     @api.depends('first_session_result',
@@ -161,8 +187,9 @@ class IndividualCourseGroup(models.Model):
         self.compute_average_results()
         self.compute_first_session_results()
         self.compute_second_session_results()
+        self.compute_first_session_acquiered()
+        self.compute_second_session_acquiered()
         self.compute_final_results()
-
 
 class Course(models.Model):
     '''Course'''
