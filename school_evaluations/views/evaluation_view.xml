@@ -25,13 +25,10 @@
 
         <template id="assets_backend" name="school_evaluations_assets" inherit_id="web.assets_backend">
             <xpath expr="." position="inside">
-                <script type="text/javascript">
-                    localStorage.clear();
-                </script>
-                <link rel="stylesheet" href="/school_evaluations/static/src/css/school_evaluation_bloc.css" />
-                <link rel="stylesheet" href="/school_evaluations/static/src/css/school_evaluations.css" />
                 <link rel="stylesheet" href="/school_evaluations/static/src/css/metisMenu.min.css" />
                 <link rel="stylesheet" href="/school_evaluations/static/src/css/sb-admin-2.css" />
+                <link rel="stylesheet" href="/school_evaluations/static/src/css/school_evaluation_bloc.css" />
+                <link rel="stylesheet" href="/school_evaluations/static/src/css/school_evaluations.css" />
                 <script type="text/javascript" src="/school_evaluations/static/src/js/metisMenu.min.js"></script>
                 <script type="text/javascript" src="/school_evaluations/static/src/js/sb-admin-2.js"></script>
                 <script type="text/javascript" src="/school_evaluations/static/src/js/school_evaluations.js"></script>

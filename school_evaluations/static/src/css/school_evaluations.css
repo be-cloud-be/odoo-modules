@@ -40,3 +40,19 @@
   padding-top: 15px;
   padding-bottom: 15px;
 }
+
+@media(min-width:768px) {
+  .sidebar {
+    width: 180px;
+  }
+  #page-wrapper {
+        position: inherit;
+        margin: 0 0 0 180px;
+        padding: 0 10px;
+        border-left: 1px solid #e7e7e7;
+    }
+}
+
+.sidebar ul li a {
+  padding : 5px;
+}

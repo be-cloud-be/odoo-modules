@@ -79,10 +79,10 @@
                 <div class="page">
                     <t t-foreach="data" t-as="item">
                         <t t-set="teacher" t-value="item['teacher_id']" />
-                        <div class="container" style="page-break-before:always;">
+                        <div class="container">
                             <t t-foreach="item['courses']" t-as="course_item">
                                 <t t-set="course" t-value="course_item['course']" />
-                                <div class="panel panel-default">
+                                <div class="panel panel-default" style="page-break-before:always;">
                                     <!-- Default panel contents -->
                                     <div class="panel-heading">
                                         <h3><t t-esc="teacher.name" /> - <t t-esc="course.name"/></h3>

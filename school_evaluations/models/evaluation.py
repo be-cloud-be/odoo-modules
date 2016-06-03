@@ -134,14 +134,14 @@ class IndividualCourseGroup(models.Model):
     @api.one
     def compute_first_session_acquiered(self):
         self.first_session_acquiered = 'NA'
-        if self.first_session_result > 10 and (not self.first_session_computed_exclusion_result_bool or self.first_session_deliberated_result_bool):
+        if self.first_session_result >= 10 and (not self.first_session_computed_exclusion_result_bool or self.first_session_deliberated_result_bool):
             self.first_session_acquiered = 'A'
             
     @api.depends('second_session_deliberated_result_bool','second_session_deliberated_result')
     @api.one
     def compute_second_session_acquiered(self):
         self.second_session_acquiered = 'NA'
-        if self.second_session_result > 10 and (not self.second_session_computed_exclusion_result_bool or self.second_session_deliberated_result_bool):
+        if self.second_session_result >= 10 and (not self.second_session_computed_exclusion_result_bool or self.second_session_deliberated_result_bool):
             self.second_session_acquiered = 'A'
     
     @api.depends('second_session_deliberated_result_bool','second_session_deliberated_result')

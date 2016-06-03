@@ -29,9 +29,9 @@
             </div>
         </div>
     </t>
-    
+
     <t t-name="DetailResultDialog">
-        <t t-set="cg" t-value="widget.course_group"/>
+        <t t-set="cg" t-value="widget.course_group" />
         <div class="container">
             <div class="row">
                 <div class="col-md-12">
@@ -39,64 +39,80 @@
                 </div>
             </div>
             <t t-foreach="cg.courses" t-as="course">
+                <div class="row">
+                    <div class="col-md-12">
+                        <h3 class=""><t t-esc="course.name" /></h3>
+                    </div>
+                </div>
+                <t t-if="!course.dispense">
+                    <div class="row" t-if="course.type == 'C'">
+                        <div class="col-md-4 col-md-offset-1">
+                            Cote d'année :
+                        </div>
+                        <div class="col-md-2">
+                            <t t-esc="course.ann_result" />
+                        </div>
+                    </div>
+                    <div class="row" t-if="course.type == 'C' or course.type == 'T'">
+                        <div class="col-md-4 col-md-offset-1">
+                            Résultat de Janvier :
+                        </div>
+                        <div class="col-md-2">
+                            <t t-esc="course.jan_result" />
+                        </div>
+                    </div>
+                    <div class="row" t-if="course.type == 'C' or course.type == 'T' or course.type == 'S'">
+                        <div class="col-md-4 col-md-offset-1">
+                            Résultat de Juin :
+                        </div>
+                        <div class="col-md-2">
+                            <t t-esc="course.jun_result" />
+                        </div>
+                    </div>
+                    <div class="row" t-if="course.type == 'D'">
+                        <div class="col-md-4 col-md-offset-1">
+                            Résultat reporté :
+                        </div>
+                        <div class="col-md-2">
+                            <t t-esc="course.jun_result" />
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-4 col-md-offset-1">
+                            <h4 class="">Evaluation Première Session :</h4>
+                        </div>
+                        <div class="col-md-2">
+                            <h4 class=""><t t-esc="course.first_session_result" /></h4>
+                        </div>
+                    </div>
+                </t>
+                <t t-if="course.dispense">
+                    <div class="row" t-if="course.dispense">
+                        <div class="col-md-4 col-md-offset-1">
+                            Dispensé
+                        </div>
+                    </div>
+                </t>
+            </t>
             <div class="row">
                 <div class="col-md-12">
-                    <h3 class=""><t t-esc="course.name" /></h3>
+                    <h3 class="">Evaluation Première Session</h3>
                 </div>
             </div>
-            <t t-if="!course.dispense">
-            <div class="row" t-if="course.type in ['C']">
-                <div class="col-md-4 col-md-offset-1">
-                    Cote d'année :
-                </div>
-                <div class="col-md-2">
-                    <t t-esc="course.ann_result"/>
+            <t t-debug="pdb" />
+            <div class="row" t-if="!cg.first_session_deliberated_result_bool">
+                <div class="col-md-12">
+                    <h4 class="">(<t t-foreach="cg.courses" t-as="course"><t t-if="!course_first"> + </t><t t-esc="course.first_session_result" /> * <t t-esc="course.weight" /></t>) / <t t-esc="cg.total_weight" /> = <t t-esc="cg.final_result" /></h4>
                 </div>
             </div>
-            <div class="row" t-if="course.type in ['C','T']">
-                <div class="col-md-4 col-md-offset-1">
-                    Résultat de Janvier :
-                </div>
-                <div class="col-md-2">
-                    <t t-esc="course.jan_result"/>
+            <div class="row" t-if="cg.first_session_deliberated_result_bool">
+                <div class="col-md-12">
+                    <h4 class="">Résultat délibéré : <t t-esc="cg.final_result" /></h4>
                 </div>
             </div>
-            <div class="row" t-if="course.type in ['C','T','S']">
-                <div class="col-md-4 col-md-offset-1">
-                    Résultat de Juin :
-                </div>
-                <div class="col-md-2">
-                    <t t-esc="course.jun_result"/>
-                </div>
-            </div>
-            <div class="row" t-if="course.type in ['D']">
-                <div class="col-md-4 col-md-offset-1">
-                    Résultat reporté :
-                </div>
-                <div class="col-md-2">
-                    <t t-esc="course.jun_result"/>
-                </div>
-            </div>
-            <div class="row">
-                <div class="col-md-4 col-md-offset-1">
-                    <h4 class="">Evaluation Finale :</h4>
-                </div>
-                <div class="col-md-2">
-                    <h4 class=""><t t-esc="cg.final_result" /></h4>
-                </div>
-            </div>
-            </t>
-            <t t-if="course.dispense">
-            <div class="row">
-                <div class="col-md-4 col-md-offset-1">
-                    Dispensé
-                </div>
-            </div>
-            </t>
-            </t>
         </div>
     </t>
-    
+
     <t t-name="ConfigDialog">
         <div>
             <h2>This is the config dialog</h2>
@@ -159,9 +175,9 @@
                     <t t-set="is_first" t-value="true" />
                     <t t-foreach="blocs" t-as="bloc">
                         <li>
-                            <a t-att-class="'o_school_bloc_item'+ (is_first ? ' active':'')" t-att-data-bloc-id="bloc.id" href="#">
+                            <a t-att-class="'o_school_bloc_item'+ (bloc_first ? ' active':'')" t-att-data-bloc-id="bloc.id" href="#">
                                 <i class="fa fa-user fa-fw"></i>
-                                <t t-esc="bloc.student_id[1]" /><span t-att-class="(bloc.state == 'confirmed' ? 'fa pull-right fa-check' : '')"></span>
+                                <span><t t-esc="bloc.student_id[1]" /></span><span t-att-class="((bloc.state == 'postponed') or (bloc.state == 'awarded') or (bloc.state == 'failed') ? 'fa pull-right fa-check' : '')"></span>
                             </a>
                         </li>
                         <t t-set="is_first" t-value="false" />
@@ -172,121 +188,123 @@
     </t>
 
     <t t-name="BlocEditor">
-        <div class="container">
-            <div class="row bloc_form highlight" t-if="widget.bloc">
-                <div class="panel panel-default">
-                    <div class="panel-heading">
-                        <div class="row">
-                            <div class="col-md-2">
-                                <span class="oe_form_field oe_form_field_image oe_avatar" data-original-title="" title="">
-                                    <img border="1" name="image" t-att-src="widget.student_image" class="img-rounded" style="max-width: 130px; max-height: 130px;"/>
-                                </span>
-                            </div>
-                            <div class="col-md-10">
-                                <h2><t t-esc="widget.bloc.name"/> - <t t-esc="widget.bloc.source_bloc_name"/></h2>
-                                <h2>Crédits acquis : <t t-esc="widget.bloc.totat_acquiered_credits"/></h2>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="panel-body">
-                        <form>
-                            <div class="row" t-if="widget.bloc.totat_acquiered_credits &gt; 59">
-                                <div class="col-md-10">
-                                    <div class="alert alert-success" role="alert">60 crédits ECTS acquis ou valorisés, proclamation de réussite de l'année, autorisé(e) à poursuivre son parcours sans restriction.</div>
-                                </div>
-                                <div class="col-md-2">
-                                    <button t-if="widget.bloc.state == 'progress'" type="button" class="btn btn-success btn-lg bloc_confirm" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">Valider</button>
-                                    <button t-if="widget.bloc.state != 'progress'" type="button" class="btn btn-success btn-lg disabled" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">Validé</button>
-                                </div>
-                            </div>
-                            <div class="row" t-if="(widget.bloc.totat_acquiered_credits &lt; 60) &amp;&amp; (widget.bloc.totat_acquiered_credits &gt; 44)">
-                                <div class="col-md-10">
-                                    <div class="alert alert-warning" role="alert" style="font-size:90%;">Au moins 45 crédits ECTS acquis ou valorisés, autorisation de compléter son programme annuel d'unités d'enseignement du cycle conformément aux dispositions générales du paragraphe 2 de l'article 100 du décret du 7 novembre
-                                        2013. L'étudiant est considéré comme s'inscrivant en deuxième année.</div>
-                                </div>
-                                <div class="col-md-2">
-                                    <button t-if="widget.bloc.state == 'progress'" type="button" class="btn btn-warning btn-lg bloc_confirm" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">Valider</button>
-                                    <button t-if="widget.bloc.state != 'progress'" type="button" class="btn btn-warning btn-lg disabled" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">Validé</button>
-                                </div>
-                            </div>
-                            <div class="row" t-if="(widget.bloc.totat_acquiered_credits &lt; 45) &amp;&amp; (widget.bloc.totat_acquiered_credits &gt; 29)">
-                                <div class="col-md-10">
-                                    <div class="alert alert-warning" role="alert" style="font-size:90%;">Au moins 30 crédits ECTS acquis ou valorisés, autorisation de compléter son programme annuel d'unités d'enseignement du cycle conformément aux dispositions générales du paragraphe 2 de l'article 100 du décret du 7 novembre
-                                        2013 sans excéder 60 crédits. L'étudiant est cependant considéré comme se réinscrivant en première année.</div>
-                                </div>
-                                <div class="col-md-2">
-                                    <button t-if="widget.bloc.state == 'progress'" type="button" class="btn btn-warning btn-lg bloc_confirm" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">Valider</button>
-                                    <button t-if="widget.bloc.state != 'progress'" type="button" class="btn btn-warning btn-lg disabled" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">Validé</button>
-                                </div>
-                            </div>
-                            <div class="row" t-if="(widget.bloc.totat_acquiered_credits &lt; 30) ">
-                                <div class="col-md-10">
-                                    <div class="alert alert-danger" role="alert">Moins de 30 crédits ECTS acquis ou valorisés, l'étudiant se réinscrit en première année.</div>
-                                </div>
-                                <div class="col-md-2">
-                                    <button t-if="widget.bloc.state == 'progress'" type="button" class="btn btn-danger btn-lg bloc_confirm" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">Valider</button>
-                                    <button t-if="widget.bloc.state != 'progress'" type="button" class="btn btn-danger btn-lg disabled" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">Validé</button>
-                                </div>
-                            </div>
-                        </form>
-                    </div>
-                    <!-- Table -->
-                    <table class="table-condensed table-striped" style="font-size:130%;">
-                        <colgroup>
-                            <col style="width:50px" />
-                            <col style="width:1000px" />
-                            <col style="width:200px" />
-                            <col style="width:200px" />
-                        </colgroup>
-                        <thead>
-                            <tr>
-                                <th class="text-center">#</th>
-                                <th>Intitulé</th>
-                                <th>Résultat</th>
-                                <th>Acquis</th>
-                                <th></th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <t t-set="counter" t-value="1" />
-                            <t t-foreach="widget.course_groups" t-as="course_group">
-                                <tr>
-                                    <th scope="row" class="text-center">
-                                        <t t-esc="counter" />
-                                    </th>
-                                    <td>
-                                        <t t-esc="course_group.name" />
-                                    </td>
-                                    <td>
-                                        <t t-esc="course_group.final_result" />
-                                    </td>
-                                    <td>
-                                        <span class="label label-success" t-if="course_group.acquiered === 'A'">Acquis</span>
-                                        <span class="label label-warning" t-if="course_group.acquiered === 'NA'">Non-Acquis</span>
-                                    </td>
-                                    <td>
-                                        <i class="fa fa-search o_school_edit_icg" role="button" aria-hidden="true" t-att-data-cg-id="course_group.id"></i>
-                                    </td>
-                                </tr>
-                                <t t-set="counter" t-value="counter + 1" />
-                                <t t-foreach="course_group.courses" t-if="course_group.acquiered === 'NA'" t-as="course">
-                                    <tr style="font-style: italic;font-size:80%;">
-                                        <th scope="row" class="text-center"></th>
-                                        <td>
-                                            <t t-esc="course.name" /><i t-if="course.teacher_id" class="oe_fade"> - <t t-esc="course.teacher_id[1]"/></i></td>
-                                        <td>
-                                            <t t-esc="course.first_session_result" />
-                                        </td>
-                                        <td></td>
-                                        <td></td>
-                                    </tr>
-                                </t>
-                            </t>
-                        </tbody>
-                    </table>
-
+        <t t-debug="pdb"/>
+        <div class="container bloc_form highlight" t-if="widget.bloc">
+            <div class="row">
+                <div class="col-md-2">
+                    <span class="oe_form_field oe_form_field_image oe_avatar" data-original-title="" title="">
+                        <img border="1" name="image" t-att-src="widget.student_image" class="img-rounded" style="max-width: 90px; max-height: 90px;"/>
+                    </span>
+                </div>
+                <div class="col-md-10">
+                    <h2><t t-esc="widget.bloc.name"/> - <t t-esc="widget.bloc.source_bloc_name"/></h2>
                 </div>
             </div>
+            <div class="row" t-if="widget.bloc.totat_acquiered_credits &gt; 59">
+                <div class="col-md-4">
+                    Credits :
+                    <t t-esc="widget.bloc.totat_acquiered_credits" />
+                </div>
+                <div class="col-md-6">
+                    <div class="alert alert-success" role="alert">60 crédits ECTS acquis ou valorisés, proclamation de réussite de l'année, autorisé(e) à poursuivre son parcours sans restriction.</div>
+                </div>
+                <div class="col-md-2">
+                    <button t-if="widget.bloc.state == 'progress'" type="button" class="btn btn-success btn-lg bloc_award" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">Valider</button>
+                    <button t-if="widget.bloc.state != 'progress'" type="button" class="btn btn-success btn-lg disabled" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">Validé</button>
+                </div>
+            </div>
+            <div class="row" t-if="(widget.bloc.totat_acquiered_credits &lt; 60) &amp;&amp; (widget.bloc.totat_acquiered_credits &gt; 44)">
+                <div class="col-md-10">
+                    <div class="alert alert-warning" role="alert" style="font-size:90%;">Au moins 45 crédits ECTS acquis ou valorisés, autorisation de compléter son programme annuel d'unités d'enseignement du cycle conformément aux dispositions générales du paragraphe 2 de l'article 100 du décret du 7 novembre 2013. L'étudiant
+                        est considéré comme s'inscrivant en deuxième année.</div>
+                </div>
+                <div class="col-md-2">
+                    <button t-if="widget.bloc.state == 'progress'" type="button" class="btn btn-warning btn-lg bloc_award" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">Valider</button>
+                    <button t-if="widget.bloc.state != 'progress'" type="button" class="btn btn-warning btn-lg disabled" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">Validé</button>
+                </div>
+            </div>
+            <div class="row" t-if="(widget.bloc.totat_acquiered_credits &lt; 45) &amp;&amp; (widget.bloc.totat_acquiered_credits &gt; 29)">
+                <div class="col-md-10">
+                    <div class="alert alert-warning" role="alert" style="font-size:90%;">Au moins 30 crédits ECTS acquis ou valorisés, autorisation de compléter son programme annuel d'unités d'enseignement du cycle conformément aux dispositions générales du paragraphe 2 de l'article 100 du décret du 7 novembre 2013 sans
+                        excéder 60 crédits. L'étudiant est cependant considéré comme se réinscrivant en première année.</div>
+                </div>
+                <div class="col-md-2">
+                    <button t-if="widget.bloc.state == 'progress'" type="button" class="btn btn-warning btn-lg bloc_postpone" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">Valider</button>
+                    <button t-if="widget.bloc.state != 'progress'" type="button" class="btn btn-warning btn-lg disabled" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">Validé</button>
+                </div>
+            </div>
+            <div class="container" t-if="(widget.bloc.totat_acquiered_credits &lt; 30) ">
+                <div class="row">
+                    <div class="col-md-4">
+                        <h1><span class="label label-primary"><t t-esc="widget.bloc.totat_acquiered_credits"/></span></h1>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="alert alert-danger" role="alert">Moins de 30 crédits ECTS acquis ou valorisés.</div>
+                    </div>
+                    <div class="col-md-2">
+                        <button t-if="widget.bloc.state == 'progress'" type="button" class="btn btn-danger btn-lg bloc_failed" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">Valider</button>
+                        <button t-if="widget.bloc.state != 'progress'" type="button" class="btn btn-danger btn-lg disabled" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">Validé</button>
+                    </div>
+                </div>
+            </div>
+            <!-- Table -->
+            <table class="table-condensed table-striped" style="font-size:130%;">
+                <colgroup>
+                    <col style="width:50px" />
+                    <col style="width:1000px" />
+                    <col style="width:200px" />
+                    <col style="width:200px" />
+                </colgroup>
+                <thead>
+                    <tr>
+                        <th class="text-center">#</th>
+                        <th>Intitulé</th>
+                        <th>Résultat</th>
+                        <th>ECTS</th>
+                        <th>Acquis</th>
+                        <th></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <t t-set="counter" t-value="1" />
+                    <t t-foreach="widget.course_groups" t-as="course_group">
+                        <tr>
+                            <th scope="row" class="text-center">
+                                <t t-esc="counter" />
+                            </th>
+                            <td>
+                                <t t-esc="course_group.name" />
+                            </td>
+                            <td>
+                                <t t-esc="course_group.final_result" />
+                            </td>
+                            <td>
+                                <t t-esc="course_group.total_credits" />
+                            </td>
+                            <td>
+                                <span class="label label-success" t-if="course_group.acquiered === 'A'">Acquis</span>
+                                <span class="label label-warning" t-if="course_group.acquiered === 'NA'">Non-Acquis</span>
+                            </td>
+                            <td>
+                                <i class="fa fa-search o_school_edit_icg" role="button" aria-hidden="true" t-att-data-cg-id="course_group.id"></i>
+                            </td>
+                        </tr>
+                        <t t-set="counter" t-value="counter + 1" />
+                        <t t-foreach="course_group.courses" t-if="course_group.acquiered === 'NA'" t-as="course">
+                            <tr style="font-style: italic;font-size:80%;">
+                                <th scope="row" class="text-center"></th>
+                                <td>
+                                    <t t-esc="course.name" /><i t-if="course.teacher_id" class="oe_fade"> - <t t-esc="course.teacher_id[1]"/></i></td>
+                                <td>
+                                    <t t-esc="course.first_session_result" />
+                                </td>
+                                <td></td>
+                                <td></td>
+                            </tr>
+                        </t>
+                    </t>
+                </tbody>
+            </table>
         </div>
     </t>
 

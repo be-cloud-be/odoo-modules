@@ -29,10 +29,34 @@ var DetailResultDialog = Dialog.extend({
 return Widget.extend({
     template: "BlocEditor",
     events: {
-        "click .bloc_confirm": function (event) {
+        "click .bloc_award": function (event) {
             event.preventDefault();
             var self = this;
-            new Model(self.dataset.model).call("confirm",[self.datarecord.id,self.dataset.get_context()]).then(function(result) {
+            new Model(self.dataset.model).call("set_to_awarded",[self.datarecord.id,self.dataset.get_context()]).then(function(result) {
+                self.parent.$(".o_school_bloc_item.active span").addClass('fa pull-right fa-check');
+                self.next().then(function(){
+                    self.parent.$('.o_school_bloc_item.active').removeClass('active');
+                    self.parent.$("a[data-bloc-id='" + self.datarecord.id + "']").addClass('active');
+                });
+            });
+        },
+
+        "click .bloc_postpone": function (event) {
+            event.preventDefault();
+            var self = this;
+            new Model(self.dataset.model).call("set_to_postponed",[self.datarecord.id,self.dataset.get_context()]).then(function(result) {
+                self.parent.$(".o_school_bloc_item.active span").addClass('fa pull-right fa-check');
+                self.next().then(function(){
+                    self.parent.$('.o_school_bloc_item.active').removeClass('active');
+                    self.parent.$("a[data-bloc-id='" + self.datarecord.id + "']").addClass('active');
+                });
+            });
+        },
+
+        "click .bloc_failed": function (event) {
+            event.preventDefault();
+            var self = this;
+            new Model(self.dataset.model).call("set_to_failed",[self.datarecord.id,self.dataset.get_context()]).then(function(result) {
                 self.parent.$(".o_school_bloc_item.active span").addClass('fa pull-right fa-check');
                 self.next().then(function(){
                     self.parent.$('.o_school_bloc_item.active').removeClass('active');
@@ -86,7 +110,7 @@ return Widget.extend({
     },
     
     read_ids: function(ids) {
-        return this.dataset.read_slice(['id','name','student_id','course_group_ids'],[['id', 'in', ids]]);
+        return this.dataset.read_slice(['id','name','student_id','source_bloc_title','course_group_ids','state'],[['id', 'in', ids]]);
     },
     
     set_bloc_id: function(bloc_id) {
@@ -128,7 +152,7 @@ return Widget.extend({
             unique: (self.datarecord.__last_update || '').replace(/[^0-9]/g, '')
         });
         
-        return new Model('school.individual_course_group').query(['id','name','course_ids','acquiered','final_result']).filter([['id', 'in', self.bloc.course_group_ids]]).all().then(
+        return new Model('school.individual_course_group').query(['id','name','course_ids','acquiered','final_result','total_credits','total_weight','first_session_deliberated_result_bool']).filter([['id', 'in', self.bloc.course_group_ids]]).all().then(
             function(course_groups) {
                 self.course_groups = course_groups;
                 var all_course_ids = [];
