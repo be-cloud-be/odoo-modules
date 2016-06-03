@@ -24,6 +24,7 @@
     'license': 'AGPL-3',
     'author': 'be-Cloud.be (Jerome Sonnet)',
     'website': '',
+    'category': 'School Management',
     'depends': [
         'website',
     ],
