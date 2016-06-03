@@ -50,9 +50,56 @@
         margin: 0 0 0 180px;
         padding: 0 10px;
         border-left: 1px solid #e7e7e7;
+        /*background-color: #f0f0f0;*/
     }
 }
 
 .sidebar ul li a {
   padding : 5px;
+}
+
+.credits {
+  color: #ffffff;
+  background-color: #337ab7;
+  border-color: #2d6da3;
+}
+
+.openerp .badge {
+  background-color: #337ab7;
+}
+
+.moyenne {
+  color: #fff;
+  background-color: #5cb85c;
+  border-color: #4cae4c;
+}
+
+.score_value {
+  font-size: xx-large;
+  font-weight: bold;
+}
+
+.course_group {
+  background-color: #f9f9f9;
+}
+
+.bloc_form .text-center {
+    text-align: center;
+}
+
+@media (min-width: 1200px){
+.container {
+    width: 1064px;
+}
+}
+
+.alert {
+  padding: 5px;
+  margin-top: 2px;
+  margin-bottom: 1px;
+}
+
+.vertical-align {
+  display: flex;
+  align-items: center;
 }

@@ -100,7 +100,7 @@ var EvaluationsAction = Widget.extend({
         ];
         var defs = [];
         for (var i=0, ii=3; i<ii; i++) {
-            defs.push(this.model.query(['id','name','student_id','student_name','source_bloc_level','state']).context(this.context).order_by('student_name').filter(self.build_domain()).filter([['source_bloc_level', '=', i+1]]).all().then(
+            defs.push(this.model.query(['id','name','student_id','student_name','source_bloc_level','source_bloc_title','state']).context(this.context).order_by('student_name').filter(self.build_domain()).filter([['source_bloc_level', '=', i+1]]).all().then(
                 function(data){
                     if(data.length > 0){
                         self.groups[data[0].source_bloc_level-1].blocs = data;

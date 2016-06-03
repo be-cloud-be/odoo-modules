@@ -142,6 +142,62 @@ return Widget.extend({
         );
     },
     
+    get_message: function() {
+        var self = this;
+        if(self.bloc.totat_acquiered_credits >= 60) {
+            return "60 crédits ECTS acquis ou valorisés, autorisé(e) à poursuivre son parcours sans restriction."
+        }
+        if(self.bloc.totat_acquiered_credits >= 45) {
+            return "Au moins 45 crédits ECTS acquis ou valorisés, autorisation de compléter son programme annuel."
+        } 
+        if(self.bloc.totat_acquiered_credits >= 30) {
+            return "Au moins 30 crédits ECTS acquis ou valorisés, autorisation de compléter son programme annuel."
+        } 
+        return "Moins de 30 crédits ECTS acquis ou valorisés, pas de possibilité de compléter son programme annuel."
+    },
+    
+    get_class: function() {
+        var self = this;
+        if(self.bloc.totat_acquiered_credits >= 60) {
+            return "success"
+        }
+        if(self.bloc.totat_acquiered_credits >= 45) {
+            return "warning"
+        } 
+        if(self.bloc.totat_acquiered_credits >= 30) {
+            return "warning"
+        } 
+        return "danger"
+    },
+    
+    get_result: function() {
+        var self = this;
+        if(self.bloc.totat_acquiered_credits >= 60) {
+            return "Réussite"
+        }
+        if(self.bloc.totat_acquiered_credits >= 45) {
+            return "Ajourné"
+        } 
+        if(self.bloc.totat_acquiered_credits >= 30) {
+            return "Ajourné"
+        } 
+        return "Ajourné"
+    },
+    
+    get_action: function() {
+        var self = this;
+        if(self.bloc.totat_acquiered_credits >= 60) {
+            return "award"
+        }
+        if(self.bloc.totat_acquiered_credits >= 45) {
+            return "postpone"
+        } 
+        if(self.bloc.totat_acquiered_credits >= 30) {
+            return "postpone"
+        } 
+        return "postpone"
+    },
+    
     _read_bloc_data: function(bloc){
         var self = this;
         
@@ -152,7 +208,7 @@ return Widget.extend({
             unique: (self.datarecord.__last_update || '').replace(/[^0-9]/g, '')
         });
         
-        return new Model('school.individual_course_group').query(['id','name','course_ids','acquiered','final_result','total_credits','total_weight','first_session_deliberated_result_bool']).filter([['id', 'in', self.bloc.course_group_ids]]).all().then(
+        return new Model('school.individual_course_group').query(['id','name','title','course_ids','acquiered','final_result','total_credits','total_weight','first_session_deliberated_result_bool']).filter([['id', 'in', self.bloc.course_group_ids]]).all().then(
             function(course_groups) {
                 self.course_groups = course_groups;
                 var all_course_ids = [];
