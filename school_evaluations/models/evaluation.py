@@ -309,6 +309,9 @@ class IndividualCourse(models.Model):
                     if ann and jan and jun :
                         self.first_session_result = ann * 0.5 + (jan * 0.5 + jun * 0.5) * 0.5
                         self.first_session_result_bool = True
+                    elif ann and jun :
+                        self.first_session_result = ann * 0.5 + jun * 0.5
+                        self.first_session_result_bool = True
                     else:
                         self.first_session_result = 0
                         self.first_session_result_bool = False
