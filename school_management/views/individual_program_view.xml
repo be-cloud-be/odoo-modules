@@ -519,7 +519,7 @@
               </h1>
             </div>
             <group col="6">
-              <field name="source_course_id" colspan="6" readonly="1"/>
+              <field name="source_course_id" colspan="6"/>
               <field name="teacher_id" colspan="6" />
               <field name="hours" />
               <field name="credits" />

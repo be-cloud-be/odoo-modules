@@ -31,13 +31,16 @@ class IndividualBloc(models.Model):
     _description='Individual Bloc'
     _inherit = ['mail.thread']
     
-    name = fields.Char(compute='_compute_name',string='Name', readonly=True)
+    _order = 'name'
+    
+    name = fields.Char(compute='_compute_name',string='Name', readonly=True, store=True)
     
     year_id = fields.Many2one('school.year', string='Year', readonly=True)
     student_id = fields.Many2one('res.partner', string='Student', domain="[('student', '=', '1')]", readonly=True, auto_join=True)
     student_name = fields.Char(related='student_id.name', string="Student Name", readonly=True, store=True)
     source_bloc_id = fields.Many2one('school.bloc', string="Source Bloc", readonly=True, auto_join=True)
     source_bloc_name = fields.Char(related='source_bloc_id.name', string="Source Bloc Name", readonly=True)
+    source_bloc_title = fields.Char(related='source_bloc_id.name', string="Source Bloc Name", readonly=True)
     source_bloc_level = fields.Integer(related='source_bloc_id.level', string="Source Bloc Level", readonly=True)
     source_bloc_domain_id = fields.Many2one(related='source_bloc_id.domain_id', string='Domain', readonly=True)
     
@@ -92,8 +95,12 @@ class IndividualCourseGroup(models.Model):
     _description='Individual Course Group'
     _inherit = ['mail.thread']
     
+    _order = 'sequence'
+    
     name = fields.Char(related="source_course_group_id.name", readonly=True)
     title = fields.Char(related="source_course_group_id.title", readonly=True, store=True)
+    
+    sequence = fields.Integer(related="source_course_group_id.sequence", readonly=True, store=True)
     
     year_id = fields.Many2one(related="bloc_id.year_id", string='Year', store=True)
     student_id = fields.Many2one(related="bloc_id.student_id", string='Student', store=True, domain=[('student', '=', True)])
@@ -141,8 +148,12 @@ class IndividualCourse(models.Model):
     _description = 'Individual Course'
     _inherit = ['mail.thread']
     
+    _order = 'sequence'
+    
     name = fields.Char(related="source_course_id.name", readonly=True, store=True)
     title = fields.Char(related="source_course_id.title", readonly=True, store=True)
+    
+    sequence = fields.Integer(related="source_course_id.sequence", readonly=True, store=True)
     
     year_id = fields.Many2one('school.year', related="course_group_id.bloc_id.year_id",store=True)
     student_id = fields.Many2one('res.partner', related="course_group_id.bloc_id.student_id",store=True)
@@ -158,8 +169,8 @@ class IndividualCourse(models.Model):
     
     dispense = fields.Boolean(string="Dispensed",default=False)
     
-    source_course_id = fields.Many2one('school.course', string="Source Course", readonly=True, auto_join=True)
-    source_course_name = fields.Char(related='source_course_id.name', string="Source Course Name", readonly=True)
+    source_course_id = fields.Many2one('school.course', string="Source Course", auto_join=True)
+    source_course_name = fields.Char(related='source_course_id.name', string="Source Course Name")
     
     source_bloc_id = fields.Many2one('school.bloc', string="Source Bloc", related='course_group_id.bloc_id.source_bloc_id', readonly=True, store=True)
     source_bloc_name = fields.Char(related='course_group_id.bloc_id.source_bloc_name', string="Source Course Bloc Name", readonly=True, store=True)
