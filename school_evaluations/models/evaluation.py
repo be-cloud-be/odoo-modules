@@ -73,6 +73,22 @@ class IndividualCourseGroup(models.Model):
     acquiered = fields.Selection(([('A', 'Acquiered'),('NA', 'Not Acquiered')]), compute='compute_final_results', string='Acquired Credits', store=True,track_visibility='onchange')
     final_note = fields.Text(string='Final Notes')
     
+    ## override so that courses with dispense and no deferred results are excluded from computation
+    @api.one
+    @api.depends('course_ids')
+    def _get_courses_total(self):
+        total_hours = 0.0
+        total_credits = 0.0
+        total_weight = 0.0
+        for course in self.course_ids:
+            total_hours += course.hours
+            total_credits += course.credits
+            if not (course.dispense and course.type != 'D'):
+                total_weight += course.weight
+        self.total_hours = total_hours
+        self.total_credits = total_credits
+        self.total_weight = total_weight
+    
     @api.depends('course_ids')
     @api.one
     def compute_average_results(self):
