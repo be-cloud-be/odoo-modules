@@ -137,8 +137,7 @@ class IndividualCourseGroup(models.Model):
         for course in self.course_ids:
             total_hours += course.hours
             total_credits += course.credits
-            if not course.dispense:
-                total_weight += course.weight
+            total_weight += course.weight
         self.total_hours = total_hours
         self.total_credits = total_credits
         self.total_weight = total_weight
