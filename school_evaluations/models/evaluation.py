@@ -196,13 +196,13 @@ class Course(models.Model):
     '''Course'''
     _inherit = 'school.course'
     
-    type = fields.Selection(([('S', 'Simple'),('T', 'Triple'),('C', 'Complex')]), string='Type')
+    type = fields.Selection(([('S', 'Simple'),('T', 'Triple'),('C', 'Complex')]), string='Type', default="S")
 
 class IndividualCourse(models.Model):
     '''Individual Course'''
     _inherit = 'school.individual_course'
     
-    type = fields.Selection(([('S', 'Simple'),('T', 'Triple'),('C', 'Complex'),('D','Deferral')]), string='Type', required=True, default="S",track_visibility='onchange')
+    type = fields.Selection(related='source_course_id.type', string='Type', readonly=True, store=True)
     
     @api.model
     def create(self, values):

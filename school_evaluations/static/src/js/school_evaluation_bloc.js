@@ -110,7 +110,7 @@ return Widget.extend({
     },
     
     read_ids: function(ids) {
-        return this.dataset.read_slice(['id','name','student_id','source_bloc_title','course_group_ids','state'],[['id', 'in', ids]]);
+        return this.dataset.read_slice(['id','name','student_id','source_bloc_title','course_group_ids','state','source_bloc_level'],[['id', 'in', ids]]);
     },
     
     set_bloc_id: function(bloc_id) {
@@ -142,63 +142,71 @@ return Widget.extend({
         );
     },
     
-    get_message: function() {
+    _update_evaluation_messages: function() {
         var self = this;
-        if(self.bloc.totat_acquiered_credits >= 60) {
-            return "60 crédits ECTS acquis ou valorisés, autorisé(e) à poursuivre son parcours sans restriction."
+        if(self.bloc.source_bloc_level != 3) {
+            if(self.bloc.totat_acquiered_credits >= 60) {
+                self.bloc_result = {
+                    'message' : _t("60 crédits ECTS acquis ou valorisés, autorisé(e) à poursuivre son parcours sans restriction."),
+                    'class' : "success",
+                    'button_text' : _t("Awarded"),
+                    'next_action' : "award",
+                };
+            }
+            else if(self.bloc.totat_acquiered_credits >= 45) {
+                self.bloc_result = {
+                    'message' : _t("Au moins 45 crédits ECTS acquis ou valorisés, autorisation de compléter son programme annuel."),
+                    'class' : "warning",
+                    'button_text' : _t("Postponed"),
+                    'next_action' : "postpone",
+                };
+            } 
+            else if(self.bloc.totat_acquiered_credits >= 30) {
+                self.bloc_result = {
+                    'message' : _t("Au moins 30 crédits ECTS acquis ou valorisés, autorisation de compléter son programme annuel."),
+                    'class' : "warning",
+                    'button_text' : _t("Postponed"),
+                    'next_action' : "postpone",
+                };
+            } 
+            else {
+                self.bloc_result = {
+                    'message' : _t("Moins de 30 crédits ECTS acquis ou valorisés, pas de possibilité de compléter son programme annuel."),
+                    'class' : "danger",
+                    'button_text' : _t("Postponed"),
+                    'next_action' : "postpone",
+                };
+            }
+        } else {
+            if(self.bloc.totat_acquiered_credits >= 60) {
+                self.bloc_result = {
+                    'message' : _t("180 crédits ECTS acquis ou valorisés, le jury confère le grade académique de bachelier avec "),
+                    'class' : "success",
+                    'button_text' : _t("Awarded"),
+                    'next_action' : "award",
+                    'grade' : "La Plus Grande Distinction",
+                };
+            }
+            else if(self.bloc.totat_acquiered_credits >= 45) {
+                self.bloc_result = {
+                    'message' : _t("Au moins 165 crédits ECTS acquis ou valorisés, autorisation d'accéder au programme de Master."),
+                    'class' : "warning",
+                    'button_text' : _t("Postponed"),
+                    'next_action' : "postpone",
+                };
+            } 
+            else {
+                self.bloc_result = {
+                    'message' : _t("Moins de 165 crédits ECTS acquis ou valorisés, pas de possibilité d'accéder au programme de Master."),
+                    'class' : "danger",
+                    'button_text' : _t("Postponed"),
+                    'next_action' : "postpone",
+                };
+            }
         }
-        if(self.bloc.totat_acquiered_credits >= 45) {
-            return "Au moins 45 crédits ECTS acquis ou valorisés, autorisation de compléter son programme annuel."
-        } 
-        if(self.bloc.totat_acquiered_credits >= 30) {
-            return "Au moins 30 crédits ECTS acquis ou valorisés, autorisation de compléter son programme annuel."
-        } 
-        return "Moins de 30 crédits ECTS acquis ou valorisés, pas de possibilité de compléter son programme annuel."
     },
     
-    get_class: function() {
-        var self = this;
-        if(self.bloc.totat_acquiered_credits >= 60) {
-            return "success"
-        }
-        if(self.bloc.totat_acquiered_credits >= 45) {
-            return "warning"
-        } 
-        if(self.bloc.totat_acquiered_credits >= 30) {
-            return "warning"
-        } 
-        return "danger"
-    },
-    
-    get_result: function() {
-        var self = this;
-        if(self.bloc.totat_acquiered_credits >= 60) {
-            return "Réussite"
-        }
-        if(self.bloc.totat_acquiered_credits >= 45) {
-            return "Ajourné"
-        } 
-        if(self.bloc.totat_acquiered_credits >= 30) {
-            return "Ajourné"
-        } 
-        return "Ajourné"
-    },
-    
-    get_action: function() {
-        var self = this;
-        if(self.bloc.totat_acquiered_credits >= 60) {
-            return "award"
-        }
-        if(self.bloc.totat_acquiered_credits >= 45) {
-            return "postpone"
-        } 
-        if(self.bloc.totat_acquiered_credits >= 30) {
-            return "postpone"
-        } 
-        return "postpone"
-    },
-    
-    _read_bloc_data: function(bloc){
+    _read_bloc_data: function(){
         var self = this;
         
         self.student_image = session.url('/web/image', {
@@ -207,6 +215,8 @@ return Widget.extend({
             field: 'image',
             unique: (self.datarecord.__last_update || '').replace(/[^0-9]/g, '')
         });
+        
+        self._update_evaluation_messages();
         
         return new Model('school.individual_course_group').query(['id','name','title','course_ids','acquiered','final_result','total_credits','total_weight','first_session_deliberated_result_bool']).filter([['id', 'in', self.bloc.course_group_ids]]).all().then(
             function(course_groups) {

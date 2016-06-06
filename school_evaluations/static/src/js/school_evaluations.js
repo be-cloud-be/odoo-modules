@@ -60,6 +60,8 @@ var EvaluationsAction = Widget.extend({
         this.title = title;
         this.context = new data.CompoundContext();
         this.school_domain = 1;
+        this.parent = parent;
+        this.parent.webclient.$el.find('#oe_main_menu_navbar').addClass('o_hidden');
     },
     
     build_domain: function() {

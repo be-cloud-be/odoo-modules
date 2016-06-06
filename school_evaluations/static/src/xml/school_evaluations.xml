@@ -201,67 +201,42 @@
                     <div class="col-md-1 text-center credits">
                         crédits <br/><span class="score_value"><t t-esc="widget.bloc.totat_acquiered_credits"/></span>
                     </div>
-                    <div class="col-md-1 text-center moyenne">
-                        moyenne <br/><span class="score_value">12,5</span>
-                    </div>
+                    
+                    <t t-if="widget.bloc.source_bloc_level == 3">
+                    <t t-if="widget.bloc_result.grade">
+                    <div class="col-md-1 text-center moyenne" t-if="widget.bloc.source_bloc_level == 3">
+                        moyenne <br/><span class="score_value">19,0</span>
+                    </div>    
                     <div class="col-md-8">
-                        <div t-att-class="'alert alert-' + widget.get_class()" role="alert"><t t-esc="widget.get_message()"/></div>
+                        <div t-att-class="'alert alert-' + widget.bloc_result.class" role="alert"><t t-esc="widget.bloc_result.message"/><b><t t-esc="widget.bloc_result.grade"/></b></div>
                     </div>
                     <div class="col-md-2">
-                        <button t-if="widget.bloc.state == 'progress'" type="button" t-att-class="'btn btn-lg btn-' + widget.get_class() + ' bloc_' + widget.get_action()"><t t-esc="widget.get_result()"/></button>
-                        <button t-if="widget.bloc.state != 'progress'" type="button" t-att-class="'btn btn-lg disabled btn-' + widget.get_class()"><t t-esc="widget.get_result()"/></button>
+                        <button t-if="widget.bloc.state == 'progress'" type="button" t-att-class="'btn btn-lg btn-' + widget.bloc_result.class + ' bloc_' + widget.bloc_result.next_action"><t t-esc="widget.bloc_result.button_text"/></button>
+                        <button t-if="widget.bloc.state != 'progress'" type="button" t-att-class="'btn btn-lg disabled btn-' +widget.bloc_result.class"><t t-esc="widget.bloc_result.button_text"/></button>
+                    </div>    
+                    </t>
+                    <t t-if="!widget.bloc_result.grade">
+                    <div class="col-md-9">
+                        <div t-att-class="'alert alert-' + widget.bloc_result.class" role="alert"><t t-esc="widget.bloc_result.message"/></div>
                     </div>
+                    <div class="col-md-2">
+                        <button t-if="widget.bloc.state == 'progress'" type="button" t-att-class="'btn btn-lg btn-' + widget.bloc_result.class + ' bloc_' + widget.bloc_result.next_action"><t t-esc="widget.bloc_result.button_text"/></button>
+                        <button t-if="widget.bloc.state != 'progress'" type="button" t-att-class="'btn btn-lg disabled btn-' +widget.bloc_result.class"><t t-esc="widget.bloc_result.button_text"/></button>
+                    </div>    
+                    </t>
+                    </t>
+                    
+                    <t t-if="widget.bloc.source_bloc_level != 3">
+                    <div class="col-md-9">
+                        <div t-att-class="'alert alert-' + widget.bloc_result.class" role="alert"><t t-esc="widget.bloc_result.message"/></div>
+                    </div>
+                    <div class="col-md-2">
+                        <button t-if="widget.bloc.state == 'progress'" type="button" t-att-class="'btn btn-lg btn-' + widget.bloc_result.class + ' bloc_' + widget.bloc_result.next_action"><t t-esc="widget.bloc_result.button_text"/></button>
+                        <button t-if="widget.bloc.state != 'progress'" type="button" t-att-class="'btn btn-lg disabled btn-' +widget.bloc_result.class"><t t-esc="widget.bloc_result.button_text"/></button>
+                    </div>    
+                    </t>
                 </div>
                 
-                <!--
-                
-                <div class="row" t-if="widget.bloc.totat_acquiered_credits &gt; 59">
-                    <div class="col-md-4">
-                        Credits :
-                        <t t-esc="widget.bloc.totat_acquiered_credits" />
-                    </div>
-                    <div class="col-md-6">
-                        <div class="alert alert-success" role="alert">60 crédits ECTS acquis ou valorisés, proclamation de réussite de l'année, autorisé(e) à poursuivre son parcours sans restriction.</div>
-                    </div>
-                    <div class="col-md-2">
-                        <button t-if="widget.bloc.state == 'progress'" type="button" class="btn btn-success btn-lg bloc_award" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">Valider</button>
-                        <button t-if="widget.bloc.state != 'progress'" type="button" class="btn btn-success btn-lg disabled" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">Validé</button>
-                    </div>
-                </div>
-                <div class="row" t-if="(widget.bloc.totat_acquiered_credits &lt; 60) &amp;&amp; (widget.bloc.totat_acquiered_credits &gt; 44)">
-                    <div class="col-md-10">
-                        <div class="alert alert-warning" role="alert" style="font-size:90%;">Au moins 45 crédits ECTS acquis ou valorisés, autorisation de compléter son programme annuel d'unités d'enseignement du cycle conformément aux dispositions générales du paragraphe 2 de l'article 100 du décret du 7 novembre 2013.
-                            L'étudiant est considéré comme s'inscrivant en deuxième année.</div>
-                    </div>
-                    <div class="col-md-2">
-                        <button t-if="widget.bloc.state == 'progress'" type="button" class="btn btn-warning btn-lg bloc_award" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">Valider</button>
-                        <button t-if="widget.bloc.state != 'progress'" type="button" class="btn btn-warning btn-lg disabled" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">Validé</button>
-                    </div>
-                </div>
-                <div class="row" t-if="(widget.bloc.totat_acquiered_credits &lt; 45) &amp;&amp; (widget.bloc.totat_acquiered_credits &gt; 29)">
-                    <div class="col-md-10">
-                        <div class="alert alert-warning" role="alert" style="font-size:90%;">Au moins 30 crédits ECTS acquis ou valorisés, autorisation de compléter son programme annuel d'unités d'enseignement du cycle conformément aux dispositions générales du paragraphe 2 de l'article 100 du décret du 7 novembre 2013
-                            sans excéder 60 crédits. L'étudiant est cependant considéré comme se réinscrivant en première année.</div>
-                    </div>
-                    <div class="col-md-2">
-                        <button t-if="widget.bloc.state == 'progress'" type="button" class="btn btn-warning btn-lg bloc_postpone" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">Valider</button>
-                        <button t-if="widget.bloc.state != 'progress'" type="button" class="btn btn-warning btn-lg disabled" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">Validé</button>
-                    </div>
-                </div>
-                <div class="container" t-if="(widget.bloc.totat_acquiered_credits &lt; 30) ">
-                    <div class="row">
-                        <div class="col-md-4">
-                            <h1><span class="label label-primary"><t t-esc="widget.bloc.totat_acquiered_credits"/></span></h1>
-                        </div>
-                        <div class="col-md-6">
-                            <div class="alert alert-danger" role="alert">Moins de 30 crédits ECTS acquis ou valorisés.</div>
-                        </div>
-                        <div class="col-md-2">
-                            <button t-if="widget.bloc.state == 'progress'" type="button" class="btn btn-danger btn-lg bloc_failed" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">Valider</button>
-                            <button t-if="widget.bloc.state != 'progress'" type="button" class="btn btn-danger btn-lg disabled" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">Validé</button>
-                        </div>
-                    </div>
-                </div>-->
                 <div class="row">
                     <!-- Table -->
                     <table class="table table-condensed table-bordered" style="font-size:180%;">
