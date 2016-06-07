@@ -224,12 +224,22 @@ class IndividualCourse(models.Model):
     type = fields.Selection(([('S', 'Simple'),('T', 'Triple'),('C', 'Complex'),('D','Deferred')]),compute='compute_type', string='Type', store=True)
     
     @api.one
-    @api.depends('dispense')
+    @api.depends('dispense', 'source_course_id.type')
     def compute_type(self):
         if self.dispense :
+            self.ann_result = False
+            self.jan_result = False
+            self.jun_result = False
+            self.sept_result = False
             self.type = 'D'
         else:
-            self.type = self.source_course_id.type
+            if self.type != self.source_course_id.type :
+                self.ann_result = False
+                self.jan_result = False
+                self.jun_result = False
+                self.sept_result = False
+                self.type = self.source_course_id.type
+                # TODO should use write ? and api.multi ??
 
     @api.model
     def create(self, values):
@@ -249,14 +259,6 @@ class IndividualCourse(models.Model):
         res = super(IndividualCourse, self).write(vals)
         self.course_group_id.recompute_results()
         return res
-    
-    @api.onchange('type')
-    @api.depends('ann_result','jan_result','jun_result','sept_result')
-    def onchange_type(self):
-        self.ann_result = False
-        self.jan_result = False
-        self.jun_result = False
-        self.sept_result = False
 
     ## Annual Evaluation ##
     
