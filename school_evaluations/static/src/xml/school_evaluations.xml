@@ -248,7 +248,7 @@
                 
                 <div class="row">
                     <!-- Table -->
-                    <table class="table table-condensed table-bordered" style="font-size:180%;">
+                    <table class="table table-condensed table-bordered result_table" style="font-size:180%;">
                         <colgroup>
                             <col style="width:20px"/>
                             <col style="width:500"/>
@@ -292,7 +292,7 @@
                                     </td>
                                 </tr>
                                 <t t-set="counter" t-value="counter + 1" />
-                                <t t-foreach="course_group.courses" t-if="course_group.acquiered === 'NA'" t-as="course">
+                                <t t-foreach="course_group.courses" t-as="course">
                                     <tr style="font-style: italic;font-size:80%;">
                                         <th scope="row" class="text-center"></th>
                                         <td>
