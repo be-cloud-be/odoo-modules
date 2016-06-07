@@ -6,3 +6,7 @@
 .table {
     width: 99%;
 }
+
+.result_table .text_right {
+    text-align: right;        
+}
