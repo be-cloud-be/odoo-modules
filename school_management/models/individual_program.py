@@ -152,6 +152,7 @@ class IndividualCourse(models.Model):
     
     name = fields.Char(related="source_course_id.name", readonly=True, store=True)
     title = fields.Char(related="source_course_id.title", readonly=True, store=True)
+    level = fields.Integer(related="source_course_id.level", readonly=True)
     
     sequence = fields.Integer(related="source_course_id.sequence", readonly=True, store=True)
     
@@ -170,7 +171,6 @@ class IndividualCourse(models.Model):
     dispense = fields.Boolean(string="Dispensed",default=False)
     
     source_course_id = fields.Many2one('school.course', string="Source Course", auto_join=True)
-    source_course_name = fields.Char(related='source_course_id.name', string="Source Course Name")
     
     source_bloc_id = fields.Many2one('school.bloc', string="Source Bloc", related='course_group_id.bloc_id.source_bloc_id', readonly=True, store=True)
     source_bloc_name = fields.Char(related='course_group_id.bloc_id.source_bloc_name', string="Source Course Bloc Name", readonly=True, store=True)

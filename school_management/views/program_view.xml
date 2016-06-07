@@ -288,6 +288,7 @@
               <field name="credits" />
               <field name="weight" />
               <field name="url_ref" widget="url"/>
+              <field name="level" invisible="1" />
             </group>
             <notebook>
               <page string="Description">
