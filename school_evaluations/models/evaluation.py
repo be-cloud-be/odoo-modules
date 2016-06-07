@@ -201,6 +201,9 @@ class IndividualCourseGroup(models.Model):
     
     @api.one
     def recompute_results(self):
+        #import wdb
+        #wdb.set_trace()
+        self._get_courses_total()
         self.compute_average_results()
         self.compute_first_session_results()
         self.compute_second_session_results()
@@ -218,8 +221,16 @@ class IndividualCourse(models.Model):
     '''Individual Course'''
     _inherit = 'school.individual_course'
     
-    type = fields.Selection(related='source_course_id.type', string='Type', readonly=True, store=True)
+    type = fields.Selection(([('S', 'Simple'),('T', 'Triple'),('C', 'Complex'),('D','Deferred')]),compute='compute_type', string='Type', store=True)
     
+    @api.one
+    @api.depends('dispense')
+    def compute_type(self):
+        if self.dispense :
+            self.type = 'D'
+        else:
+            self.type = self.source_course_id.type
+
     @api.model
     def create(self, values):
         if not(values.get('type', False)) and values.get('source_course_id', False):
