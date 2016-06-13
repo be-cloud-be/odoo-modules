@@ -177,6 +177,8 @@ class IndividualCourse(models.Model):
     source_bloc_level = fields.Integer(related='course_group_id.bloc_id.source_bloc_level', string="Source Course Bloc Level", readonly=True, store=True)
     
     course_group_id = fields.Many2one('school.individual_course_group', string='Course Groups', ondelete='cascade', readonly=True)
+    bloc_id = fields.Many2one('school.individual_bloc', string='Bloc', related='course_group_id.bloc_id', readonly=True)
+    
     
 class IndividualCourseProxy(models.Model):
     _name = 'school.individual_course_proxy'
