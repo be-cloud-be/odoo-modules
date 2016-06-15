@@ -41,7 +41,7 @@ class IndividualBloc(models.Model):
     source_bloc_id = fields.Many2one('school.bloc', string="Source Bloc", readonly=True, auto_join=True)
     source_bloc_name = fields.Char(related='source_bloc_id.name', string="Source Bloc Name", readonly=True)
     source_bloc_title = fields.Char(related='source_bloc_id.name', string="Source Bloc Name", readonly=True)
-    source_bloc_level = fields.Integer(related='source_bloc_id.level', string="Source Bloc Level", readonly=True)
+    source_bloc_level = fields.Selection([('0','Free'),('1','Bac 1'),('2','Bac 2'),('3','Bac 3'),('4','Master 1'),('5','Master 2'),],related='source_bloc_id.level', string="Source Bloc Level", readonly=True)
     source_bloc_domain_id = fields.Many2one(related='source_bloc_id.domain_id', string='Domain', readonly=True)
     
     image = fields.Binary('Image', attachment=True, related='student_id.image')
@@ -174,7 +174,7 @@ class IndividualCourse(models.Model):
     
     source_bloc_id = fields.Many2one('school.bloc', string="Source Bloc", related='course_group_id.bloc_id.source_bloc_id', readonly=True, store=True)
     source_bloc_name = fields.Char(related='course_group_id.bloc_id.source_bloc_name', string="Source Course Bloc Name", readonly=True, store=True)
-    source_bloc_level = fields.Integer(related='course_group_id.bloc_id.source_bloc_level', string="Source Course Bloc Level", readonly=True, store=True)
+    source_bloc_level = fields.Selection([('0','Free'),('1','Bac 1'),('2','Bac 2'),('3','Bac 3'),('4','Master 1'),('5','Master 2'),],related='course_group_id.bloc_id.source_bloc_level', string="Source Course Bloc Level", readonly=True, store=True)
     
     course_group_id = fields.Many2one('school.individual_course_group', string='Course Groups', ondelete='cascade', readonly=True)
     bloc_id = fields.Many2one('school.individual_bloc', string='Bloc', related='course_group_id.bloc_id', readonly=True)

@@ -22,6 +22,7 @@ import logging
 
 from openerp import api, fields, models, _
 from openerp.exceptions import UserError
+from openerp.tools.safe_eval import safe_eval
 
 _logger = logging.getLogger(__name__)
 
@@ -167,7 +168,7 @@ class Bloc(models.Model):
     
     cycle_id = fields.Many2one(related='program_id.cycle_id', string='Cycle',store=True)
     
-    level = fields.Integer(string='Level')
+    level = fields.Selection([('0','Free'),('1','Bac 1'),('2','Bac 2'),('3','Bac 3'),('4','Master 1'),('5','Master 2'),],string='Level')
     
     speciality_id = fields.Many2one(related='program_id.speciality_id', string='Speciality',store=True)
     domain_id = fields.Many2one(related='program_id.domain_id', string='Domain',store=True)
