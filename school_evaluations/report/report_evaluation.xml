@@ -22,6 +22,106 @@
 -->
 <odoo>
 
+    <!--
+    
+    Evaluations report for students
+    
+    -->
+
+    <report id="report_evaluation_for_student" 
+            model="school.individual_bloc" 
+            string="Evaluations for student" 
+            report_type="qweb-pdf" 
+            name="school_evaluations.report_evaluation_for_student_content" 
+            file="school_evaluations.report_evaluation_for_student_content"
+    />
+
+
+    <template id="report_evaluation_for_student_content">
+        <t t-call="report.html_container">
+            <t t-set="data_report_margin_top" t-value="45"/>
+            <t t-set="data_report_header_spacing" t-value="40"/>
+            <t t-call="report.external_layout">
+                <t t-foreach="docs" t-as="o">
+                <div class="page">
+                    <div class="container">
+                        <div class="row">
+                            <div class="col-xs-5 col-xs-offset-7">
+                                <address t-field="o.student_id" t-field-options="{&quot;widget&quot;: &quot;contact&quot;, &quot;fields&quot;: [&quot;address&quot;, &quot;name&quot;], &quot;no_marker&quot;: true}"/>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-xs-8 col-xs-offset-1">
+                                <h3>Fiche de résultat - <t t-esc="o.name"/></h3>    
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-xs-8 col-xs-offset-1">
+                                <h4><t t-esc="o.source_bloc_name"/></h4>    
+                            </div>
+                        </div>
+                        <div class="row">
+                            <!-- Table -->
+                            <table class="table table-condensed table-bordered result_table" style="margin-left:30px;margin-right:30px;">
+                                <colgroup>
+                                    <col style="width:300px"/>
+                                    <col style="width:75px"/>
+                                    <col style="width:75px"/>
+                                    <col style="width:75px"/>
+                                </colgroup>
+                                <thead>
+                                    <tr>
+                                        <th>Intitulé du cours</th>
+                                        <th>Résultats</th>
+                                        <th>ECTS</th>
+                                        <th>Acquis</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <t t-foreach="o.course_group_ids" t-as="course_group">
+                                        <tr class="course_group">
+                                            <td>
+                                                <t t-esc="course_group.title"/>
+                                            </td>
+                                            <td style=" text-align: right;">
+                                                <t t-esc="'%.2f' % course_group.final_result"/>
+                                            </td>
+                                            <td style=" text-align: right;">
+                                                <t t-esc="course_group.total_credits"/>
+                                            </td>
+                                            <td>
+                                                <span class="label label-success" t-if="course_group.acquiered == 'A'">Acquis</span>
+                                                <span class="label label-warning" t-if="course_group.acquiered == 'NA'">Non Acquis</span>
+                                            </td>
+                                        </tr>
+                                        <t t-foreach="course_group.course_ids" t-as="course">
+                                            <tr style="font-style: italic;font-size:80%;">
+                                                <td>
+                                                    <t t-esc="course.title"/> - <t t-esc="course.level"/> <i t-if="course.teacher_id" class="oe_fade"> - <t t-esc="course.teacher_id.name"/></i></td>
+                                                <td style=" text-align: right;">
+                                                    <t t-esc="'%.2f' % course.first_session_result"/>
+                                                </td>
+                                                <td/>
+                                                <td/>
+                                            </tr>
+                                        </t>
+                                    </t>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+                </t>
+            </t>
+        </t>
+    </template>
+
+    <!--
+    
+    Evaluations by Teacher
+    
+    -->
+
     <!-- report -->
     <record id="school_evaluation_report_view" model="ir.ui.view">
         <field name="name">Evaluation by Teacher</field>
@@ -59,7 +159,7 @@
         <field name="target">new</field>
     </record>
 
-    <menuitem id="menu_evaluation_report_by_teacher" name="Evaluation by Teacher" action="action_evaluation_report_by_teacher" parent="school_management.menu_individual_bloc" />
+    <!-- <menuitem id="menu_evaluation_report_by_teacher" name="Evaluation by Teacher" action="action_evaluation_report_by_teacher" parent="school_management.menu_individual_bloc" /> -->
 
     <!--  Add wizard -->
     <act_window name="Evaluation by Teacher"

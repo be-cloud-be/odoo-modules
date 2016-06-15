@@ -81,12 +81,25 @@
                         </t>
                     </div>
                 </div>
-                <div class="row">
+                <div class="row" t-if="course.type != 'D'">
                     <div class="col-md-4 col-md-offset-1">
                         <h4 class="">Evaluation Première Session :</h4>
                     </div>
                     <div class="col-md-2">
                         <h4 class=""><t t-esc="course.first_session_result.toFixed(2)" /></h4>
+                    </div>
+                </div>
+                <div class="row" t-if="course.type == 'D'">
+                    <div class="col-md-4 col-md-offset-1">
+                        <h4 class="">Evaluation Première Session :</h4>
+                    </div>
+                    <div class="col-md-2">
+                        <t t-if="course.jun_result">
+                            <h4 class=""><t t-esc="course.first_session_result.toFixed(2)" /></h4>
+                        </t>
+                        <t t-if="!course.jun_result">
+                            <h4 class="">Dispensé</h4>
+                        </t>
                     </div>
                 </div>
             </t>
@@ -97,7 +110,17 @@
             </div>
             <div class="row" t-if="!cg.first_session_deliberated_result_bool">
                 <div class="col-md-12">
-                    <h4 class="">(<t t-foreach="cg.courses" t-as="course"><t t-if="!course_first"> + </t><t t-esc="course.first_session_result.toFixed(2)" /> * <t t-esc="course.weight.toFixed(2)" /></t>) / <t t-esc='cg.total_weight.toFixed(2)' /> = <t t-esc="cg.final_result.toFixed(2)" /></h4>
+                    <t t-set="is_first" t-value="true"/>
+                    <h4 class="">
+                        (<t t-foreach="cg.courses" t-as="course">
+                            <t t-if="(course.type != 'D') or course.jun_result">
+                                <t t-if="!is_first"> + </t>
+                                <t t-esc="course.first_session_result.toFixed(2)" /> * <t t-esc="course.weight.toFixed(2)" />
+                                <t t-set="is_first" t-value="false"/>
+                            </t>
+                        </t>) 
+                        / <t t-esc='cg.total_weight.toFixed(2)' /> = <t t-esc="cg.final_result.toFixed(2)" />
+                    </h4>
                 </div>
             </div>
             <div class="row" t-if="cg.first_session_deliberated_result_bool">

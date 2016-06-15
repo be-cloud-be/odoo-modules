@@ -184,7 +184,8 @@ return Widget.extend({
                     'class' : "success",
                     'button_text' : _t("Awarded"),
                     'next_action' : "award",
-                    'grade' : "La Plus Grande Distinction",
+                    'grade_text' : _t("First Class Honor"),
+                    'grade' : 'first_class',
                 };
             }
             else if(self.bloc.totat_acquiered_credits >= 45) {
@@ -212,7 +213,7 @@ return Widget.extend({
         self.student_image = session.url('/web/image', {
             model: 'res.partner',
             id: self.bloc.student_id[0],
-            field: 'image',
+            field: 'image_medium',
             unique: (self.datarecord.__last_update || '').replace(/[^0-9]/g, '')
         });
         

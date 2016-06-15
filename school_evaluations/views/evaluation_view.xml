@@ -36,6 +36,28 @@
             </xpath>
         </template>
 
+        <!-- Add credit lines to partner -->
+        <record id="view_partners_form_school_eval" model="ir.ui.view">
+            <field name="name">view.res.partner.form.school.eval</field>
+            <field name="model">res.partner</field>
+            <field name="inherit_id" ref="school_management.view_partners_form_school" />
+            <field eval="18" name="priority" />
+            <field name="arch" type="xml">
+                <xpath expr="//notebook[last()]" position="inside">
+                    <page name="credit_lines" string="Credit Lines" attrs="{'invisible': [('student','=',False)]}">
+                        <field name="credit_line_ids">
+                            <tree string="Credit Lines">
+                                <field name="date" />
+                                <field name="cycle_id" />
+                                <field name="individual_bloc_id" />
+                                <field name="credits" />
+                            </tree>
+                        </field>
+                    </page>
+                </xpath>
+            </field>
+        </record>
+
         <!-- Add evaluation to Individual Bloc form view -->
         <record id="individual_bloc_eval_form" model="ir.ui.view">
             <field name="name">school.individual_bloc.eval.view</field>
@@ -181,9 +203,9 @@
                     <field name="ann_result" string="Ann" readonly="1" />
                     <field name="jan_result" string="Jan" readonly="1" />
                     <field name="jun_result" string="June" readonly="1" />
-                    <field name="first_session_result" string="S1" />
+                    <field name="first_session_result" string="S1" attrs="{'invisible':[('first_session_result_bool','=',False)]}"/>
                     <field name="sept_result" string="Sept" readonly="1" />
-                    <field name="second_session_result" string="S2" />
+                    <field name="second_session_result" string="S2" attrs="{'invisible':[('second_session_result_bool','=',False)]}"/>
                     <field name="first_session_result_bool" invisible="1" />
                     <field name="second_session_result_bool" invisible="1" />
                 </xpath>

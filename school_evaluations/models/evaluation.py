@@ -24,6 +24,23 @@ from openerp.exceptions import UserError
 
 _logger = logging.getLogger(__name__)
 
+class Partner(models.Model):
+    '''Partner'''
+    _inherit = 'res.partner'
+    
+    credit_line_ids = fields.One2many('school.credit.line', 'student_id', string='Credit Line')
+    
+class CreditLine(models.Model):
+    '''Credit Line'''
+    _name = "school.credit.line"
+    _order = "date desc"
+    
+    student_id = fields.Many2one('res.partner', string='Student', required=True)
+    date = fields.Date(string="Date", required=True, default=fields.Date.context_today)
+    cycle_id = fields.Many2one('school.cycle', string='Cycle', required=True)
+    individual_bloc_id = fields.Many2one('school.individual_bloc', string='Bloc')
+    credits = fields.Integer(string='Credits', required=True)
+    
 class IndividualCourseGroup(models.Model):
     '''Individual Course Group'''
     _inherit = 'school.individual_course_group'
@@ -83,8 +100,7 @@ class IndividualCourseGroup(models.Model):
         for course in self.course_ids:
             total_hours += course.hours
             total_credits += course.credits
-            if not (course.dispense and course.type != 'D'):
-                total_weight += course.weight
+            total_weight += course.c_weight
         self.total_hours = total_hours
         self.total_credits = total_credits
         self.total_weight = total_weight
@@ -103,20 +119,20 @@ class IndividualCourseGroup(models.Model):
         for ic in self.course_ids:
             # Compute First Session 
             if ic.first_session_result_bool :
-                running_first_session_result += ic.first_session_result * ic.weight
+                running_first_session_result += ic.first_session_result * ic.c_weight
                 self.first_session_computed_result_bool = True
                 if ic.first_session_result < 10 :
                     self.first_session_computed_exclusion_result_bool = True
                 
             # Compute Second Session
             if ic.second_session_result_bool :
-                running_second_session_result += ic.second_session_result * ic.weight
+                running_second_session_result += ic.second_session_result * ic.c_weight
                 self.second_session_computed_result_bool = True
                 if ic.second_session_result < 10 :
                     self.second_session_computed_exclusion_result_bool = True
             elif ic.first_session_result_bool :
                 # Use First session in computation of the second one if no second one
-                running_second_session_result += ic.first_session_result * ic.weight
+                running_second_session_result += ic.first_session_result * ic.c_weight
                 if ic.first_session_result < 10 :
                     self.second_session_computed_exclusion_result_bool = True
                 
@@ -222,6 +238,15 @@ class IndividualCourse(models.Model):
     _inherit = 'school.individual_course'
     
     type = fields.Selection(([('S', 'Simple'),('T', 'Triple'),('C', 'Complex'),('D','Deferred')]),compute='compute_type', string='Type', store=True)
+    c_weight =  fields.Float(compute='compute_weight', readonly=True)
+    
+    @api.one
+    @api.depends('dispense', 'jun_result', 'weight')
+    def compute_weight(self):
+        if self.dispense and not self.jun_result:
+            self.c_weight = 0
+        else:
+            self.c_weight = self.weight
     
     @api.one
     @api.depends('dispense', 'source_course_id.type')
@@ -385,31 +410,41 @@ class IndividualBloc(models.Model):
              ,track_visibility='onchange')
     
     @api.multi
-    def set_to_draft(self, state):
+    def set_to_draft(self, context):
         # TODO use a workflow to make sure only valid changes are used.
-        return self.write({'state': 'draft'})
+        return self.write({'state': 'draft','grade': False})
     
     @api.multi
-    def set_to_progress(self, state):
+    def set_to_progress(self, context):
         # TODO use a workflow to make sure only valid changes are used.
         return self.write({'state': 'progress'})
     
     @api.multi
-    def set_to_postponed(self, state):
+    def set_to_postponed(self, message, context):
         # TODO use a workflow to make sure only valid changes are used.
         return self.write({'state': 'postponed'})
     
     @api.multi
-    def set_to_awarded(self, state):
+    def set_to_awarded(self, grade, message, context):
         # TODO use a workflow to make sure only valid changes are used.
-        return self.write({'state': 'awarded'})
+        return self.write({'state': 'awarded','grade': grade, 'grade_comments' : message})
     
     @api.multi
-    def set_to_failed(self, state):
+    def set_to_failed(self, message, context):
         # TODO use a workflow to make sure only valid changes are used.
-        return self.write({'state': 'failed'})
+        return self.write({'state': 'failed','grade': False})
         
     totat_acquiered_credits = fields.Integer(string="Acquiered Credits",compute="compute_credits", store=True)
+    
+    grade = fields.Selection([
+            ('without','Without Grade'),
+            ('distinction','Distinction'),
+            ('second_class', 'Second Class Honor'),
+            ('first_class', 'First Class Honor'),
+        ],string="Grade")
+    
+    
+    grade_comments = fields.Text(string="Grade Comments")
     
     @api.depends('course_group_ids','course_group_ids.acquiered')
     @api.one

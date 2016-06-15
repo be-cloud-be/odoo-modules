@@ -34,7 +34,7 @@
     ],
     'demo_xml': [],
     'description': '''
-        This modules addevaluation management for a school.
+        This modules add evaluation management for a school.
     ''',
     'qweb': ['static/src/xml/*.xml'],
     'active': False,
