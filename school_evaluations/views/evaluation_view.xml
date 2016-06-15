@@ -159,7 +159,7 @@
                 <xpath expr="//sheet" position="inside">
                     <group col="4" string="Results">
                         <field name="ann_result" attrs="{'invisible': [('type','in',['S','T','D'])]}" />
-                        <field name="jan_result" attrs="{'invisible': [('type','in',['S','C','D'])]}" />
+                        <field name="jan_result" attrs="{'invisible': [('type','in',['S','D'])]}" />
                         <field name="jun_result" />
                         <field name="sept_result" attrs="{'invisible': [('type','in',['D'])]}" />
                     </group>
