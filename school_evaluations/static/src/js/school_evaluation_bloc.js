@@ -219,7 +219,7 @@ return Widget.extend({
         
         self._update_evaluation_messages();
         
-        return new Model('school.individual_course_group').query(['id','name','title','course_ids','acquiered','final_result','total_credits','total_weight','first_session_deliberated_result_bool']).filter([['id', 'in', self.bloc.course_group_ids]]).all().then(
+        return new Model('school.individual_course_group').query(['id','name','title','course_ids','acquiered','first_session_computed_result','final_result','total_credits','total_weight','first_session_deliberated_result_bool']).filter([['id', 'in', self.bloc.course_group_ids]]).all().then(
             function(course_groups) {
                 self.course_groups = course_groups;
                 var all_course_ids = [];

@@ -46,7 +46,7 @@
                 <xpath expr="//notebook[last()]" position="inside">
                     <page name="credit_lines" string="Credit Lines" attrs="{'invisible': [('student','=',False)]}">
                         <field name="credit_line_ids">
-                            <tree string="Credit Lines">
+                            <tree string="Credit Lines" context="{'default_student_id' : active_id}">
                                 <field name="date" />
                                 <field name="cycle_id" />
                                 <field name="individual_bloc_id" />
@@ -57,6 +57,38 @@
                 </xpath>
             </field>
         </record>
+
+    <!-- Credit Line -->
+    <record model="ir.ui.view" id="credit_line_form">
+      <field name="name">school.credit.line.view</field>
+      <field name="model">school.credit.line</field>
+      <field name="type">form</field>
+      <field name="arch" type="xml">
+        <form string="Credit Line">
+          <sheet>
+            <div class="oe_title">
+              <h1>
+               <field name="student_id"/>
+              </h1>
+            </div>
+            <group col="4">
+              <field name="date"/>
+              <field name="cycle_id" />
+              <field name="individual_bloc_id" />
+              <field name="credits"/>
+              <field name="weighted_sum"/>
+              <field name="total_weight"/>
+            </group>
+            <group col="4" string="Manual Entry">
+              <field name="manual_credits"/>
+              <field name="manual_weighted_sum" />
+              <field name="manual_total_weight" />
+            </group>
+          </sheet>
+        </form>
+      </field>
+    </record>
+
 
         <!-- Add evaluation to Individual Bloc form view -->
         <record id="individual_bloc_eval_form" model="ir.ui.view">

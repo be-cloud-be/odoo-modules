@@ -39,7 +39,24 @@ class CreditLine(models.Model):
     date = fields.Date(string="Date", required=True, default=fields.Date.context_today)
     cycle_id = fields.Many2one('school.cycle', string='Cycle', required=True)
     individual_bloc_id = fields.Many2one('school.individual_bloc', string='Bloc')
-    credits = fields.Integer(string='Credits', required=True)
+    credits = fields.Integer(compute='compute_credits', string='Credits')
+    weighted_sum = fields.Integer(compute='compute_credits', string='Weighted Sum')
+    total_weight = fields.Integer(compute='compute_credits', string='Total Weigth')
+    
+    manual_credits = fields.Integer(string='Manuel Credits')
+    manual_weighted_sum = fields.Integer(string='Manuel Weighted Sum')
+    manual_total_weight = fields.Integer(string='Manuel Weighted Sum')
+
+    @api.one
+    @api.depends('individual_bloc_id','manual_credits','manual_weighted_sum','manual_total_weight')
+    def compute_credits(self):
+        if not self.individual_bloc_id :
+            self.credits = self.manual_credits
+            self.weighted_sum = self.manual_weighted_sum
+            self.total_weight = self.manual_total_weight
+        else:
+            pass
+            #TODO compute based on the individual bloc
     
 class IndividualCourseGroup(models.Model):
     '''Individual Course Group'''
@@ -360,10 +377,10 @@ class IndividualCourse(models.Model):
             if self.jun_result :
                 try:
                     jun = float(self.jun_result)
-                    if ann and jan and jun :
+                    if self.ann_result and self.jan_result :
                         self.first_session_result = ann * 0.5 + (jan * 0.5 + jun * 0.5) * 0.5
                         self.first_session_result_bool = True
-                    elif ann and jun :
+                    elif self.ann_result :
                         self.first_session_result = ann * 0.5 + jun * 0.5
                         self.first_session_result_bool = True
                     else:
@@ -376,7 +393,7 @@ class IndividualCourse(models.Model):
             if self.sept_result :
                 try:
                     sept = float(self.sept_result)
-                    if ann and sept :
+                    if self.ann_result :
                         self.second_session_result = ann * 0.5 + sept * 0.5
                         self.second_session_result_bool = True 
                     else:
