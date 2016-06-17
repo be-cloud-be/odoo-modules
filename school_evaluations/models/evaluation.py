@@ -20,7 +20,7 @@
 import logging
 
 from openerp import api, fields, models, _
-from openerp.exceptions import UserError
+from openerp.exceptions import UserError, ValidationError
 
 _logger = logging.getLogger(__name__)
 
@@ -107,6 +107,13 @@ class IndividualCourseGroup(models.Model):
     acquiered = fields.Selection(([('A', 'Acquiered'),('NA', 'Not Acquiered')]), compute='compute_final_results', string='Acquired Credits', store=True,track_visibility='onchange')
     final_note = fields.Text(string='Final Notes')
     
+    def _parse_result(self,input):
+        f = float(input)
+        if(f < 0 or f > 20):
+            raise ValidationError("Evaluation shall be between 0 and 20")
+        else:
+            return f
+    
     ## override so that courses with dispense and no deferred results are excluded from computation
     @api.one
     @api.depends('course_ids')
@@ -166,12 +173,15 @@ class IndividualCourseGroup(models.Model):
         ## Compute Session Results
         if self.first_session_deliberated_result_bool :
             try:
-                f = float(self.first_session_deliberated_result)
-                self.first_session_result = f
-                self.first_session_result_bool = True
+                f = self._parse_result(self.first_session_deliberated_result)
             except ValueError:
                 self.write('first_session_deliberated_result', None)
                 raise UserError(_('Cannot decode %s, please encode a Float eg "12.00".' % self.first_session_deliberated_result))
+            if (f < self.first_session_computed_result):
+                raise ValidationError("Deliberated result must be above computed result, i.e. %s > %s." % (self.first_session_deliberated_result, self.first_session_computed_result))
+            else:
+                self.first_session_result = f
+            self.first_session_result_bool = True
         elif self.first_session_computed_result_bool :
             self.first_session_result = self.first_session_computed_result
             self.first_session_result_bool = True
@@ -198,12 +208,15 @@ class IndividualCourseGroup(models.Model):
     def compute_second_session_results(self):
         if self.second_session_deliberated_result_bool :
             try:
-                f = float(self.second_session_deliberated_result)
-                self.second_session_result = f
-                self.second_session_result_bool = True
+                f = self._parse_result(self.second_session_deliberated_result)
             except ValueError:
                 self.write('second_session_deliberated_result', None)
                 raise UserError(_('Cannot decode %s, please encode a Float eg "12.00".' % self.second_session_deliberated_result))
+            if (f < self.second_session_computed_result):
+                raise ValidationError("Deliberated result must be above computed result, i.e. %s > %s." % (self.second_session_deliberated_result, self.second_session_computed_result))
+            else:
+                self.second_session_result = f
+            self.second_session_result_bool = True
         elif self.second_session_computed_result_bool :
             self.second_session_result = self.second_session_computed_result
             self.second_session_result_bool = True
@@ -330,13 +343,20 @@ class IndividualCourse(models.Model):
     second_session_result_bool = fields.Boolean(compute='compute_results', string='Second Session Active', store=True)
     second_session_note = fields.Text(string='Second Session Notes')
     
+    def _parse_result(self,input):
+        f = float(input)
+        if(f < 0 or f > 20):
+            raise ValidationError("Evaluation shall be between 0 and 20")
+        else:
+            return f
+    
     @api.depends('ann_result','jan_result','jun_result','sept_result')
     @api.one
     def compute_results(self):
         if self.type in ['S','D','T']:
             if self.jan_result :
                 try:
-                    f = float(self.jan_result)
+                    f = self._parse_result(self.jan_result)
                     self.first_session_result = f
                     self.first_session_result_bool = True
                 except ValueError:
@@ -345,7 +365,7 @@ class IndividualCourse(models.Model):
                     raise UserError(_('Cannot decode %s in January Result, please encode a Float eg "12.00".' % self.jan_result))
             if self.jun_result :
                 try:
-                    f = float(self.jun_result)
+                    f = self._parse_result(self.jun_result)
                     self.first_session_result = f
                     self.first_session_result_bool = True
                 except ValueError:
@@ -354,7 +374,7 @@ class IndividualCourse(models.Model):
                     raise UserError(_('Cannot decode %s in June Result, please encode a Float eg "12.00".' % self.jun_result))
             if self.sept_result :
                 try:
-                    f = float(self.sept_result)
+                    f = self._parse_result(self.sept_result)
                     self.second_session_result = f
                     self.second_session_result_bool = True 
                 except ValueError:
@@ -366,17 +386,17 @@ class IndividualCourse(models.Model):
             jan = None
             if self.ann_result :
                 try:
-                    ann = float(self.ann_result)
+                    ann = self._parse_result(self.ann_result)
                 except ValueError:
                     raise UserError(_('Cannot decode %s in January Result, please encode a Float eg "12.00".' % self.ann_result))
             if self.jan_result :
                 try:
-                    jan = float(self.jan_result)
+                    jan = self._parse_result(self.jan_result)
                 except ValueError:
                     raise UserError(_('Cannot decode %s in January Result, please encode a Float eg "12.00".' % self.jan_result))
             if self.jun_result :
                 try:
-                    jun = float(self.jun_result)
+                    jun = self._parse_result(self.jun_result)
                     if self.ann_result and self.jan_result :
                         self.first_session_result = ann * 0.5 + (jan * 0.5 + jun * 0.5) * 0.5
                         self.first_session_result_bool = True
@@ -392,7 +412,7 @@ class IndividualCourse(models.Model):
                     raise UserError(_('Cannot decode %s in June Result, please encode a Float eg "12.00".' % self.jun_result))
             if self.sept_result :
                 try:
-                    sept = float(self.sept_result)
+                    sept = self._parse_result(self.sept_result)
                     if self.ann_result :
                         self.second_session_result = ann * 0.5 + sept * 0.5
                         self.second_session_result_bool = True 
@@ -404,6 +424,7 @@ class IndividualCourse(models.Model):
                     self.second_session_result_bool = False
                     raise UserError(_('Cannot decode %s in September Result, please encode a Float eg "12.00".' % self.sept_result))
         
+    
     
 
 class IndividualBloc(models.Model):
@@ -459,7 +480,6 @@ class IndividualBloc(models.Model):
             ('second_class', 'Second Class Honor'),
             ('first_class', 'First Class Honor'),
         ],string="Grade")
-    
     
     grade_comments = fields.Text(string="Grade Comments")
     

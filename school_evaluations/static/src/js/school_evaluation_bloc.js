@@ -144,66 +144,72 @@ return Widget.extend({
     
     _update_evaluation_messages: function() {
         var self = this;
-        if(self.bloc.source_bloc_level != 3) {
-            if(self.bloc.totat_acquiered_credits >= 60) {
-                self.bloc_result = {
-                    'message' : _t("60 crédits ECTS acquis ou valorisés, autorisé(e) à poursuivre son parcours sans restriction."),
-                    'class' : "success",
-                    'button_text' : _t("Awarded"),
-                    'next_action' : "award",
-                };
-            }
-            else if(self.bloc.totat_acquiered_credits >= 45) {
-                self.bloc_result = {
-                    'message' : _t("Au moins 45 crédits ECTS acquis ou valorisés, autorisation de compléter son programme annuel."),
-                    'class' : "warning",
-                    'button_text' : _t("Postponed"),
-                    'next_action' : "postpone",
-                };
-            } 
-            else if(self.bloc.totat_acquiered_credits >= 30) {
-                self.bloc_result = {
-                    'message' : _t("Au moins 30 crédits ECTS acquis ou valorisés, autorisation de compléter son programme annuel."),
-                    'class' : "warning",
-                    'button_text' : _t("Postponed"),
-                    'next_action' : "postpone",
-                };
-            } 
-            else {
-                self.bloc_result = {
-                    'message' : _t("Moins de 30 crédits ECTS acquis ou valorisés, pas de possibilité de compléter son programme annuel."),
-                    'class' : "danger",
-                    'button_text' : _t("Postponed"),
-                    'next_action' : "postpone",
-                };
-            }
-        } else {
-            if(self.bloc.totat_acquiered_credits >= 60) {
-                self.bloc_result = {
-                    'message' : _t("180 crédits ECTS acquis ou valorisés, le jury confère le grade académique de bachelier avec "),
-                    'class' : "success",
-                    'button_text' : _t("Awarded"),
-                    'next_action' : "award",
-                    'grade_text' : _t("First Class Honor"),
-                    'grade' : 'first_class',
-                };
-            }
-            else if(self.bloc.totat_acquiered_credits >= 45) {
-                self.bloc_result = {
-                    'message' : _t("Au moins 165 crédits ECTS acquis ou valorisés, autorisation d'accéder au programme de Master."),
-                    'class' : "warning",
-                    'button_text' : _t("Postponed"),
-                    'next_action' : "postpone",
-                };
-            } 
-            else {
-                self.bloc_result = {
-                    'message' : _t("Moins de 165 crédits ECTS acquis ou valorisés, pas de possibilité d'accéder au programme de Master."),
-                    'class' : "danger",
-                    'button_text' : _t("Postponed"),
-                    'next_action' : "postpone",
-                };
-            }
+        switch(self.bloc.source_bloc_level) {
+            case 1 :
+                if(self.bloc.totat_acquiered_credits >= 60) {
+                    self.bloc_result = {
+                        'message' : _t("60 crédits ECTS acquis ou valorisés, autorisé(e) à poursuivre son parcours sans restriction."),
+                        'class' : "success",
+                        'button_text' : _t("Awarded"),
+                        'next_action' : "award",
+                    };
+                }
+                else if(self.bloc.totat_acquiered_credits >= 45) {
+                    self.bloc_result = {
+                        'message' : _t("Au moins 45 crédits ECTS acquis ou valorisés, autorisé(e) à poursuivre son parcours tout en finalisant ses crédits résiduels."),
+                        'class' : "warning",
+                        'button_text' : _t("Postponed"),
+                        'next_action' : "postpone",
+                    };
+                } 
+                else if(self.bloc.totat_acquiered_credits >= 30) {
+                    self.bloc_result = {
+                        'message' : _t("Au moins 30 crédits ECTS acquis ou valorisés, impossibilité de poursuivre son parcours mais autorisé à compléter, avec l'accord du jury, son programme annuel."),
+                        'class' : "warning",
+                        'button_text' : _t("Postponed"),
+                        'next_action' : "postpone",
+                    };
+                } 
+                else {
+                    self.bloc_result = {
+                        'message' : _t("Moins de 30 crédits ECTS acquis ou valorisés, impossibilité de poursuivre son parcours et pas de possibilité de compléter son programme annuel."),
+                        'class' : "danger",
+                        'button_text' : _t("Postponed"),
+                        'next_action' : "postpone",
+                    };
+                }
+                break;
+            case 2 :
+                
+                break;
+            case 3 :
+                if(self.bloc.totat_acquiered_credits >= 60) {
+                    self.bloc_result = {
+                        'message' : _t("180 crédits ECTS acquis ou valorisés, le jury confère le grade académique de Bachelier avec "),
+                        'class' : "success",
+                        'button_text' : _t("Awarded"),
+                        'next_action' : "award",
+                        'grade_text' : _t("First Class Honor"),
+                        'grade' : 'first_class',
+                    };
+                }
+                else if(self.bloc.totat_acquiered_credits >= 45) {
+                    self.bloc_result = {
+                        'message' : _t("Au moins 165 crédits ECTS acquis ou valorisés, autorisation d'accéder au programme de Master tout en finalisant ses crédits résiduels."),
+                        'class' : "warning",
+                        'button_text' : _t("Postponed"),
+                        'next_action' : "postpone",
+                    };
+                } 
+                else {
+                    self.bloc_result = {
+                        'message' : _t("Moins de 165 crédits ECTS acquis ou valorisés, pas de possibilité d'accéder au programme de Master."),
+                        'class' : "danger",
+                        'button_text' : _t("Postponed"),
+                        'next_action' : "postpone",
+                    };
+                }
+                break;
         }
     },
     
