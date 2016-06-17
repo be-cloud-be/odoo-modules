@@ -59,6 +59,7 @@
               <field name="teacher_id" />
             </group>
             <group col="4" colspan="2" attrs="{'invisible': [('source_course_group_id','=',False)]}">
+              <field name="weight" /><field name="total_weight" />
               <field name="total_hours" />
               <field name="total_credits" />
             </group>

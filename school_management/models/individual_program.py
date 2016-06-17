@@ -74,11 +74,14 @@ class IndividualBloc(models.Model):
     def _get_courses_total(self):
         total_hours = 0.0
         total_credits = 0.0
+        total_weight = 0.0
         for course_group in self.course_group_ids:
             total_hours += course_group.total_hours
             total_credits += course_group.total_credits
+            total_weight += course_group.weight
         self.total_hours = total_hours
         self.total_credits = total_credits
+        self.total_weight = total_weight
     
     @api.one
     @api.depends('year_id.name','student_id.name')
@@ -116,7 +119,9 @@ class IndividualCourseGroup(models.Model):
     
     total_credits = fields.Integer(compute='_get_courses_total', string='Credits')
     total_hours = fields.Integer(compute='_get_courses_total', string='Hours')
-    total_weight = fields.Float(compute='_get_courses_total', string='Weight')
+    total_weight = fields.Float(compute='_get_courses_total', string='Total Weight')
+    weight = fields.Integer(related="source_course_group_id.weight",string='Weight')
+    
     code_ue =  fields.Char(related="source_course_group_id.code_ue", readonly=True)
     
     @api.onchange('source_course_group_id')

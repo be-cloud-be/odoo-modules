@@ -112,6 +112,8 @@
               <group col="4" colspan="4">
                 <field name="total_hours" />
                 <field name="total_credits" />
+                <field name="total_weight" />
+                <field name="weight" />
               </group>
             </group>
 

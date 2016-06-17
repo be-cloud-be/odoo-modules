@@ -48,7 +48,7 @@ class CourseGroup(models.Model):
 
     course_ids = fields.One2many('school.course', 'course_group_id', string='Courses', copy=True, ondelete="cascade")
 
-    bloc_ids = fields.Many2many('school.bloc','school_bloc_course_group_rel', id1='group_id', id2='bloc_id',string='Blocs')
+    bloc_ids = fields.Many2many('school.bloc','school_bloc_course_group_rel', id1='group_id', id2='bloc_id',string='Blocs', copy=False)
     
     name = fields.Char(string='Name', compute='compute_name', store=True)
     
@@ -71,6 +71,8 @@ class CourseGroup(models.Model):
     total_credits = fields.Integer(compute='_get_courses_total', string='Total Credits')
     total_hours = fields.Integer(compute='_get_courses_total', string='Total Hours')
     total_weight = fields.Float(compute='_get_courses_total', string='Total Weight')
+
+    weight = fields.Integer(string='Weight')
 
     @api.one
     @api.depends('course_ids')

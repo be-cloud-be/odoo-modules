@@ -24,14 +24,14 @@
     <data>
     <!--
         <menuitem name="Course Sessions" parent="menu_main_program" id="menu_course_session" sequence="20" />
-
-        < --
+    -->
+        <!--
     
         Course Session
         
-        -- >
+        -->
 
-        <-- Course Session List View -- >
+        <!-- Course Session List View -->
         <record id="view_course_session_list" model="ir.ui.view">
             <field name="name">school.course_session.tree</field>
             <field name="model">school.course_session</field>
@@ -45,18 +45,18 @@
             </field>
         </record>
 
-        <-- Course Session Form View -- >
+        <!-- Course Session Form View -->
         <record model="ir.ui.view" id="course_session_form">
             <field name="name">school.course_session.view</field>
             <field name="model">school.course_session</field>
             <field name="type">form</field>
             <field name="arch" type="xml">
                 <form string="Course Session">
-                    <--<header>
+                    <!--<header>
     		            <button name="transfert_confirm" states="draft" string="Validate" class="oe_highlight" groups="account.group_account_invoice"/>
     		            <button name="transfert_cancel" states="draft,confirmed" string="Cancel Transfert" groups="account.group_account_invoice"/>
     		            <field name="state" widget="statusbar" statusbar_visible="draft,confirmed,paid"/>
-    		        </header>-- >
+    		        </header>-->
                     <sheet>
                         <div class="oe_title">
                             <h1>
@@ -75,7 +75,7 @@
                                     <field name="student_ids">
                                         <tree string="Students">
                                             <field name="name" />
-                                            <-- <field name="student_current_program_id" /> -- >
+                                            <!-- <field name="student_current_program_id" /> -->
                                         </tree>
                                     </field>
                                 </page>
@@ -146,7 +146,7 @@
             <field name="view_id" ref="view_course_session_list" />
             <field name="act_window_id" ref="action_course_session_list" />
         </record>
-
+    <!--
         <menuitem id="menu_course_session_list" parent="menu_course_session" action="action_course_session_list" sequence="10" />
         <menuitem id="menu_my_course_session_list" parent="menu_course_session" action="action_my_course_session_list" sequence="20" />
     -->
