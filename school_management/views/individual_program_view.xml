@@ -156,11 +156,11 @@
           <filter name="bloc_2" string="Bloc 2" domain="[('source_bloc_level', '=', 2)]"/>
           <filter name="bloc_3" string="Bloc 3" domain="[('source_bloc_level', '=', 3)]"/>
           <group expand="1" string="Group By">
-            <filter string="Domain" context="{'group_by':'domain_id'}" />
-            <filter string="Cycle" context="{'group_by':'cycle_id'}" />
-            <filter string="Section" context="{'group_by':'section_id'}" />
-            <filter string="Track" context="{'group_by':'track_id'}" />
-            <filter string="Speciality" context="{'group_by':'speciality_id'}" />
+            <filter string="Domain" context="{'group_by':'source_bloc_domain_id'}" />
+            <filter string="Cycle" context="{'group_by':'source_bloc_cycle_id'}" />
+            <filter string="Section" context="{'group_by':'source_bloc_section_id'}" />
+            <filter string="Track" context="{'group_by':'source_bloc_track_id'}" />
+            <filter string="Speciality" context="{'group_by':'source_bloc_speciality_id'}" />
           </group>
         </search>
       </field>
