@@ -41,8 +41,8 @@
         <t t-call="report.html_container">
             <t t-set="data_report_margin_top" t-value="45"/>
             <t t-set="data_report_header_spacing" t-value="40"/>
-            <t t-call="report.external_layout">
-                <t t-foreach="docs" t-as="o">
+            <t t-foreach="docs" t-as="o">
+                <t t-call="report.external_layout">
                 <div class="page">
                     <div class="container">
                         <div class="row">
@@ -175,9 +175,9 @@
         <t t-call="report.html_container">
             <t t-set="data_report_margin_top" t-value="45" />
             <t t-set="data_report_header_spacing" t-value="40" />
-            <t t-call="report.external_layout">
+            <t t-foreach="data" t-as="item">
+                <t t-call="report.external_layout">
                 <div class="page">
-                    <t t-foreach="data" t-as="item">
                         <t t-set="teacher" t-value="item['teacher_id']" />
                         <div class="container">
                             <t t-foreach="item['courses']" t-as="course_item">
@@ -249,8 +249,8 @@
                                 </div>
                             </t>
                         </div>
-                    </t>
-                </div>
+                    </div>
+                </t>
             </t>
         </t>
     </template>
