@@ -33,19 +33,32 @@ class Partner(models.Model):
 class CreditLine(models.Model):
     '''Credit Line'''
     _name = "school.credit.line"
-    _order = "date desc"
+    _order = "date desc, level desc"
+    
+    type = fields.Selection(([('A', 'Automatic'),('M', 'Manual'),('H', 'Historic')]), string='Type', default="M")
     
     student_id = fields.Many2one('res.partner', string='Student', required=True)
     date = fields.Date(string="Date", required=True, default=fields.Date.context_today)
     cycle_id = fields.Many2one('school.cycle', string='Cycle', required=True)
-    individual_bloc_id = fields.Many2one('school.individual_bloc', string='Bloc')
+    level = fields.Selection([('0','Free'),('1','Bac 1'),('2','Bac 2'),('3','Bac 3'),('4','Master 1'),('5','Master 2'),],string="Bloc Level")
+    
     credits = fields.Integer(compute='compute_credits', string='Credits')
     weighted_sum = fields.Integer(compute='compute_credits', string='Weighted Sum')
     total_weight = fields.Integer(compute='compute_credits', string='Total Weigth')
     
+    # Automatic
+    
+    individual_bloc_id = fields.Many2one('school.individual_bloc', string='Bloc')
+    
+    # Manual
+    
     manual_credits = fields.Integer(string='Manuel Credits')
     manual_weighted_sum = fields.Integer(string='Manuel Weighted Sum')
     manual_total_weight = fields.Integer(string='Manuel Weighted Sum')
+
+    # Historic
+    
+    hitorical_evaluation = fields.Float(string="Historical Evaluation")
 
     @api.one
     @api.depends('individual_bloc_id','manual_credits','manual_weighted_sum','manual_total_weight')
@@ -333,13 +346,13 @@ class IndividualCourse(models.Model):
     
     ## First Session ##
     
-    first_session_result= fields.Float(compute='compute_results', string='First Session Result', store=True)
+    first_session_result= fields.Float(compute='compute_results', string='First Session Result', store=True, group_operator='avg')
     first_session_result_bool = fields.Boolean(compute='compute_results', string='First Session Active', store=True)
     first_session_note = fields.Text(string='First Session Notes')
     
     ## Second Session ##
     
-    second_session_result= fields.Float(compute='compute_results', string='Second Session Result', store=True)
+    second_session_result= fields.Float(compute='compute_results', string='Second Session Result', store=True, group_operator='avg')
     second_session_result_bool = fields.Boolean(compute='compute_results', string='Second Session Active', store=True)
     second_session_note = fields.Text(string='Second Session Notes')
     

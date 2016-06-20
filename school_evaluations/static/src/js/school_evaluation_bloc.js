@@ -145,7 +145,7 @@ return Widget.extend({
     _update_evaluation_messages: function() {
         var self = this;
         switch(self.bloc.source_bloc_level) {
-            case 1 :
+            case "1" :
                 if(self.bloc.totat_acquiered_credits >= 60) {
                     self.bloc_result = {
                         'message' : _t("60 crédits ECTS acquis ou valorisés, autorisé(e) à poursuivre son parcours sans restriction."),
@@ -154,7 +154,7 @@ return Widget.extend({
                         'next_action' : "award",
                     };
                 }
-                else if(self.bloc.totat_acquiered_credits >= 45) {
+                /*else if(self.bloc.totat_acquiered_credits >= 45) {
                     self.bloc_result = {
                         'message' : _t("Au moins 45 crédits ECTS acquis ou valorisés, autorisé(e) à poursuivre son parcours tout en finalisant ses crédits résiduels."),
                         'class' : "warning",
@@ -177,12 +177,35 @@ return Widget.extend({
                         'button_text' : _t("Postponed"),
                         'next_action' : "postpone",
                     };
+                }*/
+                else {
+                    self.bloc_result = {
+                        'message' : _t("Moins de 60 crédits ECTS acquis ou valorisés, les crédits non-acquis sont à présenter en seconde session."),
+                        'class' : "danger",
+                        'button_text' : _t("Postponed"),
+                        'next_action' : "postpone",
+                    };
                 }
                 break;
-            case 2 :
-                
+            case "2" :
+                if(self.bloc.totat_acquiered_credits >= 60) {
+                    self.bloc_result = {
+                        'message' : _t("60 crédits ECTS acquis ou valorisés, autorisé(e) à poursuivre son parcours sans restriction."),
+                        'class' : "success",
+                        'button_text' : _t("Awarded"),
+                        'next_action' : "award",
+                    };
+                }
+                else {
+                    self.bloc_result = {
+                        'message' : _t("Moins de 60 crédits ECTS acquis ou valorisés, les crédits non-acquis sont à présenter en seconde session."),
+                        'class' : "danger",
+                        'button_text' : _t("Postponed"),
+                        'next_action' : "postpone",
+                    };
+                }
                 break;
-            case 3 :
+            case "3" :
                 if(self.bloc.totat_acquiered_credits >= 60) {
                     self.bloc_result = {
                         'message' : _t("180 crédits ECTS acquis ou valorisés, le jury confère le grade académique de Bachelier avec "),
@@ -193,6 +216,7 @@ return Widget.extend({
                         'grade' : 'first_class',
                     };
                 }
+                /*
                 else if(self.bloc.totat_acquiered_credits >= 45) {
                     self.bloc_result = {
                         'message' : _t("Au moins 165 crédits ECTS acquis ou valorisés, autorisation d'accéder au programme de Master tout en finalisant ses crédits résiduels."),
@@ -204,6 +228,14 @@ return Widget.extend({
                 else {
                     self.bloc_result = {
                         'message' : _t("Moins de 165 crédits ECTS acquis ou valorisés, pas de possibilité d'accéder au programme de Master."),
+                        'class' : "danger",
+                        'button_text' : _t("Postponed"),
+                        'next_action' : "postpone",
+                    };
+                }*/
+                else {
+                    self.bloc_result = {
+                        'message' : _t("Moins de 60 crédits ECTS acquis ou valorisés, les crédits non-acquis sont à présenter en seconde session."),
                         'class' : "danger",
                         'button_text' : _t("Postponed"),
                         'next_action' : "postpone",
