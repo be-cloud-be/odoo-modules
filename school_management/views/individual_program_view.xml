@@ -267,6 +267,13 @@
           <separator/>
           <filter name="dispensed" string="Dispensed" domain="[('dispense', '=', True)]"/>
           <filter name="not_dispensed" string="Not Dispensed" domain="[('dispense', '=', False)]"/>
+          <group expand="1" string="Group By">
+            <filter string="Domain" context="{'group_by':'source_bloc_domain_id'}" />
+            <filter string="Cycle" context="{'group_by':'source_bloc_cycle_id'}" />
+            <filter string="Section" context="{'group_by':'source_bloc_section_id'}" />
+            <filter string="Track" context="{'group_by':'source_bloc_track_id'}" />
+            <filter string="Speciality" context="{'group_by':'source_bloc_speciality_id'}" />
+          </group>
         </search>
       </field>
     </record>
