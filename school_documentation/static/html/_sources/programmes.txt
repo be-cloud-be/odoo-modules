@@ -48,7 +48,14 @@ Création des programmes
 -----------------------
 
 Une fois les *unités d'enseignement* disponibles, il est possible de créer des programmes
-qui en font usage. Chaque programme est défini pour une *année* donnée. 
+qui en font usage. Chaque programme est défini pour une *année* donnée et contient un
+ensemble de *blocs* qui représentent une année d'étude standard qui est proposée aux
+étudiants et publiée sur le site.
+
+Le bloc sert également de base pour la définition des *programmes annuels* des étudiants.
+
+Les blocs appartiennent à leur programme, il n'est pas possible de les réutiliser entre
+différents programmes.
 
 .. note::
     Il est possible de copier un programme d'une année à l'autre via le menu *Action/Dupliquer*
@@ -56,3 +63,4 @@ qui en font usage. Chaque programme est défini pour une *année* donnée.
     
 .. todo::
     Un outil permet de dupliquer l'ensemble des programmes d'une année.
+    
