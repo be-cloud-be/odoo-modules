@@ -1,5 +1,5 @@
 .sub_navbar {
-  height: 650px;
+  height: 450px;
   overflow: auto;
 }
 
@@ -44,6 +44,7 @@
 @media(min-width:768px) {
   .sidebar {
     width: 180px;
+    position:fixed;
   }
   #page-wrapper {
         position: inherit;

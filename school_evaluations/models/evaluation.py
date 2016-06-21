@@ -208,14 +208,9 @@ class IndividualCourseGroup(models.Model):
         self.first_session_acquiered = 'NA'
         if self.first_session_result >= 10 and (not self.first_session_computed_exclusion_result_bool or self.first_session_deliberated_result_bool):
             self.first_session_acquiered = 'A'
+        elif self.total_weight == 0: # All courses are dispensed
+            self.first_session_acquiered = 'A'
             
-    @api.depends('second_session_deliberated_result_bool','second_session_deliberated_result')
-    @api.one
-    def compute_second_session_acquiered(self):
-        self.second_session_acquiered = 'NA'
-        if self.second_session_result >= 10 and (not self.second_session_computed_exclusion_result_bool or self.second_session_deliberated_result_bool):
-            self.second_session_acquiered = 'A'
-    
     @api.depends('second_session_deliberated_result_bool','second_session_deliberated_result')
     @api.one
     def compute_second_session_results(self):
@@ -236,6 +231,15 @@ class IndividualCourseGroup(models.Model):
         else :
             self.second_session_result = 0
             self.second_session_result_bool = False
+
+    @api.depends('second_session_deliberated_result_bool','second_session_deliberated_result')
+    @api.one
+    def compute_second_session_acquiered(self):
+        self.second_session_acquiered = self.first_session_acquiered
+        if self.second_session_result >= 10 and (not self.second_session_computed_exclusion_result_bool or self.second_session_deliberated_result_bool):
+            self.second_session_acquiered = 'A'
+        elif self.total_weight == 0: # All courses are dispensed
+            self.second_session_acquiered = 'A'
     
     @api.depends('first_session_result',
                  'first_session_result_bool',
@@ -254,6 +258,8 @@ class IndividualCourseGroup(models.Model):
             self.final_result = self.first_session_result
             self.acquiered = self.first_session_acquiered
             self.final_result_bool = True
+        elif self.total_weight == 0:
+            self.acquiered = 'A'
         else :
             self.acquiered = 'NA'
             self.final_result_bool = False
