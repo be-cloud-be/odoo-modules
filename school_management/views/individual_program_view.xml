@@ -28,50 +28,48 @@
 
     <!--
     
-        Individual Course Group
+        Individual Program
         
-    -->
+        -->
 
-      <!-- Course Group Form View -->
-    <record model="ir.ui.view" id="individual_course_group_form">
-      <field name="name">school.individual_course_group.view</field>
-      <field name="model">school.individual_course_group</field>
+    <!-- Individual Program Tree View -->
+    <record id="view_individual_program_tree" model="ir.ui.view">
+      <field name="name">school.individual_program.tree</field>
+      <field name="model">school.individual_program</field>
+      <field eval="8" name="priority" />
+      <field name="arch" type="xml">
+        <tree string="Individual Program" create="false">
+          <field name="student_id" />
+          <field name="cycle_id" />
+          <field name="speciality_id" />
+        </tree>
+      </field>
+    </record>
+    
+    <!-- Individual Bloc Form View -->
+    <record model="ir.ui.view" id="individual_program_form">
+      <field name="name">school.individual_program.view</field>
+      <field name="model">school.individual_program</field>
       <field name="type">form</field>
       <field name="arch" type="xml">
-        <form string="Course Group">
-          <!--<header>
-    		            <button name="transfert_confirm" states="draft" string="Validate" class="oe_highlight" groups="account.group_account_invoice"/>
-    		            <button name="transfert_cancel" states="draft,confirmed" string="Cancel Transfert" groups="account.group_account_invoice"/>
-    		            <field name="state" widget="statusbar" statusbar_visible="draft,confirmed,paid"/>
-    		        </header>-->
+        <form string="Individual Bloc">
           <sheet>
-            <field name="image" widget="image" class="oe_avatar" options="{&quot;preview_image&quot;: &quot;image_medium&quot;, &quot;size&quot;: [90, 90]}"/>
-            <div class="oe_title">
+            <field name="image" widget="image" class="oe_avatar" options="{&quot;preview_image&quot;: &quot;image_medium&quot;, &quot;size&quot;: [150, 150]}"/>
+            <div class="oe_title" style="padding-left: 130px;">
               <h1>
                <field name="name"/>
               </h1>
-              <h3 class="oe_fade">
-               <field name="bloc_id" options='{"no_open":True}'/>
-              </h3>
             </div>
-            <group col="2" colspan="2">
-              <field name="source_course_group_id" />
-              <field name="teacher_id" />
+            <group col="4">
+              <field name="student_id" colspan="4"/>
+              <field name="cycle_id"  colspan="4"/>
+              <field name="speciality_id" colspan="4"/>
             </group>
-            <group col="4" colspan="2" attrs="{'invisible': [('source_course_group_id','=',False)]}">
-              <field name="weight" /><field name="total_weight" />
-              <field name="total_hours" />
-              <field name="total_credits" />
-            </group>
-            <separator string="Courses" colspan="4"/>
-            <field name="course_ids" colspan="4">
-              <tree string="Courses">
-                <field name="name" />
-                <field name="dispense" />
-                <field name="hours" />
-                <field name="credits" />
-                <field name="weight" />
-                <field name="source_course_id" invisible="1"/>
+            <field name="bloc_ids">
+              <tree string="Individual Blocs" create="0" delete="0">
+                <field name="year_id" />
+                <field name="student_id" />
+                <field name="source_bloc_name" />
               </tree>
             </field>
           </sheet>
@@ -82,13 +80,60 @@
         </form>
       </field>
     </record>
+    
+    <record id="view_individual_program_filter" model="ir.ui.view">
+      <field name="name">program.select</field>
+      <field name="model">school.individual_program</field>
+      <field name="arch" type="xml">
+        <search string="Search Blocs">
+          <field name="student_id" domain="[('type', '=', 'contact')]"/>
+          <group expand="1" string="Group By">
+            <filter string="Domain" context="{'group_by':'domain_id'}" />
+            <filter string="Cycle" context="{'group_by':'cycle_id'}" />
+            <filter string="Section" context="{'group_by':'section_id'}" />
+            <filter string="Track" context="{'group_by':'track_id'}" />
+            <filter string="Speciality" context="{'group_by':'speciality_id'}" />
+          </group>
+        </search>
+      </field>
+    </record>
+    
+    <record id="action_individual_program_form" model="ir.actions.act_window">
+      <field name="name">Individual Programs</field>
+      <field name="type">ir.actions.act_window</field>
+      <field name="res_model">school.individual_program</field>
+      <field name="view_type">form</field>
+      <field name="view_mode">tree,form</field>
+      <field name="context">{}</field>
+      <field name="search_view_id" ref="view_individual_program_filter" />
+      <field name="help" type="html">
+        <p class="oe_view_nocontent_create">
+          Please add individual program from Student view.
+        </p>
+      </field>
+    </record>
+    
+    <record id="action_individual_program_tree_view1" model="ir.actions.act_window.view">
+      <field name="sequence" eval="1" />
+      <field name="view_mode">tree</field>
+      <field name="view_id" ref="view_individual_program_tree" />
+      <field name="act_window_id" ref="action_individual_program_form" />
+    </record>
+    
+    <record id="action_individual_program_form_view2" model="ir.actions.act_window.view">
+      <field name="sequence" eval="2" />
+      <field name="view_mode">form</field>
+      <field name="view_id" ref="individual_program_form" />
+      <field name="act_window_id" ref="action_individual_program_form" />
+    </record>
+    
+    <menuitem id="menu_individual_program_form" parent="menu_individual_bloc" action="action_individual_program_form" sequence="1" />
 
     <!--
     
         Individual Bloc
         
         -->
-
 
     <!-- Individual Bloc Tree View -->
     <record id="view_individual_bloc_tree" model="ir.ui.view">
@@ -103,7 +148,7 @@
         </tree>
       </field>
     </record>
-
+    
     <!-- Individual Bloc Form View -->
     <record model="ir.ui.view" id="individual_bloc_form">
       <field name="name">school.individual_bloc.view</field>
@@ -122,8 +167,8 @@
               </h3>
             </div>
             <group col="4">
+              <field name="program_id" colspan="4"/>
               <field name="year_id" colspan="4"/>
-              <field name="student_id"  colspan="4"/>
               <field name="total_hours" />
               <field name="total_credits" />
             </group>
@@ -195,7 +240,71 @@
       <field name="act_window_id" ref="action_individual_bloc_form" />
     </record>
     
-    <menuitem id="menu_individual_bloc_form" parent="menu_individual_bloc" action="action_individual_bloc_form" sequence="1" />
+    <menuitem id="menu_individual_bloc_form" parent="menu_individual_bloc" action="action_individual_bloc_form" sequence="10" />
+
+    <!--
+    
+        Individual Course Group
+        
+    -->
+
+      <!-- Course Group Form View -->
+    <record model="ir.ui.view" id="individual_course_group_form">
+      <field name="name">school.individual_course_group.view</field>
+      <field name="model">school.individual_course_group</field>
+      <field name="type">form</field>
+      <field name="arch" type="xml">
+        <form string="Course Group">
+          <!--<header>
+    		            <button name="transfert_confirm" states="draft" string="Validate" class="oe_highlight" groups="account.group_account_invoice"/>
+    		            <button name="transfert_cancel" states="draft,confirmed" string="Cancel Transfert" groups="account.group_account_invoice"/>
+    		            <field name="state" widget="statusbar" statusbar_visible="draft,confirmed,paid"/>
+    		        </header>-->
+          <sheet>
+            <field name="image" widget="image" class="oe_avatar" options="{&quot;preview_image&quot;: &quot;image_medium&quot;, &quot;size&quot;: [90, 90]}"/>
+            <div class="oe_title">
+              <h1>
+               <field name="name"/>
+              </h1>
+              <h3 class="oe_fade">
+               <field name="bloc_id" options='{"no_open":True}'/>
+              </h3>
+            </div>
+            <group col="2" colspan="2">
+              <field name="source_course_group_id" />
+              <field name="teacher_id" />
+            </group>
+            <group col="4" colspan="2" attrs="{'invisible': [('source_course_group_id','=',False)]}">
+              <field name="weight" /><field name="total_weight" />
+              <field name="total_hours" />
+              <field name="total_credits" />
+            </group>
+            <separator string="Courses" colspan="4"/>
+            <field name="course_ids" colspan="4">
+              <tree string="Courses">
+                <field name="name" />
+                <field name="dispense" />
+                <field name="hours" />
+                <field name="credits" />
+                <field name="weight" />
+                <field name="source_course_id" invisible="1"/>
+              </tree>
+            </field>
+          </sheet>
+          <div class="oe_chatter">
+            <field name="message_follower_ids" widget="mail_followers" />
+            <field name="message_ids" widget="mail_thread" />
+          </div>
+        </form>
+      </field>
+    </record>
+
+    <!--
+    
+        Individual Course
+        
+    -->
+
 
     <!-- Individual Course Tree View -->
     <record id="view_individual_course_tree" model="ir.ui.view">
@@ -307,7 +416,7 @@
       <field name="act_window_id" ref="action_individual_course_form" />
     </record>
 
-    <menuitem id="menu_individual_course_form" parent="menu_individual_bloc" action="action_individual_course_form" sequence="10" />
+    <menuitem id="menu_individual_course_form" parent="menu_individual_bloc" action="action_individual_course_form" sequence="50" />
 
   </data>
 </openerp>
