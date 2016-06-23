@@ -64,6 +64,7 @@
               <field name="student_id" colspan="4"/>
               <field name="cycle_id"  colspan="4"/>
               <field name="speciality_id" colspan="4"/>
+              <field name="required_credits" colspan="4"/>
             </group>
             <field name="bloc_ids">
               <tree string="Individual Blocs" create="0" delete="0">
