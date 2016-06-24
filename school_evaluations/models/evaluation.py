@@ -493,6 +493,40 @@ class IndividualBloc(models.Model):
         
     total_acquiered_credits = fields.Integer(string="Acquiered Credits",compute="compute_credits", store=True)
     
+    @api.depends('course_group_ids','course_group_ids.acquiered')
+    @api.one
+    def compute_credits(self):
+        total = 0
+        for icg in self.course_group_ids:
+            if icg.acquiered == 'A':
+                total += icg.total_credits
+        self.total_acquiered_credits = total
+        
+    evaluation = fields.Float(string="Evaluation",compute="compute_evaluation")
+    
+    @api.depends('course_group_ids','course_group_ids.acquiered','course_group_ids.final_result')
+    @api.one
+    def compute_evaluation(self):
+        total = 0
+        total_weight = 0
+        for icg in self.course_group_ids:
+            if icg.acquiered == 'A' and icg.total_weight > 0 : # if total_weight == 0 means full dispense
+                total += icg.final_result * icg.weight
+                total_weight += icg.weight
+        if total_weight > 0 :
+            self.evaluation = total / total_weight
+        else:
+            self.evaluation = None
+        
+        
+class IndividualProgram(models.Model):
+    '''Individual Program'''
+    _inherit='school.individual_program'
+    
+    historical_bloc_1_eval = fields.Float(string="Hist Bloc 1")
+    
+    historical_bloc_2_eval = fields.Float(string="Hist Bloc 2")
+    
     grade = fields.Selection([
             ('without','Without Grade'),
             ('distinction','Distinction'),
@@ -502,11 +536,21 @@ class IndividualBloc(models.Model):
     
     grade_comments = fields.Text(string="Grade Comments")
     
-    @api.depends('course_group_ids','course_group_ids.acquiered')
+    evaluation = fields.Float(string="Evaluation",compute="compute_evaluation")
+    
+    @api.depends('bloc_ids','bloc_ids.evaluation','historical_bloc_1_eval','historical_bloc_2_eval')
     @api.one
-    def compute_credits(self):
+    def compute_evaluation(self):
         total = 0
-        for icg in self.course_group_ids:
-            if icg.acquiered == 'A':
-                total += icg.total_credits
-        self.total_acquiered_credits = total
+        count = 0
+        for bloc in self.bloc_ids:
+            total += bloc.evaluation
+            count += 1
+        if self.historical_bloc_1_eval > 0:
+            total += self.historical_bloc_1_eval
+            count += 1
+        if self.historical_bloc_2_eval > 0:
+            total += self.historical_bloc_2_eval
+            count += 1
+        self.evaluation = total/count
+        # TODO : Implement computation based on UE as per the decret

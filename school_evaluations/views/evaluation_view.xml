@@ -45,6 +45,7 @@
             <field name="arch" type="xml">
                 <xpath expr="//field[@name='source_bloc_name']" position="after">
                     <field name="state"/>
+                    <field name="total_acquiered_credits"/>
                 </xpath>
                 <xpath expr="//notebook[last()]" position="inside">
                     <page name="credit_lines" string="Credit Lines" attrs="{'invisible': [('student','=',False)]}">
@@ -111,6 +112,13 @@
             <field name="inherit_id" ref="school_management.individual_program_form" />
             <field eval="25" name="priority" />
             <field name="arch" type="xml">
+                <xpath expr="//field[@name='required_credits']" position="after">            
+                    <field name="historical_bloc_1_eval"/>
+                    <field name="historical_bloc_2_eval"/>
+                    <field name="evaluation" />
+                    <field name="grade" />
+                    <field name="grade_comments" colspan="4"/>
+                </xpath>
                 <xpath expr="//field[@name='source_bloc_name']" position="after">
                     <field name="state"/>
                 </xpath>
@@ -135,7 +143,8 @@
                     </header>
                 </xpath>
                 <xpath expr="//field[@name='course_group_ids']" position="before">
-                    <group>
+                    <group col="4">
+                        <field name="evaluation" />
                         <field name="total_acquiered_credits" />
                     </group>
                 </xpath>

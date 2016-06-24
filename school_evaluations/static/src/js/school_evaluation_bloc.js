@@ -160,7 +160,7 @@ return Widget.extend({
                     self.bloc_result = {
                         'message' : _t("60 crédits ECTS acquis ou valorisés, autorisé(e) à poursuivre son parcours sans restriction."),
                         'class' : "success",
-                        'button_text' : _t("Awarded"),
+                        'button_text' : _t("Réussite"),
                         'next_action' : "award",
                     };
                 }
@@ -168,7 +168,7 @@ return Widget.extend({
                     self.bloc_result = {
                         'message' : _t("Au moins 45 crédits ECTS acquis ou valorisés, autorisé(e) à poursuivre son parcours tout en finalisant ses crédits résiduels."),
                         'class' : "warning",
-                        'button_text' : _t("Postponed"),
+                        'button_text' : _t("Réussite"),
                         'next_action' : "postpone",
                     };
                 } 
@@ -176,7 +176,7 @@ return Widget.extend({
                     self.bloc_result = {
                         'message' : _t("Au moins 30 crédits ECTS acquis ou valorisés, impossibilité de poursuivre son parcours mais autorisé à compléter, avec l'accord du jury, son programme annuel."),
                         'class' : "warning",
-                        'button_text' : _t("Postponed"),
+                        'button_text' : _t("Ajourné"),
                         'next_action' : "postpone",
                     };
                 } 
@@ -184,7 +184,7 @@ return Widget.extend({
                     self.bloc_result = {
                         'message' : _t("Moins de 30 crédits ECTS acquis ou valorisés, impossibilité de poursuivre son parcours et pas de possibilité de compléter son programme annuel."),
                         'class' : "danger",
-                        'button_text' : _t("Postponed"),
+                        'button_text' : _t("Ajourné"),
                         'next_action' : "postpone",
                     };
                 }*/
@@ -192,7 +192,7 @@ return Widget.extend({
                     self.bloc_result = {
                         'message' : _t("Moins de 60 crédits ECTS acquis ou valorisés, les crédits non-acquis sont à présenter en seconde session."),
                         'class' : "danger",
-                        'button_text' : _t("Postponed"),
+                        'button_text' : _t("Ajourné"),
                         'next_action' : "postpone",
                     };
                 }
@@ -202,7 +202,7 @@ return Widget.extend({
                     self.bloc_result = {
                         'message' : _t("60 crédits ECTS acquis ou valorisés, autorisé(e) à poursuivre son parcours sans restriction."),
                         'class' : "success",
-                        'button_text' : _t("Awarded"),
+                        'button_text' : _t("Réussite"),
                         'next_action' : "award",
                     };
                 }
@@ -210,7 +210,7 @@ return Widget.extend({
                     self.bloc_result = {
                         'message' : _t("Moins de 60 crédits ECTS acquis ou valorisés, les crédits non-acquis sont à présenter en seconde session."),
                         'class' : "danger",
-                        'button_text' : _t("Postponed"),
+                        'button_text' : _t("Ajourné"),
                         'next_action' : "postpone",
                     };
                 }
@@ -220,7 +220,7 @@ return Widget.extend({
                     self.bloc_result = {
                         'message' : _t("180 crédits ECTS acquis ou valorisés, le jury confère le grade académique de Bachelier avec "),
                         'class' : "success",
-                        'button_text' : _t("Awarded"),
+                        'button_text' : _t("Réussite"),
                         'next_action' : "award",
                         'grade_text' : _t("First Class Honor"),
                         'grade' : 'first_class',
@@ -231,7 +231,7 @@ return Widget.extend({
                     self.bloc_result = {
                         'message' : _t("Au moins 165 crédits ECTS acquis ou valorisés, autorisation d'accéder au programme de Master tout en finalisant ses crédits résiduels."),
                         'class' : "warning",
-                        'button_text' : _t("Postponed"),
+                        'button_text' : _t("Ajourné"),
                         'next_action' : "postpone",
                     };
                 } 
@@ -239,7 +239,7 @@ return Widget.extend({
                     self.bloc_result = {
                         'message' : _t("Moins de 165 crédits ECTS acquis ou valorisés, pas de possibilité d'accéder au programme de Master."),
                         'class' : "danger",
-                        'button_text' : _t("Postponed"),
+                        'button_text' : _t("Ajourné"),
                         'next_action' : "postpone",
                     };
                 }*/
@@ -247,7 +247,7 @@ return Widget.extend({
                     self.bloc_result = {
                         'message' : _t("Moins de 60 crédits ECTS acquis ou valorisés, les crédits non-acquis sont à présenter en seconde session."),
                         'class' : "danger",
-                        'button_text' : _t("Postponed"),
+                        'button_text' : _t("Ajourné"),
                         'next_action' : "postpone",
                     };
                 }
@@ -286,6 +286,14 @@ return Widget.extend({
                         }
                 });
             }
+        ).done(
+                new Model('school.individual_program').query().filter([['id','=',self.bloc.program_id[0]]]).all().then(
+                function(program) {
+                    if (program) {
+                        self.program = program[0]; 
+                    }
+                }
+            )
         );
     },
     
