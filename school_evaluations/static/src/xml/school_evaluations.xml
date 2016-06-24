@@ -30,6 +30,91 @@
         </div>
     </t>
 
+    <t t-name="DetailEvalDialog">
+        <div class="container" style="font-size:150%;">
+            <div class="row">
+                <div class="col-md-3">
+                    <div class="panel panel-default">
+                      <div class="panel-heading">
+                        <h3 class="panel-title">Bac 1</h3>
+                      </div>
+                      <div class="panel-body">
+                        Evaluation : <t t-esc="widget.program.evaluation_details.bloc_evaluations[0].toFixed(2)"/>
+                      </div>
+                    </div>
+                </div>
+                <div class="col-md-3">
+                    <div class="panel panel-default">
+                      <div class="panel-heading">
+                        <h3 class="panel-title">Bac 2</h3>
+                      </div>
+                      <div class="panel-body">
+                        Evaluation : <t t-esc="widget.program.evaluation_details.bloc_evaluations[1].toFixed(2)"/>
+                      </div>
+                    </div>
+                </div>
+                <div class="col-md-3">
+                    <div class="panel panel-default">
+                      <div class="panel-heading">
+                        <h3 class="panel-title">Bac 3</h3>
+                      </div>
+                      <div class="panel-body">
+                        Evaluation : <t t-esc="widget.program.evaluation_details.bloc_evaluations[2].toFixed(2)"/>
+                      </div>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-3">Grade</div>
+                <div class="col-md-3">
+                    <select id="grade-list">
+                        <t t-if="widget.program.grade == 'without'">
+                            <option value="without" selected="true" >Sans Grade</option>
+                        </t>
+                        <t t-if="widget.program.grade != 'without'">
+                            <option value="without">Sans Grade</option>
+                        </t>
+                        <t t-if="widget.program.grade == 'satisfaction'">
+                            <option value="satisfaction" selected="true" >Satisfaction</option>
+                        </t>
+                        <t t-if="widget.program.grade != 'satisfaction'">
+                            <option value="satisfaction">Satisfaction</option>
+                        </t>
+                        <t t-if="widget.program.grade == 'distinction'">
+                            <option value="distinction" selected="true" >Distinction</option>
+                        </t>
+                        <t t-if="widget.program.grade != 'distinction'">
+                            <option value="distinction">Distinction</option>
+                        </t>
+                        <t t-if="widget.program.grade == 'second_class'">
+                            <option value="second_class" selected="true" >Grande Distinction</option>
+                        </t>
+                        <t t-if="widget.program.grade != 'second_class'">
+                            <option value="second_class">Grande Distinction</option>
+                        </t>
+                        <t t-if="widget.program.grade == 'first_class'">
+                            <option value="first_class" selected="true" >Plus Grande Distinction</option>
+                        </t>
+                        <t t-if="widget.program.grade != 'first_class'">
+                            <option value="first_class">Plus Grande Distinction</option>
+                        </t>
+                    </select>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-3">Justification</div>
+                <div class="col-md-3">
+                    <select id="grade-comment-list">
+                        <t t-foreach="widget.messages" t-as="message">
+                            <option t-att-value="message_index" ><t t-esc="message"/></option>
+                        </t>
+                    </select>
+                </div>
+            </div>
+        </div>
+    </t>
+        
+
     <t t-name="DetailResultDialog">
         <t t-set="cg" t-value="widget.course_group" />
         <div class="container" style="font-size:150%;">
@@ -232,11 +317,11 @@
                     
                     <t t-if="widget.bloc.source_bloc_level == 3">
                     <t t-if="widget.bloc_result.grade">
-                    <div class="col-md-1 text-center moyenne" t-if="widget.bloc.source_bloc_level == 3" role="button" >
+                    <div class="col-md-1 text-center moyenne o_school_eval_details" t-if="widget.bloc.source_bloc_level == 3" role="button" >
                         moyenne du cycle<br/><span class="score_value"><t t-esc="widget.program.evaluation.toFixed(2)"/></span>
                     </div>    
                     <div class="col-md-8">
-                        <div t-att-class="'alert alert-' + widget.bloc_result.class" role="alert"><t t-esc="widget.bloc_result.message"/><b><t t-esc="widget.bloc_result.grade"/></b></div>
+                        <div t-att-class="'alert alert-' + widget.bloc_result.class" role="alert"><t t-esc="widget.bloc_result.message"/><b><t t-esc="widget.program.grade_text"/></b></div>
                     </div>
                     <div class="col-md-2">
                         <button t-if="widget.bloc.state == 'progress'" type="button" t-att-class="'btn btn-lg btn-' + widget.bloc_result.class + ' bloc_' + widget.bloc_result.next_action"><t t-esc="widget.bloc_result.button_text"/></button>
@@ -317,7 +402,15 @@
                                         <td>
                                             <t t-esc="course.title" /> - <t t-esc="course.level" /> <i t-if="course.teacher_id" class="oe_fade"> - <t t-esc="course.teacher_id[1]"/></i></td>
                                         <td style=" text-align: right;">
-                                            <t t-esc="course.first_session_result.toFixed(2)" />
+                                            <t t-if="(course.type != 'D')">
+                                                <font color="blue"><t t-esc="course.first_session_result.toFixed(2)" /></font>
+                                            </t>
+                                            <t t-if="(course.type == 'D') and course.jun_result">
+                                                <font color="gray"><t t-esc="course.first_session_result.toFixed(2)"/></font>
+                                            </t>
+                                            <t t-if="(course.type == 'D') and !course.jun_result">
+                                                Dis
+                                            </t>
                                         </td>
                                         <td></td>
                                         <td></td>

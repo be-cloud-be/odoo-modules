@@ -529,6 +529,7 @@ class IndividualProgram(models.Model):
     
     grade = fields.Selection([
             ('without','Without Grade'),
+            ('satisfaction','Satisfaction'),
             ('distinction','Distinction'),
             ('second_class', 'Second Class Honor'),
             ('first_class', 'First Class Honor'),
@@ -553,4 +554,20 @@ class IndividualProgram(models.Model):
             total += self.historical_bloc_2_eval
             count += 1
         self.evaluation = total/count
+        # TODO : Implement computation based on UE as per the decret
+        
+    @api.depends('bloc_ids','bloc_ids.evaluation','historical_bloc_1_eval','historical_bloc_2_eval')
+    @api.multi
+    def compute_evaluation_details(self):
+        self.ensure_one();
+        ret = [0,0,0,0,0]
+        if self.historical_bloc_1_eval > 0:
+            ret[0] = self.historical_bloc_1_eval
+        if self.historical_bloc_2_eval > 0:
+            ret[1] = self.historical_bloc_2_eval
+        for bloc in self.bloc_ids:
+            ret[int(bloc.source_bloc_level)-1] = bloc.evaluation
+        return {
+            'bloc_evaluations' : ret
+        }
         # TODO : Implement computation based on UE as per the decret

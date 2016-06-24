@@ -14,6 +14,51 @@ var Dialog = require('web.Dialog');
 var QWeb = core.qweb;
 var _t = core._t;
 
+var DetailEvalDialog = Dialog.extend({
+    template: 'DetailEvalDialog',
+    
+    events: {
+        'change #grade-list': 'changeGrade',
+        'change #grade-comment-list': 'changeGradeComment',
+    },
+    
+    init: function(parent, options) {
+        this._super.apply(this, arguments);
+        this.title = options.title;
+        this.program = options.program;
+        this.parent = parent;
+        this.messages = [
+            '',
+            'Pertinence et singularité du travail artistique',
+            'Qualité particulière du travail artistique',
+            'Participation active et régulière aux activités d’enseignement',
+            'Caractère accidentel des échecs',
+            'Echecs limités en qualité et quantité',
+            'Pourcentage global et importance relative des échecs',
+            'Progrès réalisés d’une session à l’autre',
+            'La réussite des activités de remédiation'
+        ];
+    },
+    
+    changeGrade: function() {
+        var self = this;
+        var grade = this.$('#grade-list').val()
+        new Model('school.individual_program').call('write', [self.program.id,{'grade':grade}]).then(function(result){
+            self.program.grade = grade;
+        })
+    },
+    
+    changeGradeComment: function() {
+        var self = this;
+        var mess_idx = parseInt(this.$('#grade-comment-list').val());
+        var message = this.messages[mess_idx];
+        new Model('school.individual_program').call('write', [self.program.id,{'grade_comments':message}]).then(function(result){
+            self.program.grade_comments = message;
+        })
+    },
+    
+});
+
 var DetailResultDialog = Dialog.extend({
     template: 'DetailResultDialog',
     
@@ -35,6 +80,7 @@ return Widget.extend({
             new Model(self.dataset.model).call("set_to_awarded",[self.datarecord.id,self.dataset.get_context()]).then(function(result) {
                 self.parent.$(".o_school_bloc_item.active i").removeClass('fa-user');
                 self.parent.$(".o_school_bloc_item.active i").addClass('fa-check');
+                self.bloc.state = "awarded";
                 self.next().then(function(){
                     self.parent.$('.o_school_bloc_item.active').removeClass('active');
                     self.parent.$("a[data-bloc-id='" + self.datarecord.id + "']").addClass('active');
@@ -48,6 +94,7 @@ return Widget.extend({
             new Model(self.dataset.model).call("set_to_postponed",[self.datarecord.id,self.dataset.get_context()]).then(function(result) {
                 self.parent.$(".o_school_bloc_item.active i").removeClass('fa-user');
                 self.parent.$(".o_school_bloc_item.active i").addClass('fa-check');
+                self.bloc.state = "postponed";
                 self.next().then(function(){
                     self.parent.$('.o_school_bloc_item.active').removeClass('active');
                     self.parent.$("a[data-bloc-id='" + self.datarecord.id + "']").addClass('active');
@@ -61,11 +108,18 @@ return Widget.extend({
             new Model(self.dataset.model).call("set_to_failed",[self.datarecord.id,self.dataset.get_context()]).then(function(result) {
                 self.parent.$(".o_school_bloc_item.active i").removeClass('fa-user');
                 self.parent.$(".o_school_bloc_item.active i").addClass('fa-check');
+                self.bloc.state = "failed";
                 self.next().then(function(){
                     self.parent.$('.o_school_bloc_item.active').removeClass('active');
                     self.parent.$("a[data-bloc-id='" + self.datarecord.id + "']").addClass('active');
                 });
             });
+        },
+        
+        "click .o_school_eval_details": function (event) {
+            var self = this;
+            event.preventDefault();
+            new DetailEvalDialog(this, {title : _t('Detailed Evaluation'), program : self.program}).open();
         },
         
         "click .o_school_edit_icg": function (event) {
@@ -222,8 +276,22 @@ return Widget.extend({
                         'class' : "success",
                         'button_text' : _t("Réussite"),
                         'next_action' : "award",
-                        'grade_text' : _t("First Class Honor"),
-                        'grade' : 'first_class',
+                    };
+                    if(self.program.evaluation >= 18){
+                        self.bloc_result.grade_text = _t("First Class Honor");
+                        self.bloc_result.grade = 'first_class';
+                    } else if (self.program.evaluation >= 16){
+                        self.bloc_result.grade_text = _t("Second Class Honor");
+                        self.bloc_result.grade = 'second_class';
+                    } else if (self.program.evaluation >= 14){
+                        self.bloc_result.grade_text = _t("Distinction");
+                        self.bloc_result.grade = 'distinction';
+                    } else if (self.program.evaluation >= 12){
+                        self.bloc_result.grade_text = _t("Satisfaction");
+                        self.bloc_result.grade = 'satisfaction';
+                    } else {
+                        self.bloc_result.grade_text = _t("Without Grade");
+                        self.bloc_result.grade = 'without';
                     };
                 }
                 /*
@@ -265,8 +333,6 @@ return Widget.extend({
             unique: (self.datarecord.__last_update || '').replace(/[^0-9]/g, '')
         });
         
-        self._update_evaluation_messages();
-        
         return new Model('school.individual_course_group').query(['id','name','title','course_ids','acquiered','first_session_computed_result','final_result','total_credits','total_weight','first_session_deliberated_result_bool']).filter([['id', 'in', self.bloc.course_group_ids]]).all().then(
             function(course_groups) {
                 self.course_groups = course_groups;
@@ -290,8 +356,29 @@ return Widget.extend({
                 new Model('school.individual_program').query().filter([['id','=',self.bloc.program_id[0]]]).all().then(
                 function(program) {
                     if (program) {
-                        self.program = program[0]; 
+                        self.program = program[0];
+                        switch (self.program.grade) {
+                          case "without":
+                            self.program.grade_text = "Sans grade";
+                            break;
+                          case "satisfaction":
+                            self.program.grade_text = "Satisfaction";
+                            break;
+                          case "distinction":
+                            self.program.grade_text = "Distinction";
+                            break;
+                          case "second_class":
+                            self.program.grade_text = "la Grande Distinction";
+                            break;
+                          case "first_class":
+                            self.program.grade_text = "la Plus Grande Distinction";
+                            break;
+                        };
+                        new Model('school.individual_program').call('compute_evaluation_details', [self.program.id]).then(function(results){
+                            self.program.evaluation_details = results;
+                        })
                     }
+                    self._update_evaluation_messages();
                 }
             )
         );
