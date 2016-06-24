@@ -477,14 +477,14 @@ class IndividualBloc(models.Model):
         return self.write({'state': 'progress'})
     
     @api.multi
-    def set_to_postponed(self, message, context):
+    def set_to_postponed(self, context):
         # TODO use a workflow to make sure only valid changes are used.
         return self.write({'state': 'postponed'})
     
     @api.multi
-    def set_to_awarded(self, grade, message, context):
+    def set_to_awarded(self, context):
         # TODO use a workflow to make sure only valid changes are used.
-        return self.write({'state': 'awarded','grade': grade, 'grade_comments' : message})
+        return self.write({'state': 'awarded','grade': None, 'grade_comments' : None})
     
     @api.multi
     def set_to_failed(self, message, context):

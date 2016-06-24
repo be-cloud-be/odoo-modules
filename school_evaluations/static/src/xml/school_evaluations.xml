@@ -203,8 +203,8 @@
                     <t t-foreach="blocs" t-as="bloc">
                         <li>
                             <a t-att-class="'o_school_bloc_item'+ (bloc_first ? ' active':'')" t-att-data-bloc-id="bloc.id" href="#">
-                                <i class="fa fa-user fa-fw"></i>
-                                <span><t t-esc="bloc.student_id[1]" /></span><span t-att-class="((bloc.state == 'postponed') or (bloc.state == 'awarded') or (bloc.state == 'failed') ? 'fa pull-right fa-check' : '')"></span>
+                                <i t-att-class="((bloc.state == 'postponed') or (bloc.state == 'awarded') or (bloc.state == 'failed') ? 'fa fa-check fa-fw' : 'fa fa-user fa-fw')"></i>
+                                <span ><t t-esc="bloc.student_id[1]" /></span>
                             </a>
                         </li>
                         <t t-set="is_first" t-value="false" />

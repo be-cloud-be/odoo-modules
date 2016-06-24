@@ -33,7 +33,8 @@ return Widget.extend({
             event.preventDefault();
             var self = this;
             new Model(self.dataset.model).call("set_to_awarded",[self.datarecord.id,self.dataset.get_context()]).then(function(result) {
-                self.parent.$(".o_school_bloc_item.active span").addClass('fa pull-right fa-check');
+                self.parent.$(".o_school_bloc_item.active i").removeClass('fa-user');
+                self.parent.$(".o_school_bloc_item.active i").addClass('fa-check');
                 self.next().then(function(){
                     self.parent.$('.o_school_bloc_item.active').removeClass('active');
                     self.parent.$("a[data-bloc-id='" + self.datarecord.id + "']").addClass('active');
@@ -45,7 +46,8 @@ return Widget.extend({
             event.preventDefault();
             var self = this;
             new Model(self.dataset.model).call("set_to_postponed",[self.datarecord.id,self.dataset.get_context()]).then(function(result) {
-                self.parent.$(".o_school_bloc_item.active span").addClass('fa pull-right fa-check');
+                self.parent.$(".o_school_bloc_item.active i").removeClass('fa-user');
+                self.parent.$(".o_school_bloc_item.active i").addClass('fa-check');
                 self.next().then(function(){
                     self.parent.$('.o_school_bloc_item.active').removeClass('active');
                     self.parent.$("a[data-bloc-id='" + self.datarecord.id + "']").addClass('active');
@@ -57,7 +59,8 @@ return Widget.extend({
             event.preventDefault();
             var self = this;
             new Model(self.dataset.model).call("set_to_failed",[self.datarecord.id,self.dataset.get_context()]).then(function(result) {
-                self.parent.$(".o_school_bloc_item.active span").addClass('fa pull-right fa-check');
+                self.parent.$(".o_school_bloc_item.active i").removeClass('fa-user');
+                self.parent.$(".o_school_bloc_item.active i").addClass('fa-check');
                 self.next().then(function(){
                     self.parent.$('.o_school_bloc_item.active').removeClass('active');
                     self.parent.$("a[data-bloc-id='" + self.datarecord.id + "']").addClass('active');
@@ -110,35 +113,42 @@ return Widget.extend({
     },
     
     read_ids: function(ids) {
-        return this.dataset.read_slice(['id','name','student_id','source_bloc_title','course_group_ids','state','source_bloc_level'],[['id', 'in', ids]]);
+        var self = this;
+        return this.dataset.read_ids(ids,[]).then(function (results) {
+                self.records = results;
+                self.record_idx = 0;
+                self.datarecord = self.records[self.record_idx];
+            });
     },
     
     set_bloc_id: function(bloc_id) {
         var self = this;
         this.bloc_id = bloc_id;
-        this.dataset.select_id(bloc_id)
-        return self.update();
+        for (var i=0, ii=self.records.length; i<ii; i++) {
+            if(this.records[i].id == bloc_id){
+                this.record_idx = i;
+                this.datarecord = this.records[this.record_idx];
+                return self.update();
+            }
+        }
     },
     
     next: function() {
         var self = this;
-        this.dataset.next();
-        this.bloc_id = this.dataset.record_id;
-        return self.update();
+        if(this.record_idx < this.records.length-2){
+            this.record_idx += 1;
+            this.datarecord = this.records[this.record_idx];
+            return self.update();
+        }
     },
     
     update: function() {
         var self = this;
-        return this.dataset.read_index().then(
-            function(data){
-                self.datarecord = data;
-                self.bloc = data;
-                self._read_bloc_data().done(
-                    function(){
-                        self.renderElement();
-                    }  
-                );
-            }
+        self.bloc = this.datarecord;
+        return self._read_bloc_data().done(
+            function(){
+                self.renderElement();
+            }  
         );
     },
     

@@ -40,9 +40,12 @@
         <record id="view_partners_form_school_eval" model="ir.ui.view">
             <field name="name">view.res.partner.form.school.eval</field>
             <field name="model">res.partner</field>
-            <field name="inherit_id" ref="school_management.view_partners_form_school" />
+            <field name="inherit_id" ref="school_management.view_student_form_school" />
             <field eval="18" name="priority" />
             <field name="arch" type="xml">
+                <xpath expr="//field[@name='source_bloc_name']" position="after">
+                    <field name="state"/>
+                </xpath>
                 <xpath expr="//notebook[last()]" position="inside">
                     <page name="credit_lines" string="Credit Lines" attrs="{'invisible': [('student','=',False)]}">
                         <field name="credit_line_ids">
@@ -89,6 +92,21 @@
       </field>
     </record>
 
+    
+
+
+        <!-- Add evaluation to Individual Program form view -->
+        <record id="individual_program_eval_form" model="ir.ui.view">
+            <field name="name">school.individual_program.eval.view</field>
+            <field name="model">school.individual_program</field>
+            <field name="inherit_id" ref="school_management.individual_program_form" />
+            <field eval="25" name="priority" />
+            <field name="arch" type="xml">
+                <xpath expr="//field[@name='source_bloc_name']" position="after">
+                    <field name="state"/>
+                </xpath>
+            </field>
+        </record>
 
         <!-- Add evaluation to Individual Bloc form view -->
         <record id="individual_bloc_eval_form" model="ir.ui.view">
