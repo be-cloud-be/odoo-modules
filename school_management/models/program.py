@@ -45,7 +45,7 @@ class CourseGroup(models.Model):
     level = fields.Integer(string='Level')
     
     description = fields.Text(string='Description')
-
+    
     course_ids = fields.One2many('school.course', 'course_group_id', string='Courses', copy=True, ondelete="cascade")
 
     bloc_ids = fields.Many2many('school.bloc','school_bloc_course_group_rel', id1='group_id', id2='bloc_id',string='Blocs', copy=False)

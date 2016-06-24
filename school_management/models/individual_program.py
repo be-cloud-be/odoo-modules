@@ -67,7 +67,7 @@ class IndividualBloc(models.Model):
     
     name = fields.Char(compute='_compute_name',string='Name', readonly=True, store=True)
     
-    program_id = fields.Many2one('school.individual_program', string='Program', required=True)
+    program_id = fields.Many2one('school.individual_program', string='Individual Program', required=True)
     
     year_id = fields.Many2one('school.year', string='Year', readonly=True)
     
