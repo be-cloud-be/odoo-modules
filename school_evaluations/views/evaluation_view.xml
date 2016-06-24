@@ -78,7 +78,7 @@
                     <label for="type" string="Type of credits" />
                     <field name="type" widget="radio" colspan="3" nolabel="1" options="{'horizontal': true}" />
                 </group>
-                <group col="4" 
+                <group col="4">
                     <field name="date"/>
                     <field name="cycle_id" />
                 </group>
@@ -136,7 +136,7 @@
                 </xpath>
                 <xpath expr="//field[@name='course_group_ids']" position="before">
                     <group>
-                        <field name="totat_acquiered_credits" />
+                        <field name="total_acquiered_credits" />
                     </group>
                 </xpath>
                 <xpath expr="//field[@name='source_course_group_id']" position="before">

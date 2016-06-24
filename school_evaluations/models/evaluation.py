@@ -491,7 +491,7 @@ class IndividualBloc(models.Model):
         # TODO use a workflow to make sure only valid changes are used.
         return self.write({'state': 'failed','grade': False})
         
-    totat_acquiered_credits = fields.Integer(string="Acquiered Credits",compute="compute_credits", store=True)
+    total_acquiered_credits = fields.Integer(string="Acquiered Credits",compute="compute_credits", store=True)
     
     grade = fields.Selection([
             ('without','Without Grade'),
@@ -509,4 +509,4 @@ class IndividualBloc(models.Model):
         for icg in self.course_group_ids:
             if icg.acquiered == 'A':
                 total += icg.total_credits
-        self.totat_acquiered_credits = total
+        self.total_acquiered_credits = total

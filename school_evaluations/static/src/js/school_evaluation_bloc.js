@@ -156,7 +156,7 @@ return Widget.extend({
         var self = this;
         switch(self.bloc.source_bloc_level) {
             case "1" :
-                if(self.bloc.totat_acquiered_credits >= 60) {
+                if(self.bloc.total_acquiered_credits >= 60) {
                     self.bloc_result = {
                         'message' : _t("60 crédits ECTS acquis ou valorisés, autorisé(e) à poursuivre son parcours sans restriction."),
                         'class' : "success",
@@ -164,7 +164,7 @@ return Widget.extend({
                         'next_action' : "award",
                     };
                 }
-                /*else if(self.bloc.totat_acquiered_credits >= 45) {
+                /*else if(self.bloc.total_acquiered_credits >= 45) {
                     self.bloc_result = {
                         'message' : _t("Au moins 45 crédits ECTS acquis ou valorisés, autorisé(e) à poursuivre son parcours tout en finalisant ses crédits résiduels."),
                         'class' : "warning",
@@ -172,7 +172,7 @@ return Widget.extend({
                         'next_action' : "postpone",
                     };
                 } 
-                else if(self.bloc.totat_acquiered_credits >= 30) {
+                else if(self.bloc.total_acquiered_credits >= 30) {
                     self.bloc_result = {
                         'message' : _t("Au moins 30 crédits ECTS acquis ou valorisés, impossibilité de poursuivre son parcours mais autorisé à compléter, avec l'accord du jury, son programme annuel."),
                         'class' : "warning",
@@ -198,7 +198,7 @@ return Widget.extend({
                 }
                 break;
             case "2" :
-                if(self.bloc.totat_acquiered_credits >= 60) {
+                if(self.bloc.total_acquiered_credits >= 60) {
                     self.bloc_result = {
                         'message' : _t("60 crédits ECTS acquis ou valorisés, autorisé(e) à poursuivre son parcours sans restriction."),
                         'class' : "success",
@@ -216,7 +216,7 @@ return Widget.extend({
                 }
                 break;
             case "3" :
-                if(self.bloc.totat_acquiered_credits >= 60) {
+                if(self.bloc.total_acquiered_credits >= 60) {
                     self.bloc_result = {
                         'message' : _t("180 crédits ECTS acquis ou valorisés, le jury confère le grade académique de Bachelier avec "),
                         'class' : "success",
@@ -227,7 +227,7 @@ return Widget.extend({
                     };
                 }
                 /*
-                else if(self.bloc.totat_acquiered_credits >= 45) {
+                else if(self.bloc.total_acquiered_credits >= 45) {
                     self.bloc_result = {
                         'message' : _t("Au moins 165 crédits ECTS acquis ou valorisés, autorisation d'accéder au programme de Master tout en finalisant ses crédits résiduels."),
                         'class' : "warning",

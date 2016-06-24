@@ -227,7 +227,7 @@
                 </div>
                 <div class="row vertical-align" style="margin-bottom: 10px;">
                     <div class="col-md-1 text-center credits">
-                        crédits <br/><span class="score_value"><t t-esc="widget.bloc.totat_acquiered_credits"/></span>
+                        crédits <br/><span class="score_value"><t t-esc="widget.bloc.total_acquiered_credits"/></span>
                     </div>
                     
                     <t t-if="widget.bloc.source_bloc_level == 3">
