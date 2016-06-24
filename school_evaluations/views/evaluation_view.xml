@@ -36,7 +36,7 @@
             </xpath>
         </template>
 
-        <!-- Add credit lines to partner -->
+        <!-- Partner -->
         <record id="view_partners_form_school_eval" model="ir.ui.view">
             <field name="name">view.res.partner.form.school.eval</field>
             <field name="model">res.partner</field>
@@ -61,36 +61,45 @@
             </field>
         </record>
 
-    <!-- Credit Line -->
-    <record model="ir.ui.view" id="credit_line_form">
-      <field name="name">school.credit.line.view</field>
-      <field name="model">school.credit.line</field>
-      <field name="type">form</field>
-      <field name="arch" type="xml">
-        <form string="Credit Line">
-          <sheet>
-            <div class="oe_title">
-              <h1>
-               <field name="student_id"/>
-              </h1>
-            </div>
-            <group col="4">
-              <field name="date"/>
-              <field name="cycle_id" />
-              <field name="individual_bloc_id" />
-              <field name="credits"/>
-              <field name="weighted_sum"/>
-              <field name="total_weight"/>
-            </group>
-            <group col="4" string="Manual Entry">
-              <field name="manual_credits"/>
-              <field name="manual_weighted_sum" />
-              <field name="manual_total_weight" />
-            </group>
-          </sheet>
-        </form>
-      </field>
-    </record>
+        <!-- Credit Line -->
+        <record model="ir.ui.view" id="credit_line_form">
+          <field name="name">school.credit.line.view</field>
+          <field name="model">school.credit.line</field>
+          <field name="type">form</field>
+          <field name="arch" type="xml">
+            <form string="Credit Line">
+              <sheet>
+                <div class="oe_title">
+                  <h1>
+                   <field name="student_id"/>
+                  </h1>
+                </div>
+                <group col="2">
+                    <label for="type" string="Type of credits" />
+                    <field name="type" widget="radio" colspan="3" nolabel="1" options="{'horizontal': true}" />
+                </group>
+                <group col="4" 
+                    <field name="date"/>
+                    <field name="cycle_id" />
+                </group>
+                <group col="4" attrs="{'invisible': [('type','in',['M','H'])]}">
+                  <field name="individual_bloc_id" />
+                  <field name="credits"/>
+                  <field name="weighted_sum"/>
+                  <field name="total_weight"/>
+                </group>
+                <group col="4" attrs="{'invisible': [('type','in',['A','H'])]}">
+                  <field name="manual_credits"/>
+                  <field name="manual_weighted_sum" />
+                  <field name="manual_total_weight" />
+                </group>
+                <group col="4" attrs="{'invisible': [('type','in',['A','M'])]}">
+                  <field name="hitorical_evaluation"/>
+                </group>
+              </sheet>
+            </form>
+          </field>
+        </record>
 
     
 

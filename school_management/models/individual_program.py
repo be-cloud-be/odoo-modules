@@ -25,6 +25,38 @@ from openerp.exceptions import UserError
 
 _logger = logging.getLogger(__name__)
 
+class IndividualProgram(models.Model):
+    '''Individual Program'''
+    _name='school.individual_program'
+    _description='Individual Program'
+    _inherit = ['mail.thread']
+    
+    _order = 'name'
+
+    name = fields.Char(compute='_compute_name',string='Name', readonly=True, store=True)
+    
+    student_id = fields.Many2one('res.partner', string='Student', domain="[('student', '=', '1')]", required=True)
+    
+    image = fields.Binary('Image', attachment=True, related='student_id.image')
+    image_medium = fields.Binary('Image', attachment=True, related='student_id.image_medium')
+    image_small = fields.Binary('Image', attachment=True, related='student_id.image_small')
+    
+    cycle_id = fields.Many2one('school.cycle', string='Cycle', required=True)
+    
+    speciality_id = fields.Many2one('school.speciality', string='Speciality', required=True)
+    domain_id = fields.Many2one(related='speciality_id.domain_id', string='Domain',store=True)
+    section_id = fields.Many2one(related='speciality_id.section_id', string='Section',store=True)
+    track_id = fields.Many2one(related='speciality_id.track_id', string='Track',store=True)
+    
+    required_credits = fields.Integer(related='cycle_id.required_credits',string='Required Credits')
+    
+    @api.one
+    @api.depends('cycle_id.name','speciality_id.name','student_id.name')
+    def _compute_name(self):
+        self.name = "%s - %s - %s" % (self.student_id.name,self.cycle_id.name,self.speciality_id.name)
+    
+    bloc_ids = fields.One2many('school.individual_bloc', 'program_id', string='Individual Blocs')
+
 class IndividualBloc(models.Model):
     '''Individual Bloc'''
     _name='school.individual_bloc'
@@ -35,9 +67,13 @@ class IndividualBloc(models.Model):
     
     name = fields.Char(compute='_compute_name',string='Name', readonly=True, store=True)
     
+    program_id = fields.Many2one('school.individual_program', string='Program', required=True)
+    
     year_id = fields.Many2one('school.year', string='Year', readonly=True)
-    student_id = fields.Many2one('res.partner', string='Student', domain="[('student', '=', '1')]", readonly=True)
+    
+    student_id = fields.Many2one(related='program_id.student_id', string='Student', domain="[('student', '=', '1')]", readonly=True, store=True)
     student_name = fields.Char(related='student_id.name', string="Student Name", readonly=True, store=True)
+    
     source_bloc_id = fields.Many2one('school.bloc', string="Source Bloc", readonly=True)
     source_bloc_name = fields.Char(related='source_bloc_id.name', string="Source Bloc Name", readonly=True, store=True)
     source_bloc_title = fields.Char(related='source_bloc_id.title', string="Source Bloc Title", readonly=True, store=True)
