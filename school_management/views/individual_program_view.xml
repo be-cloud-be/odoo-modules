@@ -46,13 +46,13 @@
       </field>
     </record>
     
-    <!-- Individual Bloc Form View -->
+    <!-- Individual Program Form View -->
     <record model="ir.ui.view" id="individual_program_form">
       <field name="name">school.individual_program.view</field>
       <field name="model">school.individual_program</field>
       <field name="type">form</field>
       <field name="arch" type="xml">
-        <form string="Individual Bloc">
+        <form string="Individual Program">
           <sheet>
             <field name="image" widget="image" class="oe_avatar" options="{&quot;preview_image&quot;: &quot;image_medium&quot;, &quot;size&quot;: [150, 150]}"/>
             <div class="oe_title" style="padding-left: 130px;">
@@ -64,7 +64,7 @@
               <field name="student_id" colspan="4"/>
               <field name="cycle_id"  colspan="4"/>
               <field name="speciality_id" colspan="4"/>
-              <field name="required_credits" colspan="4"/>
+              <field name="required_credits" colspan="4" readonly="1"/>
             </group>
             <field name="bloc_ids">
               <tree string="Individual Blocs" create="0" delete="0">
