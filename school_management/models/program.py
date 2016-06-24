@@ -281,6 +281,7 @@ class Cycle(models.Model):
     _name = 'school.cycle'
     name = fields.Char(required=True, string='Name', size=60)
     description = fields.Text(string='Description')
+    required_credits = fields.Integer(string='Required Credits')
     
 class Section(models.Model):
     '''Section'''
