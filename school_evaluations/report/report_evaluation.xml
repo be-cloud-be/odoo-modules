@@ -21,7 +21,7 @@
 ##############################################################################
 -->
 <odoo>
-
+    
     <!--
     
     Evaluations report for students
@@ -34,13 +34,15 @@
             report_type="qweb-pdf" 
             name="school_evaluations.report_evaluation_for_student_content" 
             file="school_evaluations.report_evaluation_for_student_content"
+            attachment_use="True"
+            attachment="object.name+time.strftime('-%d-%m-%Y')+'.pdf'"
     />
 
 
     <template id="report_evaluation_for_student_content">
         <t t-call="report.html_container">
-            <t t-set="data_report_margin_top" t-value="45"/>
-            <t t-set="data_report_header_spacing" t-value="40"/>
+            <t t-set="data_report_margin_top" t-value="30"/>
+            <t t-set="data_report_header_spacing" t-value="25"/>
             <t t-foreach="docs" t-as="o">
                 <t t-call="report.external_layout">
                 <div class="page">
@@ -116,17 +118,22 @@
                                 <h4><t t-esc="o.decision"/></h4>    
                             </div>
                         </div>
-                        <div class="row" style="margin-bottom:50px;">
+                        <div class="row" style="margin-bottom:80px;">
                             <div class="col-xs-10 col-xs-offset-1">
                                 Remarques : 
                             </div>
                         </div>
-                        <div class="row">
+                        <div class="row" style="margin-bottom:120px;">
                             <div class="col-xs-4 col-xs-offset-1">
                                 Le Directeur,
                             </div>
                             <div class="col-xs-4">
                                 L'étudiant, pour réception, 
+                            </div>
+                        </div>
+                        <div class="row" style="margin-bottom:120px;">
+                            <div class="col-xs-9 col-xs-offset-1">
+                                Imprimé le <span t-esc="datetime.datetime.now().strftime('%d-%m-%Y à %H:%M:%S')"/>
                             </div>
                         </div>
                     </div>
