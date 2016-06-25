@@ -47,7 +47,7 @@
                     <field name="state"/>
                     <field name="total_acquiered_credits"/>
                 </xpath>
-                <xpath expr="//notebook[last()]" position="inside">
+                <!--<xpath expr="//notebook[last()]" position="inside">
                     <page name="credit_lines" string="Credit Lines" attrs="{'invisible': [('student','=',False)]}">
                         <field name="credit_line_ids">
                             <tree string="Credit Lines" context="{'default_student_id' : active_id}">
@@ -58,11 +58,11 @@
                             </tree>
                         </field>
                     </page>
-                </xpath>
+                </xpath>-->
             </field>
         </record>
 
-        <!-- Credit Line -->
+        <!-- Credit Line
         <record model="ir.ui.view" id="credit_line_form">
           <field name="name">school.credit.line.view</field>
           <field name="model">school.credit.line</field>
@@ -100,11 +100,9 @@
               </sheet>
             </form>
           </field>
-        </record>
+        </record> -->
 
     
-
-
         <!-- Add evaluation to Individual Program form view -->
         <record id="individual_program_eval_form" model="ir.ui.view">
             <field name="name">school.individual_program.eval.view</field>
@@ -146,6 +144,7 @@
                     <group col="4">
                         <field name="evaluation" />
                         <field name="total_acquiered_credits" />
+                        <field name="decision" colspan="4"/>
                     </group>
                 </xpath>
                 <xpath expr="//field[@name='source_course_group_id']" position="before">

@@ -45,6 +45,7 @@ var DetailEvalDialog = Dialog.extend({
         var grade = this.$('#grade-list').val()
         new Model('school.individual_program').call('write', [self.program.id,{'grade':grade}]).then(function(result){
             self.program.grade = grade;
+            self.parent.update(); 
         })
     },
     
@@ -54,6 +55,7 @@ var DetailEvalDialog = Dialog.extend({
         var message = this.messages[mess_idx];
         new Model('school.individual_program').call('write', [self.program.id,{'grade_comments':message}]).then(function(result){
             self.program.grade_comments = message;
+            self.parent.update();
         })
     },
     
@@ -77,7 +79,7 @@ return Widget.extend({
         "click .bloc_award": function (event) {
             event.preventDefault();
             var self = this;
-            new Model(self.dataset.model).call("set_to_awarded",[self.datarecord.id,self.dataset.get_context()]).then(function(result) {
+            new Model(self.dataset.model).call("set_to_awarded",[self.datarecord.id,self.bloc_result.message,self.dataset.get_context()]).then(function(result) {
                 self.parent.$(".o_school_bloc_item.active i").removeClass('fa-user');
                 self.parent.$(".o_school_bloc_item.active i").addClass('fa-check');
                 self.bloc.state = "awarded";
@@ -91,7 +93,7 @@ return Widget.extend({
         "click .bloc_postpone": function (event) {
             event.preventDefault();
             var self = this;
-            new Model(self.dataset.model).call("set_to_postponed",[self.datarecord.id,self.dataset.get_context()]).then(function(result) {
+            new Model(self.dataset.model).call("set_to_postponed",[self.datarecord.id,self.bloc_result.message,self.dataset.get_context()]).then(function(result) {
                 self.parent.$(".o_school_bloc_item.active i").removeClass('fa-user');
                 self.parent.$(".o_school_bloc_item.active i").addClass('fa-check');
                 self.bloc.state = "postponed";
@@ -105,7 +107,7 @@ return Widget.extend({
         "click .bloc_failed": function (event) {
             event.preventDefault();
             var self = this;
-            new Model(self.dataset.model).call("set_to_failed",[self.datarecord.id,self.dataset.get_context()]).then(function(result) {
+            new Model(self.dataset.model).call("set_to_failed",[self.datarecord.id,self.bloc_result.message,self.dataset.get_context()]).then(function(result) {
                 self.parent.$(".o_school_bloc_item.active i").removeClass('fa-user');
                 self.parent.$(".o_school_bloc_item.active i").addClass('fa-check');
                 self.bloc.state = "failed";
@@ -128,29 +130,6 @@ return Widget.extend({
             var id = this.$(event.currentTarget).data('cg-id');
             var res_id = parseInt(id).toString() == id ? parseInt(id) : id;
             new DetailResultDialog(this, {title : _t('Detailed Results'), course_group : self.course_groups[self.course_group_id_map[res_id]]}).open();
-            /*var dialog = new form_common.FormViewDialog(this, {
-                res_model: 'school.individual_course_group',
-                res_id: parseInt(id).toString() == id ? parseInt(id) : id,
-                context: this.dataset.get_context(),
-                title: _t("Edit Course Group"),
-                view_id: false,
-                readonly: true,
-                buttons: [
-                    {text: _t("Edit"), classes: 'btn-primary oe_school_edit_cgi_button', close: false, click: function() {
-                        this.view_form.to_edit_mode();
-                        dialog.$footer.children('.oe_school_edit_cgi_button').hide();
-                        dialog.$footer.children('.oe_school_save_cgi_button').show();
-                    }},
-                    {text: _t("Save"), classes: 'btn-primary oe_school_save_cgi_button', close: true, click: function() {
-                        this.view_form.save()
-                    }},
-                    {text: _t("Close"), close: true}
-                ]
-            }).open();
-            dialog.$footer.children('.oe_school_save_cgi_button').hide(); //TODO how to hide a button ??
-            dialog.on('closed', self, function () {
-                self.update();
-            });*/
         },
         
     },
@@ -210,9 +189,9 @@ return Widget.extend({
         var self = this;
         switch(self.bloc.source_bloc_level) {
             case "1" :
-                if(self.bloc.total_acquiered_credits >= 60) {
+                if(self.bloc.total_acquiered_credits == self.bloc.total_credits) {
                     self.bloc_result = {
-                        'message' : _t("60 crédits ECTS acquis ou valorisés, autorisé(e) à poursuivre son parcours sans restriction."),
+                        'message' : _t(self.bloc.total_acquiered_credits+" crédits ECTS acquis ou valorisés, autorisé(e) à poursuivre son parcours sans restriction." ),
                         'class' : "success",
                         'button_text' : _t("Réussite"),
                         'next_action' : "award",
@@ -244,7 +223,7 @@ return Widget.extend({
                 }*/
                 else {
                     self.bloc_result = {
-                        'message' : _t("Moins de 60 crédits ECTS acquis ou valorisés, les crédits non-acquis sont à présenter en seconde session."),
+                        'message' : _t("Moins de "+self.bloc.total_credits+" crédits ECTS acquis ou valorisés, les crédits non-acquis sont à présenter en seconde session."),
                         'class' : "danger",
                         'button_text' : _t("Ajourné"),
                         'next_action' : "postpone",
@@ -254,7 +233,7 @@ return Widget.extend({
             case "2" :
                 if(self.bloc.total_acquiered_credits >= 60) {
                     self.bloc_result = {
-                        'message' : _t("60 crédits ECTS acquis ou valorisés, autorisé(e) à poursuivre son parcours sans restriction."),
+                        'message' : _t(self.bloc.total_acquiered_credits+" crédits ECTS acquis ou valorisés, autorisé(e) à poursuivre son parcours sans restriction." ),
                         'class' : "success",
                         'button_text' : _t("Réussite"),
                         'next_action' : "award",
@@ -262,7 +241,7 @@ return Widget.extend({
                 }
                 else {
                     self.bloc_result = {
-                        'message' : _t("Moins de 60 crédits ECTS acquis ou valorisés, les crédits non-acquis sont à présenter en seconde session."),
+                        'message' : _t("Moins de "+self.bloc.total_credits+" crédits ECTS acquis ou valorisés, les crédits non-acquis sont à présenter en seconde session."),
                         'class' : "danger",
                         'button_text' : _t("Ajourné"),
                         'next_action' : "postpone",
@@ -313,7 +292,7 @@ return Widget.extend({
                 }*/
                 else {
                     self.bloc_result = {
-                        'message' : _t("Moins de 60 crédits ECTS acquis ou valorisés, les crédits non-acquis sont à présenter en seconde session."),
+                        'message' : _t("Moins de "+self.bloc.total_credits+" crédits ECTS acquis ou valorisés, les crédits non-acquis sont à présenter en seconde session."),
                         'class' : "danger",
                         'button_text' : _t("Ajourné"),
                         'next_action' : "postpone",

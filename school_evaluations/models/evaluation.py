@@ -469,7 +469,7 @@ class IndividualBloc(models.Model):
     @api.multi
     def set_to_draft(self, context):
         # TODO use a workflow to make sure only valid changes are used.
-        return self.write({'state': 'draft','grade': False})
+        return self.write({'state': 'draft'})
     
     @api.multi
     def set_to_progress(self, context):
@@ -477,19 +477,19 @@ class IndividualBloc(models.Model):
         return self.write({'state': 'progress'})
     
     @api.multi
-    def set_to_postponed(self, context):
+    def set_to_postponed(self, decision, context):
         # TODO use a workflow to make sure only valid changes are used.
-        return self.write({'state': 'postponed'})
+        return self.write({'state': 'postponed','decision' : decision})
     
     @api.multi
-    def set_to_awarded(self, context):
+    def set_to_awarded(self, decision, context):
         # TODO use a workflow to make sure only valid changes are used.
-        return self.write({'state': 'awarded','grade': None, 'grade_comments' : None})
+        return self.write({'state': 'awarded','decision' : decision})
     
     @api.multi
-    def set_to_failed(self, message, context):
+    def set_to_failed(self, decision, context):
         # TODO use a workflow to make sure only valid changes are used.
-        return self.write({'state': 'failed','grade': False})
+        return self.write({'state': 'failed','decision' : decision})
         
     total_acquiered_credits = fields.Integer(string="Acquiered Credits",compute="compute_credits", store=True)
     
@@ -518,6 +518,7 @@ class IndividualBloc(models.Model):
         else:
             self.evaluation = None
         
+    decision = fields.Text(string="Decision",track_visibility='onchange')
         
 class IndividualProgram(models.Model):
     '''Individual Program'''
