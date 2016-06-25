@@ -449,12 +449,13 @@ class IndividualCourse(models.Model):
 class IndividualBloc(models.Model):
     '''Individual Bloc'''
     _inherit = 'school.individual_bloc'
-    
+
     state = fields.Selection([
             ('draft','Draft'),
             ('progress','In Progress'),
             ('postponed', 'Postponed'),
-            ('awarded', 'Awarded'),
+            ('awarded_first_session', 'Awarded in First Session'),
+            ('awarded_second_session', 'Awarded in Second Session'),
             ('failed', 'Failed'),
         ], string='Status', index=True, readonly=True, default='draft',
         #track_visibility='onchange', TODO : is this useful for this case ?
@@ -462,7 +463,7 @@ class IndividualBloc(models.Model):
         help=" * The 'Draft' status is used when results are not confirmed yet.\n"
              " * The 'In Progress' status is used during the courses.\n"
              " * The 'Postponed' status is used when a second session is required.\n"
-             " * The 'Awarded' status is used when the bloc is awarded.\n"
+             " * The 'Awarded' status is used when the bloc is awarded in either first or second session.\n"
              " * The 'Failed' status is used during the bloc is definitively considered as failed.\n"
              ,track_visibility='onchange')
     
@@ -482,9 +483,14 @@ class IndividualBloc(models.Model):
         return self.write({'state': 'postponed','decision' : decision})
     
     @api.multi
-    def set_to_awarded(self, decision, context):
+    def set_to_awarded_first_session(self, decision, context):
         # TODO use a workflow to make sure only valid changes are used.
-        return self.write({'state': 'awarded','decision' : decision})
+        return self.write({'state': 'awarded_first_session','decision' : decision})
+        
+    @api.multi
+    def set_to_awarded_second_session(self, decision, context):
+        # TODO use a workflow to make sure only valid changes are used.
+        return self.write({'state': 'awarded_second_session','decision' : decision})
     
     @api.multi
     def set_to_failed(self, decision, context):

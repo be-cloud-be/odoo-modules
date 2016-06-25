@@ -1,0 +1,170 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!--
+##############################################################################
+#
+#    Copyright (c) 2015 be-cloud.be
+#                       Jerome Sonnet <jerome.sonnet@be-cloud.be>
+#
+#    This program is free software: you can redistribute it and/or modify
+#    it under the terms of the GNU Affero General Public License as
+#    published by the Free Software Foundation, either version 3 of the
+#    License, or (at your option) any later version.
+#
+#    This program is distributed in the hope that it will be useful,
+#    but WITHOUT ANY WARRANTY; without even the implied warranty of
+#    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+#    GNU Affero General Public License for more details.
+#
+#    You should have received a copy of the GNU Affero General Public License
+#    along with this program.  If not, see <http://www.gnu.org/licenses/>.
+#
+##############################################################################
+-->
+<openerp>
+    <data>
+        <!-- wizard action on res.partner -->
+        <act_window id="school_evaluation_summary_wizard_action"
+            name="Evaluation Summary Wizard"
+            res_model="school.evaluation.summary.wizard"
+            view_type="form" 
+            view_mode="form"
+            key2="client_action_multi" 
+            target="new" />
+            
+        <menuitem id="menu_report_evaluation_summary_wizard"
+            parent="school_management.menu_report" action="school_evaluation_summary_wizard_action" sequence="50"/>
+            
+        <!-- wizard view -->
+        <record id="evaluation_summary_wizard_view" model="ir.ui.view">
+            <field name="name">Evaluation Summary Wizard</field>
+            <field name="model">school.evaluation.summary.wizard</field>
+            <field name="arch" type="xml">
+                <form string="Policy Sheet Wizard">
+                    <group>
+                        <field name="year_id"/>
+                        <field name="session"/>
+                        <field name="domain_id"/>
+                    </group>
+                    <footer>
+                        <button string="Generate" name="generate_summary" type="object" class="btn-primary"/>
+                        <button string="Close" class="btn-default" special="cancel" />
+                    </footer>
+                </form>
+            </field>
+        </record>
+        
+        <!-- report -->
+        <report 
+            id="action_report_evaluation_summary"
+            model="school.evaluation.summary.wizard"
+            string="Evaluation Summary"
+            report_type="qweb-pdf"
+            name="school_evaluations.evaluation_summary_content"
+            file="school_evaluations.evaluation_summary_content"
+            />
+            
+        <template id="evaluation_summary_content">
+            <t t-call="report.html_container">
+                <t t-set="data_report_margin_top" t-value="20"/>
+                <t t-set="data_report_header_spacing" t-value="15"/>
+                <t t-set="data_report_dpi" t-value="110"/>
+                <t t-call="report.external_layout">
+                    <div class="page">
+                        <div class="container">
+                            <div class="row">
+                                <div class="col-xs-10 col-xs-offset-1">
+                                    <h2>Résultats <t t-esc="year"/></h2>
+                                </div>
+                            </div>
+                            <t t-foreach="docs" t-as="doc">
+                            <t t-if="len(doc['blocs']) > 0">
+                            <div class="row">
+                                <div class="col-xs-10 col-xs-offset-1">
+                                    <h4><t t-esc="doc['name']"/></h4>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-xs-10 col-xs-offset-1">
+                                    <!-- Table -->
+                                    <table class="table table-condensed table-bordered result_table">
+                                        <colgroup>
+                                            <col style="width:300px"/>
+                                            <col style="width:100px"/>
+                                            <col style="width:100px"/>
+                                            <col style="width:150px"/>
+                                            <col style="width:150px"/>
+                                        </colgroup>
+                                        <thead>
+                                            <tr>
+                                                <th>Name</th>
+                                                <th>ECTS Acquis</th>
+                                                <th>ECTS Non-Acquis</th>
+                                                <th>Spécialité</th>
+                                                <th>Décision</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <t t-foreach="doc['blocs']" t-as="bloc">
+                                            <tr class="bloc">
+                                                <td>
+                                                    <span t-field="bloc.student_id"/>
+                                                </td>
+                                                <td>
+                                                    <t t-esc="bloc.total_acquiered_credits"/>    
+                                                </td>
+                                                <td>
+                                                    <t t-esc="bloc.total_credits-bloc.total_acquiered_credits"/> 
+                                                </td>
+                                                <td>
+                                                    <span t-field="bloc.source_bloc_speciality_id"/>
+                                                </td>
+                                                <td>
+                                                    <span t-field="bloc.state"/>
+                                                </td>
+                                            </tr>
+                                            </t>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                            </t>
+                            </t>
+                            <div class="row" style="margin-bottom:10px;">
+                                <div class="col-xs-10 col-xs-offset-1">
+                                    <u>Article 134 du Décret définissant le paysage de l'enseignement supérieur et l'organisation académique des études du 7-11-2013</u>
+                                    Les autorités de l'établissement d'enseignement supérieur fixent le règlement des études, ainsi que les règles particulières de fonctionnement des jurys. Ces dispositions sont annexées au règlement des études. Sous réserve des autres dispositions légales, ce règlement de jury fixe notamment :
+                                    […]
+                                    8° les modes d'introduction, d'instruction et de règlement des plaintes d'étudiants relatives à des irrégularités dans le déroulement des évaluations ou du traitement des dossiers.
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-xs-10 col-xs-offset-1">
+                                    <u>Article 30 de l’annexe 4 du Règlement des études (présent sur le site internet de l’école :</u>
+                                    « […] Tout recours relatif à une quelconque irrégularité, autre que la tricherie ou le plagiat, dans le déroulement des évaluations est adressé, sous pli recommandé, au secrétaire du jury, au plus tard dans les trois jours ouvrables qui suivent la notification des résultats des évaluations.
+                                    L'introduction du recours peut également être faite par la remise d'un écrit au secrétaire. Dans ce cas, un accusé de réception est délivré.
+                                    Le secrétaire du jury instruit le recours et, au plus tard dans les deux jours ouvrables de sa réception, fait rapport au président du jury.
+                                    Dans le jour ouvrable suivant la réception du rapport, le président du jury réunit valablement des membres de la Commission des Études non mis en cause dans l'irrégularité invoquée.
+                                    La Commission des Études statue séance tenante sur la régularité du déroulement des épreuves, par décision formellement motivée et notifiée au(x) plaignant(s) dans les deux jours ouvrables. »
+                                </div>
+                            </div>
+                            <div class="row" style="margin-top:20px;margin-bottom:120px;">
+                                <div class="col-xs-4 col-xs-offset-1">
+                                    Le Directeur,
+                                </div>
+                                <div class="col-xs-4">
+                                    Le Secrétaire du Jury,
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-xs-9 col-xs-offset-1">
+                                    Imprimé le <span t-esc="datetime.datetime.now().strftime('%d-%m-%Y à %H:%M:%S')"/>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </t>
+            </t>
+        </template>
+            
+    </data>
+</openerp>

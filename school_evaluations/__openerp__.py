@@ -31,6 +31,7 @@
         'views/evaluation_view.xml',
         'views/configuration_view.xml',
         'report/report_evaluation.xml',
+        'wizard/evaluation_summary.xml',
     ],
     'demo_xml': [],
     'description': '''

@@ -64,7 +64,7 @@
                     </div>
                 </div>
             </div>
-            <div class="row">
+            <div class="row" style="margin-bottom:10px;">
                 <div class="col-md-3">Grade</div>
                 <div class="col-md-3">
                     <select id="grade-list">
@@ -101,7 +101,7 @@
                     </select>
                 </div>
             </div>
-            <div class="row">
+            <div class="row" style="margin-bottom:10px;">
                 <div class="col-md-3">Justification</div>
                 <div class="col-md-3">
                     <select id="grade-comment-list">
@@ -288,7 +288,7 @@
                     <t t-foreach="blocs" t-as="bloc">
                         <li>
                             <a t-att-class="'o_school_bloc_item'+ (bloc_first ? ' active':'')" t-att-data-bloc-id="bloc.id" href="#">
-                                <i t-att-class="((bloc.state == 'postponed') or (bloc.state == 'awarded') or (bloc.state == 'failed') ? 'fa fa-check fa-fw' : 'fa fa-user fa-fw')"></i>
+                                <i t-att-class="((bloc.state == 'postponed') or (bloc.state == 'awarded_first_session') or (bloc.state == 'awarded_second_session') or (bloc.state == 'failed') ? 'fa fa-check fa-fw' : 'fa fa-user fa-fw')"></i>
                                 <span ><t t-esc="bloc.student_id[1]" /></span>
                             </a>
                         </li>

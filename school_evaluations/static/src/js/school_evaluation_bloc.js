@@ -79,10 +79,10 @@ return Widget.extend({
         "click .bloc_award": function (event) {
             event.preventDefault();
             var self = this;
-            new Model(self.dataset.model).call("set_to_awarded",[self.datarecord.id,self.bloc_result.message,self.dataset.get_context()]).then(function(result) {
+            new Model(self.dataset.model).call("set_to_awarded_first_session",[self.datarecord.id,self.bloc_result.message,self.dataset.get_context()]).then(function(result) {
                 self.parent.$(".o_school_bloc_item.active i").removeClass('fa-user');
                 self.parent.$(".o_school_bloc_item.active i").addClass('fa-check');
-                self.bloc.state = "awarded";
+                self.bloc.state = "awarded_first_session";
                 self.next().then(function(){
                     self.parent.$('.o_school_bloc_item.active').removeClass('active');
                     self.parent.$("a[data-bloc-id='" + self.datarecord.id + "']").addClass('active');
@@ -168,11 +168,14 @@ return Widget.extend({
     
     next: function() {
         var self = this;
-        if(this.record_idx < this.records.length-2){
+        if(this.record_idx < this.records.length-1){
             this.record_idx += 1;
             this.datarecord = this.records[this.record_idx];
             return self.update();
+        } else {
+            return self.update();
         }
+        
     },
     
     update: function() {
