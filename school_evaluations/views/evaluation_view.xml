@@ -134,10 +134,11 @@
                     <header>
                         <button name="set_to_progress" type="object" states="draft" string="Progress" class="oe_highlight" />
                         <button name="set_to_postponed" type="object" states="progress" string="Postpone" class="oe_highlight" />
-                        <button name="set_to_awarded" type="object" states="progress,postponed" string="Awarded" class="oe_highlight" />
+                        <button name="set_to_awarded_first_session" type="object" states="progress" string="Awarded" class="oe_highlight" />
+                        <button name="set_to_awarded_second_session" type="object" states="postponed" string="Awarded" class="oe_highlight" />
                         <button name="set_to_failed" type="object" states="progress,postponed" string="Failed" class="oe_highlight" />
                         <button name="set_to_draft" type="object" states="progress,postponed,awarded,failed" string="Reset to Draft" />
-                        <field name="state" widget="statusbar" statusbar_visible="draft,progress,postponed,awarded,failed" />
+                        <field name="state" widget="statusbar" statusbar_visible="draft,progress,postponed,awarded_first_session,awarded_second_session,failed" />
                     </header>
                 </xpath>
                 <xpath expr="//field[@name='course_group_ids']" position="before">
