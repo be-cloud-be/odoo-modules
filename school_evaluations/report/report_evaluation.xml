@@ -35,7 +35,7 @@
             name="school_evaluations.report_evaluation_for_student_content" 
             file="school_evaluations.report_evaluation_for_student_content"
             attachment_use="True"
-            attachment="object.name+time.strftime('-%d-%m-%Y')+'.pdf'"
+            attachment="object.name+'-RES-'+time.strftime('%d-%m-%Y')+'.pdf'"
     />
 
 
