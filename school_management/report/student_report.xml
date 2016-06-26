@@ -21,7 +21,91 @@
 ##############################################################################
 -->
 <openerp>
-  <data>
+    <data>
+      <!--
+    
+    Evaluations report for students
+    
+    -->
+
+    <report id="report_attendance_for_student" 
+            model="school.individual_bloc" 
+            string="Attendance Reprot for Student" 
+            report_type="qweb-pdf" 
+            name="school_management.report_attendance_for_student_content" 
+            file="school_management.report_attendance_for_student_content"
+            attachment_use="True"
+            attachment="object.name+'-ATT-'+time.strftime('%d-%m-%Y')+'.pdf'"
+    />
+
+
+    <template id="report_attendance_for_student_content">
+        <t t-call="report.html_container">
+            <t t-set="data_report_margin_top" t-value="30"/>
+            <t t-set="data_report_header_spacing" t-value="25"/>
+            <t t-foreach="docs" t-as="o">
+                <t t-call="report.external_layout">
+                <div class="page">
+                    <div class="container">
+                        <div class="row" style="margin-top:400px;">
+                            <div class="col-xs-12 text-center">
+                                <h2>ATTENDANCE REPORT</h2>    
+                                <h2>ACADEMIC YEAR <span t-field="o.year_id"/></h2>    
+                            </div>
+                        </div>
+                        <div class="row" style="margin-top:150px;">
+                            <div class="col-xs-10 col-xs-offset-1">
+                                Je sousigné, Nathanaël HARCQ, Directeur du CONSERVATOIRE ROYAL DE LIEGE certifie par la présente que
+                            </div>
+                        </div>
+                        <div class="row" style="margin-top:40px;">
+                            <div class="col-xs-9 col-xs-offset-2">
+                                <b><span t-field="o.student_id.name"/>, né le <span t-field="o.student_id.birthdate"/> à <span t-field="o.student_id.birthplace"/></b>
+                            </div>
+                        </div>
+                        <div class="row" style="margin-top:40px;">
+                            <div class="col-xs-10 col-xs-offset-1">
+                                est régulièrement inscrit<t if="o.student_id.sex == 'f'">e</t> aux cours du jour de l'Enseignement Supérieur Artistique de type
+                                <span t-field="o.source_bloc_cycle_id.type"/> pour l'année <span t-field="o.year_id"/>.
+                                <p  style="margin-top:10px;">
+                                    Les cours sont donnés du 15 septembre au 30 juin.
+                                </p>
+                            </div>
+                        </div>
+                        <div class="row" style="margin-top:20px;">
+                            <div class="col-xs-10 col-xs-offset-1">
+                                <u>Cours suivis dans la nouvelle structure:</u>
+                            </div>
+                        </div>
+                        <div class="row" style="margin-top:20px;">
+                            <div class="col-xs-8 col-xs-offset-2">
+                                <b><span t-field="o.source_bloc_cycle_id"/> du domaine <span t-field="o.source_bloc_domain_id"/>, section <span t-field="o.source_bloc_section_id"/>, option <span t-field="o.source_bloc_track_id"/>, spécialité <span t-field="o.source_bloc_speciality_id"/>.</b>
+                            </div>
+                        </div>
+                        <div class="row" style="margin-top:50px;">
+                            <div class="col-xs-10 col-xs-offset-1">
+                                La présente attestation est délivrée pour renseignements administratifs.
+                            </div>
+                        </div>
+                        <div class="row" style="margin-top:120px;">
+                            <div class="col-xs-4 col-xs-offset-7">
+                                LIEGE, le <span t-esc="datetime.datetime.now().strftime('%d-%m-%Y')"/>
+                            </div>
+                        </div>
+                        <div class="row" style="margin-top:120px;">
+                            <div class="col-xs-4 col-xs-offset-7">
+                                Le Directeur,<br/>
+                                Nathanaël HARCQ
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                </t>
+            </t>
+        </t>
+    </template>
+      
+      
         <!-- Student report pivot View -->
         <record id="view_report_school_student_pivot" model="ir.ui.view">
             <field name="name">school.student.pivot</field>

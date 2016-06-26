@@ -282,6 +282,10 @@ class Cycle(models.Model):
     name = fields.Char(required=True, string='Name', size=60)
     description = fields.Text(string='Description')
     required_credits = fields.Integer(string='Required Credits')
+    type = fields.Selection([
+            ('long','Long'),
+            ('short', 'Short'),
+        ], string='Type')
     
 class Section(models.Model):
     '''Section'''

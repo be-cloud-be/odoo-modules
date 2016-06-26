@@ -135,9 +135,10 @@
                     <field name="student_current_program_name" attrs="{'invisible': [('student','=',False)]}" />
                     <field name='email_personnel' />
                 </xpath>
-                <xpath expr="//page[@name='personal_information_page']" position="inside">
-                    <field name='sex' />
-                    <field name='birthdate' />
+                <xpath expr="//group[@name='personal_information_group']" position="inside">
+                    <field name="sex"/>
+                    <field name="birthdate"/>
+                    <field name="birthplace"/>
                 </xpath>
                 <xpath expr="//notebook[last()]" position="inside">
                     <page name="programs_list" string="Programs" attrs="{'invisible': [('student','=',False)]}">
