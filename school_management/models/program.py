@@ -275,6 +275,7 @@ class Domain(models.Model):
     _name = 'school.domain'
     name = fields.Char(required=True, string='Name', size=40)
     description = fields.Text(string='Description')
+    long_name = fields.Char(required=True, string='Long Name', size=40)
     
 class Cycle(models.Model):
     '''Cycle'''
@@ -286,6 +287,7 @@ class Cycle(models.Model):
             ('long','Long'),
             ('short', 'Short'),
         ], string='Type')
+    grade = fields.Char(required=True, string='Grade', size=60)
     
 class Section(models.Model):
     '''Section'''
