@@ -183,6 +183,10 @@ return Widget.extend({
         self.bloc = this.datarecord;
         return self._read_bloc_data().done(
             function(){
+                if(self.$el.parent().children().size() > 1) {
+                    self.$el.parent().children()[0].remove();
+                    self.$el.parent().children()[0].remove();
+                }
                 self.renderElement();
             }  
         );
@@ -192,7 +196,7 @@ return Widget.extend({
         var self = this;
         switch(self.bloc.source_bloc_level) {
             case "1" :
-                if(self.bloc.total_acquiered_credits == self.bloc.total_credits) {
+                if(self.bloc.total_acquiered_credits >= 60) {
                     self.bloc_result = {
                         'message' : _t(self.bloc.total_acquiered_credits+" crédits ECTS acquis ou valorisés, autorisé(e) à poursuivre son parcours sans restriction." ),
                         'class' : "success",
@@ -315,7 +319,7 @@ return Widget.extend({
             unique: (self.datarecord.__last_update || '').replace(/[^0-9]/g, '')
         });
         
-        return new Model('school.individual_course_group').query(['id','name','title','course_ids','acquiered','first_session_computed_result','final_result','total_credits','total_weight','first_session_deliberated_result_bool']).filter([['id', 'in', self.bloc.course_group_ids]]).all().then(
+        return new Model('school.individual_course_group').query(['id','name','title','course_ids','dispense','final_result_bool','acquiered','first_session_computed_result','final_result','total_credits','total_weight','first_session_deliberated_result_bool']).filter([['id', 'in', self.bloc.course_group_ids]]).all().then(
             function(course_groups) {
                 self.course_groups = course_groups;
                 var all_course_ids = [];

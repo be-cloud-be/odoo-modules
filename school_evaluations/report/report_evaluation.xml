@@ -24,6 +24,90 @@
     
     <!--
     
+    Diploma
+    
+    -->
+
+    <report id="report_diploma_for_student" 
+            model="school.individual_program" 
+            string="Diploma for student" 
+            report_type="qweb-pdf" 
+            name="school_evaluations.report_diploma_for_student_content" 
+            file="school_evaluations.report_diploma_for_student_content"
+            attachment_use="True"
+            attachment="object.name+'-DIP-'+time.strftime('%d-%m-%Y')+'.pdf'"
+    />
+    
+    <template id="report_diploma_for_student_content">
+        <t t-call="report.html_container">
+            <t t-set="data_report_margin_top" t-value="30"/>
+            <t t-set="data_report_header_spacing" t-value="25"/>
+            <t t-foreach="docs" t-as="o">
+                <div class="page">
+                    <div class="container">
+                        <div class="row" style="margin-bottom:30px;">
+                            <div class="col-xs-12 text-center">
+                                <h3>COMMUNAUTÉ FRANÇAISE DE BELGIQUE<br/>
+                                    Enseignement supérieur de plein exercice de type <span t-field="o.cycle_id.type"/></h3>
+                                <h3>Conservatoire royal de Liège<br/>Boulevard Piercot, 29, 4000 LIÈGE</h3>
+                                <h4>Domaine : <span t-field="o.domain_id.long_name"/></h4>
+                            </div>
+                        </div>
+                        <div class="row"  style="margin-top:40px;">
+                            <div class="col-xs-12">
+                                Vu le décret du 7 novembre 2013 définissant le paysage de l’enseignement supérieur et l’organisation académique des études;
+                            </div>
+                        </div>
+                        <div class="row"  style="margin-top:60px;">
+                            <div class="col-xs-12">
+                                Nous, Président-e, Secrétaire et Membres du jury chargé de conférer le grade académique concerné, déclarons que
+                            </div>
+                        </div>
+                        <div class="row"  style="margin-top:60px;">
+                            <div class="col-xs-12 text-center">
+                                <t t-if="o.student_id.sex == 'm'">Monsieur</t><t t-if="o.student_id.sex == 'f'">Madame</t> <span t-field="o.student_id"/> <span t-field="o.student_id.initials"/><br/>
+                                né<t t-if="o.student_id.sex == 'f'">e</t> à <span t-field="o.student_id.birthplace"/> le <span t-field="o.student_id.birthdate"/><br/>
+                                a obtenu en l’année académique <span t-field="o.grade_year_id"/><br/>
+                                le grade académique de <span t-field="o.cycle_id.grade"/> en <span t-field="o.domain_id"/> option <span t-field="o.speciality_id"/> 
+                                <t t-if="o.grade == 'without'"><span t-field="o.grade"/></t><t t-if="o.grade != 'without'"> avec <span t-field="o.grade"/></t>
+                            </div>
+                        </div>
+                        <div class="row"  style="margin-top:60px;">
+                            <div class="col-xs-12">
+                                En foi de quoi, nous lui avons délivré le présent diplôme, attestant que les prescriptions légales relatives aux conditions d’accès, 
+                                aux programmes, au nombre de crédits y associés (minimum <span t-field="o.cycle_id.required_credits"/> crédits) et à la publicité des examens ont été observées.
+                            </div>
+                        </div>
+                        <div class="row" style="margin-top:60px;">
+                            <div class="col-xs-6">
+                                Le/La Président-e du jury
+                            </div>
+                            <div class="col-xs-6">
+                                Le/La Secrétaire du jury
+                            </div>
+                        </div>
+                        <div class="row" style="margin-top:120px;">
+                            <div class="col-xs-6">
+                                Le titulaire
+                            </div>
+                            <div class="col-xs-6">
+                                L’/Les autorité(s) académique(s)
+                            </div>
+                        </div>
+                        <div class="row" style="margin-top:150px;">
+                            <div class="col-xs-12 small">
+                                Un supplément est annexé au présent diplôme. Il atteste notamment la liste des enseignements du programme d’études suivi par l’étudiant-e, 
+                                les conditions d’accès aux études et les évaluations sanctionnées par le grade académique conféré.
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </t>
+        </t>
+    </template>
+    
+    <!--
+    
     Evaluations report for students
     
     -->

@@ -71,6 +71,12 @@ class CreditLine(models.Model):
             pass
             #TODO compute based on the individual bloc
     
+class CourseGroup(models.Model):
+    '''Course Group'''
+    _inherit = 'school.course_group'
+    
+    enable_exclusion_bool = fields.Boolean(string='Enable exclusion evaluation', default=True)
+    
 class IndividualCourseGroup(models.Model):
     '''Individual Course Group'''
     _inherit = 'school.individual_course_group'
@@ -84,6 +90,8 @@ class IndividualCourseGroup(models.Model):
         copy=False,
         help=" * The 'Draft' status is used when results are not confirmed yet.\n"
              " * The 'Confirmed' status is when restults are confirmed.")
+    
+    enable_exclusion_bool = fields.Boolean(string='Enable exclusion evaluation', related="source_course_group_id.enable_exclusion_bool", readonly=True)
     
     ## First Session ##
     
@@ -114,6 +122,8 @@ class IndividualCourseGroup(models.Model):
     second_session_note = fields.Text(string='Second Session Notes')
     
     ## Final ##
+    
+    dispense =  fields.Boolean(compute='compute_final_results', string='Dispense',default=False,track_visibility='onchange', store=True)
     
     final_result = fields.Float(compute='compute_final_results', string='Final Result', store=True, digits=(5, 2),track_visibility='onchange')
     final_result_bool = fields.Boolean(compute='compute_final_results', string='Final Active')
@@ -206,9 +216,13 @@ class IndividualCourseGroup(models.Model):
     @api.one
     def compute_first_session_acquiered(self):
         self.first_session_acquiered = 'NA'
-        if self.first_session_result >= 10 and (not self.first_session_computed_exclusion_result_bool or self.first_session_deliberated_result_bool):
-            self.first_session_acquiered = 'A'
-        elif self.total_weight == 0: # All courses are dispensed
+        if self.enable_exclusion_bool :
+            if self.first_session_result >= 10 and (not self.first_session_computed_exclusion_result_bool or self.first_session_deliberated_result_bool):
+                self.first_session_acquiered = 'A'
+        else:
+            if self.first_session_result >= 10 : # cfr appel Ingisi 27-06 and (not self.first_session_computed_exclusion_result_bool or self.first_session_deliberated_result_bool):
+                self.first_session_acquiered = 'A'
+        if self.total_weight == 0: # All courses are dispensed
             self.first_session_acquiered = 'A'
             
     @api.depends('second_session_deliberated_result_bool','second_session_deliberated_result')
@@ -236,9 +250,13 @@ class IndividualCourseGroup(models.Model):
     @api.one
     def compute_second_session_acquiered(self):
         self.second_session_acquiered = self.first_session_acquiered
-        if self.second_session_result >= 10 and (not self.second_session_computed_exclusion_result_bool or self.second_session_deliberated_result_bool):
-            self.second_session_acquiered = 'A'
-        elif self.total_weight == 0: # All courses are dispensed
+        if self.enable_exclusion_bool :
+            if self.second_session_result >= 10 and (not self.second_session_computed_exclusion_result_bool or self.second_session_deliberated_result_bool):
+                self.second_session_acquiered = 'A'
+        else:    
+            if self.second_session_result >= 10 : # and (not self.second_session_computed_exclusion_result_bool or self.second_session_deliberated_result_bool):
+                self.second_session_acquiered = 'A'
+        if self.total_weight == 0: # All courses are dispensed
             self.second_session_acquiered = 'A'
     
     @api.depends('first_session_result',
@@ -263,6 +281,8 @@ class IndividualCourseGroup(models.Model):
         else :
             self.acquiered = 'NA'
             self.final_result_bool = False
+        if self.total_weight == 0:
+            self.dispense = True
     
     @api.one
     def recompute_results(self):
@@ -372,6 +392,18 @@ class IndividualCourse(models.Model):
     @api.depends('ann_result','jan_result','jun_result','sept_result')
     @api.one
     def compute_results(self):
+        if self.type == 'D' :
+            self.first_session_result_bool = True
+            if self.jun_result :
+                try:
+                    f = self._parse_result(self.jun_result)
+                    self.first_session_result = f
+                    self.first_session_result_bool = True
+                except ValueError:
+                    self.first_session_result = 0
+                    self.first_session_result_bool = False
+                    raise UserError(_('Cannot decode %s in June Result, please encode a Float eg "12.00".' % self.jun_result))
+                    
         if self.type in ['S','D','T']:
             if self.jan_result :
                 try:
@@ -541,6 +573,8 @@ class IndividualProgram(models.Model):
             ('second_class', 'Second Class Honor'),
             ('first_class', 'First Class Honor'),
         ],string="Grade")
+    
+    grade_year_id = fields.Many2one('school.year', string="Year")
     
     grade_comments = fields.Text(string="Grade Comments")
     

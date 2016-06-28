@@ -25,7 +25,10 @@
         <div class="o_school_evaluations">
             <div id="sidebar" class="sidebar" />
             <div id="page-wrapper" style="min-height: 1033px;">
-                <div class="o_evaluation_bloc_container" />
+                <div class="o_evaluation_bloc_container">
+                    <p><img src="http://www.crlg.be/Visuels/Fonds%20%C3%A9cran/IMAGE%20ACCUEIL%20FOND%20JUIN%202016.jpg" width="1000" height="650"/></p>
+                    <h2>Délibération 2015-2016</h2>
+                </div>
             </div>
         </div>
     </t>
@@ -318,7 +321,7 @@
                     <t t-if="widget.bloc.source_bloc_level == 3">
                     <t t-if="widget.bloc_result.grade">
                     <div class="col-md-1 text-center moyenne o_school_eval_details" t-if="widget.bloc.source_bloc_level == 3" role="button" >
-                        moyenne du cycle<br/><span class="score_value"><t t-esc="widget.program.evaluation.toFixed(2)"/></span>
+                        moyenne du cycle<br/><span class="score_value"><t t-esc="widget.program.evaluation.toFixed(1)"/></span>
                     </div>    
                     <div class="col-md-8">
                         <div t-att-class="'alert alert-' + widget.bloc_result.class" role="alert"><t t-esc="widget.bloc_result.message"/><b><t t-esc="widget.program.grade_text"/></b></div>
@@ -382,7 +385,12 @@
                                         <t t-esc="course_group.title" />
                                     </td>
                                     <td style=" text-align: right;">
-                                        <t t-esc="course_group.final_result.toFixed(2)" />
+                                        <t t-if="course_group.dispense">
+                                                Dis
+                                        </t>
+                                        <t t-if="course_group.final_result_bool">
+                                                <t t-esc="course_group.final_result.toFixed(2)" />
+                                        </t>
                                     </td>
                                     <td style=" text-align: right;">
                                         <t t-esc="course_group.total_credits" />
@@ -402,11 +410,13 @@
                                         <td>
                                             <t t-esc="course.title" /> - <t t-esc="course.level" /> <i t-if="course.teacher_id" class="oe_fade"> - <t t-esc="course.teacher_id[1]"/></i></td>
                                         <td style=" text-align: right;">
+                                            <t t-if="course.first_session_result_bool">
                                             <t t-if="(course.type != 'D')">
                                                 <font color="blue"><t t-esc="course.first_session_result.toFixed(2)" /></font>
                                             </t>
                                             <t t-if="(course.type == 'D') and course.jun_result">
                                                 <font color="gray"><t t-esc="course.first_session_result.toFixed(2)"/></font>
+                                            </t>
                                             </t>
                                             <t t-if="(course.type == 'D') and !course.jun_result">
                                                 Dis

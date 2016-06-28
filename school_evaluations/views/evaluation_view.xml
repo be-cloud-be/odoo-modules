@@ -115,10 +115,24 @@
                     <field name="historical_bloc_2_eval"/>
                     <field name="evaluation" />
                     <field name="grade" />
+                    <field name="grade_year_id" />
                     <field name="grade_comments" colspan="4"/>
                 </xpath>
                 <xpath expr="//field[@name='source_bloc_name']" position="after">
                     <field name="state"/>
+                    <field name="evaluation"/>
+                </xpath>
+            </field>
+        </record>
+        
+        <record id="view_individual_bloc_filter_eval" model="ir.ui.view">
+            <field name="name">individual_bloc.select.eval</field>
+            <field name="model">school.individual_bloc</field>
+            <field name="inherit_id" ref="school_management.view_individual_bloc_filter" />
+            <field name="arch" type="xml">
+                <xpath expr="//filter[@name='bloc_3']" position="after">
+                    <separator/>
+                    <filter name="to_deliberate" string="To Deliberate" domain="[('state', 'in', ['progess','postponed'])]" />
                 </xpath>
             </field>
         </record>
@@ -137,7 +151,7 @@
                         <button name="set_to_awarded_first_session" type="object" states="progress" string="Awarded" class="oe_highlight" />
                         <button name="set_to_awarded_second_session" type="object" states="postponed" string="Awarded" class="oe_highlight" />
                         <button name="set_to_failed" type="object" states="progress,postponed" string="Failed" class="oe_highlight" />
-                        <button name="set_to_draft" type="object" states="progress,postponed,awarded,failed" string="Reset to Draft" />
+                        <button name="set_to_draft" type="object" states="progress,postponed,awarded_first_session,awarded_second_session,failed" string="Reset to Draft" />
                         <field name="state" widget="statusbar" statusbar_visible="draft,progress,postponed,awarded_first_session,awarded_second_session,failed" />
                     </header>
                 </xpath>
