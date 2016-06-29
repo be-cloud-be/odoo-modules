@@ -25,6 +25,9 @@ var EvaluationsAction = Widget.extend({
     events: {
         "click .o_school_group_item": function (event) {
             event.preventDefault();
+            var self = this
+            this.$('.o_school_group_item.active').removeClass('active');
+            this.$(event.currentTarget).addClass('active');
             var group_id = this.$(event.currentTarget).data('group-id');
             this.set_group(group_id);
         },

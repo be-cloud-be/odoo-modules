@@ -304,132 +304,135 @@
 
     <t t-name="BlocEditor">
         <div>
-            <div class="bloc_form container highlight" t-if="widget.bloc">
-                <div class="row">
-                    <span class="oe_form_field oe_form_field_image oe_avatar" data-original-title="" title="">
-                        <img border="1" name="image" t-att-src="widget.student_image" class="img-rounded" style="max-width: 100px; max-height: 100px;"/>
-                    </span>
-                    <span class="col-md-10">
-                        <h2><t t-esc="widget.bloc.student_name"/> - <t t-esc="widget.bloc.source_bloc_title"/></h2>
-                    </span>
+            <div class="bloc_form highlight" t-if="widget.bloc">
+                <div class="container bloc_header">
+                    <div class="row">
+                        <span class="oe_form_field oe_form_field_image oe_avatar" data-original-title="" title="">
+                            <img border="1" name="image" t-att-src="widget.student_image" class="img-rounded" style="width: 100px; height: 100px;margin-top: 10px;margin-bottom: 10px;"/>
+                        </span>
+                        <span class="col-md-10">
+                            <h2><t t-esc="widget.bloc.student_name"/> - <t t-esc="widget.bloc.source_bloc_title"/></h2>
+                        </span>
+                    </div>
+                    <div class="row vertical-align" style="margin-bottom: 10px;">
+                        <div class="col-md-1 text-center credits">
+                            crédits acquis<br/><span class="score_value"><t t-esc="widget.bloc.total_acquiered_credits"/></span>
+                        </div>
+                        
+                        <t t-if="widget.bloc.source_bloc_level == 3">
+                        <t t-if="widget.bloc_result.grade">
+                        <div class="col-md-1 text-center moyenne o_school_eval_details" t-if="widget.bloc.source_bloc_level == 3" role="button" >
+                            moyenne du cycle<br/><span class="score_value"><t t-esc="widget.program.evaluation.toFixed(1)"/></span>
+                        </div>    
+                        <div class="col-md-8">
+                            <div t-att-class="'alert alert-' + widget.bloc_result.class" role="alert"><t t-esc="widget.bloc_result.message"/><b><t t-esc="widget.program.grade_text"/></b></div>
+                        </div>
+                        <div class="col-md-2">
+                            <button t-if="widget.bloc.state == 'progress'" type="button" t-att-class="'btn btn-lg btn-' + widget.bloc_result.class + ' bloc_' + widget.bloc_result.next_action"><t t-esc="widget.bloc_result.button_text"/></button>
+                            <button t-if="widget.bloc.state != 'progress'" type="button" t-att-class="'btn btn-lg disabled btn-' +widget.bloc_result.class"><t t-esc="widget.bloc_result.button_text"/></button>
+                        </div>    
+                        </t>
+                        <t t-if="!widget.bloc_result.grade">
+                        <div class="col-md-9">
+                            <div t-att-class="'alert alert-' + widget.bloc_result.class" role="alert"><t t-esc="widget.bloc_result.message"/></div>
+                        </div>
+                        <div class="col-md-2">
+                            <button t-if="widget.bloc.state == 'progress'" type="button" t-att-class="'btn btn-lg btn-' + widget.bloc_result.class + ' bloc_' + widget.bloc_result.next_action"><t t-esc="widget.bloc_result.button_text"/></button>
+                            <button t-if="widget.bloc.state != 'progress'" type="button" t-att-class="'btn btn-lg disabled btn-' +widget.bloc_result.class"><t t-esc="widget.bloc_result.button_text"/></button>
+                        </div>    
+                        </t>
+                        </t>
+                        
+                        <t t-if="widget.bloc.source_bloc_level != 3">
+                        <div class="col-md-9">
+                            <div t-att-class="'alert alert-' + widget.bloc_result.class" role="alert"><t t-esc="widget.bloc_result.message"/></div>
+                        </div>
+                        <div class="col-md-2">
+                            <button t-if="widget.bloc.state == 'progress'" type="button" t-att-class="'btn btn-lg btn-' + widget.bloc_result.class + ' bloc_' + widget.bloc_result.next_action"><t t-esc="widget.bloc_result.button_text"/></button>
+                            <button t-if="widget.bloc.state != 'progress'" type="button" t-att-class="'btn btn-lg disabled btn-' +widget.bloc_result.class"><t t-esc="widget.bloc_result.button_text"/></button>
+                        </div>    
+                        </t>
+                    </div>
                 </div>
-                <div class="row vertical-align" style="margin-bottom: 10px;">
-                    <div class="col-md-1 text-center credits">
-                        crédits acquis<br/><span class="score_value"><t t-esc="widget.bloc.total_acquiered_credits"/></span>
-                    </div>
-                    
-                    <t t-if="widget.bloc.source_bloc_level == 3">
-                    <t t-if="widget.bloc_result.grade">
-                    <div class="col-md-1 text-center moyenne o_school_eval_details" t-if="widget.bloc.source_bloc_level == 3" role="button" >
-                        moyenne du cycle<br/><span class="score_value"><t t-esc="widget.program.evaluation.toFixed(1)"/></span>
-                    </div>    
-                    <div class="col-md-8">
-                        <div t-att-class="'alert alert-' + widget.bloc_result.class" role="alert"><t t-esc="widget.bloc_result.message"/><b><t t-esc="widget.program.grade_text"/></b></div>
-                    </div>
-                    <div class="col-md-2">
-                        <button t-if="widget.bloc.state == 'progress'" type="button" t-att-class="'btn btn-lg btn-' + widget.bloc_result.class + ' bloc_' + widget.bloc_result.next_action"><t t-esc="widget.bloc_result.button_text"/></button>
-                        <button t-if="widget.bloc.state != 'progress'" type="button" t-att-class="'btn btn-lg disabled btn-' +widget.bloc_result.class"><t t-esc="widget.bloc_result.button_text"/></button>
-                    </div>    
-                    </t>
-                    <t t-if="!widget.bloc_result.grade">
-                    <div class="col-md-9">
-                        <div t-att-class="'alert alert-' + widget.bloc_result.class" role="alert"><t t-esc="widget.bloc_result.message"/></div>
-                    </div>
-                    <div class="col-md-2">
-                        <button t-if="widget.bloc.state == 'progress'" type="button" t-att-class="'btn btn-lg btn-' + widget.bloc_result.class + ' bloc_' + widget.bloc_result.next_action"><t t-esc="widget.bloc_result.button_text"/></button>
-                        <button t-if="widget.bloc.state != 'progress'" type="button" t-att-class="'btn btn-lg disabled btn-' +widget.bloc_result.class"><t t-esc="widget.bloc_result.button_text"/></button>
-                    </div>    
-                    </t>
-                    </t>
-                    
-                    <t t-if="widget.bloc.source_bloc_level != 3">
-                    <div class="col-md-9">
-                        <div t-att-class="'alert alert-' + widget.bloc_result.class" role="alert"><t t-esc="widget.bloc_result.message"/></div>
-                    </div>
-                    <div class="col-md-2">
-                        <button t-if="widget.bloc.state == 'progress'" type="button" t-att-class="'btn btn-lg btn-' + widget.bloc_result.class + ' bloc_' + widget.bloc_result.next_action"><t t-esc="widget.bloc_result.button_text"/></button>
-                        <button t-if="widget.bloc.state != 'progress'" type="button" t-att-class="'btn btn-lg disabled btn-' +widget.bloc_result.class"><t t-esc="widget.bloc_result.button_text"/></button>
-                    </div>    
-                    </t>
-                </div>
-                
-                <div class="row">
-                    <!-- Table -->
-                    <table class="table table-condensed table-bordered result_table" style="font-size:180%;">
-                        <colgroup>
-                            <col style="width:20px"/>
-                            <col style="width:500"/>
-                            <col style="width:50px"/>
-                            <col style="width:50px"/>
-                            <col style="width:75px"/>
-                            <col style="width:20px"/>
-                        </colgroup>
-                        <thead>
-                            <tr>
-                                <th class="text-center">#</th>
-                                <th>Intitulé</th>
-                                <th>Rés</th>
-                                <th>Cre</th>
-                                <th>Acq</th>
-                                <th></th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <t t-set="counter" t-value="1" />
-                            <t t-foreach="widget.course_groups" t-as="course_group">
-                                <tr class="course_group">
-                                    <th scope="row" class="text-center">
-                                        <t t-esc="counter" />
-                                    </th>
-                                    <td>
-                                        <t t-esc="course_group.title" />
-                                    </td>
-                                    <td style=" text-align: right;">
-                                        <t t-if="course_group.dispense">
-                                                Dis
-                                        </t>
-                                        <t t-if="course_group.final_result_bool">
-                                                <t t-esc="course_group.final_result.toFixed(2)" />
-                                        </t>
-                                    </td>
-                                    <td style=" text-align: right;">
-                                        <t t-esc="course_group.total_credits" />
-                                    </td>
-                                    <td>
-                                        <span class="label label-success" t-if="course_group.acquiered === 'A'">Acq</span>
-                                        <span class="label label-warning" t-if="course_group.acquiered === 'NA'">NoAcq</span>
-                                    </td>
-                                    <td>
-                                        <i class="fa fa-search o_school_edit_icg" role="button" aria-hidden="true" t-att-data-cg-id="course_group.id"></i>
-                                    </td>
+                <div class="container bloc_details">
+                    <div class="row">
+                        <!-- Table -->
+                        <table class="table table-condensed table-bordered result_table" style="font-size:180%;">
+                            <colgroup>
+                                <col style="width:20px"/>
+                                <col style="width:500"/>
+                                <col style="width:50px"/>
+                                <col style="width:50px"/>
+                                <col style="width:75px"/>
+                                <col style="width:20px"/>
+                            </colgroup>
+                            <thead>
+                                <tr>
+                                    <th class="text-center">#</th>
+                                    <th>Intitulé</th>
+                                    <th>Rés</th>
+                                    <th>Cre</th>
+                                    <th>Acq</th>
+                                    <th></th>
                                 </tr>
-                                <t t-set="counter" t-value="counter + 1" />
-                                <t t-foreach="course_group.courses" t-as="course">
-                                    <tr style="font-style: italic;font-size:80%;">
-                                        <th scope="row" class="text-center"></th>
+                            </thead>
+                            <tbody>
+                                <t t-set="counter" t-value="1" />
+                                <t t-foreach="widget.course_groups" t-as="course_group">
+                                    <tr class="course_group">
+                                        <th scope="row" class="text-center">
+                                            <t t-esc="counter" />
+                                        </th>
                                         <td>
-                                            <t t-esc="course.title" /> - <t t-esc="course.level" /> <i t-if="course.teacher_id" class="oe_fade"> - <t t-esc="course.teacher_id[1]"/></i></td>
+                                            <t t-esc="course_group.title" />
+                                        </td>
                                         <td style=" text-align: right;">
-                                            <t t-if="course.first_session_result_bool">
-                                            <t t-if="(course.type != 'D')">
-                                                <font color="blue"><t t-esc="course.first_session_result.toFixed(2)" /></font>
+                                            <t t-if="course_group.dispense">
+                                                    Dis
                                             </t>
-                                            <t t-if="(course.type == 'D') and course.jun_result">
-                                                <font color="gray"><t t-esc="course.first_session_result.toFixed(2)"/></font>
-                                            </t>
-                                            </t>
-                                            <t t-if="(course.type == 'D') and !course.jun_result">
-                                                Dis
+                                            <t t-if="course_group.final_result_bool">
+                                                    <t t-esc="course_group.final_result.toFixed(2)" />
                                             </t>
                                         </td>
-                                        <td></td>
-                                        <td></td>
-                                        <td></td>
+                                        <td style=" text-align: right;">
+                                            <t t-esc="course_group.total_credits" />
+                                        </td>
+                                        <td>
+                                            <span class="label label-success" t-if="course_group.acquiered === 'A'">Acq</span>
+                                            <span class="label label-warning" t-if="course_group.acquiered === 'NA'">NoAcq</span>
+                                        </td>
+                                        <td>
+                                            <i class="fa fa-search o_school_edit_icg" role="button" aria-hidden="true" t-att-data-cg-id="course_group.id"></i>
+                                        </td>
                                     </tr>
+                                    <t t-set="counter" t-value="counter + 1" />
+                                    <t t-foreach="course_group.courses" t-as="course">
+                                        <tr style="font-style: italic;font-size:80%;">
+                                            <th scope="row" class="text-center"></th>
+                                            <td>
+                                                <t t-esc="course.title" /> - <t t-esc="course.level" /> <i t-if="course.teacher_id" class="oe_fade"> - <t t-esc="course.teacher_id[1]"/></i></td>
+                                            <td style=" text-align: right;">
+                                                <t t-if="course.first_session_result_bool">
+                                                <t t-if="(course.type != 'D')">
+                                                    <font color="blue"><t t-esc="course.first_session_result.toFixed(2)" /></font>
+                                                </t>
+                                                <t t-if="(course.type == 'D') and course.jun_result">
+                                                    <font color="gray"><t t-esc="course.first_session_result.toFixed(2)"/></font>
+                                                </t>
+                                                </t>
+                                                <t t-if="(course.type == 'D') and !course.jun_result">
+                                                    Dis
+                                                </t>
+                                            </td>
+                                            <td></td>
+                                            <td></td>
+                                            <td></td>
+                                        </tr>
+                                    </t>
                                 </t>
-                            </t>
-                        </tbody>
-                    </table>
+                            </tbody>
+                        </table>
+                    </div>
                 </div>
             </div>
         </div>

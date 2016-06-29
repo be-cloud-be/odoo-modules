@@ -46,17 +46,22 @@
     width: 180px;
     position:fixed;
   }
-  #page-wrapper {
+  
+ #page-wrapper {
         position: inherit;
         margin: 0 0 0 180px;
         padding: 0 10px;
-        border-left: 1px solid #e7e7e7;
         /*background-color: #f0f0f0;*/
     }
 }
 
 .sidebar ul li a {
   padding : 5px;
+}
+
+.sidebar ul li a.active {
+    color: #ffffff;
+    background-color: #337ab7;
 }
 
 .credits {
@@ -73,6 +78,7 @@
   color: #fff;
   background-color: #5cb85c;
   border-color: #4cae4c;
+  padding: 0;
 }
 
 .score_value {

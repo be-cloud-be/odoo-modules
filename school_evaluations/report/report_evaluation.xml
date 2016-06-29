@@ -132,7 +132,7 @@
                     <div class="container" style="margin-left:60px;margin-right:60px;">
                         <div class="row" style="margin-bottom:30px;">
                             <div class="col-xs-12 text-center">
-                                <h3>CERTIFICAT DE RÉUSSITE</h3>
+                                <h3>ATTESTATION DE RÉUSSITE</h3>
                                 <h3>Conservatoire royal de Liège<br/>Boulevard Piercot, 29, 4000 LIÈGE</h3>
                                 <h4>Domaine : <span t-field="o.source_bloc_domain_id.long_name"/></h4>
                             </div>
@@ -140,14 +140,9 @@
                         <t t-if="o.state in ['draft', 'postponed', 'failed']">
                         <div class="alert alert-danger" role="alert">Programme pas réussi, actuellement au stade de : <span t-field="o.state"/></div>
                         </t>
-                        <div class="row"  style="margin-top:40px;">
-                            <div class="col-xs-12">
-                                Vu le décret du 7 novembre 2013 définissant le paysage de l’enseignement supérieur et l’organisation académique des études;
-                            </div>
-                        </div>
                         <div class="row"  style="margin-top:60px;">
                             <div class="col-xs-12">
-                                Nous, Président-e, Secrétaire et Membres du jury chargé de conférer le grade académique concerné, déclarons que
+                                Je, sousigné, NATHANAËL HARCQ, Directeur du Conservatoire Royal de Liège, certifie que
                             </div>
                         </div>
                         <div class="row"  style="margin-top:60px;">
@@ -164,16 +159,18 @@
                             </div>
                         </div>
                         <div class="row" style="margin-top:50px;">
-                            <div class="col-xs-10 col-xs-offset-1">
+                            <div class="col-xs-10">
                                 La présente attestation est délivrée pour renseignements administratifs.
                             </div>
                         </div>
                         <div class="row" style="margin-top:60px;">
                             <div class="col-xs-6">
-                                Le/La Président-e du jury
+                                Le Directeur
                             </div>
+                        </div>
+                        <div class="row" style="margin-top:80px;">
                             <div class="col-xs-6">
-                                Le/La Secrétaire du jury
+                                NATHANAËL HARCQ
                             </div>
                         </div>
                     </div>
@@ -352,8 +349,8 @@
                                     <colgroup>
                                         <col style="width:300px"/>
                                         <col style="width:75px"/>
-                                        <col style="width:75px"/>
-                                        <col style="width:75px"/>
+                                        <col style="width:60px"/>
+                                        <col style="width:90px"/>
                                     </colgroup>
                                     <thead>
                                         <tr>
@@ -398,7 +395,13 @@
                         </div>
                         <div class="row">
                             <div class="col-xs-10 col-xs-offset-1">
-                                <h4><t t-esc="o.decision"/></h4>    
+                                <h4><t t-esc="o.decision"/>
+                                <t t-if="o.program_id.grade">
+                                    <span t-field="o.program_id.grade"/>
+                                </t>
+                                <t t-if="o.program_id.grade_comments">
+                                    au motif <span t-field="o.program_id.grade_comments"/>
+                                </t></h4>
                             </div>
                         </div>
                     </div>
