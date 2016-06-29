@@ -151,7 +151,7 @@
                     </page>
                     <page name="minerval_list" string="Minervals" attrs="{'invisible': [('student','=',False)]}">
                         <field name="minerval_ids">
-                            <tree string="Mindervals">
+                            <tree string="Minervals">
                                 <field name="year_id" />
                                 <field name="payment_date" />
                             </tree>
