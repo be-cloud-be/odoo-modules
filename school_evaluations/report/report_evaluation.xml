@@ -108,6 +108,83 @@
     
     <!--
     
+    Success Certificate
+    
+    -->
+
+    <report id="report_success_certificate" 
+            model="school.individual_bloc" 
+            string="Success Certificate" 
+            report_type="qweb-pdf" 
+            name="school_evaluations.report_success_certificate_content" 
+            file="school_evaluations.report_success_certificate_content"
+            attachment_use="True"
+            attachment="object.name+'-CERT-'+time.strftime('%d-%m-%Y')+'.pdf'"
+    />
+    
+    <template id="report_success_certificate_content">
+        <t t-call="report.html_container">
+            <t t-set="data_report_margin_top" t-value="40"/>
+            <t t-set="data_report_header_spacing" t-value="35"/>
+            <t t-foreach="docs" t-as="o">
+                <t t-call="report.external_layout">
+                <div class="page">
+                    <div class="container" style="margin-left:60px;margin-right:60px;">
+                        <div class="row" style="margin-bottom:30px;">
+                            <div class="col-xs-12 text-center">
+                                <h3>CERTIFICAT DE RÉUSSITE</h3>
+                                <h3>Conservatoire royal de Liège<br/>Boulevard Piercot, 29, 4000 LIÈGE</h3>
+                                <h4>Domaine : <span t-field="o.source_bloc_domain_id.long_name"/></h4>
+                            </div>
+                        </div>
+                        <t t-if="o.state in ['draft', 'postponed', 'failed']">
+                        <div class="alert alert-danger" role="alert">Programme pas réussi, actuellement au stade de : <span t-field="o.state"/></div>
+                        </t>
+                        <div class="row"  style="margin-top:40px;">
+                            <div class="col-xs-12">
+                                Vu le décret du 7 novembre 2013 définissant le paysage de l’enseignement supérieur et l’organisation académique des études;
+                            </div>
+                        </div>
+                        <div class="row"  style="margin-top:60px;">
+                            <div class="col-xs-12">
+                                Nous, Président-e, Secrétaire et Membres du jury chargé de conférer le grade académique concerné, déclarons que
+                            </div>
+                        </div>
+                        <div class="row"  style="margin-top:60px;">
+                            <div class="col-xs-12 text-center">
+                                <t t-if="o.student_id.sex == 'm'">Monsieur</t><t t-if="o.student_id.sex == 'f'">Madame</t> <span t-field="o.student_id"/> <span t-field="o.student_id.initials"/><br/>
+                                né<t t-if="o.student_id.sex == 'f'">e</t> à <span t-field="o.student_id.birthplace"/> le <span t-field="o.student_id.birthdate"/><br/>
+                                a réussi en l’année académique <span t-field="o.year_id"/><br/>
+                                son programme en <span t-field="o.source_bloc_domain_id"/> option <span t-field="o.source_bloc_speciality_id"/> pour un total de <span t-field="o.total_acquiered_credits"/> ECTS.
+                            </div>
+                        </div>
+                        <div class="row"  style="margin-top:60px;" t-if="o.total_acquiered_credits &lt; o.total_credits">
+                            <div class="col-xs-12 text-center">
+                                Un complément de <span t-esc="o.total_credits-o.total_acquiered_credits"/> reste(nt) à obtenir pour compléter le programme.
+                            </div>
+                        </div>
+                        <div class="row" style="margin-top:50px;">
+                            <div class="col-xs-10 col-xs-offset-1">
+                                La présente attestation est délivrée pour renseignements administratifs.
+                            </div>
+                        </div>
+                        <div class="row" style="margin-top:60px;">
+                            <div class="col-xs-6">
+                                Le/La Président-e du jury
+                            </div>
+                            <div class="col-xs-6">
+                                Le/La Secrétaire du jury
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                </t>
+            </t>
+        </t>
+    </template>
+    
+    <!--
+    
     Evaluations report for students
     
     -->
@@ -223,6 +300,135 @@
                     </div>
                 </div>
                 </t>
+            </t>
+        </t>
+    </template>
+
+    <!--
+    
+    Evaluations report for deliberation annexe
+    
+    -->
+
+    <report id="report_deliberation_annexe" 
+            model="school.individual_bloc" 
+            string="Deliberation Report" 
+            report_type="qweb-pdf" 
+            name="school_evaluations.report_deliberation_annexe_content" 
+            file="school_evaluations.report_deliberation_annexe_content"
+    />
+
+
+    <template id="report_deliberation_annexe_content">
+        <t t-call="report.html_container">
+            <t t-set="data_report_margin_top" t-value="30"/>
+            <t t-set="data_report_header_spacing" t-value="25"/>
+            <t t-call="report.external_layout">
+                <div class="page">
+                    <div class="container" style="margin-left:60px;margin-right:60px;">
+                        <div class="row">
+                            <div class="col-xs-12 text-center">
+                                <h3>PROCÈS VERBAL DE DÉLIBÉRATION</h3>
+                                <h3>Conservatoire royal de Liège<br/>Boulevard Piercot, 29, 4000 LIÈGE</h3>
+                            </div>
+                        </div>
+                    </div>
+                    <t t-foreach="docs" t-as="o">
+                    <div class="container" style="page-break-before:always;" >
+                        <div class="row">
+                            <div class="col-xs-8 col-xs-offset-1">
+                                <h4>Fiche de résultats - <t t-esc="o.name"/></h4>    
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-xs-8 col-xs-offset-1">
+                                <h4><t t-esc="o.source_bloc_name"/></h4>    
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-xs-10 col-xs-offset-1">
+                                <!-- Table -->
+                                <table class="table table-condensed table-bordered result_table">
+                                    <colgroup>
+                                        <col style="width:300px"/>
+                                        <col style="width:75px"/>
+                                        <col style="width:75px"/>
+                                        <col style="width:75px"/>
+                                    </colgroup>
+                                    <thead>
+                                        <tr>
+                                            <th>Intitulé du cours</th>
+                                            <th>Résultats</th>
+                                            <th>ECTS</th>
+                                            <th>Acquis</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <t t-foreach="o.course_group_ids" t-as="course_group">
+                                            <tr class="course_group">
+                                                <td>
+                                                    <t t-esc="course_group.title"/>
+                                                </td>
+                                                <td style=" text-align: right;">
+                                                    <t t-esc="'%.2f' % course_group.final_result"/>
+                                                </td>
+                                                <td style=" text-align: right;">
+                                                    <t t-esc="course_group.total_credits"/>
+                                                </td>
+                                                <td>
+                                                    <span class="label label-success" t-if="course_group.acquiered == 'A'">Acquis</span>
+                                                    <span class="label label-warning" t-if="course_group.acquiered == 'NA'">Non Acquis</span>
+                                                </td>
+                                            </tr>
+                                            <t t-foreach="course_group.course_ids" t-as="course">
+                                                <tr style="font-style: italic;font-size:80%;">
+                                                    <td>
+                                                        <t t-esc="course.title"/> - <t t-esc="course.level"/> <i t-if="course.teacher_id" class="oe_fade"> - <t t-esc="course.teacher_id.name"/></i></td>
+                                                    <td style=" text-align: right;">
+                                                        <t t-esc="'%.2f' % course.first_session_result"/>
+                                                    </td>
+                                                    <td/>
+                                                    <td/>
+                                                </tr>
+                                            </t>
+                                        </t>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-xs-10 col-xs-offset-1">
+                                <h4><t t-esc="o.decision"/></h4>    
+                            </div>
+                        </div>
+                    </div>
+                    </t>
+                    <div class="container" style="margin-left:60px;margin-right:60px;page-break-before:always;">
+                        <div class="row" style="margin-top:60px;">
+                            <div class="col-xs-10">
+                                Remarques : 
+                            </div>
+                        </div>
+                        <div class="row" style="margin-top:150px;">
+                            <div class="col-xs-6">
+                                Le/La Président-e du jury
+                            </div>
+                            <div class="col-xs-6">
+                                Le/La Secrétaire du jury
+                            </div>
+                        </div>
+                        <div class="row" style="margin-top:120px;">
+                            <div class="col-xs-6">
+                                Les Membres du jury
+                            </div>
+                        </div>
+                        <div class="row" style="margin-top:200px;">
+                            <div class="col-xs-9">
+                                Imprimé le <span t-esc="datetime.datetime.now().strftime('%d-%m-%Y à %H:%M:%S')"/>
+                            </div>
+                        </div>
+                    </div>
+                </div>
             </t>
         </t>
     </template>

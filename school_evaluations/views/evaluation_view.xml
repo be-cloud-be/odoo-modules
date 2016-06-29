@@ -110,6 +110,15 @@
             <field name="inherit_id" ref="school_management.individual_program_form" />
             <field eval="25" name="priority" />
             <field name="arch" type="xml">
+                <xpath expr="//sheet" position="before">
+                    <header>
+                        <button name="set_to_progress" type="object" states="draft" string="Progress" class="oe_highlight" />
+                        <button name="set_to_awarded" type="object" states="progress" string="Awarded" class="oe_highlight" />
+                        <button name="set_to_abandonned" type="object" states="progress" string="Abandonned" class="oe_highlight" />
+                        <button name="set_to_draft" type="object" states="progress,awarded,abandonned" string="Reset to Draft" />
+                        <field name="state" widget="statusbar" statusbar_visible="draft,progress,awarded,abandonned" />
+                    </header>
+                </xpath>
                 <xpath expr="//field[@name='required_credits']" position="after">            
                     <field name="historical_bloc_1_eval"/>
                     <field name="historical_bloc_2_eval"/>
@@ -130,9 +139,11 @@
             <field name="model">school.individual_bloc</field>
             <field name="inherit_id" ref="school_management.view_individual_bloc_filter" />
             <field name="arch" type="xml">
-                <xpath expr="//filter[@name='bloc_3']" position="after">
+                <xpath expr="//group" position="before">
                     <separator/>
-                    <filter name="to_deliberate" string="To Deliberate" domain="[('state', 'in', ['progess','postponed'])]" />
+                    <filter name="draft" string="Draft" domain="[('state', 'in', ['draft'])]" />
+                    <filter name="awarded" string="Awarded" domain="[('state', 'in', ['awarded_first_session','awarded_second_session'])]" />
+                    <filter name="postponed" string="Postponed" domain="[('state', 'in', ['postponed'])]" />
                 </xpath>
             </field>
         </record>

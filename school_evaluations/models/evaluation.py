@@ -489,8 +489,7 @@ class IndividualBloc(models.Model):
             ('awarded_first_session', 'Awarded in First Session'),
             ('awarded_second_session', 'Awarded in Second Session'),
             ('failed', 'Failed'),
-        ], string='Status', index=True, readonly=True, default='draft',
-        #track_visibility='onchange', TODO : is this useful for this case ?
+        ], string='Status', index=True, default='draft',
         copy=False,
         help=" * The 'Draft' status is used when results are not confirmed yet.\n"
              " * The 'In Progress' status is used during the courses.\n"
@@ -562,9 +561,49 @@ class IndividualProgram(models.Model):
     '''Individual Program'''
     _inherit='school.individual_program'
     
-    historical_bloc_1_eval = fields.Float(string="Hist Bloc 1")
+    state = fields.Selection([
+            ('draft','Draft'),
+            ('progress','In Progress'),
+            ('awarded', 'Awarded'),
+            ('abandonned', 'Abandonned'),
+        ], string='Status', index=True, default='draft',copy=False,
+        help=" * The 'Draft' status is used when results are not confirmed yet.\n"
+             " * The 'In Progress' status is used during the cycle.\n"
+             " * The 'Awarded' status is used when the cycle is awarded.\n"
+             " * The 'Abandonned' status is used if a student leave the program.\n"
+             ,track_visibility='onchange')
     
-    historical_bloc_2_eval = fields.Float(string="Hist Bloc 2")
+    @api.multi
+    def set_to_draft(self, context):
+        # TODO use a workflow to make sure only valid changes are used.
+        return self.write({'state': 'draft'})
+    
+    @api.multi
+    def set_to_progress(self, context):
+        # TODO use a workflow to make sure only valid changes are used.
+        return self.write({'state': 'progress'})
+    
+    @api.multi
+    def set_to_awarded(self, context, grade=None, grade_year_id=None, grade_comments=None):
+        # TODO use a workflow to make sure only valid changes are used.
+        if(grade):
+            self.write({'state': 'awarded',
+                           'grade' : grade,
+                           'grade_year_id' : grade_year_id,
+                           'grade_comments' : grade_comments,})
+        else:
+            self.write({'state': 'awarded'})
+        
+    @api.multi
+    def set_to_abandonned(self, context):
+        # TODO use a workflow to make sure only valid changes are used.
+        return self.write({'state': 'abandonned'})
+    
+    historical_bloc_1_eval = fields.Float(string="Hist Bloc 1 Eval")
+    historical_bloc_1_credits = fields.Integer(string="Hist Bloc 1 ECTS")
+    
+    historical_bloc_2_eval = fields.Float(string="Hist Bloc 2 Eval")
+    historical_bloc_2_credits = fields.Integer(string="Hist Bloc 2 ECTS")
     
     grade = fields.Selection([
             ('without','Without Grade'),
