@@ -230,7 +230,7 @@ return Widget.extend({
                 }*/
                 else {
                     self.bloc_result = {
-                        'message' : _t("Moins de "+self.bloc.total_credits+" crédits ECTS acquis ou valorisés, les crédits non-acquis sont à présenter en seconde session."),
+                        'message' : _t("Moins de "+self.bloc.total_credits+" crédits ECTS acquis ou valorisés, les crédits non-acquis sont à présenter, le cas échéant, en seconde session."),
                         'class' : "danger",
                         'button_text' : _t("Ajourné"),
                         'next_action' : "postpone",
@@ -248,7 +248,7 @@ return Widget.extend({
                 }
                 else {
                     self.bloc_result = {
-                        'message' : _t("Moins de "+self.bloc.total_credits+" crédits ECTS acquis ou valorisés, les crédits non-acquis sont à présenter en seconde session."),
+                        'message' : _t("Moins de "+self.bloc.total_credits+" crédits ECTS acquis ou valorisés, les crédits non-acquis sont à présenter, le cas échéant, en seconde session."),
                         'class' : "danger",
                         'button_text' : _t("Ajourné"),
                         'next_action' : "postpone",
@@ -299,7 +299,7 @@ return Widget.extend({
                 }*/
                 else {
                     self.bloc_result = {
-                        'message' : _t("Moins de "+self.bloc.total_credits+" crédits ECTS acquis ou valorisés, les crédits non-acquis sont à présenter en seconde session."),
+                        'message' : _t("Moins de "+self.bloc.total_credits+" crédits ECTS acquis ou valorisés, les crédits non-acquis sont à présenter, le cas échéant, en seconde session."),
                         'class' : "danger",
                         'button_text' : _t("Ajourné"),
                         'next_action' : "postpone",

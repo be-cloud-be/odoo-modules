@@ -273,7 +273,13 @@
                         </div>
                         <div class="row">
                             <div class="col-xs-10 col-xs-offset-1">
-                                <h4><t t-esc="o.decision"/></h4>    
+                                <h4><t t-esc="o.decision"/>
+                                <t t-if="o.program_id.grade">
+                                    <span t-field="o.program_id.grade"/>
+                                </t>
+                                <t t-if="o.program_id.grade_comments">
+                                    au motif <span t-field="o.program_id.grade_comments"/>
+                                </t></h4>
                             </div>
                         </div>
                         <div class="row" style="margin-bottom:80px;">
