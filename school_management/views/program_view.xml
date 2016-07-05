@@ -673,6 +673,9 @@
       <field name="arch" type="xml">
         <search string="Search Program">
           <field name="title" filter_domain="[('title', 'ilike',self)]" />
+          <filter string="Current Year" name="current" domain="[('year_sequence','=','current')]" />
+          <filter string="Next Year" name="next" domain="[('year_sequence','=','next')]" />
+          <filter string="Previous Year" name="previous" domain="[('year_sequence','=','previous')]" />
           <group expand="1" string="Group By">
             <filter string="Domain" context="{'group_by':'domain_id'}" />
             <filter string="Cycle" context="{'group_by':'cycle_id'}" />
@@ -690,7 +693,7 @@
       <field name="res_model">school.program</field>
       <field name="view_type">form</field>
       <field name="view_mode">tree,form</field>
-      <field name="context">{}</field>
+      <field name="context">{"search_default_current":1}</field>
       <field name="search_view_id" ref="view_program_filter" />
       <field name="help" type="html">
         <p class="oe_view_nocontent_create">
@@ -734,6 +737,19 @@
         </tree>
       </field>
     </record>
+
+    <!-- User current year setting -->
+    <record id="view_users_form_simple_modif_school" model="ir.ui.view">
+            <field name="name">res.users.preferences.form</field>
+            <field name="model">res.users</field>
+            <field name="inherit_id" ref="base.view_users_form_simple_modif" />
+            <field eval="18" name="priority"/>
+            <field name="arch" type="xml">
+                <xpath expr="//field[@name='tz_offset']" position="after">
+                    <field name="current_year_id" placeholder="Current Year" />
+                </xpath>
+            </field>
+        </record>
 
   </data>
 </openerp>

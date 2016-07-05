@@ -201,6 +201,10 @@
           <filter name="bloc_1" string="Bloc 1" domain="[('source_bloc_level', '=', 1)]"/>
           <filter name="bloc_2" string="Bloc 2" domain="[('source_bloc_level', '=', 2)]"/>
           <filter name="bloc_3" string="Bloc 3" domain="[('source_bloc_level', '=', 3)]"/>
+          <separator/>
+          <filter string="Current Year" name="current" domain="[('year_sequence','=','current')]" />
+          <filter string="Next Year" name="next" domain="[('year_sequence','=','next')]" />
+          <filter string="Previous Year" name="previous" domain="[('year_sequence','=','previous')]" />
           <group expand="1" string="Group By">
             <filter string="Domain" context="{'group_by':'source_bloc_domain_id'}" />
             <filter string="Cycle" context="{'group_by':'source_bloc_cycle_id'}" />
@@ -218,7 +222,7 @@
       <field name="res_model">school.individual_bloc</field>
       <field name="view_type">form</field>
       <field name="view_mode">tree,form</field>
-      <field name="context">{}</field>
+      <field name="context">{"search_default_current":1}</field>
       <field name="search_view_id" ref="view_individual_bloc_filter" />
       <field name="help" type="html">
         <p class="oe_view_nocontent_create">
@@ -314,14 +318,42 @@
       </field>
     </record>
   
+    <record id="view_individual_course_groups_filter" model="ir.ui.view">
+      <field name="name">individual_course_group.select</field>
+      <field name="model">school.individual_course_group</field>
+      <field name="arch" type="xml">
+        <search string="Search Courses">
+          <field name="student_id" domain="[('type', '=', 'contact')]"/>
+          <field name="source_course_group_id" string="Activité"/>
+          <filter name="bloc_1" string="Bloc 1" domain="[('source_bloc_level', '=', 1)]"/>
+          <filter name="bloc_2" string="Bloc 2" domain="[('source_bloc_level', '=', 2)]"/>
+          <filter name="bloc_3" string="Bloc 3" domain="[('source_bloc_level', '=', 3)]"/>
+          <separator/>
+          <filter string="Current Year" name="current" domain="[('year_sequence','=','current')]" />
+          <filter string="Next Year" name="next" domain="[('year_sequence','=','next')]" />
+          <filter string="Previous Year" name="previous" domain="[('year_sequence','=','previous')]" />
+          <separator/>
+          <filter name="dispensed" string="Dispensed" domain="[('dispense', '=', True)]"/>
+          <filter name="not_dispensed" string="Not Dispensed" domain="[('dispense', '=', False)]"/>
+          <group expand="1" string="Group By">
+            <filter string="Domain" context="{'group_by':'source_bloc_domain_id'}" />
+            <filter string="Cycle" context="{'group_by':'source_bloc_cycle_id'}" />
+            <filter string="Section" context="{'group_by':'source_bloc_section_id'}" />
+            <filter string="Track" context="{'group_by':'source_bloc_track_id'}" />
+            <filter string="Speciality" context="{'group_by':'source_bloc_speciality_id'}" />
+          </group>
+        </search>
+      </field>
+    </record>
+  
     <record id="action_individual_course_group_form" model="ir.actions.act_window">
       <field name="name">Individual Course Groups</field>
       <field name="type">ir.actions.act_window</field>
       <field name="res_model">school.individual_course_group</field>
       <field name="view_type">form</field>
       <field name="view_mode">tree,form</field>
-      <field name="context">{}</field>
-      <!--<field name="search_view_id" ref="view_individual_courses_filter" />-->
+      <field name="context">{"search_default_current":1}</field>
+      <field name="search_view_id" ref="view_individual_course_groups_filter" />
       <field name="help" type="html">
         <p class="oe_view_nocontent_create">
           Please add individual program from Student view.
@@ -420,6 +452,10 @@
           <filter name="bloc_2" string="Bloc 2" domain="[('source_bloc_level', '=', 2)]"/>
           <filter name="bloc_3" string="Bloc 3" domain="[('source_bloc_level', '=', 3)]"/>
           <separator/>
+          <filter string="Current Year" name="current" domain="[('year_sequence','=','current')]" />
+          <filter string="Next Year" name="next" domain="[('year_sequence','=','next')]" />
+          <filter string="Previous Year" name="previous" domain="[('year_sequence','=','previous')]" />
+          <separator/>
           <filter name="dispensed" string="Dispensed" domain="[('dispense', '=', True)]"/>
           <filter name="not_dispensed" string="Not Dispensed" domain="[('dispense', '=', False)]"/>
           <group expand="1" string="Group By">
@@ -439,7 +475,7 @@
       <field name="res_model">school.individual_course</field>
       <field name="view_type">form</field>
       <field name="view_mode">tree,form</field>
-      <field name="context">{}</field>
+      <field name="context">{"search_default_current":1}</field>
       <field name="search_view_id" ref="view_individual_courses_filter" />
       <field name="help" type="html">
         <p class="oe_view_nocontent_create">

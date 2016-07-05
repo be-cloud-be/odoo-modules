@@ -26,6 +26,155 @@ from openerp.tools.safe_eval import safe_eval
 
 _logger = logging.getLogger(__name__)
 
+class school_year_sequence_mixin(models.AbstractModel):
+    _name = "school.year_sequence.mixin"
+
+    year_sequence = fields.Selection([
+        ('current','Current'),
+        ('previous','Previous'),
+        ('next','Next'),
+        ], string="Year Sequence", compute="_compute_year_sequence", search="_search_year_sequence")
+        
+    def _compute_year_sequence(self):
+        current_year_id = self.env.user.current_year_id
+        if current_year_id.id == self.year_id.id:
+            self.year_sequence = 'current'
+        if current_year_id.previous.id == self.year_id.id:
+            self.year_sequence = 'previous'
+        if current_year_id.next.id == self.year_id.id:
+            self.year_sequence = 'next'
+        
+    def _search_year_sequence(self, operator, value):
+        current_year_id = self.env.user.current_year_id
+        year_ids = []
+        if 'current' in value:
+            year_ids.append(current_year_id.id)
+        if 'previous' in value:
+            year_ids.append(current_year_id.previous.id)
+        if 'next' in value:
+            year_ids.append(current_year_id.next.id)
+        return [('year_id','in',year_ids)]
+
+class Program(models.Model):
+    '''Program'''
+    _name = 'school.program'
+    _description = 'Program made of several Blocs'
+    _inherit = ['mail.thread','school.year_sequence.mixin']
+    
+    @api.one
+    @api.depends('bloc_ids')
+    def _get_courses_total(self):
+        total_hours = 0.0
+        total_credits = 0.0
+        for bloc in self.bloc_ids:
+            total_hours += bloc.total_hours
+            total_credits += bloc.total_credits
+        self.total_hours = total_hours
+        self.total_credits = total_credits
+    
+    state = fields.Selection([
+            ('draft','Draft'),
+            ('published', 'Published'),
+            ('archived', 'Archived'),
+        ], string='Status', index=True, readonly=True, default='draft',
+        #track_visibility='onchange', TODO : is this useful for this case ?
+        copy=False,
+        help=" * The 'Draft' status is used when a new program is created and not published yet.\n"
+             " * The 'Published' status is when a program is published and available for use.\n"
+             " * The 'Archived' status is used when a program is obsolete and not publihed anymore.")
+    
+    title = fields.Char(required=True, string='Title')
+    name = fields.Char(string='Name', related='title', store=True)
+    
+    year_id = fields.Many2one('school.year', required=True, string="Year")
+    
+    description = fields.Text(string='Description')
+        
+    competency_ids = fields.Many2many('school.competency','school_competency_program_rel', id1='program_id', id2='competency_id', string='Competencies', ondelete='set null')
+    
+    cycle_id = fields.Many2one('school.cycle', string='Cycle')
+    
+    speciality_id = fields.Many2one('school.speciality', string='Speciality')
+    domain_id = fields.Many2one(related='speciality_id.domain_id', string='Domain',store=True)
+    section_id = fields.Many2one(related='speciality_id.section_id', string='Section',store=True)
+    track_id = fields.Many2one(related='speciality_id.track_id', string='Track',store=True)
+    
+    total_credits = fields.Integer(compute='_get_courses_total', string='Total Credits')
+    total_hours = fields.Integer(compute='_get_courses_total', string='Total Hours')
+
+    notes = fields.Text(string='Notes')
+    
+    bloc_ids = fields.One2many('school.bloc', 'program_id', string='Blocs')
+    
+    @api.multi
+    def unpublish(self):
+        return self.write({'state': 'draft'})
+    
+    @api.multi
+    def publish(self):
+        return self.write({'state': 'published'})
+    
+    @api.multi
+    def archive(self):
+        return self.write({'state': 'archived'})
+
+class Bloc(models.Model):
+    '''Bloc'''
+    _name = 'school.bloc'
+    _description = 'Program'
+    _inherit = ['mail.thread']
+    _order = 'program_id,sequence'
+    
+    @api.one
+    @api.depends('course_group_ids')
+    def _get_courses_total(self):
+        total_hours = 0.0
+        total_credits = 0.0
+        total_weight = 0.0
+        for course_group in self.course_group_ids:
+            total_hours += course_group.total_hours
+            total_credits += course_group.total_credits
+            total_weight += course_group.total_weight
+        self.total_hours = total_hours
+        self.total_credits = total_credits
+        self.total_weight = total_weight
+
+    sequence = fields.Integer(string='Sequence')
+    title = fields.Char(required=True, string='Title')
+    year_id = fields.Many2one('school.year', string="Year", related='program_id.year_id', store=True)
+    description = fields.Text(string='Description')
+    
+    cycle_id = fields.Many2one(related='program_id.cycle_id', string='Cycle',store=True)
+    
+    level = fields.Selection([('0','Free'),('1','Bac 1'),('2','Bac 2'),('3','Bac 3'),('4','Master 1'),('5','Master 2'),],string='Level')
+    
+    speciality_id = fields.Many2one(related='program_id.speciality_id', string='Speciality',store=True)
+    domain_id = fields.Many2one(related='program_id.domain_id', string='Domain',store=True)
+    section_id = fields.Many2one(related='program_id.section_id', string='Section',store=True)
+    track_id = fields.Many2one(related='program_id.track_id', string='Track',store=True)
+    
+    total_credits = fields.Integer(compute='_get_courses_total', string='Total Credits')
+    total_hours = fields.Integer(compute='_get_courses_total', string='Total Hours')
+    total_weight = fields.Float(compute='_get_courses_total', string='Total Weight')
+
+    notes = fields.Text(string='Notes')
+    
+    program_id = fields.Many2one('school.program', string='Program', copy=False)
+
+    name = fields.Char(string='Name', compute='compute_name', store=True)
+    
+    course_group_ids = fields.Many2many('school.course_group','school_bloc_course_group_rel', id1='bloc_id', id2='group_id',string='Course Groups')
+    
+    @api.depends('sequence','title')
+    @api.multi
+    def compute_name(self):
+        for bloc in self:
+            bloc.name = "%s - %d" % (bloc.title,bloc.sequence)
+
+    _sql_constraints = [
+	        ('uniq_bloc', 'unique(program_id, sequence)', 'There shall be only one bloc with a given sequence within a program'),
+    ]
+
 class CourseGroup(models.Model):
     '''Courses Group'''
     _name = 'school.course_group'
@@ -133,133 +282,21 @@ class Course(models.Model):
     
     @api.one
     def _get_teacher_ids(self):
-        current_year_id = safe_eval(self.env['ir.config_parameter'].get_param('school.current_year_id','1'))
-        res = self.env['school.course_session'].search([['year_id', '=', current_year_id], ['course_id', '=', self.id]])
+        res = self.env['school.course_session'].search([['year_id', '=', self.env.user.current_year_id.id], ['course_id', '=', self.id]])
         self.teacher_ids = res
-        
     
-    #_sql_constraints = [
-	#        ('uniq_course', 'unique(course_group_id, sequence)', 'There shall be only one course with a given sequence within a course group'),
-    #]
+class ReportProgram(models.AbstractModel):
+    _name = 'report.school_management.report_program'
 
-class Bloc(models.Model):
-    '''Bloc'''
-    _name = 'school.bloc'
-    _description = 'Program'
-    _inherit = ['mail.thread']
-    _order = 'program_id,sequence'
-    
-    @api.one
-    @api.depends('course_group_ids')
-    def _get_courses_total(self):
-        total_hours = 0.0
-        total_credits = 0.0
-        total_weight = 0.0
-        for course_group in self.course_group_ids:
-            total_hours += course_group.total_hours
-            total_credits += course_group.total_credits
-            total_weight += course_group.total_weight
-        self.total_hours = total_hours
-        self.total_credits = total_credits
-        self.total_weight = total_weight
-
-    sequence = fields.Integer(string='Sequence')
-    title = fields.Char(required=True, string='Title')
-    year_id = fields.Many2one('school.year', string="Year", related='program_id.year_id', store=True)
-    description = fields.Text(string='Description')
-    
-    cycle_id = fields.Many2one(related='program_id.cycle_id', string='Cycle',store=True)
-    
-    level = fields.Selection([('0','Free'),('1','Bac 1'),('2','Bac 2'),('3','Bac 3'),('4','Master 1'),('5','Master 2'),],string='Level')
-    
-    speciality_id = fields.Many2one(related='program_id.speciality_id', string='Speciality',store=True)
-    domain_id = fields.Many2one(related='program_id.domain_id', string='Domain',store=True)
-    section_id = fields.Many2one(related='program_id.section_id', string='Section',store=True)
-    track_id = fields.Many2one(related='program_id.track_id', string='Track',store=True)
-    
-    total_credits = fields.Integer(compute='_get_courses_total', string='Total Credits')
-    total_hours = fields.Integer(compute='_get_courses_total', string='Total Hours')
-    total_weight = fields.Float(compute='_get_courses_total', string='Total Weight')
-
-    notes = fields.Text(string='Notes')
-    
-    program_id = fields.Many2one('school.program', string='Program', copy=False)
-
-    name = fields.Char(string='Name', compute='compute_name', store=True)
-    
-    course_group_ids = fields.Many2many('school.course_group','school_bloc_course_group_rel', id1='bloc_id', id2='group_id',string='Course Groups')
-    
-    @api.depends('sequence','title')
     @api.multi
-    def compute_name(self):
-        for bloc in self:
-            bloc.name = "%s - %d" % (bloc.title,bloc.sequence)
-
-    _sql_constraints = [
-	        ('uniq_bloc', 'unique(program_id, sequence)', 'There shall be only one bloc with a given sequence within a program'),
-    ]
-
-class Program(models.Model):
-    '''Program'''
-    _name = 'school.program'
-    _description = 'Program made of several Blocs'
-    _inherit = ['mail.thread']
-    
-    @api.one
-    @api.depends('bloc_ids')
-    def _get_courses_total(self):
-        total_hours = 0.0
-        total_credits = 0.0
-        for bloc in self.bloc_ids:
-            total_hours += bloc.total_hours
-            total_credits += bloc.total_credits
-        self.total_hours = total_hours
-        self.total_credits = total_credits
-    
-    state = fields.Selection([
-            ('draft','Draft'),
-            ('published', 'Published'),
-            ('archived', 'Archived'),
-        ], string='Status', index=True, readonly=True, default='draft',
-        #track_visibility='onchange', TODO : is this useful for this case ?
-        copy=False,
-        help=" * The 'Draft' status is used when a new program is created and not published yet.\n"
-             " * The 'Published' status is when a program is published and available for use.\n"
-             " * The 'Archived' status is used when a program is obsolete and not publihed anymore.")
-    
-    title = fields.Char(required=True, string='Title')
-    year_id = fields.Many2one('school.year', required=True, string="Year")
-    description = fields.Text(string='Description')
-    
-    competency_ids = fields.Many2many('school.competency','school_competency_program_rel', id1='program_id', id2='competency_id', string='Competencies', ondelete='set null')
-    
-    cycle_id = fields.Many2one('school.cycle', string='Cycle')
-    
-    speciality_id = fields.Many2one('school.speciality', string='Speciality')
-    domain_id = fields.Many2one(related='speciality_id.domain_id', string='Domain',store=True)
-    section_id = fields.Many2one(related='speciality_id.section_id', string='Section',store=True)
-    track_id = fields.Many2one(related='speciality_id.track_id', string='Track',store=True)
-    
-    total_credits = fields.Integer(compute='_get_courses_total', string='Total Credits')
-    total_hours = fields.Integer(compute='_get_courses_total', string='Total Hours')
-
-    notes = fields.Text(string='Notes')
-    
-    bloc_ids = fields.One2many('school.bloc', 'program_id', string='Blocs')
-    
-    name = fields.Char(string='Name', related='title', store=True)
-    
-    @api.multi
-    def unpublish(self):
-        return self.write({'state': 'draft'})
-    
-    @api.multi
-    def publish(self):
-        return self.write({'state': 'published'})
-    
-    @api.multi
-    def archive(self):
-        return self.write({'state': 'archived'})
+    def render_html(self, data):
+        _logger.info('render_html')
+        docargs = {
+            'doc_ids': data['id'],
+            'doc_model': 'school.program',
+            'docs': self.env['school.program'].browse(data['id']),
+        }
+        return self.env['report'].render('school.report_program', docargs)
 
 class Competency(models.Model):
     '''Competency'''
@@ -319,16 +356,11 @@ class Year(models.Model):
     _name = 'school.year'
     name = fields.Char(required=True, string='Name', size=15)
     
+    previous = fields.Many2one('school.year', string='Previous Year')
+    next = fields.Many2one('school.year', string='Next Year')
     
-class ReportProgram(models.AbstractModel):
-    _name = 'report.school_management.report_program'
-
-    @api.multi
-    def render_html(self, data):
-        _logger.info('render_html')
-        docargs = {
-            'doc_ids': data['id'],
-            'doc_model': 'school.program',
-            'docs': self.env['school.program'].browse(data['id']),
-        }
-        return self.env['report'].render('school.report_program', docargs)
+class User(models.Model):
+    '''User'''
+    _inherit = ['res.users']
+    
+    current_year_id = fields.Many2one('school.year', string="Current Year", default="1")

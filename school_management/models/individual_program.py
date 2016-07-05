@@ -61,7 +61,7 @@ class IndividualBloc(models.Model):
     '''Individual Bloc'''
     _name='school.individual_bloc'
     _description='Individual Bloc'
-    _inherit = ['mail.thread']
+    _inherit = ['mail.thread','school.year_sequence.mixin']
     
     _order = 'name'
     
@@ -136,7 +136,7 @@ class IndividualCourseGroup(models.Model):
     '''Individual Course Group'''
     _name='school.individual_course_group'
     _description='Individual Course Group'
-    _inherit = ['mail.thread']
+    _inherit = ['mail.thread','school.year_sequence.mixin']
     
     _order = 'sequence'
     
@@ -154,7 +154,19 @@ class IndividualCourseGroup(models.Model):
     image_small = fields.Binary('Image', attachment=True, related='student_id.image_small')
     
     source_course_group_id = fields.Many2one('school.course_group', string="Source Course Group")
+    
     bloc_id = fields.Many2one('school.individual_bloc', string="Bloc", ondelete='cascade', readonly=True)
+
+    source_bloc_id = fields.Many2one('school.bloc', string="Source Bloc", related='bloc_id.source_bloc_id', readonly=True, store=True)
+    source_bloc_name = fields.Char(related='bloc_id.source_bloc_name', string="Source Course Bloc Name", readonly=True, store=True)
+    source_bloc_level = fields.Selection([('0','Free'),('1','Bac 1'),('2','Bac 2'),('3','Bac 3'),('4','Master 1'),('5','Master 2'),],related='bloc_id.source_bloc_level', string="Source Course Bloc Level", readonly=True, store=True)
+    
+    source_bloc_domain_id = fields.Many2one(related='bloc_id.source_bloc_domain_id', string='Domain', readonly=True, store=True)
+    source_bloc_speciality_id = fields.Many2one(related='bloc_id.source_bloc_speciality_id', string='Speciality', readonly=True, store=True)
+    source_bloc_section_id = fields.Many2one(related='bloc_id.source_bloc_section_id', string='Section', readonly=True, store=True)
+    source_bloc_track_id = fields.Many2one(related='bloc_id.source_bloc_track_id', string='Track', readonly=True, store=True)
+    source_bloc_cycle_id = fields.Many2one(related='bloc_id.source_bloc_cycle_id', string='Cycle', readonly=True, store=True)
+
     course_ids = fields.One2many('school.individual_course', 'course_group_id', string='Courses')
     
     total_credits = fields.Integer(compute='_get_courses_total', string='Credits')
@@ -191,7 +203,7 @@ class IndividualCourse(models.Model):
     '''Individual Course'''
     _name = 'school.individual_course'
     _description = 'Individual Course'
-    _inherit = ['mail.thread']
+    _inherit = ['mail.thread','school.year_sequence.mixin']
     
     _order = 'sequence'
     

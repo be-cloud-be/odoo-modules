@@ -30,7 +30,7 @@ class AssignProgram(models.TransientModel):
     _name = "school.assign.program"
     _description = "Assign Program to Student"
     
-    year_id = fields.Many2one('school.year', string='Year', default=lambda self: safe_eval(self.env['ir.config_parameter'].get_param('school.current_year_id','1')))
+    year_id = fields.Many2one('school.year', string='Year', default=lambda self: self.env.user.current_year_id)
     student_id = fields.Many2one('res.partner', string='Students', domain="[('student', '=', '1')]")
     source_bloc_id = fields.Many2one('school.bloc', string="Source Bloc")
 

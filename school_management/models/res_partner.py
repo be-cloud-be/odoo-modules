@@ -57,35 +57,30 @@ class Partner(models.Model):
     
     @api.one
     def _get_teacher_current_individual_course_ids(self):
-        current_year_id = safe_eval(self.env['ir.config_parameter'].get_param('school.current_year_id','1'))
-        self.teacher_current_course_ids = self.env['school.individual_course_proxy'].search([['year_id', '=', current_year_id], ['teacher_id', '=', self.id]])
+        self.teacher_current_course_ids = self.env['school.individual_course_proxy'].search([['year_id', '=', self.env.user.current_year_id.id], ['teacher_id', '=', self.id]])
 
     @api.one
     @api.depends('minerval_ids')
     def _has_paid_current_minerval(self):
-        current_year_id = safe_eval(self.env['ir.config_parameter'].get_param('school.current_year_id','1'))
-        res = self.env['school.minerval'].search([['year_id', '=', current_year_id], ['student_id', '=', self.id]])
+        res = self.env['school.minerval'].search([['year_id', '=', self.env.user.current_year_id.id], ['student_id', '=', self.id]])
         self.has_paid_current_minerval = len(res) > 0
         
     @api.one
     @api.depends('has_paid_current_minerval')
     def pay_current_minerval(self):
         if not self.has_paid_current_minerval:
-            current_year_id = safe_eval(self.env['ir.config_parameter'].get_param('school.current_year_id','1'))
-            self.env['school.minerval'].create({'student_id': self.id,'year_id': current_year_id})
+            self.env['school.minerval'].create({'student_id': self.id,'year_id': self.env.user.current_year_id.id})
         
     @api.one
     @api.depends('student_program_ids')
     def _get_student_current_program_id(self):
-        current_year_id = safe_eval(self.env['ir.config_parameter'].get_param('school.current_year_id','1'))
         for program in self.student_program_ids:
-            if program.year_id.id == current_year_id:
+            if program.year_id == self.env.user.current_year_id:
                 self.student_current_program_id = program
     
     @api.one
     def _get_teacher_current_course_session_ids(self):
-        current_year_id = safe_eval(self.env['ir.config_parameter'].get_param('school.current_year_id','1'))
-        res = self.env['school.course_session'].search([['year_id', '=', current_year_id], ['teacher_id', '=', self.id]])
+        res = self.env['school.course_session'].search([['year_id', '=', self.env.user.current_year_id.id], ['teacher_id', '=', self.id]])
         self.teacher_current_assigment_ids = res
     
     # TODO : This is not working but don't know why
