@@ -104,7 +104,7 @@ class Program(models.Model):
 
     notes = fields.Text(string='Notes')
     
-    bloc_ids = fields.One2many('school.bloc', 'program_id', string='Blocs')
+    bloc_ids = fields.One2many('school.bloc', 'program_id', string='Blocs', copy=True)
     
     @api.multi
     def unpublish(self):
@@ -159,11 +159,11 @@ class Bloc(models.Model):
 
     notes = fields.Text(string='Notes')
     
-    program_id = fields.Many2one('school.program', string='Program', copy=False)
+    program_id = fields.Many2one('school.program', string='Program', copy=True)
 
     name = fields.Char(string='Name', compute='compute_name', store=True)
     
-    course_group_ids = fields.Many2many('school.course_group','school_bloc_course_group_rel', id1='bloc_id', id2='group_id',string='Course Groups')
+    course_group_ids = fields.Many2many('school.course_group','school_bloc_course_group_rel', id1='bloc_id', id2='group_id',string='Course Groups', copy=True)
     
     @api.depends('sequence','title')
     @api.multi
