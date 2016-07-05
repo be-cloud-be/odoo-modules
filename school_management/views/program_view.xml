@@ -750,6 +750,20 @@
                 </xpath>
             </field>
         </record>
-
+  
+  
+  <!-- User current year setting -->
+    <record id="view_users_form_school" model="ir.ui.view">
+            <field name="name">res.users.preferences.form</field>
+            <field name="model">res.users</field>
+            <field name="inherit_id" ref="base.view_users_form" />
+            <field eval="18" name="priority"/>
+            <field name="arch" type="xml">
+                <xpath expr="//field[@name='partner_id']" position="after">
+                    <field name="current_year_id" placeholder="Current Year" />
+                </xpath>
+            </field>
+        </record>
+  
   </data>
 </openerp>
