@@ -35,7 +35,7 @@ class EvaluationSummaryWizard(models.TransientModel):
     _name = "school.evaluation.summary.wizard"
     _description = "School Evaluation Summary Wizard"
 
-    year_id = fields.Many2one('school.year', string='Year', default=lambda self: safe_eval(self.env['ir.config_parameter'].get_param('school.current_year_id','1')))
+    year_id = fields.Many2one('school.year', string='Year', default=lambda self: self.env.user.current_year_id)
     
     domain_id = fields.Many2one('school.domain', string='Domain')
     

@@ -31,7 +31,7 @@ class ReportEvaluationByTeacherWizard(models.TransientModel):
     _name = "school_evaluations.report_evaluation_by_teacher"
     _description = "Evaluations by Teacher Report"
 
-    year_id = fields.Many2one('school.year', string='Year', default=lambda self: safe_eval(self.env['ir.config_parameter'].get_param('school.current_year_id','1')))
+    year_id = fields.Many2one('school.year', string='Year', default=lambda self: self.env.user.current_year_id)
     teacher_id = fields.Many2one('res.partner', string='Teacher')
     display_results = fields.Boolean(string='Display Current Results')
     message = fields.Text(string="Message")
@@ -56,17 +56,17 @@ class ReportEvaluationByTeacher(models.AbstractModel):
     @api.multi
     def render_html(self, data):
         res_data = []
-        current_year_id = safe_eval(self.env['ir.config_parameter'].get_param('school.current_year_id','1'))
+        current_year_id = self.env.user.current_year_id
         if data['teacher_ids']:
             teacher_ids = self.env['res.partner'].browse(data['teacher_ids'])
         else:
-            teacher_ids = self.env['school.individual_course_proxy'].search([['year_id', '=', data['year_id'] or current_year_id]]).mapped('teacher_id').sorted(key=lambda r: r.name)
+            teacher_ids = self.env['school.individual_course_proxy'].search([['year_id', '=', data['year_id'] or current_year_id.id]]).mapped('teacher_id').sorted(key=lambda r: r.name)
         ids = []
         for teacher_id in teacher_ids:
-            source_course_ids = self.env['school.individual_course_proxy'].search([['year_id', '=', data['year_id'] or current_year_id], ['teacher_id', '=', teacher_id.id]]).mapped('source_course_id').sorted(key=lambda r: r.name)
+            source_course_ids = self.env['school.individual_course_proxy'].search([['year_id', '=', data['year_id'] or current_year_id.id], ['teacher_id', '=', teacher_id.id]]).mapped('source_course_id').sorted(key=lambda r: r.name)
             courses = []
             for source_course_id in source_course_ids:
-                individual_courses_ids = self.env['school.individual_course'].search([['year_id', '=', data['year_id'] or current_year_id], ['teacher_id', '=', teacher_id.id], ['source_course_id', '=', source_course_id.id]]).sorted(key=lambda r: r.student_id.name)
+                individual_courses_ids = self.env['school.individual_course'].search([['year_id', '=', data['year_id'] or current_year_id.id], ['teacher_id', '=', teacher_id.id], ['source_course_id', '=', source_course_id.id]]).sorted(key=lambda r: r.student_id.name)
                 courses.append({
                     'course':source_course_id,
                     'individual_courses':individual_courses_ids,
