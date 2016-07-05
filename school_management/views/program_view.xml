@@ -566,7 +566,7 @@
                 <div class="o_kanban_card_header">
                   <div class="o_kanban_card_header_title">
                     <div class="o_primary">
-                      <strong><field name="title" /></strong>
+                      <strong><field name="name" /></strong>
                     </div>
                   </div>
                   <div class="container o_kanban_card_content o_visible">

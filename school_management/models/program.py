@@ -84,7 +84,13 @@ class Program(models.Model):
              " * The 'Archived' status is used when a program is obsolete and not publihed anymore.")
     
     title = fields.Char(required=True, string='Title')
-    name = fields.Char(string='Name', related='title', store=True)
+    name = fields.Char(string='Name', compute='compute_name', store=True)
+    
+    @api.depends('title','year_id')
+    @api.multi
+    def compute_name(self):
+        for course_g in self:
+            course_g.name = "%s - %s" % (course_g.year_id.short_name, course_g.title)
     
     year_id = fields.Many2one('school.year', required=True, string="Year")
     
@@ -355,6 +361,7 @@ class Year(models.Model):
     '''Year'''
     _name = 'school.year'
     name = fields.Char(required=True, string='Name', size=15)
+    short_name = fields.Char(required=True, string='Short Name', size=5)
     
     previous = fields.Many2one('school.year', string='Previous Year')
     next = fields.Many2one('school.year', string='Next Year')
