@@ -36,13 +36,14 @@ class school_year_sequence_mixin(models.AbstractModel):
         ], string="Year Sequence", compute="_compute_year_sequence", search="_search_year_sequence")
         
     def _compute_year_sequence(self):
-        current_year_id = self.env.user.current_year_id
-        if current_year_id.id == self.year_id.id:
-            self.year_sequence = 'current'
-        if current_year_id.previous.id == self.year_id.id:
-            self.year_sequence = 'previous'
-        if current_year_id.next.id == self.year_id.id:
-            self.year_sequence = 'next'
+        for item in self:
+            current_year_id = self.env.user.current_year_id
+            if current_year_id.id == item.year_id.id:
+                item.year_sequence = 'current'
+            if current_year_id.previous.id == item.year_id.id:
+                item.year_sequence = 'previous'
+            if current_year_id.next.id == item.year_id.id:
+                item.year_sequence = 'next'
         
     def _search_year_sequence(self, operator, value):
         current_year_id = self.env.user.current_year_id
