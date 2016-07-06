@@ -34,6 +34,7 @@ class ReportEvaluationByTeacherWizard(models.TransientModel):
     year_id = fields.Many2one('school.year', string='Year', default=lambda self: self.env.user.current_year_id)
     teacher_id = fields.Many2one('res.partner', string='Teacher')
     display_results = fields.Boolean(string='Display Current Results')
+    freeze_first_session = fields.Boolean(string='Freeze First Session')
     message = fields.Text(string="Message")
     
     @api.multi
@@ -42,6 +43,7 @@ class ReportEvaluationByTeacherWizard(models.TransientModel):
         data['year_id'] = self.year_id.id
         data['message'] = self.message
         data['display_results'] = self.display_results
+        data['freeze_first_session'] = self.freeze_first_session
         if self.teacher_id:
             data['teacher_ids'] = [self.teacher_id.id] 
         else:
@@ -83,5 +85,6 @@ class ReportEvaluationByTeacher(models.AbstractModel):
             'time': time,
             'message': data['message'],
             'display_results':data['display_results'],
+            'freeze_first_session':data['freeze_first_session'],
         }
         return self.env['report'].render('school_evaluations.report_evaluation_by_teacher_content', docargs)
