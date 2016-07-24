@@ -32,17 +32,18 @@ class AssignProgram(models.TransientModel):
     
     year_id = fields.Many2one('school.year', string='Year', default=lambda self: self.env.user.current_year_id)
     student_id = fields.Many2one('res.partner', string='Students', domain="[('student', '=', '1')]")
+    program_id = fields.Many2one('school.individual_program', string="Program", domain="[('student_id', '=', student_id)]")
     source_bloc_id = fields.Many2one('school.bloc', string="Source Bloc")
-
+    
     @api.multi
     @api.depends('year_id','student_id','source_bloc_id')
     def assign_program(self):
         if self.student_id:
             _logger.info("Assing program to %s" % self.student_id.name)
-            program = self.env['school.individual_bloc'].create({'year_id':self.year_id.id,'student_id': self.student_id.id})
-            program.assign_source_bloc(self.source_bloc_id)
+            program = self.env['school.individual_bloc'].create({'year_id':self.year_id.id,'student_id': self.student_id.id,'source_bloc_id':self.source_bloc_id.id,'program_id':self.program_id.id})
+            # Hack to recompute
             self.student_id._get_student_current_program_id()
-            #return an action showing the created program
+            # Return an action showing the created program
             action = self.env.ref('school_management.action_individual_bloc_form')
             result = action.read()[0]
             result['views'] = [(False, 'form')]
@@ -54,11 +55,11 @@ class AssignProgram(models.TransientModel):
             ids = []
             for student in self.env['res.partner'].browse(student_ids):
                 _logger.info("Assing program to %s" % student.id)
-                program = self.env['school.individual_bloc'].create({'year_id':self.year_id.id,'student_id': student.id})
-                program.assign_source_bloc(self.source_bloc_id)
+                program = self.env['school.individual_bloc'].create({'year_id':self.year_id.id,'student_id': student.id,'source_bloc_id':self.source_bloc_id,'program_id':self.program_id.id})
+                # Hack to recompute
                 student._get_student_current_program_id()
                 ids.append(program.id)
-            #return an action showing the created programs
+            # Return an action showing the created programs
             action = self.env.ref('school_management.action_individual_bloc_form')
             result = action.read()[0]
             result['domain'] = [('id', 'in', ids)]
