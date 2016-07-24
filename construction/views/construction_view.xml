@@ -1,0 +1,240 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!--
+##############################################################################
+#
+#    Copyright (c) 2015 be-cloud.be
+#                       Jerome Sonnet <jerome.sonnet@be-cloud.be>
+#
+#    This program is free software: you can redistribute it and/or modify
+#    it under the terms of the GNU Affero General Public License as
+#    published by the Free Software Foundation, either version 3 of the
+#    License, or (at your option) any later version.
+#
+#    This program is distributed in the hope that it will be useful,
+#    but WITHOUT ANY WARRANTY; without even the implied warranty of
+#    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+#    GNU Affero General Public License for more details.
+#
+#    You should have received a copy of the GNU Affero General Public License
+#    along with this program.  If not, see <http://www.gnu.org/licenses/>.
+#
+##############################################################################
+-->
+<openerp>
+    <data>
+        
+        <!--
+        
+            Building Sites
+            
+        -->
+    
+        <!-- Add link to building site on Project form view -->
+        <record id="view_project_form_construction" model="ir.ui.view">
+            <field name="name">view.project.project.form.construction</field>
+            <field name="model">project.project</field>
+            <field name="inherit_id" ref="project.edit_project" />
+            <field eval="18" name="priority" />
+            <field name="arch" type="xml">
+                <xpath expr="//field[@name='user_id']" position="after">
+                    <field name='building_site_id' />
+                </xpath>
+            </field>
+        </record>
+        
+        <record id="view_building_site_tree" model="ir.ui.view">
+            <field name="name">Building Site Tree</field>
+            <field name="model">construction.building_site</field>
+            <field name="arch" type="xml">
+                <tree string="Building Site">
+                    <field name="name" string="Project Name"/>
+                    <field name="type"/>
+                    <field name="construction_state"/>
+                    <field name="state"/>
+                </tree>
+            </field>
+        </record>
+        
+        <record id="building_site_view" model="ir.ui.view">
+            <field name="name">Building Site Form</field>
+            <field name="model">construction.building_site</field>
+            <field name="arch" type="xml">
+                <form string="Building Site">
+                    <header>
+                        <field name="construction_state" widget="statusbar" statusbar_visible="development,onsale,construction" />
+                    </header>
+                    <sheet>
+                        <div class="oe_title">
+                            <h2>
+                                <field name="name" />
+                            </h2>
+                        </div>
+                        <field name="task_count" invisible="1" />
+                        <div class="oe_button_box" name="button_box">
+                            <button name="toggle_active" type="object" class="oe_stat_button" icon="fa-trello">
+                                <div class="o_stat_info">
+                                    <field name="task_count" class="o_stat_info"/>
+                                    <span class="o_stat_text" attrs="{'invisible': [('task_count', '&lt;', 2)]}"> Tasks</span>
+                                    <span class="o_stat_text" attrs="{'invisible': [('task_count', '&gt;', 1)]}"> Task</span>
+                                </div>
+                            </button>
+                        </div>
+                        <group col="2">
+                            <field name="type" />
+                            <field string="Address" name="address_id" context="{'form_view_ref':'construction.building_site_address_view','default_name':name,'show_address': 1}" options="{&quot;always_reload&quot;: True}" domain="[('customer', '=', True)]"/>
+                            <field name="construction_state" />
+                            <field name="notes" />
+                            <field name="acquisition_lead" />
+                        </group>
+                        <separator string="Building Assets"/>
+                        <field name="asset_ids" nolabel="1" >
+                            <tree string="Building Assets" editable="false">
+                                <field name="name" string="Name"/>
+                                <field name="confirmed_lead_id" string="Confirmed Lead"/>
+                            </tree>
+                        </field>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+        
+        <record id="building_site_address_view" model="ir.ui.view">
+            <field name="name">Building Site Adress</field>
+            <field name="model">res.partner</field>
+            <field name="arch" type="xml">
+                <form string="Building Site Adress">
+                    <sheet>
+                        <group col="2">
+                            <field name="name" invisible="True" />
+                            <div>
+                                <div class="o_address_format" name="div_address">
+                                    <field name="street" placeholder="Street..." class="o_address_street" />
+                                    <field name="street2" placeholder="Street 2..." class="o_address_street" />
+                                    <field name="city" placeholder="City" class="o_address_city" />
+                                    <field name="state_id" class="o_address_state" placeholder="State" options="{&quot;no_open&quot;: True}" on_change="onchange_state(state_id)" context="{'country_id': country_id, 'zip': zip}" />
+                                    <field name="zip" placeholder="ZIP" class="o_address_zip" />
+                                    <field name="country_id" placeholder="Country" class="o_address_country" options="{&quot;no_open&quot;: True, &quot;no_create&quot;: True}" />
+                                </div>
+                            </div>
+                            <field name="supplier" invisible="True" />
+                            <field name="customer" invisible="True" />
+                            <field name="lang" invisible="True" />
+                        </group>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+        
+        <record id="open_view_building_site_all_config" model="ir.actions.act_window">
+            <field name="name">Building Sites</field>
+            <field name="res_model">construction.building_site</field>
+            <field name="view_type">form</field>
+            <field name="domain">[]</field>
+            <field name="view_mode">list,form</field>
+            <field name="search_view_id" ref="project.view_project_project_filter"/>
+            <field name="context">{}</field>
+            <field name="help" type="html">
+                <p class="oe_view_nocontent_create">
+                    Create a new building site.
+                </p><p>
+                    Organize your building site (add assets, follow acquisition and sale process, plan projects).
+                </p>
+            </field>
+        </record>
+        
+        <menuitem action="open_view_building_site_all_config" id="menu_building_projects_config" name="Building Sites" parent="project.menu_project_config" sequence="15"/>
+        
+        <!--
+        
+            Building Assets
+            
+        -->
+        
+        <!-- Add link to building asset on Sale Order form view -->
+        <record id="view_sale_order_form_construction" model="ir.ui.view">
+            <field name="name">view.sale.order.form.construction</field>
+            <field name="model">sale.order</field>
+            <field name="inherit_id" ref="sale.view_order_form" />
+            <field eval="18" name="priority" />
+            <field name="arch" type="xml">
+                <xpath expr="//field[@name='project_id']" position="after">
+                    <field name='building_asset_id' />
+                </xpath>
+            </field>
+        </record>
+        
+        <record id="view_building_asset_tree" model="ir.ui.view">
+            <field name="name">Building Asset Tree</field>
+            <field name="model">construction.building_asset</field>
+            <field name="arch" type="xml">
+                <tree string="Building Asset" create="0">
+                    <field name="site_id"/>
+                    <field name="name"/>
+                    <field name="type"/>
+                    <field name="confirmed_lead_id"/>
+                    <field name="state"/>
+                </tree>
+            </field>
+        </record>
+        
+        <record id="building_asset_view" model="ir.ui.view">
+            <field name="name">Building Asset Form</field>
+            <field name="model">construction.building_asset</field>
+            <field name="arch" type="xml">
+                <form string="Building Asset">
+                    <header>
+                        <field name="state" widget="statusbar" statusbar_visible="development,onsale,proposal,sold" />
+                    </header>
+                    <sheet>
+                        <div class="oe_title">
+                            <h2>
+                                <field name="name" />
+                            </h2>
+                        </div>
+                        <group col="2">
+                            <field name="type" />
+                            <field name="confirmed_lead_id" />
+                        </group>
+                        <notebook>
+                            <page string="Sale Orders">
+                                <field name="sale_order_ids" nolabel="1" >
+                                    <tree string="Sale Orders" editable="false">
+                                        <field name="date_order"/>
+                                        <field name="name"/>
+                                        <field name="user_id"/>
+                                        <field name="amount_total" sum="Total Tax Included" widget="monetary"/>
+                                        <field name="state"/>
+                                        <field name="invoice_status"/>
+                                    </tree>
+                                </field>
+                            </page>
+                            <page string="Candidate Leads">
+                                
+                            </page>
+                        </notebook>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+        
+        <record id="open_view_building_asset_all_config" model="ir.actions.act_window">
+            <field name="name">Building Assets</field>
+            <field name="res_model">construction.building_asset</field>
+            <field name="view_type">form</field>
+            <field name="domain">[]</field>
+            <field name="view_mode">list,form</field>
+            <!--<field name="search_view_id" ref="project.view_project_project_filter"/>-->
+            <field name="context">{}</field>
+            <field name="help" type="html">
+                <p class="oe_view_nocontent_create">
+                    Create a new building asset.
+                </p><p>
+                    Organize your building asset (add assets, follow acquisition and sale process, plan projects).
+                </p>
+            </field>
+        </record>
+        
+        <menuitem action="open_view_building_asset_all_config" id="menu_building_assets_config" name="Building Assets" parent="project.menu_project_config" sequence="20"/>
+        
+    </data>
+</openerp>
