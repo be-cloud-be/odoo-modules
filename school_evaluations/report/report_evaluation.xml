@@ -559,46 +559,46 @@
                                                     </td>
                                                     <td t-if="course.source_course_id.type in ['C']">
                                                         <t t-if="display_results == True and freeze_first_session == False">
-                                                            <input type="text" size="5" t-att-name="'input-%i' % input_counter" t-att-value="course.ann_result"/>
+                                                            <input type="text"  size="6" t-att-name="'input-%i' % input_counter" t-att-value="course.ann_result"/>
                                                         </t>
                                                         <t t-if="display_results == True and freeze_first_session == True">
                                                             <t t-esc="course.ann_result"/>
                                                         </t>
                                                         <t t-if="display_results != True">
-                                                            <input type="text" size="5" t-att-name="'input-%i' % input_counter"/>
+                                                            <input type="text"  size="6" t-att-name="'input-%i' % input_counter"/>
                                                         </t>
                                                         <t t-set="input_counter" t-value="input_counter + 1"/>
                                                     </td>
                                                     <td t-if="course.source_course_id.type in ['C','T']">
                                                         <t t-if="display_results == True and freeze_first_session == False">
-                                                            <input type="text" size="5" t-att-name="'input-%i' % input_counter" t-att-value="course.jan_result"/>
+                                                            <input type="text"  size="6" t-att-name="'input-%i' % input_counter" t-att-value="course.jan_result"/>
                                                         </t>
                                                         <t t-if="display_results == True and freeze_first_session == True">
                                                             <t t-esc="course.jan_result"/>
                                                         </t>
                                                         <t t-if="display_results != True">
-                                                            <input type="text" size="5" t-att-name="'input-%i' % input_counter"/>
+                                                            <input type="text"  size="6" t-att-name="'input-%i' % input_counter"/>
                                                         </t>
                                                         <t t-set="input_counter" t-value="input_counter + 1"/>
                                                     </td>
                                                     <td>
                                                         <t t-if="display_results == True and freeze_first_session == False">
-                                                            <input type="text" size="5" t-att-name="'input-%i' % input_counter" t-att-value="course.jun_result"/>
+                                                            <input type="text"  size="6" t-att-name="'input-%i' % input_counter" t-att-value="course.jun_result"/>
                                                         </t>
                                                         <t t-if="display_results == True and freeze_first_session == True">
                                                             <t t-esc="course.jun_result"/>
                                                         </t>
                                                         <t t-if="display_results != True">
-                                                            <input type="text" size="5" t-att-name="'input-%i' % input_counter"/>
+                                                            <input type="text"  size="6" t-att-name="'input-%i' % input_counter"/>
                                                         </t>
                                                         <t t-set="input_counter" t-value="input_counter + 1"/>
                                                     </td>
                                                     <td>
                                                         <t t-if="display_results == True">
-                                                            <input type="text" size="5" t-att-name="'input-%i' % input_counter" t-att-value="course.sept_result"/>
+                                                            <input type="text"  size="6" t-att-name="'input-%i' % input_counter" t-att-value="course.sept_result"/>
                                                         </t>
                                                         <t t-if="display_results != True">
-                                                            <input type="text" size="5" t-att-name="'input-%i' % input_counter"/>
+                                                            <input type="text"  size="6" t-att-name="'input-%i' % input_counter"/>
                                                         </t>
                                                         <t t-set="input_counter" t-value="input_counter + 1"/>
                                                     </td>

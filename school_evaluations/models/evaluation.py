@@ -24,53 +24,6 @@ from openerp.exceptions import UserError, ValidationError
 
 _logger = logging.getLogger(__name__)
 
-class Partner(models.Model):
-    '''Partner'''
-    _inherit = 'res.partner'
-    
-    credit_line_ids = fields.One2many('school.credit.line', 'student_id', string='Credit Line')
-    
-class CreditLine(models.Model):
-    '''Credit Line'''
-    _name = "school.credit.line"
-    _order = "date desc, level desc"
-    
-    type = fields.Selection(([('A', 'Automatic'),('M', 'Manual'),('H', 'Historic')]), string='Type', default="M")
-    
-    student_id = fields.Many2one('res.partner', string='Student', required=True)
-    date = fields.Date(string="Date", required=True, default=fields.Date.context_today)
-    cycle_id = fields.Many2one('school.cycle', string='Cycle', required=True)
-    level = fields.Selection([('0','Free'),('1','Bac 1'),('2','Bac 2'),('3','Bac 3'),('4','Master 1'),('5','Master 2'),],string="Bloc Level")
-    
-    credits = fields.Integer(compute='compute_credits', string='Credits')
-    weighted_sum = fields.Integer(compute='compute_credits', string='Weighted Sum')
-    total_weight = fields.Integer(compute='compute_credits', string='Total Weigth')
-    
-    # Automatic
-    
-    individual_bloc_id = fields.Many2one('school.individual_bloc', string='Bloc')
-    
-    # Manual
-    
-    manual_credits = fields.Integer(string='Manuel Credits')
-    manual_weighted_sum = fields.Integer(string='Manuel Weighted Sum')
-    manual_total_weight = fields.Integer(string='Manuel Weighted Sum')
-
-    # Historic
-    
-    hitorical_evaluation = fields.Float(string="Historical Evaluation")
-
-    @api.one
-    @api.depends('individual_bloc_id','manual_credits','manual_weighted_sum','manual_total_weight')
-    def compute_credits(self):
-        if not self.individual_bloc_id :
-            self.credits = self.manual_credits
-            self.weighted_sum = self.manual_weighted_sum
-            self.total_weight = self.manual_total_weight
-        else:
-            pass
-            #TODO compute based on the individual bloc
-    
 class CourseGroup(models.Model):
     '''Course Group'''
     _inherit = 'school.course_group'
@@ -127,7 +80,7 @@ class IndividualCourseGroup(models.Model):
     
     final_result = fields.Float(compute='compute_final_results', string='Final Result', store=True, digits=(5, 2),track_visibility='onchange')
     final_result_bool = fields.Boolean(compute='compute_final_results', string='Final Active')
-    acquiered = fields.Selection(([('A', 'Acquiered'),('NA', 'Not Acquiered')]), compute='compute_final_results', string='Acquired Credits', store=True,track_visibility='onchange')
+    acquiered = fields.Selection(([('A', 'Acquiered'),('NA', 'Not Acquiered')]), compute='compute_final_results', string='Acquired Credits', store=True, track_visibility='onchange',default='NA')
     final_note = fields.Text(string='Final Notes')
     
     def _parse_result(self,input):
@@ -222,9 +175,7 @@ class IndividualCourseGroup(models.Model):
         else:
             if self.first_session_result >= 10 : # cfr appel Ingisi 27-06 and (not self.first_session_computed_exclusion_result_bool or self.first_session_deliberated_result_bool):
                 self.first_session_acquiered = 'A'
-        if self.total_weight == 0: # All courses are dispensed
-            self.first_session_acquiered = 'A'
-            
+
     @api.depends('second_session_deliberated_result_bool','second_session_deliberated_result')
     @api.one
     def compute_second_session_results(self):
@@ -256,15 +207,14 @@ class IndividualCourseGroup(models.Model):
         else:    
             if self.second_session_result >= 10 : # and (not self.second_session_computed_exclusion_result_bool or self.second_session_deliberated_result_bool):
                 self.second_session_acquiered = 'A'
-        if self.total_weight == 0: # All courses are dispensed
-            self.second_session_acquiered = 'A'
-    
+
     @api.depends('first_session_result',
                  'first_session_result_bool',
                  'first_session_acquiered',
                  'second_session_result',
                  'second_session_result_bool',
-                 'second_session_acquiered')
+                 'second_session_acquiered',
+                 'total_weight')
     @api.one
     def compute_final_results(self):
         ## Compute Final Results
@@ -276,18 +226,15 @@ class IndividualCourseGroup(models.Model):
             self.final_result = self.first_session_result
             self.acquiered = self.first_session_acquiered
             self.final_result_bool = True
-        elif self.total_weight == 0:
+        elif self.total_weight == 0:  #TODO ici ça foire à la création d'un nouveau record ???
+            self.dispense = True
             self.acquiered = 'A'
         else :
             self.acquiered = 'NA'
             self.final_result_bool = False
-        if self.total_weight == 0:
-            self.dispense = True
     
     @api.one
     def recompute_results(self):
-        #import wdb
-        #wdb.set_trace()
         self._get_courses_total()
         self.compute_average_results()
         self.compute_first_session_results()
@@ -556,6 +503,13 @@ class IndividualBloc(models.Model):
             self.evaluation = None
         
     decision = fields.Text(string="Decision",track_visibility='onchange')
+        
+    @api.onchange('source_bloc_id')
+    @api.depends('course_group_ids')
+    def assign_source_bloc(self):
+        super(IndividualBloc, self).assign_source_bloc()
+        for group in self.course_group_ids:
+            group.recompute_results()
         
 class IndividualProgram(models.Model):
     '''Individual Program'''
