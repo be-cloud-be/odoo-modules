@@ -41,6 +41,7 @@ class AssignProgram(models.TransientModel):
         if self.student_id:
             _logger.info("Assing program to %s" % self.student_id.name)
             program = self.env['school.individual_bloc'].create({'year_id':self.year_id.id,'student_id': self.student_id.id,'source_bloc_id':self.source_bloc_id.id,'program_id':self.program_id.id})
+            program.assign_source_bloc()
             # Hack to recompute
             self.student_id._get_student_current_program_id()
             # Return an action showing the created program
@@ -56,6 +57,7 @@ class AssignProgram(models.TransientModel):
             for student in self.env['res.partner'].browse(student_ids):
                 _logger.info("Assing program to %s" % student.id)
                 program = self.env['school.individual_bloc'].create({'year_id':self.year_id.id,'student_id': student.id,'source_bloc_id':self.source_bloc_id,'program_id':self.program_id.id})
+                program.assign_source_bloc()
                 # Hack to recompute
                 student._get_student_current_program_id()
                 ids.append(program.id)
