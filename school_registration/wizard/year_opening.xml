@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!--
+##############################################################################
+#
+#    Copyright (c) 2015 be-cloud.be
+#                       Jerome Sonnet <jerome.sonnet@be-cloud.be>
+#
+#    This program is free software: you can redistribute it and/or modify
+#    it under the terms of the GNU Affero General Public License as
+#    published by the Free Software Foundation, either version 3 of the
+#    License, or (at your option) any later version.
+#
+#    This program is distributed in the hope that it will be useful,
+#    but WITHOUT ANY WARRANTY; without even the implied warranty of
+#    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+#    GNU Affero General Public License for more details.
+#
+#    You should have received a copy of the GNU Affero General Public License
+#    along with this program.  If not, see <http://www.gnu.org/licenses/>.
+#
+##############################################################################
+-->
+<odoo>
+    <record id="year_opening_view" model="ir.ui.view">
+        <field name="name">Year Opening Wizard</field>
+        <field name="model">school.year_opening</field>
+        <field name="arch" type="xml">
+            <form string="Year Opening Wizard">
+                <separator string="Open a new Year"/>
+                <label string="This wizard will duplicate all programs into the new year and enable it as the default year."/>
+                <group col="2">
+                    <field name="year_id" delete='false'/>
+                    <field name="program_to_duplicate_ids">
+                      <tree string="Program to duplicate">
+                        <field name="name" />
+                        <field name="total_hours" />
+                        <field name="total_credits" />
+                      </tree>
+                    </field>
+                </group>
+                <footer>
+                    <button name="open_year" string="Open Year" type="object" default_focus="1" class="oe_highlight"/>
+                    or
+                    <button string="Cancel" class="oe_link" special="cancel"/>
+                </footer>
+            </form>
+        </field>
+    </record>
+
+    <record id="action_year_opening_view" model="ir.actions.act_window">
+        <field name="name">Year Opening Wizard</field>
+        <field name="res_model">school.year_opening</field>
+        <field name="type">ir.actions.act_window</field>
+        <field name="view_type">form</field>
+        <field name="view_mode">form</field>
+        <field name="view_id" ref="year_opening_view"/>
+        <field name="context">{}</field>
+        <field name="target">new</field>
+    </record>
+    
+    <menuitem id="menu_year_opening"
+        name="Open a new Year"
+        action="action_year_opening_view"
+        parent="school_management.menu_school_admin" sequence="999" groups="school_management.group_employee"/>
+    
+</odoo>
