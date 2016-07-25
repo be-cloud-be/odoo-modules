@@ -98,6 +98,10 @@ class RegisterNext(models.TransientModel):
             self.new_bloc_id.course_group_ids.append(self.rework_course_group_ids)
             self.new_bloc_id.course_group_ids.append(self.anticipated_course_group_ids)
             
+    @api.one
+    def oncancel(self):
+        self.new_bloc_id.unlink()
+        return {'type': 'ir.actions.act_window_close'}
     
             
 class RegisterNextLine(models.TransientModel):   
