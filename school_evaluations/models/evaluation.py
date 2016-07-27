@@ -421,9 +421,7 @@ class IndividualCourse(models.Model):
                     self.second_session_result = 0
                     self.second_session_result_bool = False
                     raise UserError(_('Cannot decode %s in September Result, please encode a Float eg "12.00".' % self.sept_result))
-        
-    
-    
+                    
 
 class IndividualBloc(models.Model):
     '''Individual Bloc'''
@@ -456,23 +454,35 @@ class IndividualBloc(models.Model):
         return self.write({'state': 'progress'})
     
     @api.multi
-    def set_to_postponed(self, decision, context):
+    def set_to_postponed(self, decision=None, context=None):
         # TODO use a workflow to make sure only valid changes are used.
+        if isinstance(decision, dict):
+            context = decision
+            decision = None
         return self.write({'state': 'postponed','decision' : decision})
     
     @api.multi
-    def set_to_awarded_first_session(self, decision, context):
+    def set_to_awarded_first_session(self, decision=None, context=None):
         # TODO use a workflow to make sure only valid changes are used.
+        if isinstance(decision, dict):
+            context = decision
+            decision = None
         return self.write({'state': 'awarded_first_session','decision' : decision})
         
     @api.multi
-    def set_to_awarded_second_session(self, decision, context):
+    def set_to_awarded_second_session(self, decision=None, context=None):
         # TODO use a workflow to make sure only valid changes are used.
+        if isinstance(decision, dict):
+            context = decision
+            decision = None
         return self.write({'state': 'awarded_second_session','decision' : decision})
     
     @api.multi
-    def set_to_failed(self, decision, context):
+    def set_to_failed(self, decision=None, context=None):
         # TODO use a workflow to make sure only valid changes are used.
+        if isinstance(decision, dict):
+            context = decision
+            decision = None
         return self.write({'state': 'failed','decision' : decision})
         
     total_acquiered_credits = fields.Integer(string="Acquiered Credits",compute="compute_credits", store=True)
