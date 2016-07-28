@@ -78,7 +78,7 @@ class RegisterNext(models.TransientModel):
         else :
             for group in self.init_bloc_id.course_group_ids:
                 if group.acquiered == 'NA':
-                    new_group = self.new_bloc_id.course_group_ids.create({'bloc_id': self.new_bloc_id.id,'source_course_group_id': group.source_course_group_id.id, 'acquiered' : 'NA', 'dispense': False}) # TODO FIX DEPENDENCIE TO EVALUATION
+                    new_group = self.new_bloc_id.course_group_ids.create({'bloc_id': self.new_bloc_id.id,'source_course_group_id': group.source_course_group_id.id, 'acquiered' : 'NA', 'dispense': False, 'group_registration_type' : 'rework'})
                     # TODO - see why we need to trigger this...
                     new_group.onchange_source_cg()
                     
@@ -90,8 +90,29 @@ class RegisterNext(models.TransientModel):
             'res_id': self.new_bloc_id.id,
             'views': [(False, 'form')],
         }
+
+            
+class AddAnticipatedWizard(models.TransientModel):
+    _name = "school.add_anticipated_wizard"
+    _description = "Add Anticipated Wizard"
+    
+    init_bloc_id = fields.Many2one('school.individual_bloc', string="Initial Bloc", required=True, readonly=True)
+    year_id = fields.Many2one('school.year', related="init_bloc_id.year_id", readonly=True)
+    init_source_bloc_name = fields.Char(string="Initial Source Bloc", readonly=True, related="init_bloc_id.source_bloc_name")
+    student_id = fields.Many2one('res.partner', related="init_bloc_id.student_id", readonly=True)
+    
+    course_group_ids = fields.Many2many('school.course_group', string='New Source Course Group') # TODO add a domain to filter??
+    
+    @api.model
+    def default_get(self, fields):
+        res = super(AddAnticipatedWizard, self).default_get(fields)
+        # Let's try to guess the next bloc in the program. TODO - could do better than the title, speciality ??
+        init_bloc_id = self.env['school.individual_bloc'].browse(res.get('init_bloc_id'))
+        res['yeard_id'] = init_bloc_id.year_id.next.id
+        return res
         
     @api.multi
-    def on_cancel(self):
-        if self.new_bloc_id:
-            self.new_bloc_id.unlinck()
+    def on_add_anticipated(self):
+        for group in self.course_group_ids:
+            new_group = self.init_bloc_id.course_group_ids.create({'bloc_id': self.init_bloc_id.id,'source_course_group_id': group.id, 'acquiered' : 'NA', 'dispense': False, 'group_registration_type' : 'anticipated'})
+            new_group.onchange_source_cg()

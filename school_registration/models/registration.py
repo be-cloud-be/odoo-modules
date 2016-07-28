@@ -24,3 +24,17 @@ from openerp import api, fields, models, _
 from openerp.exceptions import UserError
 
 _logger = logging.getLogger(__name__)
+
+class IndividualCourseGroup(models.Model):
+    '''Individual Course Group'''
+    _inherit = 'school.individual_course_group'
+    
+    group_registration_type = fields.Selection([
+            ('normal','Normal'),
+            ('rework','Rework'),
+            ('anticipated', 'Anticipated'),
+        ], string='Registration Type', index=True, readonly=True, default='normal',
+        copy=False,
+        help=" * The 'Normal' type is used when a course group is in the normal bloc.\n"
+             " * The 'Rework' type is used when a course group is a rework from a previous bloc.\n"
+             " * The 'Anticipated' type is used when a course group is anticiapated.")

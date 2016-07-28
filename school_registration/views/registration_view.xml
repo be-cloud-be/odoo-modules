@@ -31,6 +31,18 @@
             <field name="arch" type="xml">
                 <xpath expr="//button[@name='set_to_draft']" position="before">
                     <button type="action" name="%(action_register_next_view)d" context="{'default_init_bloc_id': active_id}" states="awarded_first_session,awarded_second_session,failed" string="Register Next" class="oe_highlight"/>
+                    <button type="action" name="%(action_add_anticipated)d" context="{'default_init_bloc_id': active_id}" states="draft" string="Add anticipated" class="oe_highlight"/>
+                </xpath>
+                <xpath expr="//field[@name='course_group_ids']" position="after">
+                    <div>
+                        Standard Course - <font color="blue">Rework Course</font> - <font color="green">Anticipated Course</font>
+                    </div>
+                </xpath>
+                <xpath expr='//tree' position="inside">
+                    <field name="group_registration_type" invisible="1"/>
+                </xpath>
+                <xpath expr='//tree' position="attributes">
+                    <attribute name="colors">blue:group_registration_type == 'rework';green:group_registration_type == 'anticipated'</attribute>
                 </xpath>
             </field>
         </record>
