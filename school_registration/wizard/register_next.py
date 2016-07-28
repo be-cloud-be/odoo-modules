@@ -56,8 +56,8 @@ class RegisterNext(models.TransientModel):
         new_bloc = self.env['school.individual_bloc'].create({'year_id':self.init_bloc_id.year_id.next.id,'student_id': self.init_bloc_id.student_id.id,'source_bloc_id':self.new_source_bloc_id.id,'program_id':self.init_bloc_id.program_id.id})
         new_bloc.assign_source_bloc()
         self.new_bloc_id = new_bloc
-        self.state='check'
-        # We are trying to find "dispense" automatically
+        
+        # Previous year was not a success, we try to find "dispense" automatically
         if self.init_bloc_id.source_bloc_level == new_bloc.source_bloc_level:
             for group in self.init_bloc_id.course_group_ids:
                 if group.acquiered == 'A':
@@ -74,7 +74,14 @@ class RegisterNext(models.TransientModel):
                             new_course.jun_result = res
                         # TODO - see why we need to trigger this... again...
                         new_group.recompute_results()
-
+        # Previous year was a succes, we try to find if some CG was not acquiered and add them
+        else :
+            for group in self.init_bloc_id.course_group_ids:
+                if group.acquiered == 'NA':
+                    new_group = self.new_bloc_id.course_group_ids.create({'bloc_id': self.new_bloc_id.id,'source_course_group_id': group.source_course_group_id.id, 'acquiered' : 'NA', 'dispense': False}) # TODO FIX DEPENDENCIE TO EVALUATION
+                    # TODO - see why we need to trigger this...
+                    new_group.onchange_source_cg()
+                    
         return {
             'type': 'ir.actions.act_window',
             'res_model': 'school.individual_bloc',
@@ -83,3 +90,8 @@ class RegisterNext(models.TransientModel):
             'res_id': self.new_bloc_id.id,
             'views': [(False, 'form')],
         }
+        
+    @api.multi
+    def on_cancel(self):
+        if self.new_bloc_id:
+            self.new_bloc_id.unlinck()
