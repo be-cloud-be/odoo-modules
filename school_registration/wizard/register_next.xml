@@ -26,36 +26,15 @@
         <field name="model">school.register_next_wizard</field>
         <field name="arch" type="xml">
             <form string="Register Next Wizard">
-                <div class="oe_title">
-                    <h2>
-                        <field name="new_bloc_id" class="oe_inline"/> - <field name="new_bloc_name" class="oe_inline"/>
-                    </h2>
+                <field name="init_bloc_id" invisible="1"/> 
+                <field name="year_id" invisible="1"/> 
+                <div>    
+                    <h2>Can you confirm the next bloc for this student is</h2>
+                    <field name="new_source_bloc_id"/>
                 </div>
-                <field name="state" />          
-                <field name="init_bloc_id"/>
-                <group states="awarded,failed" col="1">
-                    <field name="course_group_ids">
-                        <tree string="Course Groups" editable="false">
-                            <field name="name" />
-                            <field name="total_hours" />
-                            <field name="total_credits" />
-                        </tree>
-                    </field>
-                    <field name="anticipated_course_group_ids">
-                        <tree string="Anticipated Course Groups">
-                            <field name="name" />
-                            <field name="total_hours" />
-                            <field name="total_credits" />
-                        </tree>
-                    </field>
-                </group>
-                <footer states="awarded,failed,rework,anticipate">
-                    <button name="next_state" string="Next" type="object" default_focus="1" class="oe_highlight" /> or
-                    <button name="oncancel" string="Cancel" class="oe_link" />
-                </footer>
-                <footer states="confirm">
-                    <button name="apply_changes" string="Apply" type="object" default_focus="1" class="oe_highlight" /> or
-                    <button name="oncancel" string="Cancel" class="oe_link" />
+                <footer>
+                    <button name="on_confirm_source" string="Confirm Source" type="object" default_focus="1" class="oe_highlight" /> or
+                    <button string="Cancel" type="object" name="cancel" class="oe_link"/>
                 </footer>
             </form>
         </field>

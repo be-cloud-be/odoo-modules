@@ -30,87 +30,56 @@ class RegisterNext(models.TransientModel):
     _name = "school.register_next_wizard"
     _description = "Register Next Wizard"
     
-    state = fields.Selection([('awarded', 'awarded'),('failed', 'failed'),('rework', 'rework'),('anticipate', 'anticipate'),('confirm','confirm')]) 
-    
     init_bloc_id = fields.Many2one('school.individual_bloc', string="Initial Bloc", required=True, readonly=True)
-    
-    yeard_id = fields.Many2one('school.year', related="init_bloc_id.year_id", readonly=True)
-    student_id = fields.Many2one('res.partner', related="init_bloc_id.student_id", readonly=True)
+    year_id = fields.Many2one('school.year', related="init_bloc_id.year_id.next", readonly=True)
     init_source_bloc_name = fields.Char(string="Initial Source Bloc", readonly=True, related="init_bloc_id.source_bloc_name")
+    student_id = fields.Many2one('res.partner', related="init_bloc_id.student_id", readonly=True)
     
-    new_bloc_id = fields.Many2one('school.individual_bloc', string="New Bloc", readonly=True)
-    new_bloc_name = fields.Char(string="New Source Bloc", readonly=True, related="new_bloc_id.source_bloc_name")
-    
-    course_group_ids = fields.One2many('school.individual_course_group', related='new_bloc_id.course_group_ids', string='Courses Groups')
-    
-    rework_course_group_ids = fields.Many2many('school.course_group', 'rework_course_group_wizard_rel', 'course_group_id', 'wizard_id', string='Rework Course')
-    
-    anticipated_course_group_ids = fields.Many2many('school.course_group', 'anticipated_course_group_wizard_rel', 'course_group_id', 'wizard_id', string='Anticipated Course')
-    
-    total_credits = fields.Integer(compute='_get_courses_total', string='Credits')
-    total_hours = fields.Integer(compute='_get_courses_total', string='Hours')
-    
-    @api.one
-    @api.depends('course_group_ids')
-    def _get_courses_total(self):
-        total_hours = 0.0
-        total_credits = 0.0
-        for course_group in self.course_group_ids:
-            total_hours += course_group.total_hours
-            total_credits += course_group.total_credits
-        for course_group in self.rework_course_group_ids:
-            total_hours += course_group.total_hours
-            total_credits += course_group.total_credits
-        for course_group in self.anticipated_course_group_ids:
-            total_hours += course_group.total_hours
-            total_credits += course_group.total_credits
-        self.total_hours = total_hours
-        self.total_credits = total_credits
+    new_source_bloc_id = fields.Many2one('school.bloc', string="New Source Bloc", domain="[('year_id','=',year_id)]")
 
     @api.model
     def default_get(self, fields):
         res = super(RegisterNext, self).default_get(fields)
+        # Let's try to guess the next bloc in the program. TODO - could do better than the title, speciality ??
         init_bloc_id = self.env['school.individual_bloc'].browse(res.get('init_bloc_id'))
+        res['yeard_id'] = init_bloc_id.year_id.next.id
         if init_bloc_id.state == 'failed':
-            res['state'] = 'failed'
-            new_bloc_source_id = self.env['school.bloc'].search([('program_id', '=', self.init_bloc_id.source_bloc_id.program_id.id),('level','=',int(self.init_bloc_id.source_bloc_id.level)+1)])
+            new_bloc_source_id = self.env['school.bloc'].search([('year_id','=',init_bloc_id.year_id.next.id),('title', '=', init_bloc_id.source_bloc_title),('level','=',int(init_bloc_id.source_bloc_id.level))])
         else:
-            res['state'] = 'awarded'
-            new_bloc_source_id = self.env['school.bloc'].search([('program_id', '=', self.init_bloc_id.source_bloc_id.program_id.id),('level','=',int(self.init_bloc_id.source_bloc_id.level)+1)])
-        new_bloc_source_id = self.env['school.bloc'].search([('program_id', '=', init_bloc_id.source_bloc_id.program_id.id),('level','=',int(init_bloc_id.source_bloc_id.level)+1)])
+            new_bloc_source_id = self.env['school.bloc'].search([('year_id','=',init_bloc_id.year_id.next.id),('title', '=', init_bloc_id.source_bloc_title),('level','=',int(init_bloc_id.source_bloc_id.level)+1)])
         if new_bloc_source_id:
-            program = self.env['school.individual_bloc'].create({'year_id':init_bloc_id.year_id.next.id,'student_id': init_bloc_id.student_id.id,'source_bloc_id':new_bloc_source_id[0].id,'program_id':init_bloc_id.program_id.id})
-            program.assign_source_bloc()
-            res['new_bloc_id'] = program.id
+            res['new_source_bloc_id'] = new_bloc_source_id[0].id
         return res
-
-    @api.onchange('state')
-    @api.one
-    def onchange_state(self):
-        # Rework look into previous bloc for not acquiered CG
-        if self.state == 'rework':
+    
+    @api.multi
+    def on_confirm_source(self):
+        new_bloc = self.env['school.individual_bloc'].create({'year_id':self.init_bloc_id.year_id.next.id,'student_id': self.init_bloc_id.student_id.id,'source_bloc_id':self.new_source_bloc_id.id,'program_id':self.init_bloc_id.program_id.id})
+        new_bloc.assign_source_bloc()
+        self.new_bloc_id = new_bloc
+        self.state='check'
+        # We are trying to find "dispense" automatically
+        if self.init_bloc_id.source_bloc_level == new_bloc.source_bloc_level:
             for group in self.init_bloc_id.course_group_ids:
-                if not group.acquiered:
-                    self.rework_course_group_ids.push(group.clone())
-            return
-        # Confirm merge all into the new bloc for review
-        if self.state == 'confirm':
-            self.new_bloc_id.course_group_ids.append(self.rework_course_group_ids)
-            self.new_bloc_id.course_group_ids.append(self.anticipated_course_group_ids)
-            
-    @api.one
-    def oncancel(self):
-        self.new_bloc_id.unlink()
-        return {'type': 'ir.actions.act_window_close'}
-    
-            
-class RegisterNextLine(models.TransientModel):   
-    _name = 'school.individual_course_group_proxy'
-    
-    wizard_id = fields.Many2one('school.register_next_wizard')
-    
-    name = fields.Char('Name')
-    total_credits = fields.Integer('Total Credits')
-    total_hours = fields.Integer('Total Hours')
-    final_result = fields.Float(string='Final Result', digits=(5, 2))
-    acquiered = fields.Selection(([('A', 'Acquiered'),('NA', 'Not Acquiered')]), string='Acquired Credits')
+                if group.acquiered == 'A':
+                    new_group = self.env['school.individual_course_group'].search([('bloc_id','=',new_bloc.id),('source_course_group_id','=',group.source_course_group_id.id)])
+                    if new_group:
+                        for index, new_course in enumerate(new_group.course_ids):
+                            _logger.debug("Set a dispense on %s",new_course.name)
+                            old_course = group.course_ids[index]
+                            if old_course.second_session_result_bool:
+                                res = old_course.second_session_result
+                            else:
+                                res = old_course.first_session_result
+                            new_course.dispense = True
+                            new_course.jun_result = res
+                        # TODO - see why we need to trigger this... again...
+                        new_group.recompute_results()
+
+        return {
+            'type': 'ir.actions.act_window',
+            'res_model': 'school.individual_bloc',
+            'view_mode': 'form',
+            'view_type': 'form',
+            'res_id': self.new_bloc_id.id,
+            'views': [(False, 'form')],
+        }

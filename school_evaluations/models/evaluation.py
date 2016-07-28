@@ -92,8 +92,8 @@ class IndividualCourseGroup(models.Model):
     
     ## override so that courses with dispense and no deferred results are excluded from computation
     @api.one
-    @api.depends('course_ids')
     def _get_courses_total(self):
+        _logger.debug('Trigger "_get_courses_total" on Course Group %s' % self.name)
         total_hours = 0.0
         total_credits = 0.0
         total_weight = 0.0
@@ -105,9 +105,9 @@ class IndividualCourseGroup(models.Model):
         self.total_credits = total_credits
         self.total_weight = total_weight
     
-    @api.depends('course_ids')
     @api.one
     def compute_average_results(self):
+        _logger.debug('Trigger "compute_average_results" on Course Group %s' % self.name)
         ## Compute Weighted Average
         running_first_session_result = 0
         running_second_session_result = 0
@@ -143,9 +143,10 @@ class IndividualCourseGroup(models.Model):
             if self.total_weight > 0:
                 self.second_session_computed_result = running_second_session_result / self.total_weight
     
-    @api.depends('first_session_deliberated_result_bool','first_session_deliberated_result')
+    @api.depends('first_session_deliberated_result_bool','first_session_deliberated_result','first_session_computed_result_bool','first_session_computed_result')
     @api.one
     def compute_first_session_results(self):
+        _logger.debug('Trigger "compute_first_session_results" on Course Group %s' % self.name)
         ## Compute Session Results
         if self.first_session_deliberated_result_bool :
             try:
@@ -165,9 +166,10 @@ class IndividualCourseGroup(models.Model):
             self.first_session_result = 0
             self.first_session_result_bool = False
     
-    @api.depends('first_session_deliberated_result_bool','first_session_deliberated_result')
+    @api.depends('first_session_result_bool','first_session_result')
     @api.one
     def compute_first_session_acquiered(self):
+        _logger.debug('Trigger "compute_first_session_acquiered" on Course Group %s' % self.name)
         self.first_session_acquiered = 'NA'
         if self.enable_exclusion_bool :
             if self.first_session_result >= 10 and (not self.first_session_computed_exclusion_result_bool or self.first_session_deliberated_result_bool):
@@ -176,9 +178,10 @@ class IndividualCourseGroup(models.Model):
             if self.first_session_result >= 10 : # cfr appel Ingisi 27-06 and (not self.first_session_computed_exclusion_result_bool or self.first_session_deliberated_result_bool):
                 self.first_session_acquiered = 'A'
 
-    @api.depends('second_session_deliberated_result_bool','second_session_deliberated_result')
+    @api.depends('second_session_deliberated_result_bool','second_session_deliberated_result','second_session_computed_result_bool','first_session_computed_result')
     @api.one
     def compute_second_session_results(self):
+        _logger.debug('Trigger "compute_second_session_results" on Course Group %s' % self.name)
         if self.second_session_deliberated_result_bool :
             try:
                 f = self._parse_result(self.second_session_deliberated_result)
@@ -197,9 +200,10 @@ class IndividualCourseGroup(models.Model):
             self.second_session_result = 0
             self.second_session_result_bool = False
 
-    @api.depends('second_session_deliberated_result_bool','second_session_deliberated_result')
+    @api.depends('second_session_result_bool','second_session_result')
     @api.one
     def compute_second_session_acquiered(self):
+        _logger.debug('Trigger "compute_second_session_acquiered" on Course Group %s' % self.name)
         self.second_session_acquiered = self.first_session_acquiered
         if self.enable_exclusion_bool :
             if self.second_session_result >= 10 and (not self.second_session_computed_exclusion_result_bool or self.second_session_deliberated_result_bool):
@@ -217,6 +221,7 @@ class IndividualCourseGroup(models.Model):
                  'total_weight')
     @api.one
     def compute_final_results(self):
+        _logger.debug('Trigger "compute_final_results" on Course Group %s' % self.name)
         ## Compute Final Results
         if self.second_session_result_bool :
             self.final_result = self.second_session_result
@@ -235,6 +240,7 @@ class IndividualCourseGroup(models.Model):
     
     @api.one
     def recompute_results(self):
+        _logger.debug('Trigger "recompute_results" on Course Group %s' % self.name)
         self._get_courses_total()
         self.compute_average_results()
         self.compute_first_session_results()
@@ -253,68 +259,16 @@ class IndividualCourse(models.Model):
     '''Individual Course'''
     _inherit = 'school.individual_course'
     
-    type = fields.Selection(([('S', 'Simple'),('T', 'Triple'),('C', 'Complex'),('D','Deferred')]),compute='compute_type', string='Type', store=True)
-    c_weight =  fields.Float(compute='compute_weight', readonly=True)
+    ## Type and weight for average computation (ie 0 for dispenses) ##
     
-    @api.one
-    @api.depends('dispense', 'jun_result', 'weight')
-    def compute_weight(self):
-        if self.dispense and not self.jun_result:
-            self.c_weight = 0
-        else:
-            self.c_weight = self.weight
-    
-    @api.one
-    @api.depends('dispense', 'source_course_id.type')
-    def compute_type(self):
-        if self.dispense :
-            self.ann_result = False
-            self.jan_result = False
-            self.jun_result = False
-            self.sept_result = False
-            self.type = 'D'
-        else:
-            if self.type != self.source_course_id.type :
-                self.ann_result = False
-                self.jan_result = False
-                self.jun_result = False
-                self.sept_result = False
-                self.type = self.source_course_id.type
-                # TODO should use write ? and api.multi ??
+    type = fields.Selection(([('S', 'Simple'),('T', 'Triple'),('C', 'Complex'),('D','Deferred')]),compute='compute_type', string='Type', store=True, default="S")
+    c_weight =  fields.Float(compute='compute_weight', readonly=True, store=True)
 
-    @api.model
-    def create(self, values):
-        if not(values.get('type', False)) and values.get('source_course_id', False):
-            course = self.env['school.course'].browse(values['source_course_id'])
-            values['type'] = course.type or 'S'
-        result = super(IndividualCourse, self).create(values)
-        return result
-    
-    @api.one
-    def write(self, vals):
-        if self.type == 'S':
-            vals['ann_result'] = False
-            vals['jan_result'] = False
-        elif self.type == 'T':
-            vals['ann_result'] = False
-        res = super(IndividualCourse, self).write(vals)
-        self.course_group_id.recompute_results()
-        return res
-
-    ## Annual Evaluation ##
+    ## Evaluation ##
     
     ann_result= fields.Char(string='Annual Result',track_visibility='onchange')
-    
-    ## January Evaluation ##
-    
     jan_result= fields.Char(string='January Result',track_visibility='onchange')
-    
-    ## June Evaluation ##
-    
     jun_result= fields.Char(string='June Result',track_visibility='onchange')
-    
-    ## September Evaluation ##
-    
     sept_result= fields.Char(string='September Result',track_visibility='onchange')
     
     ## First Session ##
@@ -328,7 +282,33 @@ class IndividualCourse(models.Model):
     second_session_result= fields.Float(compute='compute_results', string='Second Session Result', store=True, group_operator='avg')
     second_session_result_bool = fields.Boolean(compute='compute_results', string='Second Session Active', store=True)
     second_session_note = fields.Text(string='Second Session Notes')
+
+    @api.model
+    def create(self, values):
+        if not(values.get('type', False)) and values.get('source_course_id', False):
+            course = self.env['school.course'].browse(values['source_course_id'])
+            values['type'] = course.type or 'S'
+        result = super(IndividualCourse, self).create(values)
+        return result
     
+    @api.one
+    @api.depends('dispense','weight','jun_result')
+    def compute_weight(self):
+        _logger.debug('Trigger "compute_weight" on Course %s' % self.name)
+        if self.dispense and not self.jun_result:
+            self.c_weight = 0
+        else:
+            self.c_weight = self.weight
+    
+    @api.one
+    @api.depends('dispense', 'source_course_id.type')
+    def compute_type(self):
+        _logger.debug('Trigger "compute_type" on Course %s' % self.name)
+        if self.dispense :
+            self.type = 'D'
+        else:
+            self.type = self.source_course_id.type
+            
     def _parse_result(self,input):
         f = float(input)
         if(f < 0 or f > 20):
@@ -336,11 +316,11 @@ class IndividualCourse(models.Model):
         else:
             return f
     
-    @api.depends('ann_result','jan_result','jun_result','sept_result')
+    @api.depends('type','ann_result','jan_result','jun_result','sept_result')
     @api.one
     def compute_results(self):
+        _logger.debug('Trigger "compute_results" on Course %s' % self.name)
         if self.type == 'D' :
-            self.first_session_result_bool = True
             if self.jun_result :
                 try:
                     f = self._parse_result(self.jun_result)
@@ -352,11 +332,10 @@ class IndividualCourse(models.Model):
                     raise UserError(_('Cannot decode %s in June Result, please encode a Float eg "12.00".' % self.jun_result))
                     
         if self.type in ['S','D','T']:
+            f = False
             if self.jan_result :
                 try:
                     f = self._parse_result(self.jan_result)
-                    self.first_session_result = f
-                    self.first_session_result_bool = True
                 except ValueError:
                     self.first_session_result = 0
                     self.first_session_result_bool = False
@@ -364,12 +343,13 @@ class IndividualCourse(models.Model):
             if self.jun_result :
                 try:
                     f = self._parse_result(self.jun_result)
-                    self.first_session_result = f
-                    self.first_session_result_bool = True
                 except ValueError:
                     self.first_session_result = 0
                     self.first_session_result_bool = False
                     raise UserError(_('Cannot decode %s in June Result, please encode a Float eg "12.00".' % self.jun_result))
+            if f :
+                self.first_session_result = f
+                self.first_session_result_bool = True
             if self.sept_result :
                 try:
                     f = self._parse_result(self.sept_result)
@@ -421,7 +401,9 @@ class IndividualCourse(models.Model):
                     self.second_session_result = 0
                     self.second_session_result_bool = False
                     raise UserError(_('Cannot decode %s in September Result, please encode a Float eg "12.00".' % self.sept_result))
-                    
+        # Trigger CG recompute - TODO only if value actually changed ??
+        self.course_group_id.recompute_results()
+
 
 class IndividualBloc(models.Model):
     '''Individual Bloc'''

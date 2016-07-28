@@ -168,10 +168,10 @@ class IndividualCourseGroup(models.Model):
 
     course_ids = fields.One2many('school.individual_course', 'course_group_id', string='Courses')
     
-    total_credits = fields.Integer(compute='_get_courses_total', string='Credits')
-    total_hours = fields.Integer(compute='_get_courses_total', string='Hours')
-    total_weight = fields.Float(compute='_get_courses_total', string='Total Weight')
-    weight = fields.Integer(related="source_course_group_id.weight",string='Weight')
+    total_credits = fields.Integer(compute='_get_courses_total', string='Credits', store=True)
+    total_hours = fields.Integer(compute='_get_courses_total', string='Hours', store=True)
+    total_weight = fields.Float(compute='_get_courses_total', string='Total Weight', store=True)
+    weight = fields.Integer(related="source_course_group_id.weight",string='Weight', store=True)
     
     code_ue =  fields.Char(related="source_course_group_id.code_ue", readonly=True)
     
@@ -224,7 +224,7 @@ class IndividualCourse(models.Model):
     hours = fields.Integer(related="source_course_id.hours", readonly=True)
     weight =  fields.Float(related="source_course_id.weight", readonly=True)
     
-    dispense = fields.Boolean(string="Dispensed",default=False)
+    dispense = fields.Boolean(string="Dispensed",default=False,track_visibility='onchange')
     
     source_course_id = fields.Many2one('school.course', string="Source Course", auto_join=True)
     
