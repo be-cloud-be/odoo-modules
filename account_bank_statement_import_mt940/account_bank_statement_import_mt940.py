@@ -25,6 +25,7 @@
 from openerp import api, fields, models, _
 from openerp.exceptions import UserError
 import mt940
+import hashlib
 import logging
 import StringIO
 
@@ -64,10 +65,13 @@ class AccountBankStatementImport(models.TransientModel):
                     'amount' : t.data['amount'].amount,
                     'ref' : t.data.get('bank_reference') or t.data.get('extra_details'),
                     'name' : t.data['transaction_details'],
+                    'unique_import_id' : hashlib.sha1(buffer(str(t.data))).hexdigest(),
                 }
-                statement['transactions'].append(st_line)
-            
-            return currency, account, [statement]
+                if st_line['amount'] != 0 :
+                    statement['transactions'].append(st_line)
+            if len(statement['transactions']) > 0 :
+                return currency, account, [statement]
+            return None, None, None
                     
         except Exception, e:
             _logger.info(e)
