@@ -20,10 +20,15 @@
 ##############################################################################
 import logging
 
+<<<<<<< HEAD
 from odoo import tools
 
 from odoo import api, fields, models, _
 from odoo.exceptions import UserError
+=======
+from openerp import api, fields, models, _
+from openerp.exceptions import UserError
+>>>>>>> merge
 
 _logger = logging.getLogger(__name__)
 
@@ -31,6 +36,7 @@ class AccountJournal(models.Model):
     _inherit = "account.journal"
 
     @api.multi
+<<<<<<< HEAD
     @api.depends('parent_id', 'parent_id.report_name')
     def _get_report_name(self):
         '''Returns the name of the Root Account which correspond to the 
@@ -76,3 +82,15 @@ class TaxBaseReport(models.Model):
                         from account_invoice, account_invoice_line, account_invoice_line_tax, account_tax 
                         where account_invoice.id = account_invoice_line.invoice_id and account_invoice_line.id = account_invoice_line_tax.invoice_line_id and account_tax.id = account_invoice_line_tax.tax_id
                         )""")
+=======
+    def bulk_import_statement(self):
+        """return action to bulk import bank/cash statements. This button should be called only on journals with type =='bank'"""
+        model = 'account.bank.statement'
+        action_name = 'action_account_bank_statement_bulk_import'
+        ir_model_obj = self.pool['ir.model.data']
+        model, action_id = ir_model_obj.get_object_reference(self._cr, self._uid, 'account_bank_statement_bulk_import', action_name)
+        action = self.pool[model].read(self._cr, self._uid, action_id, context=self.env.context)
+        # Note: this drops action['context'], which is a dict stored as a string, which is not easy to update
+        action.update({'context': (u"{'journal_id': " + str(self.id) + u"}")})
+        return action
+>>>>>>> merge
