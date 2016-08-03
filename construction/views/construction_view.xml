@@ -90,6 +90,7 @@
                         <field name="asset_ids" nolabel="1" >
                             <tree string="Building Assets" editable="false">
                                 <field name="name" string="Name"/>
+                                <field name="type" string="Type"/>
                                 <field name="confirmed_lead_id" string="Confirmed Lead"/>
                             </tree>
                         </field>
@@ -150,19 +151,6 @@
             
         -->
         
-        <!-- Add link to building asset on Sale Order form view -->
-        <record id="view_sale_order_form_construction" model="ir.ui.view">
-            <field name="name">view.sale.order.form.construction</field>
-            <field name="model">sale.order</field>
-            <field name="inherit_id" ref="sale.view_order_form" />
-            <field eval="18" name="priority" />
-            <field name="arch" type="xml">
-                <xpath expr="//field[@name='project_id']" position="after">
-                    <field name='building_asset_id' />
-                </xpath>
-            </field>
-        </record>
-        
         <record id="view_building_asset_tree" model="ir.ui.view">
             <field name="name">Building Asset Tree</field>
             <field name="model">construction.building_asset</field>
@@ -209,7 +197,15 @@
                                 </field>
                             </page>
                             <page string="Candidate Leads">
-                                
+                                <field name="candidate_lead_ids" nolabel="1" >
+                                    <tree string="Candidate Leads" editable="false">
+                                        <field name="name"/>
+                                        <field name="user_id"/>
+                                        <field name="partner_id"/>
+                                        <field name="stage_id"/>
+                                        <field name="lost_reason"/>
+                                    </tree>
+                                </field>
                             </page>
                         </notebook>
                     </sheet>
@@ -235,6 +231,39 @@
         </record>
         
         <menuitem action="open_view_building_asset_all_config" id="menu_building_assets_config" name="Building Assets" parent="project.menu_project_config" sequence="20"/>
+        
+        
+        <!--
+        
+            Sale Order and Lead
+        
+        -->
+        
+        <!-- Add link to building asset on Sale Order form view -->
+        <record id="view_sale_order_form_construction" model="ir.ui.view">
+            <field name="name">view.sale.order.form.construction</field>
+            <field name="model">sale.order</field>
+            <field name="inherit_id" ref="sale.view_order_form" />
+            <field eval="18" name="priority" />
+            <field name="arch" type="xml">
+                <xpath expr="//field[@name='project_id']" position="after">
+                    <field name='building_asset_id' />
+                </xpath>
+            </field>
+        </record>
+        
+        <!-- Add link to building asset on Sale Order form view -->
+        <record id="view_crm_lead_form_construction" model="ir.ui.view">
+            <field name="name">view.crm.lead.form.construction</field>
+            <field name="model">crm.lead</field>
+            <field name="inherit_id" ref="crm.crm_case_form_view_oppor" />
+            <field eval="18" name="priority" />
+            <field name="arch" type="xml">
+                <xpath expr="//field[@name='team_id']" position="after">
+                    <field name='building_asset_id' />
+                </xpath>
+            </field>
+        </record>
         
     </data>
 </openerp>

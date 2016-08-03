@@ -98,7 +98,7 @@ class BuildingAsset(models.Model):
     site_id = fields.Many2one('construction.building_site', string='Building Site')
     
     confirmed_lead_id = fields.Many2one('crm.lead', string='Confirmed Lead')
-    candidate_lead_ids = fields.Many2many('crm.lead', 'building_asset_lead_rel', 'building_asset_id', 'lead_id', string='Candidate Lead')
+    candidate_lead_ids = fields.One2many('crm.lead', 'building_asset_id', string='Candidate Leads', domain=['|',('active','=',True),('active','=',False)])
     sale_order_ids = fields.One2many('sale.order', 'building_asset_id', string="Sale Orders")
     
 class SaleOrder(models.Model):
@@ -114,6 +114,12 @@ class SaleOrder(models.Model):
         if self.state == 'sale':
             self.building_asset_id.state = 'sold'
             self.confirmed_lead_id.id = self.opportunity_id.id
+            
+class CrmLean(models.Model):
+    _inherit = "crm.lead"
+    
+    building_asset_id = fields.Many2one('construction.building_asset', string='Building Asset', ondelete='set null')
+    building_site_id = fields.Many2one('construction.building_site', string='Building Site', related="building_asset_id.site_id",store=True)
     
 class Invoice(models.Model):
     '''Invoice'''
