@@ -7,6 +7,7 @@ var Widget = require('web.Widget');
 var Dialog = require('web.Dialog');
 var Model = require('web.DataModel');
 var data = require('web.data');
+var session = require('web.session');
 
 var BlocEditor = require('school_evaluations.school_evaluations_bloc_editor');
 
@@ -16,6 +17,55 @@ var _t = core._t;
 var EvaluationConfigDialog = Dialog.extend({
     template: 'ConfigDialog',
     
+    events: {
+        'change .o_school_year_select': function (event) {
+            event.preventDefault();
+            self.parent.year_id = parseInt(this.$(event.currentTarget).find(":selected").attr('value'))
+        },
+        "click .o_school_first_session": function (event) {
+            event.preventDefault();
+            this.parent.school_session = 1;
+            this.$('.o_school_second_session').removeClass('active');
+            this.$(event.currentTarget).addClass('active');
+        },
+        "click .o_school_second_session": function (event) {
+            event.preventDefault();
+            this.parent.school_session = 2;
+            this.$('.o_school_first_session').removeClass('active');
+            this.$(event.currentTarget).addClass('active');
+        },
+    },
+    
+    init: function(parent, title) {
+        self = this;
+        this._super.apply(this, arguments);
+        self.parent = parent;
+        self.school_session = parent.school_session;
+    },
+    
+    start: function() {
+        var self = this;
+        var tmp = this._super.apply(this, arguments);
+        var defs = [];
+        self.$school_year_select = this.$('select.o_school_year_select');
+        defs.push(new Model('school.year').query(['id','name']).all().then(
+                        function(years) {
+                            years.map(function(year){
+                                var o = new Option(year.name,year.id);
+                                if (year.id == self.parent.year_id) {
+                                    $(o).attr('selected',true);
+                                }
+                                self.$school_year_select.append(o);
+                            });
+                        }
+                    ));
+        return $.when(tmp, defs);
+    },
+    
+    close: function () {
+        this._super();
+        this.parent.update_blocs();
+    },
     
 });
 
@@ -25,7 +75,7 @@ var EvaluationsAction = Widget.extend({
     events: {
         "click .o_school_group_item": function (event) {
             event.preventDefault();
-            var self = this
+            var self = this;
             this.$('.o_school_group_item.active').removeClass('active');
             this.$(event.currentTarget).addClass('active');
             var group_id = this.$(event.currentTarget).data('group-id');
@@ -33,7 +83,7 @@ var EvaluationsAction = Widget.extend({
         },
         "click .evaluation_config": function (event) {
             event.preventDefault();
-            new EvaluationConfigDialog(this, {title : 'Evaluation Config'}).open();
+            new EvaluationConfigDialog(this, {title : 'Evaluation Config'}).open();       
         },
         "click .o_school_bloc_item": function (event) {
             event.preventDefault();
@@ -63,23 +113,35 @@ var EvaluationsAction = Widget.extend({
         this.title = title;
         this.context = new data.CompoundContext();
         this.school_domain = 1;
+        this.school_session = new Date().getMonth() < 7 ? 1 : 2;
         this.parent = parent;
         this.parent.webclient.$el.find('#oe_main_menu_navbar').addClass('o_hidden');
     },
     
-    build_domain: function() {
-        return new data.CompoundDomain([['source_bloc_domain_id','=',this.school_domain]]);
-    },
-    
     start: function() {
         var self = this;
-        this.model = new Model('school.individual_bloc');
+        return new Model("res.users").call("read", [session.uid, ['id','name','current_year_id']]).then(
+                    function(user) {
+                        self.user = user;
+                        self.year_id = self.user.current_year_id[0];
+                }).then(
+                    function() {
+                        self.model = new Model('school.individual_bloc');
+                        self.update_blocs();
+        
+                        self.evaluation_bloc_editor = new BlocEditor(self, {});
+                        self.evaluation_bloc_editor.appendTo(self.$('.o_evaluation_bloc_container'));
+                });
+    },
 
-        this.update_blocs();
-
-        this.evaluation_bloc_editor = new BlocEditor(this, {});
-        this.evaluation_bloc_editor.appendTo(this.$('.o_evaluation_bloc_container'));
-    
+    build_domain: function() {
+        var domain = new data.CompoundDomain();
+        if(this.school_session == 1) {
+            domain.add([['source_bloc_domain_id','=',this.school_domain],['year_id','=',this.year_id],['state','in',['progress','postponed','awarded_first_session']]]);
+        } else {
+            domain.add([['source_bloc_domain_id','=',this.school_domain],['year_id','=',this.year_id],['state','in',['postponed','awarded_second_session','failed']]]);
+        }
+        return domain;
     },
     
     update_blocs: function() {

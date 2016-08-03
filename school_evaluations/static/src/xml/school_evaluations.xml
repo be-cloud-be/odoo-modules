@@ -221,7 +221,18 @@
 
     <t t-name="ConfigDialog">
         <div>
-            <h2>This is the config dialog</h2>
+            <h3>Vous pouvez sélectionner ici les options pour la délibération en cours</h3>
+            <select class="form-control mb16 o_school_year_select"/>
+            <div class="text-center eval_top_buttons">
+                <div class="btn-group" data-toggle="buttons">
+                    <label t-att-class="'btn btn-primary center-block o_school_first_session ' + (widget.parent.school_session == 1 ? 'active' : '')">
+                        <input type="radio">Première Session</input>
+                    </label>
+                    <label t-att-class="'btn btn-primary center-block o_school_second_session ' + (widget.parent.school_session == 2 ? 'active' : '')">
+                        <input type="radio">Seconde Session</input>
+                    </label>
+                </div>
+            </div>
         </div>
     </t>
 
@@ -319,6 +330,13 @@
                             crédits acquis<br/><span class="score_value"><t t-esc="widget.bloc.total_acquiered_credits"/></span>
                         </div>
                         
+                        <t t-if="widget.school_session == 1">
+                            <t t-set='focused_stade' value='progress'/>
+                        </t>
+                        <t t-if="widget.school_session == 2">
+                            <t t-set='focused_stade' value='postponed'/>
+                        </t>
+                            
                         <t t-if="widget.bloc.source_bloc_level == 3">
                         <t t-if="widget.bloc_result.grade">
                         <div class="col-md-1 text-center moyenne o_school_eval_details" t-if="widget.bloc.source_bloc_level == 3" role="button" >
@@ -328,8 +346,8 @@
                             <div t-att-class="'alert alert-' + widget.bloc_result.class" role="alert"><t t-esc="widget.bloc_result.message"/><b><t t-esc="widget.program.grade_text"/></b></div>
                         </div>
                         <div class="col-md-2">
-                            <button t-if="widget.bloc.state == 'progress'" type="button" t-att-class="'btn btn-lg btn-' + widget.bloc_result.class + ' bloc_' + widget.bloc_result.next_action"><t t-esc="widget.bloc_result.button_text"/></button>
-                            <button t-if="widget.bloc.state != 'progress'" type="button" t-att-class="'btn btn-lg disabled btn-' +widget.bloc_result.class"><t t-esc="widget.bloc_result.button_text"/></button>
+                            <button t-if="widget.bloc.state == focused_stade" type="button" t-att-class="'btn btn-lg btn-' + widget.bloc_result.class + ' bloc_' + widget.bloc_result.next_action"><t t-esc="widget.bloc_result.button_text"/></button>
+                            <button t-if="widget.bloc.state != focused_stade" type="button" t-att-class="'btn btn-lg disabled btn-' +widget.bloc_result.class"><t t-esc="widget.bloc_result.button_text"/></button>
                         </div>    
                         </t>
                         <t t-if="!widget.bloc_result.grade">
@@ -337,19 +355,18 @@
                             <div t-att-class="'alert alert-' + widget.bloc_result.class" role="alert"><t t-esc="widget.bloc_result.message"/></div>
                         </div>
                         <div class="col-md-2">
-                            <button t-if="widget.bloc.state == 'progress'" type="button" t-att-class="'btn btn-lg btn-' + widget.bloc_result.class + ' bloc_' + widget.bloc_result.next_action"><t t-esc="widget.bloc_result.button_text"/></button>
-                            <button t-if="widget.bloc.state != 'progress'" type="button" t-att-class="'btn btn-lg disabled btn-' +widget.bloc_result.class"><t t-esc="widget.bloc_result.button_text"/></button>
+                            <button t-if="widget.bloc.state == focused_stade" type="button" t-att-class="'btn btn-lg btn-' + widget.bloc_result.class + ' bloc_' + widget.bloc_result.next_action"><t t-esc="widget.bloc_result.button_text"/></button>
+                            <button t-if="widget.bloc.state != focused_stade" type="button" t-att-class="'btn btn-lg disabled btn-' +widget.bloc_result.class"><t t-esc="widget.bloc_result.button_text"/></button>
                         </div>    
                         </t>
                         </t>
-                        
                         <t t-if="widget.bloc.source_bloc_level != 3">
                         <div class="col-md-9">
                             <div t-att-class="'alert alert-' + widget.bloc_result.class" role="alert"><t t-esc="widget.bloc_result.message"/></div>
                         </div>
                         <div class="col-md-2">
-                            <button t-if="widget.bloc.state == 'progress'" type="button" t-att-class="'btn btn-lg btn-' + widget.bloc_result.class + ' bloc_' + widget.bloc_result.next_action"><t t-esc="widget.bloc_result.button_text"/></button>
-                            <button t-if="widget.bloc.state != 'progress'" type="button" t-att-class="'btn btn-lg disabled btn-' +widget.bloc_result.class"><t t-esc="widget.bloc_result.button_text"/></button>
+                            <button t-if="widget.bloc.state == focused_stade" type="button" t-att-class="'btn btn-lg btn-' + widget.bloc_result.class + ' bloc_' + widget.bloc_result.next_action"><t t-esc="widget.bloc_result.button_text"/></button>
+                            <button t-if="widget.bloc.state != focused_stade" type="button" t-att-class="'btn btn-lg disabled btn-' +widget.bloc_result.class"><t t-esc="widget.bloc_result.button_text"/></button>
                         </div>    
                         </t>
                     </div>
