@@ -149,7 +149,6 @@ class IndividualBloc(models.Model):
     total_acquiered_credits = fields.Integer(string="Acquiered Credits",compute="compute_credits", store=True)
     evaluation = fields.Float(string="Evaluation",compute="compute_evaluation")
     decision = fields.Text(string="Decision",track_visibility='onchange')
-    
     exclude_from_deliberation = fields.Boolean(string='Exclude from Deliberation', default=False)
     
     @api.multi

@@ -147,11 +147,11 @@ var EvaluationsAction = Widget.extend({
     },
 
     build_domain: function() {
-        var domain = new data.CompoundDomain([['exclude_from_deliberation','=',false],['source_bloc_domain_id','=',this.school_domain],['year_id','=',this.year_id]]);
+        var domain = new data.CompoundDomain();
         if(this.school_session == 1) {
-            domain.add(['state','in',['progress','postponed','awarded_first_session']]);
+            domain.add([['exclude_from_deliberation','=',false],['source_bloc_domain_id','=',this.school_domain],['year_id','=',this.year_id],['state','in',['progress','postponed','awarded_first_session']]]);
         } else {
-            domain.add(['state','in',['postponed','awarded_second_session','failed']]);
+            domain.add([['exclude_from_deliberation','=',false],['source_bloc_domain_id','=',this.school_domain],['year_id','=',this.year_id],['state','in',['postponed','awarded_second_session','failed']]]);
         }
         return domain;
     },
