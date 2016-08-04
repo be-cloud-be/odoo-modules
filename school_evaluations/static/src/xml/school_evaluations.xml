@@ -302,7 +302,12 @@
                     <t t-foreach="blocs" t-as="bloc">
                         <li>
                             <a t-att-class="'o_school_bloc_item'+ (bloc_first ? ' active':'')" t-att-data-bloc-id="bloc.id" href="#">
+                                <t t-if="school_session == 1">
                                 <i t-att-class="((bloc.state == 'postponed') or (bloc.state == 'awarded_first_session') or (bloc.state == 'awarded_second_session') or (bloc.state == 'failed') ? 'fa fa-check fa-fw' : 'fa fa-user fa-fw')"></i>
+                                </t>
+                                <t t-if="school_session == 2">
+                                <i t-att-class="((bloc.state == 'awarded_second_session') or (bloc.state == 'failed') ? 'fa fa-check fa-fw' : 'fa fa-user fa-fw')"></i>
+                                </t>
                                 <span ><t t-esc="bloc.student_id[1]" /></span>
                             </a>
                         </li>
@@ -331,10 +336,10 @@
                         </div>
                         
                         <t t-if="widget.school_session == 1">
-                            <t t-set='focused_stade' value='progress'/>
+                            <t t-set='focused_stade' t-value="'progress'"/>
                         </t>
                         <t t-if="widget.school_session == 2">
-                            <t t-set='focused_stade' value='postponed'/>
+                            <t t-set='focused_stade' t-value="'postponed'"/>
                         </t>
                             
                         <t t-if="widget.bloc.source_bloc_level == 3">

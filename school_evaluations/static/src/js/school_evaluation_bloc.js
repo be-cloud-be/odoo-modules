@@ -79,10 +79,14 @@ return Widget.extend({
         "click .bloc_award": function (event) {
             event.preventDefault();
             var self = this;
-            new Model(self.dataset.model).call("set_to_awarded_first_session",[self.datarecord.id,self.bloc_result.message,self.dataset.get_context()]).then(function(result) {
+            new Model(self.dataset.model).call(this.school_session == 1 ? "set_to_awarded_first_session" : "set_to_awarded_second_session",[self.datarecord.id,self.bloc_result.message,self.dataset.get_context()]).then(function(result) {
                 self.parent.$(".o_school_bloc_item.active i").removeClass('fa-user');
                 self.parent.$(".o_school_bloc_item.active i").addClass('fa-check');
-                self.bloc.state = "awarded_first_session";
+                if (this.school_session == 1) {
+                    self.bloc.state = "awarded_first_session";
+                } else {
+                    self.bloc.state = "awarded_second_session";
+                }
                 self.next().then(function(){
                     self.parent.$('.o_school_bloc_item.active').removeClass('active');
                     self.parent.$("a[data-bloc-id='" + self.datarecord.id + "']").addClass('active');

@@ -152,16 +152,19 @@ var EvaluationsAction = Widget.extend({
                 'id' : 0, 
                 'title' : "Bloc 1",
                 'blocs' : [],
+                'school_session' : this.school_session,
             },
             { 
                 'id' : 1, 
                 'title' : "Bloc 2",
                 'blocs' : [],
+                'school_session' : this.school_session,
             },
             { 
                 'id' : 2, 
                 'title' : "Bloc 3",
                 'blocs' : [],
+                'school_session' : this.school_session,
             },
             
         ];

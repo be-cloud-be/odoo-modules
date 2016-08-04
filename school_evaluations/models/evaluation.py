@@ -28,7 +28,204 @@ class CourseGroup(models.Model):
     '''Course Group'''
     _inherit = 'school.course_group'
     
+    # TODO document this and add help field
     enable_exclusion_bool = fields.Boolean(string='Enable exclusion evaluation', default=True)
+    
+class IndividualProgram(models.Model):
+    '''Individual Program'''
+    _inherit='school.individual_program'
+    
+    state = fields.Selection([
+            ('draft','Draft'),
+            ('progress','In Progress'),
+            ('awarded', 'Awarded'),
+            ('abandonned', 'Abandonned'),
+        ], string='Status', index=True, default='draft',copy=False,
+        help=" * The 'Draft' status is used when results are not confirmed yet.\n"
+             " * The 'In Progress' status is used during the cycle.\n"
+             " * The 'Awarded' status is used when the cycle is awarded.\n"
+             " * The 'Abandonned' status is used if a student leave the program.\n"
+             ,track_visibility='onchange')
+    
+    @api.multi
+    def set_to_draft(self, context):
+        # TODO use a workflow to make sure only valid changes are used.
+        return self.write({'state': 'draft'})
+    
+    @api.multi
+    def set_to_progress(self, context):
+        # TODO use a workflow to make sure only valid changes are used.
+        return self.write({'state': 'progress'})
+    
+    @api.multi
+    def set_to_awarded(self, context, grade=None, grade_year_id=None, grade_comments=None):
+        # TODO use a workflow to make sure only valid changes are used.
+        if(grade):
+            self.write({'state': 'awarded',
+                           'grade' : grade,
+                           'grade_year_id' : grade_year_id,
+                           'grade_comments' : grade_comments,})
+        else:
+            self.write({'state': 'awarded'})
+        
+    @api.multi
+    def set_to_abandonned(self, context):
+        # TODO use a workflow to make sure only valid changes are used.
+        return self.write({'state': 'abandonned'})
+    
+    historical_bloc_1_eval = fields.Float(string="Hist Bloc 1 Eval")
+    historical_bloc_1_credits = fields.Integer(string="Hist Bloc 1 ECTS")
+    
+    historical_bloc_2_eval = fields.Float(string="Hist Bloc 2 Eval")
+    historical_bloc_2_credits = fields.Integer(string="Hist Bloc 2 ECTS")
+    
+    grade = fields.Selection([
+            ('without','Without Grade'),
+            ('satisfaction','Satisfaction'),
+            ('distinction','Distinction'),
+            ('second_class', 'Second Class Honor'),
+            ('first_class', 'First Class Honor'),
+        ],string="Grade")
+    
+    grade_year_id = fields.Many2one('school.year', string="Year")
+    
+    grade_comments = fields.Text(string="Grade Comments")
+    
+    evaluation = fields.Float(string="Evaluation",compute="compute_evaluation")
+    
+    @api.depends('bloc_ids.evaluation','historical_bloc_1_eval','historical_bloc_2_eval')
+    @api.one
+    def compute_evaluation(self):
+        total = 0
+        count = 0
+        for bloc in self.bloc_ids:
+            total += bloc.evaluation
+            count += 1
+        if self.historical_bloc_1_eval > 0:
+            total += self.historical_bloc_1_eval
+            count += 1
+        if self.historical_bloc_2_eval > 0:
+            total += self.historical_bloc_2_eval
+            count += 1
+        self.evaluation = total/count
+        # TODO : Implement computation based on UE as per the decret
+        
+    @api.depends('bloc_ids.evaluation','historical_bloc_1_eval','historical_bloc_2_eval')
+    @api.multi
+    def compute_evaluation_details(self):
+        self.ensure_one();
+        ret = [0,0,0,0,0]
+        if self.historical_bloc_1_eval > 0:
+            ret[0] = self.historical_bloc_1_eval
+        if self.historical_bloc_2_eval > 0:
+            ret[1] = self.historical_bloc_2_eval
+        for bloc in self.bloc_ids:
+            ret[int(bloc.source_bloc_level)-1] = bloc.evaluation
+        return {
+            'bloc_evaluations' : ret
+        }
+        # TODO : Implement computation based on UE as per the decret
+    
+class IndividualBloc(models.Model):
+    '''Individual Bloc'''
+    _inherit = 'school.individual_bloc'
+
+    state = fields.Selection([
+            ('draft','Draft'),
+            ('progress','In Progress'),
+            ('postponed', 'Postponed'),
+            ('awarded_first_session', 'Awarded in First Session'),
+            ('awarded_second_session', 'Awarded in Second Session'),
+            ('failed', 'Failed'),
+        ], string='Status', index=True, default='draft',
+        copy=False,
+        help=" * The 'Draft' status is used when results are not confirmed yet.\n"
+             " * The 'In Progress' status is used during the courses.\n"
+             " * The 'Postponed' status is used when a second session is required.\n"
+             " * The 'Awarded' status is used when the bloc is awarded in either first or second session.\n"
+             " * The 'Failed' status is used during the bloc is definitively considered as failed.\n"
+             ,track_visibility='onchange')
+    
+    total_acquiered_credits = fields.Integer(string="Acquiered Credits",compute="compute_credits", store=True)
+    evaluation = fields.Float(string="Evaluation",compute="compute_evaluation")
+    decision = fields.Text(string="Decision",track_visibility='onchange')
+    
+    @api.multi
+    def set_to_draft(self, context):
+        # TODO use a workflow to make sure only valid changes are used.
+        return self.write({'state': 'draft'})
+    
+    @api.multi
+    def set_to_progress(self, context):
+        # TODO use a workflow to make sure only valid changes are used.
+        return self.write({'state': 'progress'})
+    
+    @api.multi
+    def set_to_postponed(self, decision=None, context=None):
+        # TODO use a workflow to make sure only valid changes are used.
+        if isinstance(decision, dict):
+            context = decision
+            decision = None
+        return self.write({'state': 'postponed','decision' : decision})
+    
+    @api.multi
+    def set_to_awarded_first_session(self, decision=None, context=None):
+        # TODO use a workflow to make sure only valid changes are used.
+        if isinstance(decision, dict):
+            context = decision
+            decision = None
+        return self.write({'state': 'awarded_first_session','decision' : decision})
+        
+    @api.multi
+    def set_to_awarded_second_session(self, decision=None, context=None):
+        # TODO use a workflow to make sure only valid changes are used.
+        if isinstance(decision, dict):
+            context = decision
+            decision = None
+        return self.write({'state': 'awarded_second_session','decision' : decision})
+    
+    @api.multi
+    def set_to_failed(self, decision=None, context=None):
+        # TODO use a workflow to make sure only valid changes are used.
+        if isinstance(decision, dict):
+            context = decision
+            decision = None
+        return self.write({'state': 'failed','decision' : decision})
+        
+    @api.depends('course_group_ids.total_credits','course_group_ids.acquiered')
+    @api.one
+    def compute_credits(self):
+        _logger.debug('Trigger "compute_credits" on Bloc %s' % self.name)
+        self.total_acquiered_credits = sum([icg.total_credits for icg in self.course_group_ids if icg.acquiered == 'A'])
+      
+    @api.depends('course_group_ids.final_result','course_group_ids.total_weight','course_group_ids.acquiered')
+    @api.one
+    def compute_evaluation(self):
+        _logger.debug('Trigger "compute_evaluation" on Bloc %s' % self.name)
+        total = 0
+        total_weight = 0
+        for icg in self.course_group_ids:
+            if icg.acquiered == 'A' and icg.total_weight > 0 : # if total_weight == 0 means full dispense
+                total += icg.final_result * icg.total_weight
+                total_weight += icg.total_weight
+        if total_weight > 0 :
+            self.evaluation = total / total_weight
+        else:
+            _logger.debug('total_weight is 0 on Bloc %s' % self.name)
+            self.evaluation = None
+        
+    #@api.onchange('source_bloc_id')
+    #@api.depends('course_group_ids')
+    #def assign_source_bloc(self):
+    #    super(IndividualBloc, self).assign_source_bloc()
+    #    for group in self.course_group_ids:
+    #        group.recompute_results()
+    
+    @api.one
+    def recompute_results(self):
+        _logger.debug('Trigger "recompute_results" on Bloc %s' % self.name)
+        for group in self.course_group_ids:
+            group.recompute_results()
     
 class IndividualCourseGroup(models.Model):
     '''Individual Course Group'''
@@ -91,20 +288,15 @@ class IndividualCourseGroup(models.Model):
             return f
     
     ## override so that courses with dispense and no deferred results are excluded from computation
+    @api.depends('course_ids.hours','course_ids.credits','course_ids.c_weight')
     @api.one
     def _get_courses_total(self):
         _logger.debug('Trigger "_get_courses_total" on Course Group %s' % self.name)
-        total_hours = 0.0
-        total_credits = 0.0
-        total_weight = 0.0
-        for course in self.course_ids:
-            total_hours += course.hours
-            total_credits += course.credits
-            total_weight += course.c_weight
-        self.total_hours = total_hours
-        self.total_credits = total_credits
-        self.total_weight = total_weight
-    
+        self.total_hours = sum(course.hours for course in self.course_ids)
+        self.total_credits = sum(course.credits for course in self.course_ids)
+        self.total_weight = sum(course.c_weight for course in self.course_ids)
+
+    @api.depends('course_ids.first_session_result_bool','course_ids.first_session_result','course_ids.second_session_result_bool','course_ids.second_session_result','course_ids.c_weight')
     @api.one
     def compute_average_results(self):
         _logger.debug('Trigger "compute_average_results" on Course Group %s' % self.name)
@@ -155,7 +347,9 @@ class IndividualCourseGroup(models.Model):
                 self.write('first_session_deliberated_result', None)
                 raise UserError(_('Cannot decode %s, please encode a Float eg "12.00".' % self.first_session_deliberated_result))
             if (f < self.first_session_computed_result):
-                raise ValidationError("Deliberated result must be above computed result, i.e. %s > %s." % (self.first_session_deliberated_result, self.first_session_computed_result))
+                # TODO : take care of this - removed due to Cours artistiques B - Art dramatique - 2 - 2015-2016 - VALERIO Maddy 
+                # raise ValidationError("Deliberated result must be above computed result, i.e. %s > %s." % (self.first_session_deliberated_result, self.first_session_computed_result))
+                self.first_session_result = f
             else:
                 self.first_session_result = f
             self.first_session_result_bool = True
@@ -178,7 +372,7 @@ class IndividualCourseGroup(models.Model):
             if self.first_session_result >= 10 : # cfr appel Ingisi 27-06 and (not self.first_session_computed_exclusion_result_bool or self.first_session_deliberated_result_bool):
                 self.first_session_acquiered = 'A'
 
-    @api.depends('second_session_deliberated_result_bool','second_session_deliberated_result','second_session_computed_result_bool','first_session_computed_result')
+    @api.depends('second_session_deliberated_result_bool','second_session_deliberated_result','second_session_computed_result_bool','second_session_computed_result')
     @api.one
     def compute_second_session_results(self):
         _logger.debug('Trigger "compute_second_session_results" on Course Group %s' % self.name)
@@ -248,6 +442,7 @@ class IndividualCourseGroup(models.Model):
         self.compute_first_session_acquiered()
         self.compute_second_session_acquiered()
         self.compute_final_results()
+        self.recompute()
 
 class Course(models.Model):
     '''Course'''
@@ -403,197 +598,3 @@ class IndividualCourse(models.Model):
                     raise UserError(_('Cannot decode %s in September Result, please encode a Float eg "12.00".' % self.sept_result))
         # Trigger CG recompute - TODO only if value actually changed ??
         self.course_group_id.recompute_results()
-
-
-class IndividualBloc(models.Model):
-    '''Individual Bloc'''
-    _inherit = 'school.individual_bloc'
-
-    state = fields.Selection([
-            ('draft','Draft'),
-            ('progress','In Progress'),
-            ('postponed', 'Postponed'),
-            ('awarded_first_session', 'Awarded in First Session'),
-            ('awarded_second_session', 'Awarded in Second Session'),
-            ('failed', 'Failed'),
-        ], string='Status', index=True, default='draft',
-        copy=False,
-        help=" * The 'Draft' status is used when results are not confirmed yet.\n"
-             " * The 'In Progress' status is used during the courses.\n"
-             " * The 'Postponed' status is used when a second session is required.\n"
-             " * The 'Awarded' status is used when the bloc is awarded in either first or second session.\n"
-             " * The 'Failed' status is used during the bloc is definitively considered as failed.\n"
-             ,track_visibility='onchange')
-    
-    @api.multi
-    def set_to_draft(self, context):
-        # TODO use a workflow to make sure only valid changes are used.
-        return self.write({'state': 'draft'})
-    
-    @api.multi
-    def set_to_progress(self, context):
-        # TODO use a workflow to make sure only valid changes are used.
-        return self.write({'state': 'progress'})
-    
-    @api.multi
-    def set_to_postponed(self, decision=None, context=None):
-        # TODO use a workflow to make sure only valid changes are used.
-        if isinstance(decision, dict):
-            context = decision
-            decision = None
-        return self.write({'state': 'postponed','decision' : decision})
-    
-    @api.multi
-    def set_to_awarded_first_session(self, decision=None, context=None):
-        # TODO use a workflow to make sure only valid changes are used.
-        if isinstance(decision, dict):
-            context = decision
-            decision = None
-        return self.write({'state': 'awarded_first_session','decision' : decision})
-        
-    @api.multi
-    def set_to_awarded_second_session(self, decision=None, context=None):
-        # TODO use a workflow to make sure only valid changes are used.
-        if isinstance(decision, dict):
-            context = decision
-            decision = None
-        return self.write({'state': 'awarded_second_session','decision' : decision})
-    
-    @api.multi
-    def set_to_failed(self, decision=None, context=None):
-        # TODO use a workflow to make sure only valid changes are used.
-        if isinstance(decision, dict):
-            context = decision
-            decision = None
-        return self.write({'state': 'failed','decision' : decision})
-        
-    total_acquiered_credits = fields.Integer(string="Acquiered Credits",compute="compute_credits", store=True)
-    
-    @api.depends('course_group_ids','course_group_ids.acquiered')
-    @api.one
-    def compute_credits(self):
-        total = 0
-        for icg in self.course_group_ids:
-            if icg.acquiered == 'A':
-                total += icg.total_credits
-        self.total_acquiered_credits = total
-        
-    evaluation = fields.Float(string="Evaluation",compute="compute_evaluation")
-    
-    @api.depends('course_group_ids','course_group_ids.acquiered','course_group_ids.final_result')
-    @api.one
-    def compute_evaluation(self):
-        total = 0
-        total_weight = 0
-        for icg in self.course_group_ids:
-            if icg.acquiered == 'A' and icg.total_weight > 0 : # if total_weight == 0 means full dispense
-                total += icg.final_result * icg.weight
-                total_weight += icg.weight
-        if total_weight > 0 :
-            self.evaluation = total / total_weight
-        else:
-            self.evaluation = None
-        
-    decision = fields.Text(string="Decision",track_visibility='onchange')
-        
-    @api.onchange('source_bloc_id')
-    @api.depends('course_group_ids')
-    def assign_source_bloc(self):
-        super(IndividualBloc, self).assign_source_bloc()
-        for group in self.course_group_ids:
-            group.recompute_results()
-        
-class IndividualProgram(models.Model):
-    '''Individual Program'''
-    _inherit='school.individual_program'
-    
-    state = fields.Selection([
-            ('draft','Draft'),
-            ('progress','In Progress'),
-            ('awarded', 'Awarded'),
-            ('abandonned', 'Abandonned'),
-        ], string='Status', index=True, default='draft',copy=False,
-        help=" * The 'Draft' status is used when results are not confirmed yet.\n"
-             " * The 'In Progress' status is used during the cycle.\n"
-             " * The 'Awarded' status is used when the cycle is awarded.\n"
-             " * The 'Abandonned' status is used if a student leave the program.\n"
-             ,track_visibility='onchange')
-    
-    @api.multi
-    def set_to_draft(self, context):
-        # TODO use a workflow to make sure only valid changes are used.
-        return self.write({'state': 'draft'})
-    
-    @api.multi
-    def set_to_progress(self, context):
-        # TODO use a workflow to make sure only valid changes are used.
-        return self.write({'state': 'progress'})
-    
-    @api.multi
-    def set_to_awarded(self, context, grade=None, grade_year_id=None, grade_comments=None):
-        # TODO use a workflow to make sure only valid changes are used.
-        if(grade):
-            self.write({'state': 'awarded',
-                           'grade' : grade,
-                           'grade_year_id' : grade_year_id,
-                           'grade_comments' : grade_comments,})
-        else:
-            self.write({'state': 'awarded'})
-        
-    @api.multi
-    def set_to_abandonned(self, context):
-        # TODO use a workflow to make sure only valid changes are used.
-        return self.write({'state': 'abandonned'})
-    
-    historical_bloc_1_eval = fields.Float(string="Hist Bloc 1 Eval")
-    historical_bloc_1_credits = fields.Integer(string="Hist Bloc 1 ECTS")
-    
-    historical_bloc_2_eval = fields.Float(string="Hist Bloc 2 Eval")
-    historical_bloc_2_credits = fields.Integer(string="Hist Bloc 2 ECTS")
-    
-    grade = fields.Selection([
-            ('without','Without Grade'),
-            ('satisfaction','Satisfaction'),
-            ('distinction','Distinction'),
-            ('second_class', 'Second Class Honor'),
-            ('first_class', 'First Class Honor'),
-        ],string="Grade")
-    
-    grade_year_id = fields.Many2one('school.year', string="Year")
-    
-    grade_comments = fields.Text(string="Grade Comments")
-    
-    evaluation = fields.Float(string="Evaluation",compute="compute_evaluation")
-    
-    @api.depends('bloc_ids','bloc_ids.evaluation','historical_bloc_1_eval','historical_bloc_2_eval')
-    @api.one
-    def compute_evaluation(self):
-        total = 0
-        count = 0
-        for bloc in self.bloc_ids:
-            total += bloc.evaluation
-            count += 1
-        if self.historical_bloc_1_eval > 0:
-            total += self.historical_bloc_1_eval
-            count += 1
-        if self.historical_bloc_2_eval > 0:
-            total += self.historical_bloc_2_eval
-            count += 1
-        self.evaluation = total/count
-        # TODO : Implement computation based on UE as per the decret
-        
-    @api.depends('bloc_ids','bloc_ids.evaluation','historical_bloc_1_eval','historical_bloc_2_eval')
-    @api.multi
-    def compute_evaluation_details(self):
-        self.ensure_one();
-        ret = [0,0,0,0,0]
-        if self.historical_bloc_1_eval > 0:
-            ret[0] = self.historical_bloc_1_eval
-        if self.historical_bloc_2_eval > 0:
-            ret[1] = self.historical_bloc_2_eval
-        for bloc in self.bloc_ids:
-            ret[int(bloc.source_bloc_level)-1] = bloc.evaluation
-        return {
-            'bloc_evaluations' : ret
-        }
-        # TODO : Implement computation based on UE as per the decret
