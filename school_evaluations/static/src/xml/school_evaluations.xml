@@ -27,7 +27,7 @@
             <div id="page-wrapper" style="min-height: 1033px;">
                 <div class="o_evaluation_bloc_container">
                     <p><img src="http://www.crlg.be/Visuels/Fonds%20%C3%A9cran/IMAGE%20ACCUEIL%20FOND%20JUIN%202016.jpg" width="1000" height="650"/></p>
-                    <h2>Délibération 2015-2016</h2>
+                    <h2 class='o_school_deliberation_title'/>
                 </div>
             </div>
         </div>
@@ -328,6 +328,13 @@
                         </span>
                         <span class="col-md-10">
                             <h2><t t-esc="widget.bloc.student_name"/> - <t t-esc="widget.bloc.source_bloc_title"/></h2>
+                        </span>
+                        <span class="col-md-10">
+                            <span class="input-group-btn text-right">
+                                <button class="btn btn-default o_reload_bloc" type="button">
+                                    <i class="fa fa-refresh fa-fw"></i>
+                                </button>
+                            </span>
                         </span>
                     </div>
                     <div class="row vertical-align" style="margin-bottom: 10px;">

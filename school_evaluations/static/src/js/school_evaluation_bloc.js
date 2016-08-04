@@ -136,6 +136,12 @@ return Widget.extend({
             new DetailResultDialog(this, {title : _t('Detailed Results'), course_group : self.course_groups[self.course_group_id_map[res_id]]}).open();
         },
         
+        "click .o_reload_bloc": function (event) {
+            var self = this;
+            event.preventDefault();
+            self.update();
+        },
+        
     },
     
     init: function(parent, title) {
@@ -320,9 +326,9 @@ return Widget.extend({
                     }
                     else {
                         self.bloc_result = {
-                            'message' : _t(self.bloc.total_credits+" crédits ECTS acquis ou valorisés, autorisé(e) à poursuivre son parcours."),
-                            'class' : "danger",
-                            'button_text' : _t("Ajourné"),
+                            'message' : _t(self.bloc.total_acquiered_credits+" crédits ECTS acquis ou valorisés, autorisé(e) à poursuivre son parcours."),
+                            'class' : "warning",
+                            'button_text' : _t("Poursuite"),
                             'next_action' : "award",
                         };
                     }
@@ -364,8 +370,8 @@ return Widget.extend({
                         self.bloc_result = {
                             'message' : _t("Moins de 165 crédits ECTS acquis ou valorisés, pas de possibilité d'accéder au programme de Master."),
                             'class' : "danger",
-                            'button_text' : _t("Ajourné"),
-                            'next_action' : "postpone",
+                            'button_text' : _t("Échec"),
+                            'next_action' : "failed",
                         };
                     }
                     break;

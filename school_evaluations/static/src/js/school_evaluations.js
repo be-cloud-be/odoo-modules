@@ -21,6 +21,7 @@ var EvaluationConfigDialog = Dialog.extend({
         'change .o_school_year_select': function (event) {
             event.preventDefault();
             self.parent.year_id = parseInt(this.$(event.currentTarget).find(":selected").attr('value'))
+            self.parent.year_name = this.$(event.currentTarget).find(":selected").text();
         },
         "click .o_school_first_session": function (event) {
             event.preventDefault();
@@ -64,6 +65,11 @@ var EvaluationConfigDialog = Dialog.extend({
     
     close: function () {
         this._super();
+        if(this.parent.school_session == 1) {
+            this.parent.$('h2.o_school_deliberation_title').text("Délibération Première Session " + this.parent.year_name);
+        } else {
+            this.parent.$('h2.o_school_deliberation_title').text("Délibération Seconde Session " + this.parent.year_name);
+        }
         this.parent.update_blocs();
     },
     
@@ -124,6 +130,12 @@ var EvaluationsAction = Widget.extend({
                     function(user) {
                         self.user = user;
                         self.year_id = self.user.current_year_id[0];
+                        self.year_name = self.user.current_year_id[1];
+                        if(self.school_session == 1) {
+                            self.$('h2.o_school_deliberation_title').text("Délibération Première Session " + self.year_name);
+                        } else {
+                            self.$('h2.o_school_deliberation_title').text("Délibération Seconde Session " + self.year_name);
+                        }
                 }).then(
                     function() {
                         self.model = new Model('school.individual_bloc');
@@ -135,11 +147,11 @@ var EvaluationsAction = Widget.extend({
     },
 
     build_domain: function() {
-        var domain = new data.CompoundDomain();
+        var domain = new data.CompoundDomain([['exclude_from_deliberation','=',false],['source_bloc_domain_id','=',this.school_domain],['year_id','=',this.year_id]]);
         if(this.school_session == 1) {
-            domain.add([['source_bloc_domain_id','=',this.school_domain],['year_id','=',this.year_id],['state','in',['progress','postponed','awarded_first_session']]]);
+            domain.add(['state','in',['progress','postponed','awarded_first_session']]);
         } else {
-            domain.add([['source_bloc_domain_id','=',this.school_domain],['year_id','=',this.year_id],['state','in',['postponed','awarded_second_session','failed']]]);
+            domain.add(['state','in',['postponed','awarded_second_session','failed']]);
         }
         return domain;
     },
