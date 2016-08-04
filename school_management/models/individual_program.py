@@ -108,20 +108,14 @@ class IndividualBloc(models.Model):
             _logger.info(courses)
             cg.write({'course_ids': courses})
 
+    @api.depends('course_group_ids.total_hours','course_group_ids.total_credits','course_group_ids.total_weight')
     @api.one
-    @api.depends('course_group_ids')
     def _get_courses_total(self):
-        total_hours = 0.0
-        total_credits = 0.0
-        total_weight = 0.0
-        for course_group in self.course_group_ids:
-            total_hours += course_group.total_hours
-            total_credits += course_group.total_credits
-            total_weight += course_group.weight
-        self.total_hours = total_hours
-        self.total_credits = total_credits
-        self.total_weight = total_weight
-    
+        _logger.debug('Trigger "_get_courses_total" on Course Group %s' % self.name)
+        self.total_hours = sum(course_group.total_hours for course_group in self.course_group_ids)
+        self.total_credits = sum(course_group.total_credits for course_group in self.course_group_ids)
+        self.total_weight = sum(course_group.total_weight for course_group in self.course_group_ids)
+
     @api.one
     @api.depends('year_id.name','student_id.name')
     def _compute_name(self):
@@ -184,20 +178,14 @@ class IndividualCourseGroup(models.Model):
         _logger.info(courses)
         self.update({'course_ids': courses})
 
+    @api.depends('course_ids.hours','course_ids.credits','course_ids.c_weight')
     @api.one
-    @api.depends('course_ids')
     def _get_courses_total(self):
-        total_hours = 0.0
-        total_credits = 0.0
-        total_weight = 0.0
-        for course in self.course_ids:
-            total_hours += course.hours
-            total_credits += course.credits
-            total_weight += course.weight
-        self.total_hours = total_hours
-        self.total_credits = total_credits
-        self.total_weight = total_weight
-    
+        _logger.debug('Trigger "_get_courses_total" on Course Group %s' % self.name)
+        self.total_hours = sum(course.hours for course in self.course_ids)
+        self.total_credits = sum(course.credits for course in self.course_ids)
+        self.total_weight = sum(course.weight for course in self.course_ids)
+
 class IndividualCourse(models.Model):
     '''Individual Course'''
     _name = 'school.individual_course'
