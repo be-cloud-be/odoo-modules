@@ -150,6 +150,8 @@ class IndividualBloc(models.Model):
     evaluation = fields.Float(string="Evaluation",compute="compute_evaluation")
     decision = fields.Text(string="Decision",track_visibility='onchange')
     
+    exclude_from_deliberation = fields.Boolean(string='Exclude from Deliberation', default=False)
+    
     @api.multi
     def set_to_draft(self, context):
         # TODO use a workflow to make sure only valid changes are used.
