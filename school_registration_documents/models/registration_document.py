@@ -42,7 +42,7 @@ class OfficialDocument(models.Model):
     @api.multi
     def compute_name(self):
         for doc in self:
-            doc.name = "%s - %s" % (self.student_id.name, self.type_id.name)
+            doc.name = "%s - %s" % (doc.student_id.name, doc.type_id.name)
     
     student_id = fields.Many2one('res.partner', string='Student', domain="[('student', '=', '1')]",required = True, readonly=True)
     
