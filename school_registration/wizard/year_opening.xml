@@ -61,6 +61,6 @@
     <menuitem id="menu_year_opening"
         name="Open a new Year"
         action="action_year_opening_view"
-        parent="school_management.menu_school_admin" sequence="999" groups="school_management.group_employee"/>
+        parent="menu_admin_registration" sequence="1" groups="school_management.group_employee"/>
     
 </odoo>

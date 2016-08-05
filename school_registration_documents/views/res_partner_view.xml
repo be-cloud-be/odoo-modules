@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!--
+##############################################################################
+#
+#    Copyright (c) 2015 be-cloud.be
+#                       Jerome Sonnet <jerome.sonnet@be-cloud.be>
+#
+#    This program is free software: you can redistribute it and/or modify
+#    it under the terms of the GNU Affero General Public License as
+#    published by the Free Software Foundation, either version 3 of the
+#    License, or (at your option) any later version.
+#
+#    This program is distributed in the hope that it will be useful,
+#    but WITHOUT ANY WARRANTY; without even the implied warranty of
+#    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+#    GNU Affero General Public License for more details.
+#
+#    You should have received a copy of the GNU Affero General Public License
+#    along with this program.  If not, see <http://www.gnu.org/licenses/>.
+#
+##############################################################################
+-->
+<openerp>
+    <data>
+        <!-- Add program for student form view -->
+        <record id="view_student_form_school_docs" model="ir.ui.view">
+            <field name="name">view.res.partner.form.school.docs</field>
+            <field name="model">res.partner</field>
+            <field name="inherit_id" ref="school_management.view_student_form_school" />
+            <field eval="25" name="priority" />
+            <field name="arch" type="xml">
+                <xpath expr="//header" position="inside">
+                    <button string="Add documents" type="action" name="%(action_document_add_wizard)d" class="oe_highlight" context="{'default_student_id': active_id}" />
+                </xpath>
+                <xpath expr="//notebook[last()]" position="inside">
+                    <page name="official_document_list" string="Official Documents" attrs="{'invisible': [('student','=',False)]}">
+                        <field name="official_document_ids">
+                            <tree string="Programs">
+                                <field name="name" />
+                                <field name="is_available" />
+                                <field name="attachment_ids" widget="many2many_binary" />
+                            </tree>
+                        </field>
+                    </page>
+                </xpath>
+            </field>
+        </record>
+        
+    </data>
+</openerp>

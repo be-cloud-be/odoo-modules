@@ -19,24 +19,24 @@
 #
 ##############################################################################
 {
-    'name': 'School registration',
+    'name': 'School registration documents',
     'version': '0.1',
     'license': 'AGPL-3',
     'author': 'be-Cloud.be (Jerome Sonnet)',
     'website': '',
     'category': 'School Management',
-    'depends': ['mail','school_management','school_evaluations'],
+    'depends': ['school_registration'],
     'init_xml': [],
     'update_xml': [
-        'wizard/register_next.xml',
-        'views/registration_view.xml',
         'views/configuration_view.xml',
-        'wizard/year_opening.xml',
-        #'security/ir.model.access.csv',
+        'wizard/add_documents.xml',
+        'views/res_partner_view.xml',
+        'views/official_document_view.xml',
+        'security/ir.model.access.csv',
     ],
     'demo_xml': [],
     'description': '''
-        This modules add registration tools for a school.
+        This modules manages registration documents for a school.
     ''',
     'active': False,
     'installable': True,

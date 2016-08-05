@@ -18,27 +18,5 @@
 #    along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #
 ##############################################################################
-{
-    'name': 'School registration',
-    'version': '0.1',
-    'license': 'AGPL-3',
-    'author': 'be-Cloud.be (Jerome Sonnet)',
-    'website': '',
-    'category': 'School Management',
-    'depends': ['mail','school_management','school_evaluations'],
-    'init_xml': [],
-    'update_xml': [
-        'wizard/register_next.xml',
-        'views/registration_view.xml',
-        'views/configuration_view.xml',
-        'wizard/year_opening.xml',
-        #'security/ir.model.access.csv',
-    ],
-    'demo_xml': [],
-    'description': '''
-        This modules add registration tools for a school.
-    ''',
-    'active': False,
-    'installable': True,
-    'application': True,
-}
+import models
+import wizard
