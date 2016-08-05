@@ -178,7 +178,7 @@ class IndividualCourseGroup(models.Model):
         _logger.info(courses)
         self.update({'course_ids': courses})
 
-    @api.depends('course_ids.hours','course_ids.credits','course_ids.c_weight')
+    @api.depends('course_ids.hours','course_ids.credits','course_ids.weight')
     @api.one
     def _get_courses_total(self):
         _logger.debug('Trigger "_get_courses_total" on Course Group %s' % self.name)
