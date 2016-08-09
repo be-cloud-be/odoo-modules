@@ -40,7 +40,7 @@
     </record>
 
     <record id="action_document_add_wizard" model="ir.actions.act_window">
-        <field name="name">Register Next</field>
+        <field name="name">Document Add Wizard</field>
         <field name="res_model">school.add_documents_wizard</field>
         <field name="type">ir.actions.act_window</field>
         <field name="view_type">form</field>
