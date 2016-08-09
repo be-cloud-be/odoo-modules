@@ -88,5 +88,7 @@
         
         <menuitem id="menu_official_document_form" parent="menu_official_document" action="action_official_document_list" sequence="10" />
         
+        <menuitem id="menu_partner_id_numbers_form" parent="menu_official_document" action="action_partner_id_numbers_form" sequence="20" />
+        
     </data>
 </openerp>
