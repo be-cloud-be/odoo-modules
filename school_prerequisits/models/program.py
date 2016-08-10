@@ -48,12 +48,12 @@ class PreRequisit(models.Model):
     '''PreRequisit'''
     _name = 'school.prerequisit'
     
-    course_id = fields.Many2one('school.course_group', 'Course')
+    course_id = fields.Many2one('school.course_group', 'Course Group')
     preriquisit_id = fields.Many2one('school.course_group', 'Prerequisit')
     
 class CoRequisit(models.Model):
     '''CoRequisit'''
     _name = 'school.corequisit'
     
-    course1_id = fields.Many2one('school.course_group', 'Course 1')
-    course2_id = fields.Many2one('school.course_group', 'Course 2')
+    course1_id = fields.Many2one('school.course_group', 'Course Group 1')
+    course2_id = fields.Many2one('school.course_group', 'Course Group 2')

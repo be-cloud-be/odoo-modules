@@ -1,0 +1,9 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+school_prerequisit_employee,school_prerequisit_employee,model_school_prerequisit,school_management.group_employee,1,1,1,1
+school_prerequisit_teacher,school_prerequisit_teacher,model_school_prerequisit,school_management.group_teacher,1,0,0,0
+school_prerequisit_base.group_public,school_prerequisit_base_public,model_school_prerequisit,base.group_public,1,0,0,0
+school_prerequisit_base.group_portal,school_prerequisit_base_portal,model_school_prerequisit,base.group_portal,1,0,0,0
+school_corequisit_employee,school_corequisit_employee,model_school_corequisit,school_management.group_employee,1,1,1,1
+school_corequisit_teacher,school_corequisit_teacher,model_school_corequisit,school_management.group_teacher,1,0,0,0
+school_corequisit_base.group_public,school_corequisit_base_public,model_school_corequisit,base.group_public,1,0,0,0
+school_corequisit_base.group_portal,school_corequisit_base_portal,model_school_corequisit,base.group_portal,1,0,0,0
