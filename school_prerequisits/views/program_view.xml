@@ -1,0 +1,113 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!--
+##############################################################################
+#
+#    Copyright (c) 2015 be-cloud.be
+#                       Jerome Sonnet <jerome.sonnet@be-cloud.be>
+#
+#    This program is free software: you can redistribute it and/or modify
+#    it under the terms of the GNU Affero General Public License as
+#    published by the Free Software Foundation, either version 3 of the
+#    License, or (at your option) any later version.
+#
+#    This program is distributed in the hope that it will be useful,
+#    but WITHOUT ANY WARRANTY; without even the implied warranty of
+#    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+#    GNU Affero General Public License for more details.
+#
+#    You should have received a copy of the GNU Affero General Public License
+#    along with this program.  If not, see <http://www.gnu.org/licenses/>.
+#
+##############################################################################
+-->
+<openerp>
+    <data>
+
+        <!-- Prerequisits List View -->
+        <record id="view_prerequisit_list" model="ir.ui.view">
+            <field name="name">school.prerequisit.tree</field>
+            <field name="model">school.prerequisit</field>
+            <field eval="8" name="priority" />
+            <field name="arch" type="xml">
+                <tree string="Prerequisits" editable="bottom">
+                    <field name="course_id" />
+                    <field name="preriquisit_id" />
+                </tree>
+            </field>
+        </record>
+        
+        <record id="action_prerequisit_list" model="ir.actions.act_window">
+            <field name="name">Prerequisits</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">school.prerequisit</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">tree</field>
+        </record>
+        
+        <record id="action_prerequisit_tree_view1" model="ir.actions.act_window.view">
+            <field name="sequence" eval="1" />
+            <field name="view_mode">tree</field>
+            <field name="view_id" ref="view_prerequisit_list" />
+            <field name="act_window_id" ref="action_prerequisit_list" />
+        </record>
+        
+        <menuitem id="menu_prerequisit_list" parent="school_management.menu_course_groups" action="action_prerequisit_list" sequence="150" />
+        
+        <!-- Corequisits List View -->
+        <record id="view_corequisit_list" model="ir.ui.view">
+            <field name="name">school.corequisit.tree</field>
+            <field name="model">school.corequisit</field>
+            <field eval="8" name="priority" />
+            <field name="arch" type="xml">
+                <tree string="Corequisits" editable="bottom">
+                    <field name="course1_id" />
+                    <field name="course2_id" />
+                </tree>
+            </field>
+        </record>
+        
+        <record id="action_corequisit_list" model="ir.actions.act_window">
+            <field name="name">Corequisits</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">school.corequisit</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">tree</field>
+        </record>
+        
+        <record id="action_corequisit_tree_view1" model="ir.actions.act_window.view">
+            <field name="sequence" eval="1" />
+            <field name="view_mode">tree</field>
+            <field name="view_id" ref="view_corequisit_list" />
+            <field name="act_window_id" ref="action_corequisit_list" />
+        </record>
+        
+        <menuitem id="menu_corequisit_list" parent="school_management.menu_course_groups" action="action_corequisit_list" sequence="160" />
+
+        <!-- Add evaluation to Individual Course form view -->
+        <record id="course_prerequisit_form" model="ir.ui.view">
+            <field name="name">school.course_group.prerequisit.view</field>
+            <field name="model">school.course_group</field>
+            <field name="inherit_id" ref="school_management.course_group_form" />
+            <field eval="25" name="priority" />
+            <field name="arch" type="xml">
+                <xpath expr="//notebook/page[1]" position="before">
+                    <page name="prerequisit_list" string="Prerequisits">
+                        <field name="pre_requisit_ids">
+                            <tree string="Prerequisits">
+                                <field name="preriquisit_id" string="Name"/>
+                            </tree>
+                        </field>
+                    </page>
+                    <page name="prerequisit_list" string="Corequisits">
+                        <field name="co_requisit_course_ids">
+                            <tree string="Corequisits">
+                                <field name="name" />
+                            </tree>
+                        </field>
+                    </page>
+                </xpath>
+            </field>
+        </record>
+
+    </data>
+</openerp>
