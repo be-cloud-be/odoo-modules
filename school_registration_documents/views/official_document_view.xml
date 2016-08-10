@@ -31,7 +31,7 @@
             <field name="model">school.official_document</field>
             <field eval="8" name="priority" />
             <field name="arch" type="xml">
-                <tree string="Official Document">
+                <tree string="Official Document" create="0">
                     <field name="name" />
                     <field name="is_available"/>
                     <field name="attachment_ids" widget="many2many_binary"/>
@@ -88,7 +88,7 @@
         
         <menuitem id="menu_official_document_form" parent="menu_official_document" action="action_official_document_list" sequence="10" />
         
-        <menuitem id="menu_partner_id_numbers_form" parent="menu_official_document" action="action_partner_id_numbers_form" sequence="20" />
+        <menuitem id="menu_partner_id_numbers_form" parent="menu_official_document" action="partner_identification.action_partner_id_numbers_form" sequence="20" />
         
     </data>
 </openerp>
