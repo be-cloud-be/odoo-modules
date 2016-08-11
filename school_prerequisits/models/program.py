@@ -29,8 +29,17 @@ class CourseGroup(models.Model):
     _inherit = 'school.course_group'
     
     pre_requisit_ids = fields.One2many('school.prerequisit', 'course_id', 'Prerequisits')
+    pre_requisit_course_ids = fields.One2many('school.course_group', string='Prerequisits', compute='_compute_pre_requisit_ids')
+
     co_requisit_ids = fields.One2many('school.corequisit', string='Corequisits', compute='_compute_co_requisit_ids')
     co_requisit_course_ids = fields.One2many('school.course_group', string='Corequisits', compute='_compute_co_requisit_ids')
+
+    @api.one
+    def _compute_pre_requisit_ids(self):
+        ret_ids = []
+        for pre_requisit in self.pre_requisit_ids:
+            ret_ids.append(pre_requisit.course_id.id)
+        self.pre_requisit_course_ids = ret_ids
 
     @api.one
     def _compute_co_requisit_ids(self):
@@ -42,7 +51,6 @@ class CourseGroup(models.Model):
             else:
                 ret_ids.append(co_requisit.course1_id.id)
         self.co_requisit_course_ids = ret_ids
-        
         
 class PreRequisit(models.Model):
     '''PreRequisit'''
