@@ -1,14 +1,15 @@
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
-  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<!doctype html>
 
 
 <html xmlns="http://www.w3.org/1999/xhtml" lang="fr">
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-    
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  
     <title>Création des programmes &mdash; documentation Gestion des études 1.0</title>
     
-    <link rel="stylesheet" href="_static/alabaster.css" type="text/css" />
+    <link rel="stylesheet" href="_static/style.css" type="text/css" />
     <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
     
     <script type="text/javascript">
@@ -24,138 +25,333 @@
     <script type="text/javascript" src="_static/underscore.js"></script>
     <script type="text/javascript" src="_static/doctools.js"></script>
     <script type="text/javascript" src="_static/translations.js"></script>
+    <script type="text/javascript" src="_static/jquery.min.js"></script>
+    <script type="text/javascript" src="_static/bootstrap.js"></script>
+    <script type="text/javascript" src="_static/doc.js"></script>
+    <script type="text/javascript" src="_static/jquery.noconflict.js"></script>
     <link rel="top" title="documentation Gestion des études 1.0" href="index.html" />
-    <link rel="prev" title="Bienvenu à la documentation de la Gestion des études" href="index.html" />
-   
-  <link rel="stylesheet" href="_static/custom.css" type="text/css" />
-  
-  <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9" />
-
+    <link rel="up" title="Applications" href="applications.html" />
+    <link rel="next" title="Gestion des évaluations" href="evaluations.html" />
+    <link rel="prev" title="Applications" href="applications.html" /> 
   </head>
-  <body role="document">
-  
+  <body role="document"><header class="o_main_header o_has_sub_nav o_inverted ">
+    <div class="o_main_header_main">
+      <a class="pull-left o_logo" href="/"></a>
+      <a href="#" class="o_mobile_menu_toggle visible-xs-block pull-right">
+        <span class="sr-only">Toggle navigation</span>
+        <span class="mdi-navigation-menu"></span>
+      </a>
+      <div class="o_header_buttons">
+        <a href="http://www.odoo.com/trial" class="btn btn-primary">Start Now</a>
+      </div>
+      <ul class="o_primary_nav">
+        <li class="dropdown">
+          <a href="#" class="dropdown-toggle">Apps</a>
+          <div class="dropdown-menu o_secondary_nav">
+            <div class="container">
+              <div class="row">
+                <div class="col-sm-3 o_website_apps">
+                  <div class="o_nav_app_family">
+                    <span></span> Websites
+                    <div>Build great user experience</div>
+                  </div>
+                  <ul>
+                    <li><a href="https://www.odoo.com/page/website-builder">Website Builder</a></li>
+                    <li><a href="https://www.odoo.com/page/e-commerce">eCommerce</a></li>
+                    <li><a href="https://www.odoo.com/page/blog-engine">Blogs</a></li>
+                    <li><a href="https://www.odoo.com/page/community-builder">Forums</a></li>
+                    <li><a href="https://www.odoo.com/page/slides">Slides</a></li>
+                    <li><a href="https://adspike.odoo.com">SEA</a></li>
+                  </ul>
+                </div>
+                <div class="col-sm-3 o_sale_apps">
+                  <div class="o_nav_app_family">
+                    <span></span> Sales
+                    <div>Boost your success rate</div>
+                  </div>
+                  <ul>
+                    <li><a href="https://www.odoo.com/page/sales">Sales</a></li>
+                    <li><a href="https://www.odoo.com/page/crm">CRM</a></li>
+                    <li><a href="https://www.odoo.com/page/billing">Invoicing</a></li>
+                    <li class="dropdown">
+                      <a href="#0" class="dropdown-toggle">Point of Sale</a>
+                      <ul>
+                        <li><a href="https://www.odoo.com/page/point-of-sale">Shops</a></li>
+                        <li><a href="https://www.odoo.com/page/pos-restaurant">Restaurants</a></li>
+                      </ul>
+                    </li>
+                    <li><a href="https://www.odoo.com/page/subscriptions">Subscriptions</a></li>
+                    <li><a href="https://www.odoo.com/page/sign">Sign</a></li>
+                  </ul>
+                </div>
+                <div class="col-sm-3 o_operation_apps">
+                  <div class="o_nav_app_family">
+                    <span></span> Operations
+                    <div>It's all about efficiency</div>
+                  </div>
+                  <ul>
+                    <li><a href="https://www.odoo.com/page/accounting/">Accounting</a></li>
+                    <li><a href="https://www.odoo.com/page/project-management/">Project</a></li>
+                    <li class="dropdown">
+                      <a href="#0" class="dropdown-toggle">Human Resources</a>
+                      <ul>
+                        <li><a href="https://www.odoo.com/page/recruitment">Recruitment</a></li>
+                        <li><a href="https://www.odoo.com/page/employees">Employees</a></li>
+                        <li><a href="https://www.odoo.com/page/expenses">Expenses</a></li>
+                        <li><a href="https://www.odoo.com/page/appraisal">Appraisal</a></li>
+                        <li><a href="https://www.odoo.com/page/fleet">Fleet</a></li>
+                        <li><a href="https://www.odoo.com/page/leaves">Leaves</a></li>
+                      </ul>
+                    </li>
+                    <li><a href="https://www.odoo.com/page/warehouse">Inventory</a></li>
+                    <li><a href="https://www.odoo.com/page/purchase">Purchase</a></li>
+                    <li class="dropdown">
+                      <a href="#0" class="dropdown-toggle">Manufacturing</a>
+                      <ul>
+                        <li><a href="https://www.odoo.com/page/manufacturing">MRP</a></li>
+                        <li><a href="https://www.odoo.com/page/plm">PLM</a></li>
+                        <li><a href="https://www.odoo.com/page/maintenance">Maintenance</a></li>
+                        <li><a href="https://www.odoo.com/page/quality">Quality</a></li>
+                      </ul>
+                    </li>
+                  </ul>
+                </div>
+                <div class="col-sm-3 o_productivity_apps">
+                  <div class="o_nav_app_family">
+                    <span></span> Productivity Tools
+                    <div>Great Tools = Happy People</div>
+                  </div>
+                  <ul>
+                    <li class="dropdown">
+                      <a href="#0" class="dropdown-toggle">Communication</a>
+                      <ul>
+                        <li><a href="https://www.odoo.com/page/discuss">Discuss</a></li>
+                        <li><a href="https://www.odoo.com/page/discuss-groups">Mailing Lists</a></li>
+                        <li><a href="https://www.odoo.com/page/notes">Notes</a></li>
+                        <li><a href="#">Help desk</a></li>
+                        <li><a href="#">Appointment</a></li>
+                      </ul>
+                    </li>
+                    <li><a href="https://www.odoo.com/page/timesheet">Timesheet</a></li>
+                    <li><a href="https://www.odoo.com/page/email-marketing">Email Marketing</a></li>
+                    <li><a href="https://www.odoo.com/page/events">Events</a></li>
+                    <li><a href="https://www.odoo.com/page/survey">Survey</a></li>
+                    <li><a href="https://www.odoo.com/page/live-chat">Live Chat</a></li>
+                  </ul>
+                </div>
+              </div>
+            </div>
+            <a href="http://www.odoo.com/apps/modules" class="o_store_link"><i class="fa fa-cube fa-fw"></i> Third party apps</a>
+          </div>
+        </li>
+        <li><a href="https://www.odoo.com/page/tour">Tour</a></li>
+        <li><a href="https://www.odoo.com/pricing">Pricing</a></li>
+        <li><a href="https://www.odoo.com/page/docs">Docs</a></li>
+      </ul>
+    </div>
+    <nav class="navbar o_sub_nav">
+      <div class="container">
+        <div class="navbar-header visible-xs">
+            <button type="button" class="navbar-toggle collapsed text-left btn-block" data-toggle="collapse" data-target="#o_sub-menu" aria-expanded="false">
+              Navigate
+              <span class="mdi-hardware-keyboard-arrow-down pull-right"></span>
+            </button>
+        </div>
 
-    <div class="document">
-      <div class="documentwrapper">
-        <div class="bodywrapper">
-          <div class="body" role="main">
+        <div class="collapse navbar-collapse" id="o_sub-menu">
+          <ol class="o_breadcrumb breadcrumb nav navbar-left">
+              
+              
+
+
+
+
+
+    
+        
+            <li><a href="index.html">User Doc</a></li>
+        
+    
+    <li class="active"><a href="#">Création des programmes</a></li>
+
+              
+          </ol>
+
+          <div class="call-to-action navbar-right hidden-xs">
+            <a href="http://www.odoo.com/trial" class="btn btn-primary">Start Now</a>
+          </div>
+
+          <ul class="navbar-nav navbar-right nav o_sub_nav_actions">
             
-  <div class="section" id="creation-des-programmes">
-<h1>Création des programmes<a class="headerlink" href="#creation-des-programmes" title="Lien permanent vers ce titre">¶</a></h1>
-<p>Les programmes d&#8217;études sont créé à partir du menu <em>Enseignement</em>.</p>
-<p>Chaque <em>programme</em> est constitué de <em>blocs</em> qui partagent un ensemble d&#8217;<em>unités
-d&#8217;enseignement</em> qui eux même sont constitués d&#8217;<em>activités d&#8217;apprentissage</em>. Les
+              <li class="divider"></li>
+            
+
+            
+            
+
+
+            
+          </ul>
+
+          <ul class="nav navbar-nav navbar-right">
+            
+
+            
+            
+
+<li><a href="http://www.odoo.com/documentation/user/9.0/index.html">User</a></li>
+<li><a href="http://www.odoo.com/documentation/9.0/index.html">Developer</a></li>
+<li><a href="http://www.odoo.com/documentation/9.0/api_integration.html">API</a></li>
+<li><a href="http://www.odoo.com/documentation/9.0/setup/install.html">Installation</a></li>
+<li><a href="http://www.odoo.com/page/odoo-white-paper">White Papers</a></li>
+<li><a href="http://www.odoo.com/page/legal">Legal</a></li>
+            
+
+            
+          </ul>
+        </div>
+      </div>
+    </nav>
+  </header><div id="wrap" class="">
+    
+    
+    
+    <figure class="card top has_banner">
+      <span class="card-img" style="background-image: url('_static/banners/programmes.jpg');"></span>
+      <div class="container text-center">
+        <h1> Création des programmes </h1>
+      </div>
+    </figure>
+    
+    
+    
+    <div class="container ">
+      <main class="container-fluid ">
+        
+        <div class="row">
+          
+          <article class="doc-body index-category">
+            
+            
+  <section id="creation-des-programmes"><p >Les programmes d'études sont créé à partir du menu <em >Enseignement</em>.</p><p >Chaque <em >programme</em> est constitué de <em >blocs</em> qui partagent un ensemble d'<em >unités
+d'enseignement</em> qui eux même sont constitués d'<em >activités d'apprentissage</em>. Les
 programmes sont créés pour une année donnée, il est possible de copier des programmes
-d&#8217;une année à l&#8217;autre. Le mécanisme de publication permet de sélectionné les programmes
-qui sont actifs et qui sont publiés sur le site public.</p>
-<img src="_images/programs.svg" /><div class="admonition warning">
-<p class="first admonition-title">Avertissement</p>
-<p>Il est important de comprendre la notion de propriété entre ces différentes entités.
-Les blocs appartiennent aux programmes, ils n&#8217;existent pas en dehors d&#8217;un programme
+d'une année à l'autre. Le mécanisme de publication permet de sélectionné les programmes
+qui sont actifs et qui sont publiés sur le site public.</p><img src="_images/programs.svg" class="img-responsive"><div role="alert" class="alert-warning alert"><p class="alert-title">Avertissement</p><p >Il est important de comprendre la notion de propriété entre ces différentes entités.
+Les blocs appartiennent aux programmes, ils n'existent pas en dehors d'un programme
 et si on supprime le programme, ils disparaissent avec lui. De même les activités
-d&#8217;apprentissage appartiennent aux unités d&#8217;enseignement.</p>
-<p class="last">A contrario, les unités d&#8217;enseignement n&#8217;appartiennent pas aux blocs, les différents
-blocs les partagent. De cette manière, elles peuvent être réutilisées d&#8217;année en
-année ainsi qu&#8217;entre différents programmes d&#8217;une même année. Par exemple, l&#8217;unité d&#8217;enseignement
-<em>Histoire 1</em> peut être utilisée dans tous les programmes de Bac 1, un changement
-à la définition de l&#8217;unité (ou des activités d&#8217;apprentissage qui la compose) sera
-effectif dans tous les programmes qui en font usage, quelque soit l&#8217;année ou la spécialité.</p>
-</div>
-<div class="section" id="creation-des-unites-d-enseignement">
-<h2>Création des unités d&#8217;enseignement<a class="headerlink" href="#creation-des-unites-d-enseignement" title="Lien permanent vers ce titre">¶</a></h2>
-<p>La première étape pour créer les programmes est de créer les <em>unités d&#8217;enseignement</em>,
-ce sont les éléments de base pour constituer les programmes.</p>
-<p>Le menu <em>Unités d&#8217;enseignement/Unités d&#8217;enseignement</em> présente l&#8217;ensemble des unités
-disponibles et permet d&#8217;en créer de nouvelles.</p>
-<p>Le menu <em>Arborescence des activités d&#8217;apprentissage</em> présente les activités sous-forme
-d&#8217;arbre afin de contrôler la structure des différentes activités au sein des différentes
-<em>spécialités</em> et des unités d&#8217;enseignement.</p>
-<p>Le menu <em>Liste des activités d&#8217;apprentissage</em> présente les activités sous-forme d&#8217;une
-liste permettant d&#8217;y accéder par des critères de recherche variés.</p>
-<div class="admonition note">
-<p class="first admonition-title">Note</p>
-<p class="last">La <em>séquence</em> reprise dans les unités et les activités est un paramètre qui permet de
-fixer l&#8217;ordre d&#8217;affichage, ils seront affichés par ordre croissant de séquence.</p>
-</div>
-</div>
-<div class="section" id="id1">
-<h2>Création des programmes<a class="headerlink" href="#id1" title="Lien permanent vers ce titre">¶</a></h2>
-<p>Une fois les <em>unités d&#8217;enseignement</em> disponibles, il est possible de créer des programmes
-qui en font usage. Chaque programme est défini pour une <em>année</em> donnée et contient un
-ensemble de <em>blocs</em> qui représentent une année d&#8217;étude standard qui est proposée aux
-étudiants et publiée sur le site.</p>
-<p>Le bloc sert également de base pour la définition des <em>programmes annuels</em> des étudiants.</p>
-<p>Les blocs appartiennent à leur programme, il n&#8217;est pas possible de les réutiliser entre
-différents programmes.</p>
-<div class="admonition note">
-<p class="first admonition-title">Note</p>
-<p class="last">Il est possible de copier un programme d&#8217;une année à l&#8217;autre via le menu <em>Action/Dupliquer</em>
-puis de changer l&#8217;année afin de préparer les nouveaux programmes.</p>
-</div>
-<div class="admonition-todo admonition" id="index-0">
-<p class="first admonition-title">À faire</p>
-<p class="last">Un outil permet de dupliquer l&#8217;ensemble des programmes d&#8217;une année.</p>
-</div>
-</div>
-</div>
+d'apprentissage appartiennent aux unités d'enseignement.</p><p >A contrario, les unités d'enseignement n'appartiennent pas aux blocs, les différents
+blocs les partagent. De cette manière, elles peuvent être réutilisées d'année en
+année ainsi qu'entre différents programmes d'une même année. Par exemple, l'unité d'enseignement
+<em >Histoire 1</em> peut être utilisée dans tous les programmes de Bac 1, un changement
+à la définition de l'unité (ou des activités d'apprentissage qui la compose) sera
+effectif dans tous les programmes qui en font usage, quelque soit l'année ou la spécialité.</p></div></section><section id="creation-des-unites-d-enseignement"><h2 >Création des unités d'enseignement</h2><p >La première étape pour créer les programmes est de créer les <em >unités d'enseignement</em>,
+ce sont les éléments de base pour constituer les programmes.</p><p >Le menu <em >Unités d'enseignement/Unités d'enseignement</em> présente l'ensemble des unités
+disponibles et permet d'en créer de nouvelles.</p><p >Le menu <em >Arborescence des activités d'apprentissage</em> présente les activités sous-forme
+d'arbre afin de contrôler la structure des différentes activités au sein des différentes
+<em >spécialités</em> et des unités d'enseignement.</p><p >Le menu <em >Liste des activités d'apprentissage</em> présente les activités sous-forme d'une
+liste permettant d'y accéder par des critères de recherche variés.</p><div role="alert" class="alert-info alert"><p class="alert-title">Note</p><p >La <em >séquence</em> reprise dans les unités et les activités est un paramètre qui permet de
+fixer l'ordre d'affichage, ils seront affichés par ordre croissant de séquence.</p></div></section><section id="id1"><h2 >Création des programmes</h2><p >Une fois les <em >unités d'enseignement</em> disponibles, il est possible de créer des programmes
+qui en font usage. Chaque programme est défini pour une <em >année</em> donnée et contient un
+ensemble de <em >blocs</em> qui représentent une année d'étude standard qui est proposée aux
+étudiants et publiée sur le site.</p><p >Le bloc sert également de base pour la définition des <em >programmes annuels</em> des étudiants.</p><p >Les blocs appartiennent à leur programme, il n'est pas possible de les réutiliser entre
+différents programmes.</p><div role="alert" class="alert-info alert"><p class="alert-title">Note</p><p >Il est possible de copier un programme d'une année à l'autre via le menu <em >Action/Dupliquer</em>
+puis de changer l'année afin de préparer les nouveaux programmes.</p></div>[UNKNOWN NODE todo_node]</section>
 
+          </article>
+        </div>
+        
+        <div id="mask"></div>
+      </main>
+    </div>
+  </div>
 
+  <div class="floating_action_container">
+    <a id="floating_action" class="ripple" href="#">
+      <i class="mdi-action-explore"></i>
+    </a>
+    <div id="floating_action_menu">
+      <span class="bubble"></span>
+      <ul class="list-group content">
+        <li class="list-group-item ripple"><a>Cras justo odio</a></li>
+        <li class="list-group-item ripple"><a>Dapibus ac facilisis in</a></li>
+        <li class="list-group-item ripple"><a>Morbi leo risus</a></li>
+        <li class="list-group-item ripple"><a>Porta ac consectetur ac</a></li>
+        <li class="list-group-item ripple"><a>Vestibulum at eros</a></li>
+      </ul>
+    </div>
+  </div>
+  <footer>
+    <div id="footer" class="container">
+      <span class="o_logo o_logo_inverse center-block o_footer_logo"></span>
+      <div class="row">
+        <div class="col-sm-7 col-md-7 col-lg-6">
+          <div class="row">
+            <div class="col-xs-6 col-sm-4">
+              <span class="menu_title">Community</span>
+              <ul>
+                <li><a href="https://github.com/odoo/odoo">Github</a></li>
+                <li><a href="http://www.odoo.com/page/download">Download</a></li>
+                <li class="divider"></li>
+                <li><a href="http://runbot.odoo.com/runbot/repo/git-github-com-odoo-enterprise-7">Runbot</a></li>
+                <li><a href="https://github.com/odoo/odoo/wiki/Translations">Translations</a></li>
+                <li class="divider"></li>
+                <li><a href="http://www.odoo.com/page/odoo-community">Mailing Lists</a></li>
+                <li><a href="http://www.odoo.com/forum/help-1">Forum</a></li>
+              </ul>
+            </div>
+            <div class="col-xs-6 col-sm-4">
+              <span class="menu_title">Services</span>
+              <ul>
+                <li><a href="http://www.odoo.com/pricing">Editions</a></li>
+                <li><a href="http://www.odoo.com/pricing-online">Cloud Pricing</a></li>
+                <li><a href="http://www.odoo.com/page/upgrade">Upgrade</a></li>
+                <li class="divider"></li>
+                <li><a href="http://www.odoo.com/partners">Find a partner</a></li>
+                <li><a href="http://www.odoo.com/page/become-a-partner">Become a partner</a></li>
+                <li class="divider"></li>
+                <li><a href="http://www.odoo.com/page/education-program">Education</a></li>
+                <li class="divider"></li>
+                <li><a href="http://www.odoo.com/page/security">Security</a></li>
+              </ul>
+            </div>
+            <div class="col-sm-4 mb64">
+              <span class="menu_title">About us</span>
+              <ul>
+                <li><a href="http://www.odoo.com/page/about-us">Our company</a></li>
+                <li><a href="http://www.odoo.com/page/contactus">Contact</a></li>
+                <li class="divider" />
+                <li><a href="http://www.odoo.com/event">Events</a></li>
+                <li><a href="http://www.odoo.com/blog/">Blog</a></li>
+                <li><a href="http://www.odoo.com/blog/6">Customers</a></li>
+                <li class="divider" />
+                <li><a href="http://www.odoo.com/jobs">Jobs</a></li>
+              </ul>
+            </div>
           </div>
         </div>
-      </div>
-      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
-        <div class="sphinxsidebarwrapper">
-  <h3><a href="index.html">Table des Matières</a></h3>
-  <ul>
-<li><a class="reference internal" href="#">Création des programmes</a><ul>
-<li><a class="reference internal" href="#creation-des-unites-d-enseignement">Création des unités d&#8217;enseignement</a></li>
-<li><a class="reference internal" href="#id1">Création des programmes</a></li>
-</ul>
-</li>
-</ul>
-<div class="relations">
-<h3>Related Topics</h3>
-<ul>
-  <li><a href="index.html">Documentation overview</a><ul>
-      <li>Previous: <a href="index.html" title="Chapitre précédent">Bienvenu à la documentation de la Gestion des études</a></li>
-  </ul></li>
-</ul>
-</div>
-  <div role="note" aria-label="source link">
-    <h3>Cette page</h3>
-    <ul class="this-page-menu">
-      <li><a href="_sources/programmes.txt"
-            rel="nofollow">Montrer le code source</a></li>
-    </ul>
-   </div>
-<div id="searchbox" style="display: none" role="search">
-  <h3>Recherche rapide</h3>
-    <form class="search" action="search.html" method="get">
-      <div><input type="text" name="q" /></div>
-      <div><input type="submit" value="Go" /></div>
-      <input type="hidden" name="check_keywords" value="yes" />
-      <input type="hidden" name="area" value="default" />
-    </form>
-</div>
-<script type="text/javascript">$('#searchbox').show(0);</script>
+        <div class="col-sm-5 col-md-4 col-md-offset-1 col-lg-5 col-lg-offset-1">
+          <p>
+            <small>
+              Odoo is a suite of open source business apps that cover all your company needs: CRM, eCommerce, accounting, inventory, point of sale, project management, etc.
+              <br/><br/>
+              Odoo's unique value proposition is to be at the same time very easy to use and fully integrated.
+            </small>
+          </p>
         </div>
       </div>
-      <div class="clearer"></div>
     </div>
-    <div class="footer">
-      &copy;2016, Copyright (c) 2015 be-cloud.be.
-      
-      |
-      Powered by <a href="http://sphinx-doc.org/">Sphinx 1.4.4</a>
-      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.8</a>
-      
-      |
-      <a href="_sources/programmes.txt"
-          rel="nofollow">Page source</a>
+    <div class="o_footer_bottom">
+      <div class="container">
+        <a class="small" href="http://www.odoo.com/page/website-builder">Website made with <span class="o_logo o_logo_inverse o_logo_15"></span></a>
+        <div class="social-links pull-right">
+          <a href="http://www.odoo.com/web/about/facebook"><i class="fa fa-facebook"></i></a>
+          <a href="http://www.odoo.com/web/about/twitter"><i class="fa fa-twitter"></i></a>
+          <a href="http://www.odoo.com/web/about/linkedin"><i class="fa fa-linkedin"></i></a>
+          <a href="mailto:info@odoo.com"><i class="fa fa-envelope"></i></a>
+        </div>
+      </div>
     </div>
-
-    
-
-    
+  </footer>
   </body>
 </html>

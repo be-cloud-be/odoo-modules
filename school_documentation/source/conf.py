@@ -16,10 +16,13 @@
 # add these directories to sys.path here. If the directory is relative to the
 # documentation root, use os.path.abspath to make it absolute, like shown here.
 #
-# import os
-# import sys
-# sys.path.insert(0, os.path.abspath('.'))
-
+import os
+import sys
+DIR = os.path.dirname(__file__)
+sys.path.insert(
+    0, os.path.abspath(
+        os.path.join(DIR, '_extensions')))
+        
 # -- General configuration ------------------------------------------------
 
 # If your documentation needs a minimal Sphinx version, state it here.
@@ -30,18 +33,15 @@
 # extensions coming with Sphinx (named 'sphinx.ext.*') or your custom
 # ones.
 extensions = [
+    'sphinx.ext.ifconfig',
     'sphinx.ext.todo',
     'sphinx.ext.githubpages',
-    'sphinx.ext.todo',
-    'sphinxcontrib_robotframework',
+    'odoo',
+    'html_domain',
+    'demo_link',
+    'github_link',
+    'embedded_video',
 ]
-
-# Enable Robot Framework tests during Sphinx compilation
-sphinxcontrib_robotframework_enabled = True
-
-# Hide Robot Framework syntax from the Sphinx output by default
-# (preferred, when you use the extension for scripted screenshots)
-sphinxcontrib_robotframework_quiet = False
 
 # Add any paths that contain templates here, relative to this directory.
 templates_path = ['_templates']
@@ -114,7 +114,7 @@ exclude_patterns = []
 # show_authors = False
 
 # The name of the Pygments (syntax highlighting) style to use.
-pygments_style = 'sphinx'
+pygments_style = 'odoo'
 
 # A list of ignored prefixes for module index sorting.
 # modindex_common_prefix = []
@@ -131,16 +131,19 @@ todo_include_todos = True
 # The theme to use for HTML and HTML Help pages.  See the documentation for
 # a list of builtin themes.
 #
-html_theme = 'alabaster'
+html_theme = 'odoo'
 
 # Theme options are theme-specific and customize the look and feel of a theme
 # further.  For a list of options available for each theme, see the
 # documentation.
 #
-# html_theme_options = {}
+html_theme_options = {
+    'nosidebar': 'true',
+}
+
 
 # Add any paths that contain custom themes here, relative to this directory.
-# html_theme_path = []
+html_theme_path = ['_extensions']
 
 # The name for this set of Sphinx documents.
 # "<project> v<release> documentation" by default.
@@ -166,6 +169,7 @@ html_theme = 'alabaster'
 # relative to this directory. They are copied after the builtin static files,
 # so a file named "default.css" will overwrite the builtin "default.css".
 html_static_path = ['_static']
+html_add_permalinks = ''
 
 # Add any extra paths that contain custom files (such as robots.txt or
 # .htaccess) here, relative to this directory. These files are copied

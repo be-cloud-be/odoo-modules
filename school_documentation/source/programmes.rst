@@ -1,3 +1,6 @@
+:banner: banners/programmes.jpg
+
+=======================
 Création des programmes
 =======================
 
