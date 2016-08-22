@@ -2,4 +2,4 @@
 
 There is a dependency for this module, please install the following using pip
 
-pip install mt-940
+pip install mt-940 enum34
