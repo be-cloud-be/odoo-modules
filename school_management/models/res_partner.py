@@ -37,8 +37,6 @@ class Partner(models.Model):
     employee = fields.Boolean("Employee",default=False)
     
     initials = fields.Char('Initials')
-    sex = fields.Selection([('m', 'Male'),('f', 'Female')])
-    birthdate = fields.Date(string="Birthdate")
     birthplace = fields.Char('Birthplace')
     phone2 = fields.Char('Phone2')
     title = fields.Selection([('Mr', 'Monsieur'),('Mme', 'Madame'),('Mlle', 'Mademoiselle')])

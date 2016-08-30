@@ -136,8 +136,6 @@
                     <field name='email_personnel' />
                 </xpath>
                 <xpath expr="//group[@name='personal_information_group']" position="inside">
-                    <field name="sex"/>
-                    <field name="birthdate"/>
                     <field name="birthplace"/>
                 </xpath>
                 <xpath expr="//notebook[last()]" position="inside">
