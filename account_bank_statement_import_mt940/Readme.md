@@ -2,4 +2,9 @@
 
 There is a dependency for this module, please install the following using pip
 
-pip install mt-940 enum34
+## Installation
+
+This module depends on a python library you have to install :
+
+- pip install mt-940 enum34
+
