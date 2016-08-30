@@ -31,7 +31,7 @@
 
     <report id="report_diploma_for_student" 
             model="school.individual_program" 
-            string="Diploma for student" 
+            string="Cycle Diploma" 
             report_type="qweb-pdf" 
             name="school_diploma.report_diploma_for_student_content" 
             file="school_diploma.report_diploma_for_student_content"
@@ -108,4 +108,145 @@
         </t>
     </template>
 
+    <!--
+    
+    Diploma Supplement
+    
+    -->
+
+    <report id="report_diploma_supplement" 
+            model="school.individual_program" 
+            string="Cycle Diploma Supplement" 
+            report_type="qweb-pdf" 
+            name="school_diploma.report_diploma_supp_content" 
+            file="school_diploma.report_diploma_supp_content"
+            attachment_use="True"
+            attachment="object.name+'-DIP-SUP-'+time.strftime('%d-%m-%Y')+'.pdf'"
+    />
+    
+    <template id="report_diploma_supp_content">
+        <t t-call="report.html_container">
+            <t t-set="data_report_margin_top" t-value="30"/>
+            <t t-set="data_report_header_spacing" t-value="25"/>
+            <t t-foreach="docs" t-as="o">
+                <div class="page">
+                    <div class="container">
+                        <div class="row">
+                            <div class="col-xs-12 text-center">
+                                <img src="/school_diploma/static/src/images/europass.png"/>
+                                <h3>COMMUNAUTÉ FRANÇAISE DE BELGIQUE<br/>
+                                    Enseignement supérieur de plein exercice de type <span t-field="o.cycle_id.type"/></h3>
+                                <h3>Conservatoire royal de Liège<br/>Boulevard Piercot, 29, 4000 LIÈGE</h3>
+                                <h4>Domaine : <span t-field="o.domain_id.long_name"/></h4>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-xs-12" style="font-style: bold;">
+                            Ce modèle de supplément au diplôme suit le modèle élaboré par la Commission européenne, le Conseil de l'Europe et l'UNESCO. Le supplément au diplôme vise à fournir des données indépendantes et suffisantes pour améliorer la "transparence" internationale et la reconnaissance académique et professionnelle équitable des qualifications (diplômes, acquis universitaires, certificats, brevets, etc.). Il est destiné à décrire la nature, le niveau, le contexte, le contenu et le statut des études accomplies avec succès par la personne désignée par la qualification originale à laquelle ce présent supplément est annexé. Il doit être dépourvu de tout jugement de valeur, déclaration d'équivalence ou suggestion de reconnaissance. Toutes les informations requises par les huit parties doivent être fournies. Lorsqu'une information fait défaut, une explication doit être donnée.
+                            <br/>
+                            This Diploma Supplement model follows the model developed by the European Commission, Council of Europe and UNESCO. The purpose of the supplement is to provide sufficient independent data to improve the international "transparency" and fair academic and professional recognition of qualifications (diplomas, degrees, certificates etc.). It is designed to provide a description of the nature, level, context, content and status of the studies that were pursued and successfully completed by the individual named on the original qualification to which this supplement is appended. It should be free from any value judgements, equivalence statements or suggestions about recognition. Information in all eight sections should be provided. Where information is not provided, an explanation should give the reason why.
+                            </div>
+                            <div class="col-xs-9 col-xs-offset-3">
+                                <hr align="center" width="75%"/>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-xs-12">
+                                <h2>Avertissement :</h2>
+                                Ce présent supplément ne vaut qu’accompagné du diplôme officiel délivré par le CONSERVATOIRE ROYAL DE LIEGE 
+                                et contresigné par la Communauté française de Belgique.<br/>
+                                This Diploma Supplement is only valid if presented with the official diploma issued by the CONSERVATOIRE ROYAL DE LIEGE and countersigned by the Belgian French-speaking Community.
+                            </div>
+                            <div class="col-xs-9 col-xs-offset-3">
+                                <hr align="center" width="75%"/>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-xs-12">
+                                <h3>Information sur le titulaire du diplôme<br/>
+                                <small>Information identifying the holder of the qualification</small></h3>
+                            </div>
+                            <div class="col-xs-11 col-xs-offset-1" style="font-style: italic;">
+                                Nom(s) de famille / Family name(s) :
+                            </div>
+                            <div class="col-xs-10 col-xs-offset-2" style="font-style: bold;">
+                                <span t-field="o.student_id.lastname"/>
+                            </div>
+                            <div class="col-xs-11 col-xs-offset-1" style="font-style: italic;">
+                                Prénom(s) / Given name(s) :
+                            </div>
+                            <div class="col-xs-10 col-xs-offset-2" style="font-style: bold;">
+                                <span t-field="o.student_id.firstname"/>
+                            </div>
+                            <div class="col-xs-11 col-xs-offset-1" style="font-style: italic;">
+                                Date (jour/mois/année) et lieu de naissance / Date (day/month/year) and place of birth :
+                            </div>
+                            <div class="col-xs-10 col-xs-offset-2" style="font-style: bold;">
+                                <span t-field="o.student_id.birthdate_date"/> - <span t-field="o.student_id.birthplace"/>
+                            </div>
+                            <div class="col-xs-11 col-xs-offset-1" style="font-style: italic;">
+                                Numéro de matricule de l’étudiant / Student identification number or code :
+                            </div>
+                            <div class="col-xs-10 col-xs-offset-2" style="font-style: bold;">
+                                <div class="alert alert-danger" role="alert">
+                                    Manque le numéro de matricule
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-xs-12">
+                                <h3>Informations sur le diplôme<br/>
+                                <small>Information identifying the qualification</small></h3>
+                            </div>
+                            <div class="col-xs-11 col-xs-offset-1" style="font-style: italic;">
+                                    Intitulé du diplôme et titre conféré / Name of qualification and title conferred :
+                            </div>
+                            <div class="col-xs-10 col-xs-offset-2" style="font-style: bold;">
+                                <span t-field="o.cycle_id"/> en <span t-field="o.domain_id.long_name"/>
+                            </div>
+                            <div class="col-xs-11 col-xs-offset-1" style="font-style: italic;">
+                                    Principaux domaines d'études couverts par le diplôme / Main fields of study for the qualification :
+                            </div>
+                            <div class="col-xs-10 col-xs-offset-2" style="font-style: bold;">
+                                <ul>
+                                    <li>Domaine : <span t-field="o.domain_id.long_name"/></li>
+                                    <li>Section : <span t-field="o.section_id"/></li>
+                                    <li>Option : <span t-field="o.track_id"/></li>
+                                    <li>Spécialité : <span t-field="o.speciality_id"/></li>
+                                </ul>
+                            </div>
+                            <div class="col-xs-11 col-xs-offset-1" style="font-style: italic;">
+                                  Nom et statut de l' établissement ayant délivré le diplôme / Name and status of awarding institution :
+                            </div>
+                            <div class="col-xs-10 col-xs-offset-2" style="font-style: bold;">
+                                CONSERVATOIRE ROYAL DE LIEGE<br/>
+                                Ecole supérieure des arts, organisée par la Communauté française de Belgique.<br/>  
+                                Etablissement Officiellement reconnu par la Communauté française.
+                            </div>
+                            <div class="col-xs-11 col-xs-offset-1" style="font-style: italic;">
+                                 Langue de formation-examen, évaluation artistique / Language of instruction-examination, artistical evaluation : 
+                            </div>
+                            <div class="col-xs-10 col-xs-offset-2" style="font-style: bold;">
+                                 Français
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-xs-12">
+                                <h3>Informations sur le niveau de qualification<br/>
+                                <small>Information on the level of the qualification</small></h3>
+                            </div>
+                            <div class="col-xs-11 col-xs-offset-1" style="font-style: italic;">
+                                Niveau de qualification / Level of qualification :
+                            </div>
+                            <div class="col-xs-10 col-xs-offset-2" style="font-style: bold;">
+                                    Enseignement organisé en deux cycles :<br/> 
+                                    Pour de plus amples explications sur la signification de ce classement, voir rubrique information<br/> 
+                                    sur le système national d’enseignement supérieur<br/> 
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </t>
+        </t>
+    </template>
 </odoo>
