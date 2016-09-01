@@ -31,7 +31,7 @@
         name="school_management.report_program_details_content"
         file="school_management.report_program_details_content"
         />
-
+        
     <template id="report_program_details_content">
         <t t-call="report.html_container">
             <t t-set="data_report_margin_top" t-value="45" />
@@ -44,4 +44,28 @@
             </t>
         </t>
     </template>
+
+    <report 
+        id="report_individual_bloc"
+        model="school.individual_bloc"
+        string="Individual Bloc Description"
+        report_type="qweb-pdf"
+        name="school_management.report_individual_bloc_content"
+        file="school_management.report_individual_bloc_content"
+        />
+
+    <template id="report_individual_bloc_content">
+        <t t-call="report.html_container">
+            <t t-set="data_report_margin_top" t-value="45" />
+            <t t-set="data_report_header_spacing" t-value="40" />
+            <t t-set="bloc" t-value="docs[0]" />
+            <t t-call="report.external_layout">
+                <div class="page">
+                    <h1><t t-esc="bloc.name"/></h1>
+                    <t t-call="website_portal_school_management.school_bloc"/>
+                </div>
+            </t>
+        </t>
+    </template>
+
 </odoo>
