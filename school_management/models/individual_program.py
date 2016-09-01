@@ -208,6 +208,8 @@ class IndividualCourse(models.Model):
     image_medium = fields.Binary('Image', attachment=True, related='student_id.image_medium')
     image_small = fields.Binary('Image', attachment=True, related='student_id.image_small')
 
+    url_ref = fields.Char(related="source_course_id.url_ref", readonly=True)
+
     credits = fields.Integer(related="source_course_id.credits", readonly=True)
     hours = fields.Integer(related="source_course_id.hours", readonly=True)
     weight =  fields.Float(related="source_course_id.weight", readonly=True)
