@@ -1,6 +1,6 @@
-============
-Applications
-============
+=======
+Modules
+=======
 
 .. toctree::
    :titlesonly:
