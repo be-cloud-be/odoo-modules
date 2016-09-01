@@ -146,9 +146,6 @@
                             <br/>
                             This Diploma Supplement model follows the model developed by the European Commission, Council of Europe and UNESCO. The purpose of the supplement is to provide sufficient independent data to improve the international "transparency" and fair academic and professional recognition of qualifications (diplomas, degrees, certificates etc.). It is designed to provide a description of the nature, level, context, content and status of the studies that were pursued and successfully completed by the individual named on the original qualification to which this supplement is appended. It should be free from any value judgements, equivalence statements or suggestions about recognition. Information in all eight sections should be provided. Where information is not provided, an explanation should give the reason why.
                             </div>
-                            <div class="col-xs-9 col-xs-offset-3">
-                                <hr align="center" width="75%"/>
-                            </div>
                         </div>
                         <div class="row">
                             <div class="col-xs-12">
@@ -157,34 +154,31 @@
                                 et contresigné par la Communauté française de Belgique.<br/>
                                 This Diploma Supplement is only valid if presented with the official diploma issued by the CONSERVATOIRE ROYAL DE LIEGE and countersigned by the Belgian French-speaking Community.
                             </div>
-                            <div class="col-xs-9 col-xs-offset-3">
-                                <hr align="center" width="75%"/>
-                            </div>
                         </div>
                         <div class="row">
                             <div class="col-xs-12">
                                 <h3>Information sur le titulaire du diplôme<br/>
                                 <small>Information identifying the holder of the qualification</small></h3>
                             </div>
-                            <div class="col-xs-11 col-xs-offset-1" style="font-style: italic;">
+                            <div class="col-xs-11 col-xs-offset-1" style="font-style: italic;margin-bottom:10px;margin-top:10px;">
                                 Nom(s) de famille / Family name(s) :
                             </div>
                             <div class="col-xs-10 col-xs-offset-2" style="font-style: bold;">
                                 <span t-field="o.student_id.lastname"/>
                             </div>
-                            <div class="col-xs-11 col-xs-offset-1" style="font-style: italic;">
+                            <div class="col-xs-11 col-xs-offset-1" style="font-style: italic;margin-bottom:10px;margin-top:10px;">
                                 Prénom(s) / Given name(s) :
                             </div>
                             <div class="col-xs-10 col-xs-offset-2" style="font-style: bold;">
                                 <span t-field="o.student_id.firstname"/>
                             </div>
-                            <div class="col-xs-11 col-xs-offset-1" style="font-style: italic;">
+                            <div class="col-xs-11 col-xs-offset-1" style="font-style: italic;margin-bottom:10px;margin-top:10px;">
                                 Date (jour/mois/année) et lieu de naissance / Date (day/month/year) and place of birth :
                             </div>
                             <div class="col-xs-10 col-xs-offset-2" style="font-style: bold;">
                                 <span t-field="o.student_id.birthdate_date"/> - <span t-field="o.student_id.birthplace"/>
                             </div>
-                            <div class="col-xs-11 col-xs-offset-1" style="font-style: italic;">
+                            <div class="col-xs-11 col-xs-offset-1" style="font-style: italic;margin-bottom:10px;margin-top:10px;">
                                 Numéro de matricule de l’étudiant / Student identification number or code :
                             </div>
                             <div class="col-xs-10 col-xs-offset-2" style="font-style: bold;">
@@ -198,13 +192,13 @@
                                 <h3>Informations sur le diplôme<br/>
                                 <small>Information identifying the qualification</small></h3>
                             </div>
-                            <div class="col-xs-11 col-xs-offset-1" style="font-style: italic;">
+                            <div class="col-xs-11 col-xs-offset-1" style="font-style: italic;margin-bottom:10px;margin-top:10px;">
                                     Intitulé du diplôme et titre conféré / Name of qualification and title conferred :
                             </div>
                             <div class="col-xs-10 col-xs-offset-2" style="font-style: bold;">
                                 <span t-field="o.cycle_id"/> en <span t-field="o.domain_id.long_name"/>
                             </div>
-                            <div class="col-xs-11 col-xs-offset-1" style="font-style: italic;">
+                            <div class="col-xs-11 col-xs-offset-1" style="font-style: italic;margin-bottom:10px;margin-top:10px;">
                                     Principaux domaines d'études couverts par le diplôme / Main fields of study for the qualification :
                             </div>
                             <div class="col-xs-10 col-xs-offset-2" style="font-style: bold;">
@@ -215,7 +209,7 @@
                                     <li>Spécialité : <span t-field="o.speciality_id"/></li>
                                 </ul>
                             </div>
-                            <div class="col-xs-11 col-xs-offset-1" style="font-style: italic;">
+                            <div class="col-xs-11 col-xs-offset-1" style="font-style: italic;margin-bottom:10px;margin-top:10px;">
                                   Nom et statut de l' établissement ayant délivré le diplôme / Name and status of awarding institution :
                             </div>
                             <div class="col-xs-10 col-xs-offset-2" style="font-style: bold;">
@@ -223,7 +217,7 @@
                                 Ecole supérieure des arts, organisée par la Communauté française de Belgique.<br/>  
                                 Etablissement Officiellement reconnu par la Communauté française.
                             </div>
-                            <div class="col-xs-11 col-xs-offset-1" style="font-style: italic;">
+                            <div class="col-xs-11 col-xs-offset-1" style="font-style: italic;margin-bottom:10px;margin-top:10px;">
                                  Langue de formation-examen, évaluation artistique / Language of instruction-examination, artistical evaluation : 
                             </div>
                             <div class="col-xs-10 col-xs-offset-2" style="font-style: bold;">
@@ -235,13 +229,234 @@
                                 <h3>Informations sur le niveau de qualification<br/>
                                 <small>Information on the level of the qualification</small></h3>
                             </div>
-                            <div class="col-xs-11 col-xs-offset-1" style="font-style: italic;">
+                            <div class="col-xs-11 col-xs-offset-1" style="font-style: italic;margin-bottom:10px;margin-top:10px;">
                                 Niveau de qualification / Level of qualification :
                             </div>
                             <div class="col-xs-10 col-xs-offset-2" style="font-style: bold;">
-                                    Enseignement organisé en deux cycles :<br/> 
-                                    Pour de plus amples explications sur la signification de ce classement, voir rubrique information<br/> 
-                                    sur le système national d’enseignement supérieur<br/> 
+                                Enseignement organisé en deux cycles :<br/> 
+                                Pour de plus amples explications sur la signification de ce classement, voir rubrique information<br/> 
+                                sur le système national d’enseignement supérieur<br/> 
+                            </div>
+                            <div class="col-xs-11 col-xs-offset-1" style="font-style: italic;margin-bottom:10px;margin-top:10px;">
+                                Durée officielle du programme / Official length of programme :
+                            </div>
+                            <div class="col-xs-10 col-xs-offset-2" style="font-style: bold;">
+                                Un minimu de <span t-field="o.cycle_id.required_credits"/> crédits ECTS.
+                            </div>
+                            <div class="col-xs-11 col-xs-offset-1" style="font-style: italic;margin-bottom:10px;margin-top:10px;">
+                                Conditions d'accès / Access requirements :
+                            </div>
+                            <div class="col-xs-10 col-xs-offset-2" style="font-style: bold;">
+                                Réussite de l'épreuve d'admission organisée conformément à l'arrêté du Gouvernement du 17 juillet 2002 
+                                organisant l'épreuve d'admission dans les Ecoles supérieures des Arts organisées ou subventionnées par 
+                                la Communauté Française.
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-xs-12">
+                                <h3>Informations sur le contenu et sur les resultats obtenus<br/>
+                                <small>Information on the contents and results gained</small></h3>
+                            </div>
+                            <div class="col-xs-11 col-xs-offset-1" style="font-style: italic;margin-bottom:10px;margin-top:10px;">
+                                Organisation des études / Mode of study :
+                            </div>
+                            <div class="col-xs-10 col-xs-offset-2" style="font-style: bold;">
+                                Formation à temps plein. 
+                                <div class="alert alert-danger" role="alert">
+                                    La desciption officielle demande d'indiquer "Enseignement modulaire."
+                                </div>
+                            </div>
+                            <div class="col-xs-11 col-xs-offset-1" style="font-style: italic;margin-bottom:10px;margin-top:10px;">
+                                Exigences du programme / Programme requirements :
+                            </div>
+                            <div class="col-xs-10 col-xs-offset-2" style="font-style: bold;">
+                                La formation comprend des activités d'enseignement, à raison de <span t-field="o.cycle_id.required_credits"/> crédits (ECTS). 
+                                En outre, au terme de sa formation, l'étudiant est tenu de présenter un travail de fin d'études et /ou un mémoire, si celui-ci 
+                                est prévu par le règlement particulier des études.
+                                <br/>
+                                Le jury de délibération déclare admis de plein droit l'étudiant qui a obtenu au moins 50 % des points attribués à chaque examen 
+                                et à chaque évaluation artistique et 50 % des points attribués à l'ensemble de l'épreuve. Le jury de délibération délibère collégialement 
+                                et souverainement sur la réussite, l'ajournement ou le refus des étudiants non admis de plein droit ainsi que sur l'attribution des mentions.
+                                <br/>
+                                En l'occurrence, l’étudiant doit être capable de maîtriser les objectifs particuliers de la formation suivie tels que explicités 
+                                dans le projet pédagogique et artistique de l’ Ecole supérieure des Arts. 
+                            </div>
+                            <div class="col-xs-11 col-xs-offset-1" style="font-style: italic;margin-bottom:10px;margin-top:10px;">
+                                Précisions sur le programme / Programme details :
+                            </div>
+                            <div class="col-xs-10 col-xs-offset-2" style="font-style: bold;">
+                                <h4><span t-field="o.cycle_id"/> en <span t-field="o.speciality_id"/> réussi avec <span t-field="o.grade"/>.</h4>
+                                <p>
+                                    Les notes obtenues pour chaque unité d'enseignement sont renseignées ci-dessous. 
+                                    <div class="alert alert-danger" role="alert">
+                                        Le texte demande d'indiquer toutes les dates de délibération et que les cotes soient sur 100.
+                                    </div>
+                                </p>
+                                <div class="alert alert-danger" role="alert">
+                                    N'est ce pas mieux de mettre le détail en annexe?
+                                </div>
+                            </div>
+                            <t t-foreach="o.bloc_ids" t-as="bloc">
+                            <div class="col-xs-8 col-xs-offset-2">
+                                <table class="table table-condensed oe_school_program_table">
+                                    <caption style="font-size: 100%;"><span t-field="bloc.year_id"/> - <span t-field="bloc.source_bloc_id"/><br/>                       
+                                        <span style="font-style: italic;margin-bottom:10px;margin-top:10px;" t-field="bloc.state"/>
+                                    </caption>
+                                    <colgroup>
+                                        <col style="width:75px"/>
+                                        <col style="width:100%"/>
+                                        <col style="width:60px"/>
+                                        <col style="width:60px"/>
+                                        <col style="width:60px"/>
+                                    </colgroup>
+                                    <thead>
+                                        <tr>
+                                            <th>Code UE</th> 
+                                            <th>Unités d’enseignement</th> 
+                                            <th class="text-center">Heures</th> 
+                                            <th class="text-center">ECTS</th>
+                                            <th class="text-center">Cote</th>
+                                        </tr> 
+                                    </thead>
+                                    <tbody>
+                                        <t t-foreach="bloc.course_group_ids" t-as="course_group">
+                                        <tr class="oe_school_course_group">
+                                            <td><t t-esc="course_group.code_ue"/></td>
+                                            <td><t t-esc="course_group.title"/></td>
+                                            <td class="text-center"><t t-esc="course_group.total_hours"/></td>
+                                            <td class="text-center"><t t-esc="course_group.total_credits"/></td>
+                                            <td class="text-center"><t t-esc="course_group.final_result"/></td>
+                                        </tr>
+                                        <tr t-foreach="course_group.course_ids" t-as="course">
+                                            <td></td>
+                                            <td t-if="course.url_ref"><a t-esc="course.title" t-att-href="course.url_ref" target="new"/></td>
+                                            <td t-if="not course.url_ref"><t t-esc="course.title"/></td>
+                                            <td class="text-center"><t t-esc="course.hours"/></td>
+                                            <td class="text-center"><t t-esc="course.credits"/></td>
+                                            <td></td>
+                                        </tr>
+                                        </t>
+                                        <tr class="oe_school_course_group">
+                                            <td></td>
+                                            <td class="text-right">Total :</td>
+                                            <td class="text-center"><t t-esc="bloc.total_hours"/></td>
+                                            <td class="text-center"><t t-esc="bloc.total_credits"/></td>
+                                            <td class="text-center"><t t-esc="'{0:,.2f}'.format(bloc.evaluation)"/></td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                            </t>
+                            <div class="col-xs-11 col-xs-offset-1" style="font-style: italic;margin-bottom:10px;margin-top:10px;">
+                                Système de notations / Grading scheme :
+                            </div>
+                            <div class="col-xs-10 col-xs-offset-2" style="font-style: bold;">
+                                <p>
+                                    L’évaluation finale d’une activité d’enseignement s’exprime sous forme d’une note, comprise entre 0 et 20, 
+                                    le seuil de réussite étant 10/20. L’évaluation globale d’une année d’études s’exprime sous forme d’un pourcentage 
+                                    accompagné d’une  mention selon le tableau de correspondance ci-dessous.
+                                </p>
+                                <p>
+                                    Le jury de délibération attribue collégialement et souverainement cette mention.
+                                </p>
+                                <table class="table">
+                                    <tr>
+                                        <td>Mention obtenue</td><td>% des points (ensemble des examens d’une année)</td>
+                                    </tr>
+                                    <tr>
+                                        <td>La plus grande distinction</td><td>90%</td>
+                                    </tr>
+                                    <tr>
+                                        <td>La grande distinction</td><td>80%</td>
+                                    </tr>
+                                    <tr>
+                                        <td>La distinction</td><td>70%</td>
+                                    </tr>
+                                    <tr>
+                                        <td>La satisfaction</td><td>60%</td>
+                                    </tr>
+                                </table>
+                                <p>
+                                    En fonction de leur importance, le jury tient compte d'un coefficient de pondération, figurant dans le règlement 
+                                    particulier des études de l’école,  pour chaque activité d’enseignement reprise au programme des études. Le règlement 
+                                    des examens et le relevé de notes sont remis annuellement à chaque étudiant(e).<br/>
+                                    La note globale obtenue par année d’études, les notes obtenues pour chaque activité d’enseignement et leur transcription 
+                                    dans le système de notation ECTS sont renseignées dans une annexe au présent supplément.
+                                </p>
+                            </div>
+                            <div class="col-xs-11 col-xs-offset-1" style="font-style: italic;margin-bottom:10px;margin-top:10px;">
+                                Classification générale du diplômé / Overall classification of the graduate :
+                            </div>
+                            <div class="col-xs-10 col-xs-offset-2" style="font-style: bold;">
+                                <span style="text-transform: uppercase;" t-field="o.grade"/>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-xs-12">
+                                <h3>Informations sur la fonction de la qualification<br/>
+                                <small>Information on the function of the qualification</small></h3>
+                            </div>
+                            <div class="col-xs-11 col-xs-offset-1" style="font-style: italic;margin-bottom:10px;margin-top:10px;">
+                                Accès à un niveau d'études supérieur / Access to further study :
+                            </div>
+                            <div class="col-xs-11 col-xs-offset-1" style="font-style: italic;margin-bottom:10px;margin-top:10px;">
+                                Statut professionnel / Professional status :
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-xs-12">
+                                <h3>Informations complementaires<br/>
+                                <small>Additional information</small></h3>
+                            </div>
+                            <div class="col-xs-11 col-xs-offset-1" style="font-style: italic;margin-bottom:10px;margin-top:10px;">
+                                Informations complémentaires / Additional information :
+                            </div>
+                            <div class="col-xs-11 col-xs-offset-1" style="font-style: italic;margin-bottom:10px;margin-top:10px;">
+                                Autres sources d'informations / Further information sources :
+                            </div>
+                            <div class="col-xs-10 col-xs-offset-2" style="font-style: bold;">
+                                <ul>
+                                    <li>Site web de l'établissement : www.crlg.be</li>
+                                    <li>Site web de la Communauté française de Belgique : www.cfwb.be</li>
+                                </ul>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-xs-12">
+                                <h3>Certification du supplément<br/>
+                                <small>Certification on the supplement</small></h3>
+                            </div>
+                            <div class="col-xs-11 col-xs-offset-1" style="font-style: italic;margin-bottom:10px;margin-top:10px;">
+                                Date / Date :
+                            </div>
+                            <div class="col-xs-10 col-xs-offset-2" style="font-style: bold;">
+                                <span t-esc="datetime.datetime.now().strftime('%d-%m-%Y')"/>
+                            </div>
+                            <div class="col-xs-11 col-xs-offset-1" style="font-style: italic;margin-bottom:100px;margin-top:10px;">
+                                Signature / Signature :
+                            </div>
+                            <div class="col-xs-10 col-xs-offset-2" style="font-style: bold;">
+                                Nathanaël HARCQ
+                            </div>
+                            <div class="col-xs-11 col-xs-offset-1" style="font-style: italic;margin-bottom:10px;margin-top:10px;">
+                                Fonction / Capacity :
+                            </div>
+                            <div class="col-xs-10 col-xs-offset-2" style="font-style: bold;">
+                                Directeur
+                            </div>
+                            <div class="col-xs-11 col-xs-offset-1" style="font-style: italic;margin-bottom:150px;margin-top:10px;">
+                                Tampon ou cachet officiel / Official stamp or seal :
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-xs-12">
+                                <h3>Information sur le systeme national d'enseignement superieur<br/>
+                                <small>Information on the national higher education system</small></h3>
+                            </div>
+                            <div class="col-xs-10 col-xs-offset-2" style="font-style: bold;">
+                                Système progressivement d’application en Communauté française à partir de l’année académique 2004-2005 
+                                selon le décret du 31 mars 2004 définissant l’enseignement supérieur, favorisant son intégration à l’espace 
+                                européen de l’enseignement supérieur et refinançant les universités.
                             </div>
                         </div>
                     </div>
