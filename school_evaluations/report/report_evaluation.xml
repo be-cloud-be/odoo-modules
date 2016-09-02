@@ -54,7 +54,7 @@
                             </div>
                         </div>
                         <t t-if="o.state in ['draft', 'postponed', 'failed']">
-                        <div class="alert alert-danger" role="alert">Programme pas réussi, actuellement au stade de : <span t-field="o.state"/></div>
+                        <div class="alert alert-danger" role="alert">Programme non réussi, actuellement au stade de : <span t-field="o.state"/></div>
                         </t>
                         <div class="row"  style="margin-top:60px;">
                             <div class="col-xs-12">
