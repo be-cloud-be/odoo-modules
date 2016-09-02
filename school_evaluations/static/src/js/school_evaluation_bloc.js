@@ -292,7 +292,7 @@ return Widget.extend({
                     }
                     else if(self.bloc.total_acquiered_credits >= 45) {
                         self.bloc_result = {
-                            'message' : _t("Au moins 45 crédits ECTS acquis ou valorisés, autorisé(e) à poursuivre son parcours tout en finalisant les crédits résiduels."),
+                            'message' : _t("Au moins 45 crédits ECTS acquis ou valorisés, autorisé(e) à poursuivre son parcours tout en finalisant les crédits non-acquis."),
                             'class' : "warning",
                             'button_text' : _t("Réussite"),
                             'next_action' : "award",
