@@ -108,7 +108,7 @@
             <field name="model">res.partner</field>
             <field name="inherit_id" ref="base.view_res_partner_filter"/>
             <field name="arch" type="xml">
-            	<xpath expr="//group/filter[@string='Country']" position="after">
+            	<xpath expr="//group" position="inside">
             		<filter string="Team" name="team" icon="terp-personal" context="{'group_by': 'team'}" />
       			</xpath>
             </field>
@@ -187,7 +187,7 @@
                     	<field name="birthdate"/>
                     	<field name="license"/>
                     </field>
-		   			<xpath expr="//tree[@string='Memberships']/field[@name='membership_id']" position="after">
+		   			<xpath expr="//field[@name='membership_id']" position="after">
 		            	<field name="team"/>
 		      		</xpath>
 		      	</data>
@@ -202,7 +202,7 @@
 		   	<field name="type">search</field>      
 		   	<field name="inherit_id" ref="membership.view_res_partner_member_filter"/>
 		   	<field name="arch" type="xml">
-		   		<xpath expr="//field[@string='End Membership Date']" position="after">
+		   		<xpath expr="//search" position="inside">
 		   			<separator orientation="vertical"/>
 		            <filter string="Team" name="team" icon="terp-partner" domain="[]" context="{'group_by':'team'}" />
 		      	</xpath>
@@ -231,7 +231,7 @@
             <field name="model">account.invoice</field>
             <field name="inherit_id" ref="account.view_account_invoice_filter"/>
             <field name="arch" type="xml">
-            	<xpath expr="//group/filter[@string='Partner']" position="after">
+            	<xpath expr="//group" position="inside">
             		<filter string="Team" name="team" icon="terp-personal" context="{'group_by': 'team'}" />
       			</xpath>
             </field>
