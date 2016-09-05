@@ -281,6 +281,17 @@ class IndividualCourseGroup(models.Model):
     acquiered = fields.Selection(([('A', 'Acquiered'),('NA', 'Not Acquiered')]), compute='compute_final_results', string='Acquired Credits', store=True, track_visibility='onchange',default='NA')
     final_note = fields.Text(string='Final Notes')
     
+    final_result_disp = fields.Char(string='Final Result Display', compute='compute_results_disp')
+
+    @api.one
+    def compute_results_disp(self):
+        if not self.final_result_bool:
+            self.final_result_disp = ""
+        if self.dispense:
+            self.final_result_disp = "D"
+        else :
+            self.final_result_disp = "%.2f" % self.final_result
+    
     def _parse_result(self,input):
         f = float(input)
         if(f < 0 or f > 20):
@@ -473,11 +484,33 @@ class IndividualCourse(models.Model):
     first_session_result_bool = fields.Boolean(compute='compute_results', string='First Session Active', store=True)
     first_session_note = fields.Text(string='First Session Notes')
     
+    first_session_result_disp = fields.Char(string='Final Result Display', compute='compute_first_session_result_disp')
+
+    @api.one
+    def compute_first_session_result_disp(self):
+        if not self.first_session_result_bool:
+            self.first_session_result_disp = ""
+        if self.dispense:
+            self.first_session_result_disp = "D"
+        else :
+            self.first_session_result_disp = "%.2f" % self.first_session_result
+    
     ## Second Session ##
     
     second_session_result= fields.Float(compute='compute_results', string='Second Session Result', store=True, group_operator='avg')
     second_session_result_bool = fields.Boolean(compute='compute_results', string='Second Session Active', store=True)
     second_session_note = fields.Text(string='Second Session Notes')
+
+    second_session_result_disp = fields.Char(string='Final Result Display', compute='compute_second_session_result_disp')
+
+    @api.one
+    def compute_second_session_result_disp(self):
+        if not self.second_session_result_bool:
+            self.second_session_result_disp = ""
+        if self.dispense:
+            self.second_session_result_disp = "D"
+        else :
+            self.second_session_result_disp = "%.2f" % self.second_session_result
 
     @api.model
     def create(self, values):
