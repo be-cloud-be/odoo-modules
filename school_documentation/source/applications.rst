@@ -7,3 +7,4 @@ Modules
 
    programmes
    evaluations
+   tools
