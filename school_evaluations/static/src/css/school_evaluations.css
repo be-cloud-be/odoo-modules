@@ -61,6 +61,10 @@
     height:100%;
   }
   
+  .container {
+    width: 800px;
+  }
+  
   .main_navbar {
     height:100%;
   }
