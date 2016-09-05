@@ -115,8 +115,8 @@
 
     <template id="report_evaluation_for_student_content">
         <t t-call="report.html_container">
-            <t t-set="data_report_margin_top" t-value="30"/>
-            <t t-set="data_report_header_spacing" t-value="25"/>
+            <t t-set="data_report_margin_top" t-value="40"/>
+            <t t-set="data_report_header_spacing" t-value="35"/>
             <t t-foreach="docs" t-as="o">
                 <t t-call="report.external_layout">
                 <div class="page">
@@ -152,6 +152,7 @@
                                             <th>Résultats</th>
                                             <th>ECTS</th>
                                             <th>Acquis</th>
+                                            <th>Sec Sess</th>
                                         </tr>
                                     </thead>
                                     <tbody>
@@ -161,7 +162,7 @@
                                                     <t t-esc="course_group.title"/>
                                                 </td>
                                                 <td style=" text-align: right;">
-                                                    <t t-esc="'%.2f' % course_group.final_result"/>
+                                                    <t t-esc="course_group.final_result_disp"/>
                                                 </td>
                                                 <td style=" text-align: right;">
                                                     <t t-esc="course_group.total_credits"/>
@@ -170,16 +171,22 @@
                                                     <span class="label label-success" t-if="course_group.acquiered == 'A'">Acquis</span>
                                                     <span class="label label-warning" t-if="course_group.acquiered == 'NA'">Non Acquis</span>
                                                 </td>
+                                                <td>
+                                                </td>
                                             </tr>
                                             <t t-foreach="course_group.course_ids" t-as="course">
                                                 <tr style="font-style: italic;font-size:80%;">
                                                     <td>
                                                         <t t-esc="course.title"/> - <t t-esc="course.level"/> <i t-if="course.teacher_id" class="oe_fade"> - <t t-esc="course.teacher_id.name"/></i></td>
                                                     <td style=" text-align: right;">
-                                                        <t t-esc="'%.2f' % course.first_session_result"/>
+                                                        <t t-esc="course.first_session_result_disp"/>
                                                     </td>
                                                     <td/>
                                                     <td/>
+                                                    <td>
+                                                        <span t-if="course.source_course_id.has_second_session">Oui</span>
+                                                        <span t-if="not course.source_course_id.has_second_session">Non</span>
+                                                    </td>
                                                 </tr>
                                             </t>
                                         </t>
@@ -289,7 +296,7 @@
                                                     <t t-esc="course_group.title"/>
                                                 </td>
                                                 <td style=" text-align: right;">
-                                                    <t t-esc="'%.2f' % course_group.final_result"/>
+                                                    <t t-esc="course_group.final_result_disp"/>
                                                 </td>
                                                 <td style=" text-align: right;">
                                                     <t t-esc="course_group.total_credits"/>
@@ -304,7 +311,7 @@
                                                     <td>
                                                         <t t-esc="course.title"/> - <t t-esc="course.level"/> <i t-if="course.teacher_id" class="oe_fade"> - <t t-esc="course.teacher_id.name"/></i></td>
                                                     <td style=" text-align: right;">
-                                                        <t t-esc="'%.2f' % course.first_session_result"/>
+                                                        <t t-esc="course.first_session_result_disp"/>
                                                     </td>
                                                     <td/>
                                                     <td/>
