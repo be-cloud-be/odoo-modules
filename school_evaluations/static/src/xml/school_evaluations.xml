@@ -42,7 +42,7 @@
                         <h3 class="panel-title">Bac 1</h3>
                       </div>
                       <div class="panel-body">
-                        Evaluation : <t t-esc="widget.program.evaluation_details.bloc_evaluations[0].toFixed(2)"/>
+                        Evaluation : <t t-esc="Math.round(widget.program.evaluation_details.bloc_evaluations[0]*100)/100"/>
                       </div>
                     </div>
                 </div>
@@ -52,7 +52,7 @@
                         <h3 class="panel-title">Bac 2</h3>
                       </div>
                       <div class="panel-body">
-                        Evaluation : <t t-esc="widget.program.evaluation_details.bloc_evaluations[1].toFixed(2)"/>
+                        Evaluation : <t t-esc="Math.round(widget.program.evaluation_details.bloc_evaluations[1]*100)/100"/>
                       </div>
                     </div>
                 </div>
@@ -62,7 +62,7 @@
                         <h3 class="panel-title">Bac 3</h3>
                       </div>
                       <div class="panel-body">
-                        Evaluation : <t t-esc="widget.program.evaluation_details.bloc_evaluations[2].toFixed(2)"/>
+                        Evaluation : <t t-esc="Math.round(widget.program.evaluation_details.bloc_evaluations[2]*100)/100"/>
                       </div>
                     </div>
                 </div>
@@ -174,7 +174,7 @@
                         <h4 class="">Evaluation Première Session :</h4>
                     </div>
                     <div class="col-md-2">
-                        <h4 class=""><t t-esc="course.first_session_result.toFixed(2)" /></h4>
+                        <h4 class=""><t t-esc="Math.round(course.first_session_result*100)/100" /></h4>
                     </div>
                 </div>
                 <div class="row" t-if="course.type == 'D'">
@@ -183,7 +183,7 @@
                     </div>
                     <div class="col-md-2">
                         <t t-if="course.jun_result">
-                            <h4 class=""><t t-esc="course.first_session_result.toFixed(2)" /></h4>
+                            <h4 class=""><t t-esc="Math.round(course.first_session_result*100)/100" /></h4>
                         </t>
                         <t t-if="!course.jun_result">
                             <h4 class="">Dispensé</h4>
@@ -203,17 +203,17 @@
                         (<t t-foreach="cg.courses" t-as="course">
                             <t t-if="(course.type != 'D') or course.jun_result">
                                 <t t-if="!is_first"> + </t>
-                                <t t-esc="course.first_session_result.toFixed(2)" /> * <t t-esc="course.weight.toFixed(2)" />
+                                <t t-esc="Math.round(course.first_session_result*100)/100" /> * <t t-esc="Math.round(course.weight*100)/100" />
                                 <t t-set="is_first" t-value="false"/>
                             </t>
                         </t>) 
-                        / <t t-esc='cg.total_weight.toFixed(2)' /> = <t t-esc="cg.first_session_computed_result.toFixed(2)" />
+                        / <t t-esc='Math.round(cg.total_weight*100)/100' /> = <t t-esc="Math.round(cg.first_session_computed_result*100)/100" />
                     </h4>
                 </div>
             </div>
             <div class="row" t-if="cg.first_session_deliberated_result_bool">
                 <div class="col-md-12">
-                    <h4 class="">Résultat délibéré : <t t-esc="cg.final_result.toFixed(2)" /></h4>
+                    <h4 class="">Résultat délibéré : <t t-esc="Math.round(cg.final_result*100)/100" /></h4>
                 </div>
             </div>
         </div>
@@ -352,7 +352,7 @@
                         <t t-if="widget.bloc.source_bloc_level == 3">
                         <t t-if="widget.bloc_result.grade">
                         <div class="col-md-1 text-center moyenne o_school_eval_details" t-if="widget.bloc.source_bloc_level == 3" role="button" >
-                            moyenne du cycle<br/><span class="score_value"><t t-esc="widget.program.evaluation.toFixed(1)"/></span>
+                            moyenne du cycle<br/><span class="score_value"><t t-esc="Math.round(widget.program.evaluation*10)/10"/></span>
                         </div>    
                         <div class="col-md-8">
                             <div t-att-class="'alert alert-' + widget.bloc_result.class" role="alert"><t t-esc="widget.bloc_result.message"/><b><t t-esc="widget.program.grade_text"/></b></div>
@@ -420,7 +420,7 @@
                                                     Dis
                                             </t>
                                             <t t-if="course_group.final_result_bool">
-                                                    <t t-esc="course_group.final_result.toFixed(2)" />
+                                                    <t t-esc="Math.round(course_group.final_result*100)/100" />
                                             </t>
                                         </td>
                                         <td style=" text-align: right;">
@@ -443,10 +443,10 @@
                                             <td style=" text-align: right;">
                                                 <t t-if="course.first_session_result_bool">
                                                 <t t-if="(course.type != 'D')">
-                                                    <font color="blue"><t t-esc="course.first_session_result.toFixed(2)" /></font>
+                                                    <font color="blue"><t t-esc="Math.round(course.first_session_result*100)/100" /></font>
                                                 </t>
                                                 <t t-if="(course.type == 'D') and course.jun_result">
-                                                    <font color="gray"><t t-esc="course.first_session_result.toFixed(2)"/></font>
+                                                    <font color="gray"><t t-esc="Math.round(course.first_session_result*100)/100"/></font>
                                                 </t>
                                                 </t>
                                                 <t t-if="(course.type == 'D') and !course.jun_result">
