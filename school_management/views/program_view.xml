@@ -258,6 +258,7 @@
           <field name="hours" />
           <field name="credits" />
           <field name="weight" />
+          <field name="has_second_session" />
         </tree>
       </field>
     </record>
@@ -289,6 +290,7 @@
               <field name="hours" />
               <field name="credits" />
               <field name="weight" />
+              <field name="has_second_session" />
               <field name="url_ref" widget="url"/>
               <field name="level" invisible="1" />
             </group>

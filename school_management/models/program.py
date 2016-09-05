@@ -276,6 +276,8 @@ class Course(models.Model):
     
     name = fields.Char(string='Name', compute='compute_name', store=True)
     
+    has_second_session = fields.Boolean(string="Has a second session", default=True)
+    
     @api.depends('title','level','speciality_id.name')
     @api.multi
     def compute_name(self):
