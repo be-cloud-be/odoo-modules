@@ -282,7 +282,7 @@
                 </ul>
             </div>
             <div id="sub_sidebar" class="sub_sidebar" />
-            <div class="sidebar-nav navbar-collapse">
+            <div class="sidebar-nav navbar-collapse side_footer">
                 <ul class="nav" id="side-exit-menu">
                     <li>
                         <a href="/web/">
