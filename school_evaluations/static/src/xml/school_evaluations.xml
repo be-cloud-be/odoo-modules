@@ -428,7 +428,7 @@
                                         </td>
                                         <td>
                                             <span class="label label-success" t-if="course_group.acquiered === 'A'">Acq</span>
-                                            <span class="label label-warning" t-if="course_group.acquiered === 'NA'">NoAcq</span>
+                                            <span class="label label-warning btn o_set_delib" t-if="course_group.acquiered === 'NA'" t-att-data-course-group-id="course_group.id">NoAcq</span>
                                         </td>
                                         <td>
                                             <i class="fa fa-search o_school_edit_icg" role="button" aria-hidden="true" t-att-data-cg-id="course_group.id"></i>

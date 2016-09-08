@@ -142,6 +142,19 @@ return Widget.extend({
             self.update();
         },
         
+        "click .o_set_delib": function (event) {
+            var self = this;
+            var cg_id = $(event.target).data('course-group-id');
+            event.preventDefault();
+            Dialog.confirm(self, _t("Merci de confirmer la délibération de cette unité d'enseignement à 10?"), {
+                confirm_callback: function() {
+                    new Model('school.individual_course_group').call("set_deliberated_to_ten",[cg_id,self.school_session]).then(function(result) {
+                        self.update();
+                    });
+                },
+                title: _t("Délibération de l'unité d'enseignement"),
+            });
+        },
     },
     
     init: function(parent, title) {
@@ -156,11 +169,13 @@ return Widget.extend({
         this.bloc = false;
     },
     
-    read_ids: function(ids) {
+    read_ids: function(ids,idx) {
         var self = this;
+        idx = idx || 0;
         return this.dataset.read_ids(ids,[]).then(function (results) {
+                self.ids = ids;
                 self.records = results;
-                self.record_idx = 0;
+                self.record_idx = idx;
                 self.datarecord = self.records[self.record_idx];
             });
     },
@@ -191,16 +206,20 @@ return Widget.extend({
     
     update: function() {
         var self = this;
-        self.bloc = this.datarecord;
-        return self._read_bloc_data().done(
-            function(){
-                if(self.$el.parent().children().size() > 1) {
-                    self.$el.parent().children()[0].remove();
-                    self.$el.parent().children()[0].remove();
-                }
-                self.renderElement();
-            }  
-        );
+        return self.read_ids(self.ids,self.record_idx).then(function(){
+            self.bloc = self.datarecord;
+            self._read_bloc_data().done(
+                function(){
+                    if(self.$el.parent().children().size() > 1) {
+                        self.$el.parent().children()[0].remove();
+                        self.$el.parent().children()[0].remove();
+                    } else {
+                        self.$el.empty();
+                        self.$el.append( "<div class='o_evaluation_bloc_container'></div>" );
+                    }
+                    self.renderElement();
+                });
+        });
     },
     
     _update_evaluation_messages: function() {

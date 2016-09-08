@@ -107,7 +107,8 @@ class IndividualProgram(models.Model):
         if self.historical_bloc_2_eval > 0:
             total += self.historical_bloc_2_eval
             count += 1
-        self.evaluation = total/count
+        if count > 0:
+            self.evaluation = total/count
         # TODO : Implement computation based on UE as per the decret
         
     @api.depends('bloc_ids.evaluation','historical_bloc_1_eval','historical_bloc_2_eval')
@@ -193,6 +194,34 @@ class IndividualBloc(models.Model):
             decision = None
         return self.write({'state': 'failed','decision' : decision})
         
+    @api.multi
+    def report_send(self):
+        """ Open a window to compose an email, with the default template
+            message loaded by default
+        """
+        self.ensure_one()
+        template = self.env.ref('school_evaluations.email_template_success_certificate', False)
+        compose_form = self.env.ref('mail.email_compose_message_wizard_form', False)
+        ctx = dict(
+            default_model='school.individual_bloc',
+            default_res_id=self.id,
+            default_use_template=bool(template),
+            default_template_id=template.id,
+            default_composition_mode='comment',
+            mark_invoice_as_sent=True,
+        )
+        return {
+            'name': _('Compose Email'),
+            'type': 'ir.actions.act_window',
+            'view_type': 'form',
+            'view_mode': 'form',
+            'res_model': 'mail.compose.message',
+            'views': [(compose_form.id, 'form')],
+            'view_id': compose_form.id,
+            'target': 'new',
+            'context': ctx,
+        }
+        
     @api.depends('course_group_ids.total_credits','course_group_ids.acquiered')
     @api.one
     def compute_credits(self):
@@ -232,6 +261,20 @@ class IndividualCourseGroup(models.Model):
     '''Individual Course Group'''
     _inherit = 'school.individual_course_group'
     
+    # Actions
+    @api.one
+    def set_deliberated_to_ten(self, session = 1):
+        if session == 1:
+            self.write({
+                'first_session_deliberated_result' : 10,
+                'first_session_deliberated_result_bool' : True
+            })
+        else:
+            self.write({
+                'second_session_deliberated_result' : 10,
+                'second_session_deliberated_result_bool' : True
+            })
+    
     state = fields.Selection([
             ('draft','Draft'),
             ('progress','In Progress'),
@@ -241,6 +284,8 @@ class IndividualCourseGroup(models.Model):
         copy=False,
         help=" * The 'Draft' status is used when results are not confirmed yet.\n"
              " * The 'Confirmed' status is when restults are confirmed.")
+    
+    ## If set a course with an evaluation < 10 will make this course group not acquiered.
     
     enable_exclusion_bool = fields.Boolean(string='Enable exclusion evaluation', related="source_course_group_id.enable_exclusion_bool", readonly=True)
     

@@ -129,6 +129,8 @@
             <field name="arch" type="xml">
                 <xpath expr="//sheet" position="before">
                     <header>
+                        <button name="report_send" string="Email Report" type="object" icon="terp-mail-message-new"
+                                context="{'default_composition_mode':'comment', 'default_template_id': 1}" states="progress,postponed,awarded_first_session,awarded_second_session,failed"/>
                         <button name="set_to_progress" type="object" states="draft" string="Progress" class="oe_highlight" />
                         <button name="set_to_postponed" type="object" states="progress" string="Postpone" class="oe_highlight" />
                         <button name="set_to_awarded_first_session" type="object" states="progress" string="Awarded" class="oe_highlight" />
