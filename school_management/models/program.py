@@ -170,7 +170,7 @@ class Bloc(models.Model):
 
     name = fields.Char(string='Name', compute='compute_name', store=True)
     
-    course_group_ids = fields.Many2many('school.course_group','school_bloc_course_group_rel', id1='bloc_id', id2='group_id',string='Course Groups', copy=True)
+    course_group_ids = fields.Many2many('school.course_group','school_bloc_course_group_rel', id1='bloc_id', id2='group_id',string='Course Groups', copy=True, domain=['|',('active','=',False),('active','=',True)])
     
     @api.depends('sequence','title')
     @api.multi
@@ -190,6 +190,8 @@ class CourseGroup(models.Model):
     _order = 'sequence'
     
     sequence = fields.Integer(string='Sequence', required=True)
+    
+    active = fields.Boolean(string='Active', help="The active field allows you to hide the course group without removing it.", default=True, copy=False)
     
     title = fields.Char(required=True, string='Title')
     

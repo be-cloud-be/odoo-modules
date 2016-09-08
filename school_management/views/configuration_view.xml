@@ -48,7 +48,7 @@
         
         <record id="action_cycle_tree_view1" model="ir.actions.act_window.view">
             <field name="sequence" eval="1" />
-            <field name="view_mode">tree,form</field>
+            <field name="view_mode">tree</field>
             <field name="view_id" ref="view_cycle_list" />
             <field name="act_window_id" ref="action_cycle_list" />
         </record>

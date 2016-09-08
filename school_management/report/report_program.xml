@@ -54,6 +54,69 @@
         file="school_management.report_individual_bloc_content"
         />
 
+    <template id="school_bloc" name="Bloc">
+        <div class="col-md-12">
+            <table class="table table-condensed oe_school_program_table">
+                <caption style="font-size: 100%;">Grille du bloc - <t t-esc="bloc.name"/></caption>
+                <colgroup>
+                    <col style="width:75px"/>
+                    <col style="width:100%"/>
+                    <col style="width:60px"/>
+                    <col style="width:60px"/>
+                    <!--<col style="width:60px"/>-->
+                    <col style="width:100px"/>
+                </colgroup>
+                <thead>
+                    <tr>
+                        <th>Code UE</th> 
+                        <th>Unités d’enseignement</th> 
+                        <th class="text-center">Heures</th> 
+                        <th class="text-center">ECTS</th>
+                        <th class="text-center">Pond</th>
+                        <!--<th>Pré/Co-requis</th>-->
+                        <th>Statut</th>
+                    </tr> 
+                </thead>
+                <tbody>
+                    <t t-foreach="bloc.course_group_ids" t-as="course_group">
+                    <tr class="oe_school_course_group">
+                        <td><t t-esc="course_group.code_ue"/></td>
+                        <td><t t-esc="course_group.name"/></td>
+                        <td class="text-center"><t t-esc="course_group.total_hours"/></td>
+                        <td class="text-center"><t t-esc="course_group.total_credits"/></td>
+                        <td></td>
+                        <!--<td class="text-center">Aucun</td>-->
+                        <td>
+                            <t t-if="course_group.dispense">Disp.</t>
+                            <t t-if="course_group.group_registration_type == 'rework'">Rés</t>
+                            <t t-if="course_group.group_registration_type == 'anticipated'">Ant</t>
+                        </td>
+                    </tr>
+                    <tr t-foreach="course_group.course_ids" t-as="course">
+                        <td></td>
+                        <td t-if="course.url_ref"><a t-esc="course.title" t-att-href="course.url_ref" target="new"/></td>
+                        <td t-if="not course.url_ref"><t t-esc="course.title"/></td>
+                        <td class="text-center"><t t-esc="course.hours"/></td>
+                        <td class="text-center"><t t-esc="course.credits"/></td>
+                        <td class="text-center"><t t-esc="course.weight"/></td>
+                        <!--<td></td>-->
+                        <td></td>
+                    </tr>
+                    </t>
+                    <tr>
+                        <td></td>
+                        <td class="text-right">Total :</td>
+                        <td class="text-center"><t t-esc="bloc.total_hours"/></td>
+                        <td class="text-center"><t t-esc="bloc.total_credits"/></td>
+                        <td></td>
+                        <!--<td></td>-->
+                        <td></td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </template>
+
     <template id="report_individual_bloc_content">
         <t t-call="report.html_container">
             <t t-set="data_report_margin_top" t-value="45" />
@@ -62,7 +125,25 @@
             <t t-call="report.external_layout">
                 <div class="page">
                     <h1><t t-esc="bloc.name"/></h1>
-                    <t t-call="website_portal_school_management.school_bloc"/>
+                    
+                    <t t-call="school_management.school_bloc"/>
+                    
+                    <div class="container">
+                        <div class="row" style="margin-top:10px;">
+                            <div class="col-xs-10 col-xs-offset-1">
+                                Signature de l'étudiant
+                            </div>
+                        </div>
+                        <div class="row" style="margin-top:70px;">
+                            <div class="col-xs-4 col-xs-offset-1">
+                                Avis de la commission des études
+                            </div>
+                            <div class="col-xs-7">
+                                <textarea name="input-avis" style="width:350px;height:100px;"></textarea>
+                            </div>
+                        </div>
+                    </div>
+                    
                 </div>
             </t>
         </t>
