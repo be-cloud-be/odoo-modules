@@ -202,7 +202,12 @@
                                                     <td>
                                                         <t t-esc="course.title"/> - <t t-esc="course.level"/> <i t-if="course.teacher_id" class="oe_fade"> - <t t-esc="course.teacher_id.name"/></i></td>
                                                     <td style=" text-align: right;">
-                                                        <t t-esc="course.first_session_result_disp"/>
+                                                        <t t-if="course.second_session_result_bool">
+                                                            <t t-esc="course.second_session_result_disp"/>
+                                                        </t>
+                                                        <t t-if="course.second_session_result_bool == False">
+                                                            <t t-esc="course.first_session_result_disp"/>
+                                                        </t>
                                                     </td>
                                                     <td/>
                                                     <td/>
@@ -334,7 +339,14 @@
                                                     <td>
                                                         <t t-esc="course.title"/> - <t t-esc="course.level"/> <i t-if="course.teacher_id" class="oe_fade"> - <t t-esc="course.teacher_id.name"/></i></td>
                                                     <td style=" text-align: right;">
-                                                        <t t-esc="course.first_session_result_disp"/>
+                                                        
+                                                        <t t-if="course.second_session_result_bool">
+                                                            <t t-esc="course.second_session_result_disp"/>
+                                                        </t>
+                                                        <t t-if="course.second_session_result_bool == False">
+                                                            <t t-esc="course.first_session_result_disp"/>
+                                                        </t>
+                                                        
                                                     </td>
                                                     <td/>
                                                     <td/>

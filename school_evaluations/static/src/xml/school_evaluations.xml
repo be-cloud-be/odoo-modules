@@ -26,7 +26,7 @@
             <div id="sidebar" class="sidebar" />
             <div id="page-wrapper" style="min-height: 1033px;">
                 <div class="o_evaluation_bloc_container">
-                    <p><img src="http://www.crlg.be/Visuels/Fonds%20%C3%A9cran/IMAGE%20ACCUEIL%20FOND%20JUIN%202016.jpg" width="1000" height="650"/></p>
+                    <p><img src="/school_documentation/static/html/_static/banners/evaluations.jpg" width="1000" height="650"/></p>
                     <h2 class='o_school_deliberation_title'/>
                 </div>
             </div>
@@ -190,6 +190,35 @@
                         </t>
                     </div>
                 </div>
+                <div class="row" t-if="widget.school_session == 2 and course.second_session_result_bool">
+                    <div class="col-md-4 col-md-offset-1">
+                        Résultat de Septembre :
+                    </div>
+                    <div class="col-md-2">
+                        <t t-esc="course.sept_result" />
+                    </div>
+                </div>
+                <div class="row" t-if="widget.school_session == 2 and course.second_session_result_bool and course.type != 'D'">
+                    <div class="col-md-4 col-md-offset-1">
+                        <h4 class="">Evaluation Seconde Session :</h4>
+                    </div>
+                    <div class="col-md-2">
+                        <h4 class=""><t t-esc="Math.round(course.second_session_result*100)/100" /></h4>
+                    </div>
+                </div>
+                <div class="row" t-if="widget.school_session == 2 and course.type == 'D'">
+                    <div class="col-md-4 col-md-offset-1">
+                        <h4 class="">Evaluation Seconde Session :</h4>
+                    </div>
+                    <div class="col-md-2">
+                        <t t-if="course.jun_result">
+                            <h4 class=""><t t-esc="Math.round(course.first_session_result*100)/100" /></h4>
+                        </t>
+                        <t t-if="!course.jun_result">
+                            <h4 class="">Dispensé</h4>
+                        </t>
+                    </div>
+                </div>
             </t>
             <div class="row">
                 <div class="col-md-12">
@@ -216,6 +245,38 @@
                     <h4 class="">Résultat délibéré : <t t-esc="Math.round(cg.final_result*100)/100" /></h4>
                 </div>
             </div>
+            <t t-if="widget.school_session == 2">
+            <div class="row">
+                <div class="col-md-12">
+                    <h3 class="">Evaluation Seconde Session</h3>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-12">
+                    <t t-set="is_first" t-value="true"/>
+                    <h4 class="">
+                        (<t t-foreach="cg.courses" t-as="course">
+                            <t t-if="(course.type != 'D') or course.jun_result">
+                                <t t-if="!is_first"> + </t>
+                                <t t-if="course.second_session_result_bool">
+                                <t t-esc="Math.round(course.second_session_result*100)/100" /> * <t t-esc="Math.round(course.weight*100)/100" />
+                                </t>
+                                <t t-if="!course.second_session_result_bool">
+                                <t t-esc="Math.round(course.first_session_result*100)/100" /> * <t t-esc="Math.round(course.weight*100)/100" />
+                                </t>
+                                <t t-set="is_first" t-value="false"/>
+                            </t>
+                        </t>) 
+                        / <t t-esc='Math.round(cg.total_weight*100)/100' /> = <t t-esc="Math.round(cg.second_session_computed_result*100)/100" />
+                    </h4>
+                </div>
+            </div>
+            <div class="row" t-if="cg.first_session_deliberated_result_bool">
+                <div class="col-md-12">
+                    <h4 class="">Résultat délibéré : <t t-esc="Math.round(cg.final_result*100)/100" /></h4>
+                </div>
+            </div>
+            </t>
         </div>
     </t>
 
@@ -439,7 +500,9 @@
                                         <tr style="font-style: italic;font-size:80%;">
                                             <th scope="row" class="text-center"></th>
                                             <td>
-                                                <t t-esc="course.title" /> - <t t-esc="course.level" /> <i t-if="course.teacher_id" class="oe_fade"> - <t t-esc="course.teacher_id[1]"/></i></td>
+                                                <t t-esc="course.title" /> - <t t-esc="course.level" /> <i t-if="course.teacher_id" class="oe_fade"> - <t t-esc="course.teacher_id[1]"/></i>
+                                            </td>
+                                            <t t-if="widget.school_session == 1">
                                             <td style=" text-align: right;">
                                                 <t t-if="course.first_session_result_bool">
                                                 <t t-if="(course.type != 'D')">
@@ -453,6 +516,30 @@
                                                     Dis
                                                 </t>
                                             </td>
+                                            </t>
+                                            <t t-if="widget.school_session == 2">
+                                            <td style=" text-align: right;">
+                                                <t t-if="course.second_session_result_bool">
+                                                <t t-if="(course.type != 'D')">
+                                                    <font color="blue"><t t-esc="Math.round(course.second_session_result*100)/100" /></font>
+                                                </t>
+                                                <t t-if="(course.type == 'D') and course.jun_result">
+                                                    <font color="gray"><t t-esc="Math.round(course.second_session_result*100)/100"/></font>
+                                                </t>
+                                                </t>
+                                                <t t-if="!course.second_session_result_bool and course.first_session_result_bool">
+                                                <t t-if="(course.type != 'D')">
+                                                    <font><t t-esc="Math.round(course.first_session_result*100)/100" /></font>
+                                                </t>
+                                                <t t-if="(course.type == 'D') and course.jun_result">
+                                                    <font color="gray"><t t-esc="Math.round(course.first_session_result*100)/100"/></font>
+                                                </t>
+                                                </t>
+                                                <t t-if="(course.type == 'D') and !course.jun_result">
+                                                    Dis
+                                                </t>
+                                            </td>
+                                            </t>
                                             <td></td>
                                             <td></td>
                                             <td></td>
