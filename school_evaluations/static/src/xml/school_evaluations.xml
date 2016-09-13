@@ -24,7 +24,7 @@
     <t t-name="MainView">
         <div class="o_school_evaluations">
             <div id="sidebar" class="sidebar" />
-            <div id="page-wrapper" style="min-height: 1033px;">
+            <div id="page-wrapper">
                 <div class="o_evaluation_bloc_container">
                     <p><img src="/school_documentation/static/html/_static/banners/evaluations.jpg" width="1000" height="650"/></p>
                     <h2 class='o_school_deliberation_title'/>

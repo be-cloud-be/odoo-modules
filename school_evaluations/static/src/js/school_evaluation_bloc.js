@@ -379,7 +379,7 @@ return Widget.extend({
                             self.bloc_result.grade = 'without';
                         };
                     }
-                    else if(self.bloc.total_acquiered_credits >= 45) {
+                    else if(self.bloc.total_credits - self.bloc.total_acquiered_credits <= 15) {
                         self.bloc_result = {
                             'message' : _t("Au moins 165 crédits ECTS acquis ou valorisés, autorisation d'accéder au programme de Master, les crédits résiduels devront être acquis avant toute délibération en Master."),
                             'class' : "success",
