@@ -148,7 +148,7 @@ return Widget.extend({
             var self = this;
             var cg_id = $(event.target).data('course-group-id');
             event.preventDefault();
-            Dialog.confirm(self, _t("Merci de confirmer la délibération de cette unité d'enseignement à 10?"), {
+            Dialog.confirm(self, _t("Merci de confirmer la délibération de cette unité d'enseignement comme étant acquise."), {
                 confirm_callback: function() {
                     new Model('school.individual_course_group').call("set_deliberated_to_ten",[cg_id,self.school_session]).then(function(result) {
                         self.update();
