@@ -267,6 +267,8 @@ class Course(models.Model):
     
     level = fields.Integer(related='course_group_id.level',string='Level', readonly=True)
     
+    cycle_id = fields.Many2one(related='course_group_id.cycle_id', string='Cycle',store=True, readonly=True)
+    
     speciality_id = fields.Many2one(related='course_group_id.speciality_id', string='Speciality',store=True, readonly=True)
     domain_id = fields.Many2one(related='course_group_id.domain_id', string='Domain',store=True, readonly=True)
     section_id = fields.Many2one(related='course_group_id.section_id', string='Section',store=True, readonly=True)
