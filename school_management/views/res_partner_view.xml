@@ -126,11 +126,6 @@
                         <field name="has_paid_current_minerval" widget="boolean_button" />
                     </button>
                 </xpath>
-                <xpath expr="//sheet" position="before">
-                    <header>
-                        <button string="Assing Program" type="action" name="%(action_assing_program_view)d" class="oe_highlight" context="{'default_student_id': active_id}" attrs="{'invisible': [('student','=',False)]}" />
-                    </header>
-                </xpath>
                 <xpath expr="//field[@name='employee']" position="after">
                     <field name="student_current_program_name" attrs="{'invisible': [('student','=',False)]}" />
                     <field name='email_personnel' />
