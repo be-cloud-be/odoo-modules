@@ -500,7 +500,7 @@
                                         <tr style="font-style: italic;font-size:80%;">
                                             <th scope="row" class="text-center"></th>
                                             <td>
-                                                <t t-esc="course.title" /> - <t t-esc="course.level" /> <i t-if="course.teacher_id" class="oe_fade"> - <t t-esc="course.teacher_id[1]"/></i>
+                                                <t t-esc="course.title" /> <t t-if="course.level > 0">- <t t-esc="course.level" /></t> <i t-if="course.teacher_id" class="oe_fade"> - <t t-esc="course.teacher_id[1]"/></i>
                                             </td>
                                             <t t-if="widget.school_session == 1">
                                             <td style=" text-align: right;">
