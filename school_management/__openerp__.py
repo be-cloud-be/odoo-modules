@@ -35,7 +35,6 @@
         'views/individual_program_view.xml',
         'views/configuration_view.xml',
         'wizard/course_session_generation.xml',
-        'wizard/assign_program.xml',
         'report/student_report.xml',
         'report/report_program.xml',
         'sequences/school_sequence.xml',

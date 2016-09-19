@@ -118,12 +118,10 @@
               <field name="title" colspan="4"/>
               <field name="sequence" />
               <field name="level" />
-              <group col="4" colspan="4">
-                <field name="total_hours" />
-                <field name="total_credits" />
-                <field name="total_weight" />
-                <field name="weight" />
-              </group>
+              <field name="total_hours" />
+              <field name="total_credits" />
+              <field name="total_weight" />
+              <field name="weight" />
             </group>
 
             <field name="course_ids" context="{'default_course_group_id':active_id}">
@@ -328,7 +326,7 @@
         <search string="Search Course">
           <field name="name" filter_domain="[('name','ilike',self)]" />
           <group expand="1" string="Group By">
-            <filter string="Track Tree" context="{'group_by':['track_id', 'course_group_id']}" />
+            <filter string="Track Tree" context="{'group_by':['cycle_id', 'track_id', 'course_group_id']}" />
           </group>
         </search>
       </field>
@@ -340,7 +338,7 @@
       <field name="res_model">school.course</field>
       <field name="view_type">form</field>
       <field name="view_mode">tree,form</field>
-      <field name="context">{'group_by':['track_id', 'course_group_id']}</field>
+      <field name="context">{'group_by':['cycle_id', 'track_id', 'course_group_id']}</field>
       <field name="search_view_id" ref="view_course_filter" />
       <field name="help" type="html">
         <p class="oe_view_nocontent_create">
@@ -479,12 +477,10 @@
               <field name="title" colspan="4"/>
               <field name="sequence" />
               <field name="level" />
-              <group col="4" colspan="4">
-                <field name="total_hours" />
-                <field name="total_credits" />
-                <field name="program_id" />
-                <field name="total_weight" />
-              </group>
+              <field name="total_hours" />
+              <field name="total_credits" />
+              <field name="program_id" />
+              <field name="total_weight" />
             </group>
             <field name="course_group_ids">
               <tree string="Course Groups">
