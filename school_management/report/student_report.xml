@@ -60,12 +60,12 @@
                         </div>
                         <div class="row" style="margin-top:40px;">
                             <div class="col-xs-9 col-xs-offset-2">
-                                <b><span t-field="o.student_id.name"/>, né<t if="o.student_id.gender == 'female'">e</t> le <span t-field="o.student_id.birthdate_date"/> à <span t-field="o.student_id.birthplace"/></b>
+                                <b><span t-field="o.student_id.name"/>, né<t t-if="o.student_id.gender == 'female'">e</t> le <span t-field="o.student_id.birthdate_date"/> à <span t-field="o.student_id.birthplace"/></b>
                             </div>
                         </div>
                         <div class="row" style="margin-top:40px;">
                             <div class="col-xs-10 col-xs-offset-1">
-                                est régulièrement inscrit<t if="o.student_id.gender == 'female'">e</t> aux cours du jour de l'Enseignement Supérieur Artistique de type
+                                est régulièrement inscrit<t t-if="o.student_id.gender == 'female'">e</t> aux cours du jour de l'Enseignement Supérieur Artistique de type
                                 <span t-field="o.source_bloc_cycle_id.type"/> pour l'année <span t-field="o.year_id"/>.
                                 <p  style="margin-top:10px;">
                                     Les cours sont donnés du 15 septembre au 30 juin.
@@ -79,7 +79,7 @@
                         </div>
                         <div class="row" style="margin-top:20px;">
                             <div class="col-xs-8 col-xs-offset-2">
-                                <b><span t-field="o.source_bloc_cycle_id"/> du domaine <span t-field="o.source_bloc_domain_id"/>, section <span t-field="o.source_bloc_section_id"/>, option <span t-field="o.source_bloc_track_id"/>, spécialité <span t-field="o.source_bloc_speciality_id"/>.</b>
+                                <b><span t-field="o.source_bloc_cycle_id"/> - <span t-field="o.source_bloc_id.level"/> du domaine <span t-field="o.source_bloc_domain_id"/>, section <span t-field="o.source_bloc_section_id"/>, option <span t-field="o.source_bloc_track_id"/>, spécialité <span t-field="o.source_bloc_speciality_id"/>.</b>
                             </div>
                         </div>
                         <div class="row" style="margin-top:50px;">
