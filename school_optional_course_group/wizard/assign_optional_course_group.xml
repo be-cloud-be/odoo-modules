@@ -21,13 +21,13 @@
 ##############################################################################
 -->
 <odoo>
-    <record id="assing_optional_course_group_view" model="ir.ui.view">
+    <record id="assign_optional_course_group_view" model="ir.ui.view">
         <field name="name">Assing Optional Course</field>
         <field name="model">school.assign.optional.course_group</field>
         <field name="arch" type="xml">
             <form string="Generation Options">
                 <separator string="Assing Optional Course"/>
-                <label string="This wizard will assing the optional course of a student."/>
+                <label string="This wizard will assign the optional course of a student."/>
                 <field name="optional_course_lines">
                   <tree string="Courses" editable="top" create="0" delete="0">
                     <field name="year_id" readonly="1"/>
@@ -54,6 +54,6 @@
                 multi="True"
                 target="new"
                 key2="client_action_multi"
-                id="action_assing_optional_course_group_view"
+                id="action_assign_optional_course_group_view"
                 context="{'default_bloc_ids': '${object.id or \'\'}'}"/>
 </odoo>
