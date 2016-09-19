@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!--
+##############################################################################
+#
+#    Copyright (c) 2015 be-cloud.be
+#                       Jerome Sonnet <jerome.sonnet@be-cloud.be>
+#
+#    This program is free software: you can redistribute it and/or modify
+#    it under the terms of the GNU Affero General Public License as
+#    published by the Free Software Foundation, either version 3 of the
+#    License, or (at your option) any later version.
+#
+#    This program is distributed in the hope that it will be useful,
+#    but WITHOUT ANY WARRANTY; without even the implied warranty of
+#    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+#    GNU Affero General Public License for more details.
+#
+#    You should have received a copy of the GNU Affero General Public License
+#    along with this program.  If not, see <http://www.gnu.org/licenses/>.
+#
+##############################################################################
+-->
+<openerp>
+    <data>
+        <!-- Course Documentation List View -->
+        <record id="view_course_documentation_list" model="ir.ui.view">
+            <field name="name">school.course_documentation.tree</field>
+            <field name="model">school.course_documentation</field>
+            <field eval="8" name="priority" />
+            <field name="arch" type="xml">
+                <tree string="Course Documentation">
+                    <field name="course_id" string="Course"/>
+                    <field name="state" />
+                </tree>
+            </field>
+        </record>
+        
+        <record model="ir.ui.view" id="course_documentation_form">
+            <field name="name">school.course_documentation.view</field>
+            <field name="model">school.course_documentation</field>
+            <field name="type">form</field>
+            <field name="arch" type="xml">
+                <form string="Course" create="0">
+                    <header>
+        	            <button name="publish" type="object" states="draft" string="Publish" class="oe_highlight" groups="school_management.group_employee"/>
+                        <button name="unpublish" type="object" states="published,archived" string="Reset to Draft" groups="school_management.group_employee"/>
+                        <button name="archive" type="object" states="published" string="Archive" groups="school_management.group_employee"/>
+        	            <field name="state" widget="statusbar" statusbar_visible="draft,published,archived"/>
+                    </header>
+                    <sheet>
+                        <div class="oe_title">
+                          <h1>
+                           <field name="course_id"/>
+                          </h1>
+                        </div>
+                        <h3>Content</h3>
+                        <field name="content"/>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+        
+        <record id="action_course_documentation_list" model="ir.actions.act_window">
+            <field name="name">Course Documentation</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">school.course_documentation</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">tree,form</field>
+        </record>
+        
+        <record id="action_course_documentation_tree_view1" model="ir.actions.act_window.view">
+            <field name="sequence" eval="1" />
+            <field name="view_mode">tree</field>
+            <field name="view_id" ref="view_course_documentation_list" />
+            <field name="act_window_id" ref="action_course_documentation_list" />
+        </record>
+        
+        <menuitem id="menu_course_documentation_list" parent="school_management.menu_course_groups" action="action_course_documentation_list" sequence="400" />
+    </data>
+</openerp>

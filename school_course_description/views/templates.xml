@@ -1,0 +1,135 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!--
+##############################################################################
+#
+#    Copyright (c) 2015 be-cloud.be
+#                       Jerome Sonnet <jerome.sonnet@be-cloud.be>
+#
+#    This program is free software: you can redistribute it and/or modify
+#    it under the terms of the GNU Affero General Public License as
+#    published by the Free Software Foundation, either version 3 of the
+#    License, or (at your option) any later version.
+#
+#    This program is distributed in the hope that it will be useful,
+#    but WITHOUT ANY WARRANTY; without even the implied warranty of
+#    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+#    GNU Affero General Public License for more details.
+#
+#    You should have received a copy of the GNU Affero General Public License
+#    along with this program.  If not, see <http://www.gnu.org/licenses/>.
+#
+##############################################################################
+-->
+<odoo>
+
+    <template id="assets_report" inherit_id="report.assets_common" name="School Course Description">
+        <xpath expr="." position="inside">
+            <!--<script type="text/javascript" src="/school_course_description/static/src/js/website_sale.test.js"></script>-->
+            <script type="text/javascript" src="/school_course_description/static/src/js/course_description.js"></script>
+            <link rel='stylesheet' href='/school_course_description/static/src/css/course_description.css' />
+        </xpath>
+    </template>
+
+    <template id="assets_frontend" inherit_id="website.assets_frontend" name="School Course Description">
+        <xpath expr="." position="inside">
+            <!--<script type="text/javascript" src="/school_course_description/static/src/js/website_sale.test.js"></script>-->
+            <script type="text/javascript" src="/school_course_description/static/src/js/course_description.js"></script>
+            <link rel='stylesheet' href='/school_course_description/static/src/css/course_description.css' />
+        </xpath>
+    </template>
+
+    <template id="school_course" name="Course Documentation">
+        <t t-call="website.layout">
+            <t t-set="title">Course Description</t>
+            <div class="oe_structure">
+                <div class="container">
+                    <div class="page-header">
+                      <div class="row">
+                        <div class="col-md-10">
+                          <h1>Course Description - <span t-field="course.name"/></h1>
+                        </div>
+                        <div class="col-md-2">
+                          <span class="row">
+                              <a class="btn btn-default" t-att-href="'/course_doc/edit/%s' % slug(course)">
+                                <i class="fa fa-edit fa-2x" title="Edit" aria-hidden="true"></i>
+                                <span class="sr-only">Edit</span>
+                              </a>
+                          </span>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="panel panel-default">
+                      <div class="panel-heading">
+                        <h3 class="panel-title">Identification</h3>
+                      </div>
+                      <!-- List group -->
+                      <ul class="list-group">
+                        <li class="list-group-item">Enseignants responsables de son organisation et de son évaluation : Pierre-Henri XUEREB (Professeur)</li>
+                        <li class="list-group-item">Nombre de crédits associés : <span t-field="course.credits"/> Crédits ECTS</li>
+                        <li class="list-group-item">Pondération au sein de l’UE : <span t-field="course.weight"/></li>
+                        <li class="list-group-item">Caractère obligatoire : OUI</li>
+                        <li class="list-group-item">Période de l’activité d’apprentissage : 1er Quadrimestre et 2e Quadrimestre</li>
+                        <li class="list-group-item">Volume horaire : <span t-field="course.hours"/> h</li>
+                      </ul>
+                    </div>
+                    <div class="panel panel-default">
+                      <div class="panel-heading">
+                        <h3 class="panel-title">Content</h3>
+                      </div>
+                      <div class="panel-body">
+                        <span t-field="doc.content"/>
+                      </div>
+                    </div>
+                </div>
+            </div>
+        </t>
+    </template>
+    
+    <template id="school_course_edit" name="Course Documentation">
+        <t t-call="website.layout">
+            <t t-set="title">Course Description</t>
+            <div class="oe_structure">
+                <div class="container course_doc_editor" t-att-data-doc-id="doc.id">
+                    <div class="page-header">
+                      <h1>Draft Course Description - <span t-field="course.name"/></h1>
+                    </div>
+                    <div class="alert alert-danger" role="alert">
+                      Your modifications will be reviewed before publication to the web site.
+                    </div>
+                    <div class="panel panel-default">
+                      <div class="panel-heading">
+                        <h3 class="panel-title">Identification</h3>
+                      </div>
+                      <!-- List group -->
+                      <ul class="list-group">
+                        <li class="list-group-item">Enseignants responsables de son organisation et de son évaluation : Pierre-Henri XUEREB (Professeur)</li>
+                        <li class="list-group-item">Nombre de crédits associés : <span t-field="course.credits"/> Crédits ECTS</li>
+                        <li class="list-group-item">Pondération au sein de l’UE : <span t-field="course.weight"/></li>
+                        <li class="list-group-item">Caractère obligatoire : OUI</li>
+                        <li class="list-group-item">Période de l’activité d’apprentissage : 1er Quadrimestre et 2e Quadrimestre</li>
+                        <li class="list-group-item">Volume horaire : <span t-field="course.hours"/> h</li>
+                      </ul>
+                    </div>
+                    <div class="panel panel-default">
+                      <div class="panel-heading">
+                        <h3 class="panel-title">Content</h3>
+                      </div>
+                      <div class="panel-body">
+                          <div id="content">
+                            <t t-esc='doc.content'/>
+				                  </div>
+                      </div>
+                    </div>
+                    <div class="btn-group mb16" role="group">
+                      <button type="button" class="btn btn-sm oe_button btn btn-primary school_editor_save">
+                          <span>Save</span>
+                      </button>
+                      <a class="btn btn-sm oe_button btn btn-default school_editor_close" t-att-href="'/course_doc/%s' % slug(course)">
+                          <span>Close</span>
+                      </a>
+                    </div>
+                </div>
+            </div>
+        </t>
+    </template>
+</odoo>

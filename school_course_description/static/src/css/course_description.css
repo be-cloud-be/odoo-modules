@@ -1,0 +1,14 @@
+.oe_school_program:hover {
+  cursor: pointer;
+  -webkit-transform: scale(1.02);
+  -moz-transform: scale(1.02);
+  -ms-transform: scale(1.02);
+  -o-transform: scale(1.02);
+  transform: scale(1.02); }
+
+.oe_school_program_table {
+  font-size: 85%; }
+
+.oe_school_course_group {
+  background-color: #eeeeee;
+  font-weight: bold; }
