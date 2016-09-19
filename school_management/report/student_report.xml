@@ -55,12 +55,12 @@
                         </div>
                         <div class="row" style="margin-top:150px;">
                             <div class="col-xs-10 col-xs-offset-1">
-                                Je sousigné, Nathanaël HARCQ, Directeur du CONSERVATOIRE ROYAL DE LIEGE certifie par la présente que
+                                Je soussigné, Nathanaël HARCQ, Directeur du CONSERVATOIRE ROYAL DE LIEGE certifie par la présente que
                             </div>
                         </div>
                         <div class="row" style="margin-top:40px;">
                             <div class="col-xs-9 col-xs-offset-2">
-                                <b><span t-field="o.student_id.name"/>, né le <span t-field="o.student_id.birthdate_date"/> à <span t-field="o.student_id.birthplace"/></b>
+                                <b><span t-field="o.student_id.name"/>, né<t if="o.student_id.gender == 'female'">e</t> le <span t-field="o.student_id.birthdate_date"/> à <span t-field="o.student_id.birthplace"/></b>
                             </div>
                         </div>
                         <div class="row" style="margin-top:40px;">

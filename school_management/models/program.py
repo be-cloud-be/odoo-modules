@@ -200,6 +200,8 @@ class CourseGroup(models.Model):
     section_id = fields.Many2one(related='speciality_id.section_id', string='Section',store=True)
     track_id = fields.Many2one(related='speciality_id.track_id', string='Track',store=True)
     
+    cycle_id = fields.Many2one('school.cycle', string='Cycle')
+    
     level = fields.Integer(string='Level')
     
     description = fields.Text(string='Description')
