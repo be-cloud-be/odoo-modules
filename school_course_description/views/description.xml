@@ -50,11 +50,86 @@
                     <sheet>
                         <div class="oe_title">
                           <h1>
-                           <field name="course_id"/>
+                            Course Description - <field name="course_id" class="oe_inline" readonly="1"/>
                           </h1>
                         </div>
-                        <h3>Content</h3>
-                        <field name="content"/>
+                        <div class="panel panel-default">
+                          <div class="panel-heading">
+                            <h3 class="panel-title">Content</h3>
+                          </div>
+                          <div class="panel-body">
+                            <field name="content"/>
+                          </div>
+                        </div>
+                        <div class="panel panel-default">
+                          <div class="panel-heading">
+                            <h3 class="panel-title">Method</h3>
+                          </div>
+                          <div class="panel-body">
+                            <field name="method"/>
+                          </div>
+                        </div>
+                        <div class="panel panel-default">
+                          <div class="panel-heading">
+                            <h3 class="panel-title">Learning outcomes</h3>
+                          </div>
+                          <div class="panel-body">
+                            <field name="learning_outcomes"/>
+                          </div>
+                        </div>
+                        <div class="panel panel-default">
+                          <div class="panel-heading">
+                            <h3 class="panel-title">Competencies</h3>
+                          </div>
+                          <div class="panel-body">
+                            <field name="competencies"/>
+                          </div>
+                        </div>
+                        <div class="panel panel-default">
+                          <div class="panel-heading">
+                            <h3 class="panel-title">Evaluation method</h3>
+                          </div>
+                          <div class="panel-body">
+                            <field name="evaluation_method"/>
+                          </div>
+                        </div>
+                        <div class="panel panel-default">
+                          <div class="panel-heading">
+                            <h3 class="panel-title">Staff</h3>
+                          </div>
+                          <div class="panel-body">
+                            <field name="staff_ids">
+                                <tree string="Staff">
+                                    <field name="teacher_id" />
+                                    <field name="role" />
+                                </tree>
+                            </field>
+                            </div>
+                        </div>
+                        <div class="panel panel-default">
+                          <div class="panel-heading">
+                            <h3 class="panel-title">Language</h3>
+                          </div>
+                          <div class="panel-body">
+                            <field name="language"/>
+                          </div>
+                        </div>
+                        <div class="panel panel-default">
+                          <div class="panel-heading">
+                            <h3 class="panel-title">Schedule</h3>
+                          </div>
+                          <div class="panel-body">
+                            <field name="schedule"/>
+                          </div>
+                        </div>
+                        <div class="panel panel-default">
+                          <div class="panel-heading">
+                            <h3 class="panel-title">Rooms</h3>
+                          </div>
+                          <div class="panel-body">
+                            <field name="rooms"/>
+                          </div>
+                        </div>
                     </sheet>
                 </form>
             </field>
@@ -76,5 +151,31 @@
         </record>
         
         <menuitem id="menu_course_documentation_list" parent="school_management.menu_course_groups" action="action_course_documentation_list" sequence="400" />
+        
+        <record id="action_new_course_documentation" model="ir.actions.act_window">
+            <field name="name">New Course Documentation</field>
+            <field name="res_model">school.course_documentation</field>
+            <field name="view_type">form</field>
+            <field name="view_id" ref="course_documentation_form"/>
+            <field name="context">{'default_course_id': context.get('active_id', False)}</field>
+        </record>
+        
+        <!-- Add evaluation to Individual Course form view -->
+        <record id="course_doc_form" model="ir.ui.view">
+            <field name="name">school.course.doc.view</field>
+            <field name="model">school.course</field>
+            <field name="inherit_id" ref="school_management.course_form" />
+            <field eval="25" name="priority" />
+            <field name="arch" type="xml">
+                <xpath expr="//sheet" position="before">
+                    <header>
+                        <button type="action" 
+                            name="%(action_new_course_documentation)d" string="Add doc" >
+                        </button>
+                    </header>
+                </xpath>
+            </field>
+        </record>
+        
     </data>
 </openerp>

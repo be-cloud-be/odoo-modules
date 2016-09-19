@@ -25,10 +25,10 @@ from openerp.exceptions import UserError, ValidationError
 _logger = logging.getLogger(__name__)
 
 class CourseDocumentation(models.Model):
-    '''Program'''
+    '''CourseDocumentation'''
     _name = 'school.course_documentation'
     _description = 'Documentation about a course'
-    _inherit = ['mail.thread']
+    _inherit = ['mail.thread', 'ir.needaction_mixin']
     
     state = fields.Selection([
             ('draft','Draft'),
@@ -43,10 +43,16 @@ class CourseDocumentation(models.Model):
     
     course_id = fields.Many2one('school.course', string='Course')
     
+    name = fields.Char(related='course_id.name')
+    
+    @api.model
+    def _needaction_domain_get(self):
+        return [('state', '=', 'draft')]
+    
     @api.one
     @api.constrains('state', 'course_id')
     def _check_uniqueness(self):
-        num_active = self.env['school.course_documentation'].search_count([['course_id', '=', self.id],['state','=','published']])
+        num_active = self.env['school.course_documentation'].search_count([['course_id', '=', self.course_id.id],['state','=','published']])
         if num_active > 1:
             raise ValidationError("Only on documentation shall be published at a given time")
     
@@ -56,24 +62,33 @@ class CourseDocumentation(models.Model):
     
     @api.multi
     def publish(self):
+        current = self.env['school.course_documentation'].search([['course_id', '=', self.course_id.id],['state','=','published']])
+        if current:
+            current[0].write({'state': 'archived'})
         return self.write({'state': 'published'})
     
     @api.multi
     def archive(self):
         return self.write({'state': 'archived'})
-    
-    content = fields.Text(string="Content")
-    
-    @api.model
-    def default_get(self, fields):
-        result = super(CourseDocumentation, self).default_get(fields)
-        course_id = self._context.get('course_id')
-        active_doc_id = self.env['school.course_documentation'].search([['course_id', '=', course_id],['state','=','published']])
-        if active_doc_id:
-            if 'content' in fields:
-                result['content'] = active_doc_id.content
-        return result
 
+    content = fields.Text(string="Content")
+    method = fields.Text(string="Method")
+    learning_outcomes = fields.Text(string="Learning outcomes")
+    competencies = fields.Text(string="Competencies")
+    evaluation_method = fields.Text(string="Evaluation method")
+    staff_ids = fields.One2many("school.course_staff", 'doc_id', string='Staff', copy=True)
+    language = fields.Text(string="Language")
+    schedule = fields.Text(string="Schedule")
+    rooms = fields.Text(string="Rooms")
+    
+class CourseStaff(models.Model):
+    '''CourseStaff'''
+    _name = 'school.course_staff'
+    _description = 'Staff of a course'
+    doc_id = fields.Many2one('school.course_documentation', string='Documentation')
+    teacher_id = fields.Many2one('res.partner', string='Teacher', domain=[('teacher', '=', True)])
+    role = fields.Char(string="Role")
+    
 class Course(models.Model):
     '''Course'''
     _inherit = 'school.course'

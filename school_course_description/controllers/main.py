@@ -42,18 +42,13 @@ class school_course_documentation(http.Controller):
     def course_doc_edit(self, course, redirect=None, **post):
         draft_doc = course.env['school.course_documentation'].search([['course_id', '=', course.id],['state','=','draft']])
         if not draft_doc:
-            draft_doc = course.env['school.course_documentation'].with_context(course_id=course.id).create({'course_id' : course.id})
+            active_doc = course.env['school.course_documentation'].search([['course_id', '=', course.id],['state','=','published']])
+            if active_doc:
+                draft_doc = active_doc.copy()
+            else:    
+                draft_doc = course.env['school.course_documentation'].create({'course_id' : course.id})
         values = {
             'course' : course,
             'doc' : draft_doc,
         }
         return request.website.render("school_course_description.school_course_edit", values)
-
-    @http.route(['/course_doc/update'], type='http', auth="public", website=True)
-    def course_doc_update(self, course_id, course_doc_id, content, **kw):
-        cr, uid, context = request.cr, request.uid, request.context
-        doc = request.registry['school.course_documentation'].browse(cr, uid, course_doc_id, context)
-        doc.write({
-            content : content,
-        });
-        return request.redirect("/course_doc/"+course_id)

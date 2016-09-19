@@ -80,6 +80,79 @@
                         <span t-field="doc.content"/>
                       </div>
                     </div>
+                    <div class="panel panel-default">
+                      <div class="panel-heading">
+                        <h3 class="panel-title">Method</h3>
+                      </div>
+                      <div class="panel-body">
+                        <span t-field="doc.method"/>
+                      </div>
+                    </div>
+                    <div class="panel panel-default">
+                      <div class="panel-heading">
+                        <h3 class="panel-title">Learning outcomes</h3>
+                      </div>
+                      <div class="panel-body">
+                        <span t-field="doc.learning_outcomes"/>
+                      </div>
+                    </div>
+                    <div class="panel panel-default">
+                      <div class="panel-heading">
+                        <h3 class="panel-title">Competencies</h3>
+                      </div>
+                      <div class="panel-body">
+                        <span t-field="doc.competencies"/>
+                      </div>
+                    </div>
+                    <div class="panel panel-default">
+                      <div class="panel-heading">
+                        <h3 class="panel-title">Evaluation method</h3>
+                      </div>
+                      <div class="panel-body">
+                        <span t-field="doc.evaluation_method"/>
+                      </div>
+                    </div>
+                    <div class="panel panel-default">
+                      <div class="panel-heading">
+                        <h3 class="panel-title">Staff</h3>
+                      </div>
+                      <!-- Table -->
+                      <table class="table">
+                        <tbody>
+                          <t t-foreach="doc.staff_ids" t-as="staff">
+                          <tr>
+                            <td><span t-field="staff.teacher_id"/></td>
+                            <td><span t-field="staff.role"/></td>
+                            <td><span t-field="staff.teacher_id.email"/></td>
+                          </tr>
+                          </t>
+                        </tbody>
+                      </table>
+                    </div>
+                    <div class="panel panel-default">
+                      <div class="panel-heading">
+                        <h3 class="panel-title">Language</h3>
+                      </div>
+                      <div class="panel-body">
+                        <span t-field="doc.language"/>
+                      </div>
+                    </div>
+                    <div class="panel panel-default">
+                      <div class="panel-heading">
+                        <h3 class="panel-title">Schedule</h3>
+                      </div>
+                      <div class="panel-body">
+                        <span t-field="doc.schedule"/>
+                      </div>
+                    </div>
+                    <div class="panel panel-default">
+                      <div class="panel-heading">
+                        <h3 class="panel-title">Rooms</h3>
+                      </div>
+                      <div class="panel-body">
+                        <span t-field="doc.rooms"/>
+                      </div>
+                    </div>
                 </div>
             </div>
         </t>
@@ -115,9 +188,96 @@
                         <h3 class="panel-title">Content</h3>
                       </div>
                       <div class="panel-body">
-                          <div id="content">
+                          <div id="content" class="text_editor">
                             <t t-esc='doc.content'/>
 				                  </div>
+                      </div>
+                    </div>
+                    <div class="panel panel-default">
+                      <div class="panel-heading">
+                        <h3 class="panel-title">Method</h3>
+                      </div>
+                      <div class="panel-body">
+                        <div id="method" class="text_editor">
+                          <t t-esc='doc.method'/>
+			                  </div>
+                      </div>
+                    </div>
+                    <div class="panel panel-default">
+                      <div class="panel-heading">
+                        <h3 class="panel-title">Learning outcomes</h3>
+                      </div>
+                      <div class="panel-body">
+                        <div id="learning_outcomes" class="text_editor">
+                          <t t-esc='doc.learning_outcomes'/>
+			                  </div>
+                      </div>
+                    </div>
+                    <div class="panel panel-default">
+                      <div class="panel-heading">
+                        <h3 class="panel-title">Competencies</h3>
+                      </div>
+                      <div class="panel-body">
+                        <div id="competencies" class="text_editor">
+                          <t t-esc='doc.competencies'/>
+			                  </div>
+                      </div>
+                    </div>
+                    <div class="panel panel-default">
+                      <div class="panel-heading">
+                        <h3 class="panel-title">Evaluation method</h3>
+                      </div>
+                      <div class="panel-body">
+                        <div id="evaluation_method" class="text_editor">
+                          <t t-esc='doc.evaluation_method'/>
+			                  </div>
+                      </div>
+                    </div>
+                    <div class="panel panel-default">
+                      <div class="panel-heading">
+                        <h3 class="panel-title">Staff</h3>
+                      </div>
+                      <!-- Table -->
+                      <table class="table">
+                        <tbody>
+                          <t t-foreach="doc.staff_ids" t-as="staff">
+                          <tr>
+                            <td><span t-field="staff.teacher_id"/></td>
+                            <td><span t-field="staff.role"/></td>
+                            <td><span t-field="staff.teacher_id.email"/></td>
+                          </tr>
+                          </t>
+                        </tbody>
+                      </table>
+                    </div>
+                    <div class="panel panel-default">
+                      <div class="panel-heading">
+                        <h3 class="panel-title">Language</h3>
+                      </div>
+                      <div class="panel-body">
+                        <div id="language" class="text_editor">
+                          <t t-esc='doc.language'/>
+			                  </div>
+                      </div>
+                    </div>
+                    <div class="panel panel-default">
+                      <div class="panel-heading">
+                        <h3 class="panel-title">Schedule</h3>
+                      </div>
+                      <div class="panel-body">
+                        <div id="schedule" class="text_editor">
+                          <t t-esc='doc.schedule'/>
+			                  </div>
+                      </div>
+                    </div>
+                    <div class="panel panel-default">
+                      <div class="panel-heading">
+                        <h3 class="panel-title">Rooms</h3>
+                      </div>
+                      <div class="panel-body">
+                        <div id="rooms" class="text_editor">
+                          <t t-esc='doc.rooms'/>
+			                  </div>
                       </div>
                     </div>
                     <div class="btn-group mb16" role="group">

@@ -28,13 +28,30 @@ odoo.define('school_course_description.editor', function(require) {
     
     var _t = core._t;
     
-    $('#content').summernote();
+    $('.text_editor').summernote();
     
     $('.school_editor_save').on('click', function (event) {
         if (!event.isDefaultPrevented() && !$(this).is(".disabled")) {
             var doc_id = $('.course_doc_editor').data('doc-id');
             var content = $("#content").code();
-            new Model('school.course_documentation').call('write', [doc_id,{'content':content}]).then(function(result){
+            var method = $("#method").code();
+            var learning_outcomes = $("#learning-outcomes").code();
+            var competencies = $("#competencies").code();
+            var evaluation_method = $("#evaluation-method").code();
+            var language = $("#language").code();
+            var schedule = $("#schedule").code();
+            var rooms = $("#rooms").code();
+            new Model('school.course_documentation').call('write', [doc_id,{
+                'content' : content,
+                'method' : method,
+                'learning_outcomes' : learning_outcomes,
+                'competencies' : competencies,
+                'evaluation_method' : evaluation_method,
+                //'staff_ids' = fields.One2many("school.course_staff", 'doc_id', string='Staff')
+                'language' : language,
+                'schedule' : schedule,
+                'rooms' : rooms
+            }]).then(function(result){
                 if(result){
                     Dialog.alert(self, _t("You changes are saved, they are to be reviewed before being published."), {
                         title: _t('Changes saved'),
