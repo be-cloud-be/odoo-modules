@@ -20,3 +20,4 @@
 ##############################################################################
 import year_opening
 import register_next
+import assign_program
