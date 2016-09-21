@@ -78,9 +78,12 @@ class RegisterNext(models.TransientModel):
         else :
             for group in self.init_bloc_id.course_group_ids:
                 if group.acquiered == 'NA':
-                    new_group = self.new_bloc_id.course_group_ids.create({'bloc_id': self.new_bloc_id.id,'source_course_group_id': group.source_course_group_id.id, 'acquiered' : 'NA', 'dispense': False, 'group_registration_type' : 'rework'})
-                    # TODO - see why we need to trigger this...
-                    new_group.onchange_source_cg()
+                    # check if the group is already present (an anticipated cg that was not acquiered)
+                    new_group = self.env['school.individual_course_group'].search([('bloc_id','=',new_bloc.id),('source_course_group_id','=',group.source_course_group_id.id)])
+                    if not new_group:
+                        new_group = self.new_bloc_id.course_group_ids.create({'bloc_id': self.new_bloc_id.id,'source_course_group_id': group.source_course_group_id.id, 'acquiered' : 'NA', 'dispense': False, 'group_registration_type' : 'rework'})
+                        # TODO - see why we need to trigger this...
+                        new_group.onchange_source_cg()
                         
         # Find in student history if erver one course_group was already acquiered
         
