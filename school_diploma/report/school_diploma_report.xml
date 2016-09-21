@@ -182,9 +182,7 @@
                                 Numéro de matricule de l’étudiant / Student identification number or code :
                             </div>
                             <div class="col-xs-10 col-xs-offset-2" style="font-style: bold;">
-                                <div class="alert alert-danger" role="alert">
-                                    Manque le numéro de matricule
-                                </div>
+                                <span t-field="o.student_id.reg_number"/>
                             </div>
                         </div>
                         <div class="row">

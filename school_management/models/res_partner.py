@@ -43,6 +43,7 @@ class Partner(models.Model):
     marial_status = fields.Selection([('M', 'Maried'),('S', 'Single')])
     registration_date = fields.Date('Registration Date')
     email_personnel = fields.Char('Email personnel')
+    reg_number = fields.Char('Registration Number')
     
     minerval_ids = fields.One2many('school.minerval', 'student_id', string='Minerval')
     has_paid_current_minerval = fields.Boolean(compute='_has_paid_current_minerval',string="Has paid current minerval", store=True)

@@ -132,6 +132,7 @@
                 </xpath>
                 <xpath expr="//group[@name='personal_information_group']" position="inside">
                     <field name="birthplace"/>
+                    <field name="reg_number" />
                 </xpath>
                 <xpath expr="//notebook[last()]" position="inside">
                     <page name="programs_list" string="Programs" attrs="{'invisible': [('student','=',False)]}">
