@@ -54,8 +54,8 @@
         file="school_management.report_individual_bloc_content"
         />
 
-        <!--Email template -->
-    <record id="email_template_evaluation_for_student" model="mail.template">
+    <!--Email template -->
+    <record id="email_template_report_individual_bloc" model="mail.template">
             <field name="name">Individual Bloc - Send by Email</field>
             <field name="email_to">${(object.student_id.email and '%s &lt;%s&gt;' % (object.student_id.name, object.student_id.email) or '')|safe}</field>
             <field name="subject">Individual Bloc</field>

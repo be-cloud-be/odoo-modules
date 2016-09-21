@@ -88,7 +88,7 @@ class IndividualBloc(models.Model):
     image_medium = fields.Binary('Image', attachment=True, related='student_id.image_medium')
     image_small = fields.Binary('Image', attachment=True, related='student_id.image_small')
     
-    course_group_ids = fields.One2many('school.individual_course_group', 'bloc_id', string='Courses Groups')
+    course_group_ids = fields.One2many('school.individual_course_group', 'bloc_id', string='Courses Groups',track_visibility='onchange')
     
     total_credits = fields.Integer(compute='_get_courses_total', string='Credits')
     total_hours = fields.Integer(compute='_get_courses_total', string='Hours')
@@ -160,7 +160,7 @@ class IndividualCourseGroup(models.Model):
     source_bloc_track_id = fields.Many2one(related='bloc_id.source_bloc_track_id', string='Track', readonly=True, store=True)
     source_bloc_cycle_id = fields.Many2one(related='bloc_id.source_bloc_cycle_id', string='Cycle', readonly=True, store=True)
 
-    course_ids = fields.One2many('school.individual_course', 'course_group_id', string='Courses')
+    course_ids = fields.One2many('school.individual_course', 'course_group_id', string='Courses',track_visibility='onchange')
     
     total_credits = fields.Integer(compute='_get_courses_total', string='Credits', store=True)
     total_hours = fields.Integer(compute='_get_courses_total', string='Hours', store=True)

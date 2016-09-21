@@ -375,8 +375,22 @@ class Year(models.Model):
     previous = fields.Many2one('school.year', string='Previous Year')
     next = fields.Many2one('school.year', string='Next Year')
     
-class User(models.Model):
-    '''User'''
+class Users(models.Model):
+    '''Users'''
     _inherit = ['res.users']
+    
+    def __init__(self, pool, cr):
+        """ Override of __init__ to add access rights on notification_email_send
+            and alias fields. Access rights are disabled by default, but allowed
+            on some specific fields defined in self.SELF_{READ/WRITE}ABLE_FIELDS.
+        """
+        init_res = super(Users, self).__init__(pool, cr)
+        # duplicate list to avoid modifying the original reference
+        self.SELF_WRITEABLE_FIELDS = list(self.SELF_WRITEABLE_FIELDS)
+        self.SELF_WRITEABLE_FIELDS.extend(['current_year_id'])
+        # duplicate list to avoid modifying the original reference
+        self.SELF_READABLE_FIELDS = list(self.SELF_READABLE_FIELDS)
+        self.SELF_READABLE_FIELDS.extend(['current_year_id'])
+        return init_res
     
     current_year_id = fields.Many2one('school.year', string="Current Year", default="1")
