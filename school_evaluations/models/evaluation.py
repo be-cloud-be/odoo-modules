@@ -319,7 +319,7 @@ class IndividualCourseGroup(models.Model):
     
     ## Final ##
     
-    dispense =  fields.Boolean(compute='compute_final_results', string='Dispense',default=False,track_visibility='onchange', store=True)
+    dispense =  fields.Boolean(compute='compute_dispense', string='Dispense',default=False,track_visibility='onchange', store=True)
     
     final_result = fields.Float(compute='compute_final_results', string='Final Result', store=True, digits=(5, 2),track_visibility='onchange')
     final_result_bool = fields.Boolean(compute='compute_final_results', string='Final Active')
@@ -482,12 +482,21 @@ class IndividualCourseGroup(models.Model):
             self.final_result = self.first_session_result
             self.acquiered = self.first_session_acquiered
             self.final_result_bool = True
-        elif self.total_weight == 0:  #TODO ici ça foire à la création d'un nouveau record ???
-            self.dispense = True
-            self.acquiered = 'A'
         else :
             self.acquiered = 'NA'
             self.final_result_bool = False
+            
+    @api.depends('course_ids.dispense')
+    @api.one
+    def compute_dispense(self):
+        _logger.debug('Trigger "compute_dispense" on Course Group %s' % self.name)
+        # Check if Course Group is dispensed
+        all_dispensed = True
+        for ic in self.course_ids:
+            all_dispensed = all_dispensed and ic.dispense
+        if all_dispensed :
+            self.dispense = True
+            self.acquiered = 'A'
     
     @api.one
     def recompute_results(self):
@@ -499,6 +508,7 @@ class IndividualCourseGroup(models.Model):
         self.compute_first_session_acquiered()
         self.compute_second_session_acquiered()
         self.compute_final_results()
+        self.compute_dispense()
         self.recompute()
 
 class Course(models.Model):
