@@ -244,18 +244,6 @@ class IndividualBloc(models.Model):
             _logger.debug('total_weight is 0 on Bloc %s' % self.name)
             self.evaluation = None
         
-    #@api.onchange('source_bloc_id')
-    #@api.depends('course_group_ids')
-    #def assign_source_bloc(self):
-    #    super(IndividualBloc, self).assign_source_bloc()
-    #    for group in self.course_group_ids:
-    #        group.recompute_results()
-    
-    @api.one
-    def recompute_results(self):
-        _logger.debug('Trigger "recompute_results" on Bloc %s' % self.name)
-        for group in self.course_group_ids:
-            group.recompute_results()
     
 class IndividualCourseGroup(models.Model):
     '''Individual Course Group'''
@@ -322,12 +310,13 @@ class IndividualCourseGroup(models.Model):
     dispense =  fields.Boolean(compute='compute_dispense', string='Dispense',default=False,track_visibility='onchange', store=True)
     
     final_result = fields.Float(compute='compute_final_results', string='Final Result', store=True, digits=(5, 2),track_visibility='onchange')
+    final_result_disp = fields.Char(string='Final Result Display', compute='compute_results_disp')
     final_result_bool = fields.Boolean(compute='compute_final_results', string='Final Active')
-    acquiered = fields.Selection(([('A', 'Acquiered'),('NA', 'Not Acquiered')]), compute='compute_final_results', string='Acquired Credits', store=True, track_visibility='onchange',default='NA')
+    
+    acquiered = fields.Selection(([('A', 'Acquiered'),('NA', 'Not Acquiered')]), compute='compute_acquiered', string='Acquired Credits', store=True, track_visibility='onchange',default='NA')
+    
     final_note = fields.Text(string='Final Notes')
     
-    final_result_disp = fields.Char(string='Final Result Display', compute='compute_results_disp')
-
     @api.one
     def compute_results_disp(self):
         if not self.final_result_bool:
@@ -468,8 +457,7 @@ class IndividualCourseGroup(models.Model):
                  'first_session_acquiered',
                  'second_session_result',
                  'second_session_result_bool',
-                 'second_session_acquiered',
-                 'total_weight')
+                 'second_session_acquiered')
     @api.one
     def compute_final_results(self):
         _logger.debug('Trigger "compute_final_results" on Course Group %s' % self.name)
@@ -483,9 +471,8 @@ class IndividualCourseGroup(models.Model):
             self.acquiered = self.first_session_acquiered
             self.final_result_bool = True
         else :
-            self.acquiered = 'NA'
             self.final_result_bool = False
-            
+
     @api.depends('course_ids.dispense')
     @api.one
     def compute_dispense(self):
@@ -496,21 +483,24 @@ class IndividualCourseGroup(models.Model):
             all_dispensed = all_dispensed and ic.dispense
         if all_dispensed :
             self.dispense = True
-            self.acquiered = 'A'
-    
-    @api.one
-    def recompute_results(self):
-        _logger.debug('Trigger "recompute_results" on Course Group %s' % self.name)
-        self._get_courses_total()
-        self.compute_average_results()
-        self.compute_first_session_results()
-        self.compute_second_session_results()
-        self.compute_first_session_acquiered()
-        self.compute_second_session_acquiered()
-        self.compute_final_results()
-        self.compute_dispense()
-        self.recompute()
 
+    @api.depends('dispense',
+                 'first_session_result_bool',
+                 'first_session_acquiered',
+                 'second_session_result_bool',
+                 'second_session_acquiered')
+    @api.one
+    def compute_acquiered(self):
+        if self.dispense:
+            self.acquiered  = 'A'
+        elif self.second_session_result_bool :
+            self.acquiered = self.second_session_acquiered
+        elif self.second_session_result_bool :
+            self.acquiered = self.second_session_acquiered
+        else :
+            self.acquiered = 'NA'
+    
+    
 class Course(models.Model):
     '''Course'''
     _inherit = 'school.course'
@@ -685,5 +675,3 @@ class IndividualCourse(models.Model):
                     self.second_session_result = 0
                     self.second_session_result_bool = False
                     raise UserError(_('Cannot decode %s in September Result, please encode a Float eg "12.00".' % self.sept_result))
-        # Trigger CG recompute - TODO only if value actually changed ??
-        self.course_group_id.recompute_results()
