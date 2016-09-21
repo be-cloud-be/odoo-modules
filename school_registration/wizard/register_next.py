@@ -73,9 +73,7 @@ class RegisterNext(models.TransientModel):
                                 res = old_course.first_session_result
                             new_course.dispense = True
                             new_course.jun_result = res
-                        # TODO - see why we need to trigger this... again...
-                        new_group.recompute_results()
-                        
+
         # Previous year was a succes, we try to find if some CG was not acquiered and add them
         else :
             for group in self.init_bloc_id.course_group_ids:
@@ -99,9 +97,7 @@ class RegisterNext(models.TransientModel):
                     changed = True
                     new_course.dispense = True
                     new_course.jun_result = res
-            if changed :
-                new_group.recompute_results()
-            
+
             # old_group = self.env['school.individual_course_group'].search([('student_id','=',new_group.student_id.id),('source_course_group_id','=',new_group.source_course_group_id.id),('acquiered','=','A')])
             # if old_group:
             #     old_group = old_group[0] # could happen there is multiple reports

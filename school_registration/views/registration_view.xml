@@ -50,14 +50,15 @@
                 </xpath>
                 <xpath expr="//field[@name='course_group_ids']" position="after">
                     <div>
-                        Standard Course - <font color="blue">Rework Course</font> - <font color="green">Anticipated Course</font>
+                        Standard Course - <font color="blue">Rework Course</font> - <font color="green">Anticipated Course</font> - <font color="orange">Dispense</font>
                     </div>
                 </xpath>
                 <xpath expr='//tree' position="inside">
                     <field name="group_registration_type" invisible="1"/>
+                    <field name="dispense" invisible="1"/>
                 </xpath>
                 <xpath expr='//tree' position="attributes">
-                    <attribute name="colors">blue:group_registration_type == 'rework';green:group_registration_type == 'anticipated'</attribute>
+                    <attribute name="colors">blue:group_registration_type == 'rework';green:group_registration_type == 'anticipated';orange:dispense</attribute>
                 </xpath>
             </field>
         </record>
