@@ -56,11 +56,12 @@ class RegisterNext(models.TransientModel):
         new_bloc = self.env['school.individual_bloc'].create({'year_id':self.init_bloc_id.year_id.next.id,'student_id': self.init_bloc_id.student_id.id,'source_bloc_id':self.new_source_bloc_id.id,'program_id':self.init_bloc_id.program_id.id})
         new_bloc.assign_source_bloc()
         self.new_bloc_id = new_bloc
-        
+
         # Previous year was not a success, we try to find "dispense" automatically
         if self.init_bloc_id.source_bloc_level == new_bloc.source_bloc_level:
             for group in self.init_bloc_id.course_group_ids:
                 if group.acquiered == 'A':
+                    # TODO : we already have the list, why a query ??
                     new_group = self.env['school.individual_course_group'].search([('bloc_id','=',new_bloc.id),('source_course_group_id','=',group.source_course_group_id.id)])
                     if new_group:
                         for index, new_course in enumerate(new_group.course_ids):
@@ -74,6 +75,7 @@ class RegisterNext(models.TransientModel):
                             new_course.jun_result = res
                         # TODO - see why we need to trigger this... again...
                         new_group.recompute_results()
+                        
         # Previous year was a succes, we try to find if some CG was not acquiered and add them
         else :
             for group in self.init_bloc_id.course_group_ids:
@@ -81,6 +83,24 @@ class RegisterNext(models.TransientModel):
                     new_group = self.new_bloc_id.course_group_ids.create({'bloc_id': self.new_bloc_id.id,'source_course_group_id': group.source_course_group_id.id, 'acquiered' : 'NA', 'dispense': False, 'group_registration_type' : 'rework'})
                     # TODO - see why we need to trigger this...
                     new_group.onchange_source_cg()
+                        
+        # Find in student history if erver one course_group was already acquiered
+        
+        for new_group in new_bloc.course_group_ids:
+            old_group = self.env['school.individual_course_group'].search([('student_id','=',new_group.student_id.id),('source_course_group_id','=',new_group.source_course_group_id.id),('acquiered','=','A')])
+            if old_group:
+                old_group = old_group[0] # could happen there is multiple reports
+                for index, new_course in enumerate(new_group.course_ids):
+                    _logger.debug("Set a dispense on %s",new_course.name)
+                    old_course = old_group.course_ids[index]
+                    if old_course.second_session_result_bool:
+                        res = old_course.second_session_result
+                    else:
+                        res = old_course.first_session_result
+                    new_course.dispense = True
+                    new_course.jun_result = res
+                # TODO - see why we need to trigger this... again...
+                new_group.recompute_results()
                     
         return {
             'type': 'ir.actions.act_window',
