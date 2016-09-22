@@ -1,0 +1,185 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!--
+##############################################################################
+#
+#    Copyright (c) 2015 be-cloud.be
+#                       Jerome Sonnet <jerome.sonnet@be-cloud.be>
+#
+#    This program is free software: you can redistribute it and/or modify
+#    it under the terms of the GNU Affero General Public License as
+#    published by the Free Software Foundation, either version 3 of the
+#    License, or (at your option) any later version.
+#
+#    This program is distributed in the hope that it will be useful,
+#    but WITHOUT ANY WARRANTY; without even the implied warranty of
+#    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+#    GNU Affero General Public License for more details.
+#
+#    You should have received a copy of the GNU Affero General Public License
+#    along with this program.  If not, see <http://www.gnu.org/licenses/>.
+#
+##############################################################################
+-->
+<openerp>
+    <data>
+        <!-- Add Composite to bloc form view -->
+        <record id="bloc_composite_form" model="ir.ui.view">
+            <field name="name">school.bloc.composite.view</field>
+            <field name="model">school.bloc</field>
+            <field name="inherit_id" ref="school_management.bloc_form" />
+            <field eval="25" name="priority" />
+            <field name="arch" type="xml">
+                <xpath expr="//field[@name='total_weight']" position="after">
+                    <field name="is_composite"/>
+                </xpath>
+                <xpath expr="//notebook/page[1]" position="before">
+                    <!-- TODO : make course_group_ids readonly -->
+                    <page name="prerequisit_list" string="Composite" attrs="{'invisible': [('is_composite', '!=', True)]}">
+                        <button name="populate_course_group_ids" string="Populate Course Group List" type="object" class="oe_highlight" />
+                        <field name="child_bloc_ids">
+                            <tree string="Child Blocs">
+                                <field name="name" string="Child Bloc"/>
+                                <field name="total_hours" />
+                                <field name="total_credits" />
+                            </tree>
+                        </field>
+                        <field name="child_course_group_ids">
+                            <tree string="Child Courses">
+                                <field name="name" string="Child Course Group"/>
+                                <field name="total_hours" />
+                                <field name="total_credits" />
+                            </tree>
+                        </field>
+                    </page>
+                </xpath>
+            </field>
+        </record>
+        
+    <!--
+    
+        Composite Building blocs
+        
+    -->
+
+    <!-- Building blocs Tree View -->
+    <record id="view_composite_bloc_tree" model="ir.ui.view">
+      <field name="name">school.composite_bloc.tree</field>
+      <field name="model">school.composite_bloc</field>
+      <field eval="8" name="priority" />
+      <field name="arch" type="xml">
+        <tree string="Building Blocs">
+          <field name="name" />
+          <field name="total_hours" />
+          <field name="total_credits" />
+        </tree>
+      </field>
+    </record>
+
+    <!-- Building composite_blocs Form View -->
+    <record model="ir.ui.view" id="composite_bloc_form">
+      <field name="name">school.composite_bloc.view</field>
+      <field name="model">school.composite_bloc</field>
+      <field name="type">form</field>
+      <field name="arch" type="xml">
+        <form string="Bloc">
+          <sheet>
+            <div class="oe_title">
+              <h1>
+               <field name="name"/>
+              </h1>
+            </div>
+            <group col="4">
+              <field name="title" colspan="4"/>
+              <field name="sequence" />
+              <field name="level" />
+              <field name="total_hours" />
+              <field name="total_credits" />
+              <field name="total_weight" />
+              <field name="year_id"/>
+            </group>
+            <field name="course_group_ids" readonly="1">
+              <tree string="Course Groups">
+                <field name="name" />
+                <field name="total_hours" />
+                <field name="total_credits" />
+                <field name="total_weight" />
+              </tree>
+            </field>
+            <button name="populate_course_group_ids" string="Populate Course Group List" type="object" class="oe_highlight"/>
+            <field name="child_bloc_ids">
+                <tree string="Child Blocs">
+                    <field name="name" string="Child Bloc"/>
+                    <field name="total_hours" />
+                    <field name="total_credits" />
+                </tree>
+            </field>
+            <field name="child_course_group_ids">
+                <tree string="Child Courses">
+                    <field name="name" string="Child Course Group"/>
+                    <field name="total_hours" />
+                    <field name="total_credits" />
+                </tree>
+            </field>
+          </sheet>
+          <div class="oe_chatter">
+            <field name="message_follower_ids" widget="mail_followers" />
+            <field name="message_ids" widget="mail_thread" />
+          </div>
+        </form>
+      </field>
+    </record>
+    
+    <record id="view_composite_bloc_filter" model="ir.ui.view">
+      <field name="name">composite_bloc.select</field>
+      <field name="model">school.composite_bloc</field>
+      <field name="arch" type="xml">
+        <search string="Search Program">
+          <field name="title" filter_domain="[('title', 'ilike',self)]" />
+          <filter string="Current Year" name="current" domain="[('year_sequence','=','current')]" />
+          <filter string="Next Year" name="next" domain="[('year_sequence','=','next')]" />
+          <filter string="Previous Year" name="previous" domain="[('year_sequence','=','previous')]" />
+          <group expand="1" string="Group By">
+            <filter string="Domain" context="{'group_by':'domain_id'}" />
+            <filter string="Cycle" context="{'group_by':'cycle_id'}" />
+            <filter string="Section" context="{'group_by':'section_id'}" />
+            <filter string="Track" context="{'group_by':'track_id'}" />
+            <filter string="Speciality" context="{'group_by':'speciality_id'}" />
+          </group>
+        </search>
+      </field>
+    </record>
+
+    <record id="action_composite_bloc_form" model="ir.actions.act_window">
+      <field name="name">Building Blocs</field>
+      <field name="type">ir.actions.act_window</field>
+      <field name="res_model">school.composite_bloc</field>
+      <field name="view_type">form</field>
+      <field name="view_mode">tree,form</field>
+      <field name="context">{"search_default_current":1}</field>
+      <field name="search_view_id" ref="view_composite_bloc_filter" />
+      <field name="help" type="html">
+        <p class="oe_view_nocontent_create">
+          Click to add a building bloc.
+        </p>
+        <p>
+          Odoo helps you easily create complex programs.
+        </p>
+      </field>
+    </record><!-- TODO : improve doc here -->
+    
+    <record id="action_composite_bloc_tree_view1" model="ir.actions.act_window.view">
+      <field name="sequence" eval="1" />
+      <field name="view_mode">tree</field>
+      <field name="view_id" ref="view_composite_bloc_tree" />
+      <field name="act_window_id" ref="action_composite_bloc_form" />
+    </record>
+    <record id="action_composite_bloc_form_view2" model="ir.actions.act_window.view">
+      <field name="sequence" eval="2" />
+      <field name="view_mode">form</field>
+      <field name="view_id" ref="composite_bloc_form" />
+      <field name="act_window_id" ref="action_composite_bloc_form" />
+    </record>
+    <menuitem id="menu_building_composite_bloc_form" parent="school_management.menu_program" action="action_composite_bloc_form" sequence="20" />
+        
+    </data>
+</openerp>
