@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!--
+##############################################################################
+#
+#    Copyright (c) 2015 be-cloud.be
+#                       Jerome Sonnet <jerome.sonnet@be-cloud.be>
+#
+#    This program is free software: you can redistribute it and/or modify
+#    it under the terms of the GNU Affero General Public License as
+#    published by the Free Software Foundation, either version 3 of the
+#    License, or (at your option) any later version.
+#
+#    This program is distributed in the hope that it will be useful,
+#    but WITHOUT ANY WARRANTY; without even the implied warranty of
+#    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+#    GNU Affero General Public License for more details.
+#
+#    You should have received a copy of the GNU Affero General Public License
+#    along with this program.  If not, see <http://www.gnu.org/licenses/>.
+#
+##############################################################################
+-->
+<openerp>
+    <data>
+        <!-- Add choice to Individual Course Group form view -->
+        <record id="course_group_option_form" model="ir.ui.view">
+            <field name="name">school.course_group.option.view</field>
+            <field name="model">school.course_group</field>
+            <field name="inherit_id" ref="school_management.course_group_form" />
+            <field eval="25" name="priority" />
+            <field name="arch" type="xml">
+                <xpath expr="//group/field[@name='weight']" position="after">
+                    <field name="is_choice_course_group"/>
+                    <field name="total_credits_to_select" attrs="{'invisible': [('is_choice_course_group','=',False)]}"/>
+                    <field name="total_hours_to_select" attrs="{'invisible': [('is_choice_course_group','=',False)]}"/>
+                    <field name="total_weight_to_select" attrs="{'invisible': [('is_choice_course_group','=',False)]}"/>
+                </xpath>
+            </field>
+        </record>
+        <!-- Add choice to Individual Course form view -->
+        <record id="course_option_form" model="ir.ui.view">
+            <field name="name">school.course.option.view</field>
+            <field name="model">school.course</field>
+            <field name="inherit_id" ref="school_management.course_form" />
+            <field eval="25" name="priority" />
+            <field name="arch" type="xml">
+                <xpath expr="//group/field[@name='weight']" position="after">
+                    <field name="is_choice_course_group" invisible="1"/>
+                    <field name="is_default_choice" attrs="{'invisible': [('is_choice_course_group','=',False)]}"/>
+                </xpath>
+            </field>
+        </record>
+    </data>
+</openerp>
