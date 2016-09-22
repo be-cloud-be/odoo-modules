@@ -129,7 +129,7 @@ class Bloc(models.Model):
     '''Bloc'''
     _name = 'school.bloc'
     _description = 'Program'
-    _inherit = ['mail.thread']
+    _inherit = ['mail.thread','school.year_sequence.mixin']
     _order = 'program_id,sequence'
     
     @api.one
