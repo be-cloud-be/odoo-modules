@@ -32,6 +32,9 @@
                 <xpath expr="//field[@name='total_weight']" position="after">
                     <field name="is_composite"/>
                 </xpath>
+                <xpath expr="//field[@name='course_group_ids']" position="attributes">
+                    <attribute name="attrs">{'readonly': [('is_composite', '=', True)]}</attribute>
+                </xpath>
                 <xpath expr="//notebook/page[1]" position="before">
                     <!-- TODO : make course_group_ids readonly -->
                     <page name="prerequisit_list" string="Composite" attrs="{'invisible': [('is_composite', '!=', True)]}">
@@ -105,7 +108,7 @@
                 <field name="total_weight" />
               </tree>
             </field>
-            <button name="populate_course_group_ids" string="Populate Course Group List" type="object" class="oe_highlight"/>
+            <button name="populate_course_group_ids" string="Populate Course Group List" type="object" class="oe_highlight mt16"/>
             <field name="child_bloc_ids">
                 <tree string="Child Blocs">
                     <field name="name" string="Child Bloc"/>
