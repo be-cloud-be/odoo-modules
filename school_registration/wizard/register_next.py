@@ -82,8 +82,15 @@ class RegisterNext(models.TransientModel):
                     new_group = self.env['school.individual_course_group'].search([('bloc_id','=',new_bloc.id),('source_course_group_id','=',group.source_course_group_id.id)])
                     if not new_group:
                         new_group = self.new_bloc_id.course_group_ids.create({'bloc_id': self.new_bloc_id.id,'source_course_group_id': group.source_course_group_id.id, 'acquiered' : 'NA', 'dispense': False, 'group_registration_type' : 'rework'})
-                        # TODO - see why we need to trigger this...
                         new_group.onchange_source_cg()
+                        for index, new_course in enumerate(new_group.course_ids):
+                            old_course = group.course_ids[index]
+                            if old_course.teacher_id:
+                                import wdb
+                                wdb.set_trace()
+                                new_course.write({
+                                    'teacher_id' : old_course.teacher_id
+                                })
                         
         # Find in student history if erver one course_group was already acquiered
         
