@@ -86,8 +86,6 @@ class RegisterNext(models.TransientModel):
                         for index, new_course in enumerate(new_group.course_ids):
                             old_course = group.course_ids[index]
                             if old_course.teacher_id:
-                                import wdb
-                                wdb.set_trace()
                                 new_course.write({
                                     'teacher_id' : old_course.teacher_id
                                 })
