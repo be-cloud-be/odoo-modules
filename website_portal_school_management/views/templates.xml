@@ -78,7 +78,7 @@
                     </tr>
                     <tr t-foreach="course_group.course_ids" t-as="course">
                         <td></td>
-                        <td t-if="course.url_ref"><a t-esc="course.title" t-att-href="'/course_doc/%s' % slug(course)" target="new"/></td>
+                        <td t-if="course.url_ref"><a t-esc="course.title" t-att-href="course.url_ref" target="new"/></td>
                         <td t-if="not course.url_ref"><t t-esc="course.title"/></td>
                         <td class="text-center"><t t-esc="course.hours"/></td>
                         <td class="text-center"><t t-esc="course.credits"/></td>
