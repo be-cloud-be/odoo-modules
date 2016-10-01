@@ -137,6 +137,7 @@
                 <field name="bloc_ids" readonly="1">
                   <tree string="Blocs">
                     <field name="name" />
+                    <field name="year_id" />
                   </tree>
                 </field>
               </page>
