@@ -1,4 +1,4 @@
-﻿# -*- encoding: utf-8 -*-
+# -*- encoding: utf-8 -*-
 ##############################################################################
 #
 #    Copyright (c) 2015 be-cloud.be
@@ -70,3 +70,18 @@ class website_portal_school_management(http.Controller):
         pdf = report_obj.get_pdf(cr, uid, [program.id], reportname, data=None, context=None)
         pdfhttpheaders = [('Content-Type', 'application/pdf'), ('Content-Length', len(pdf))]
         return request.make_response(pdf, headers=pdfhttpheaders)
+        
+    @http.route(['/program_clean'], type='http', auth='public', website=True)
+    def program_clean(self, redirect=None, **post):
+        programs = request.env['school.program'].sudo().search([('state', '=', 'published')],order="domain_id, cycle_id, name ASC")
+        values = {
+            'programs': programs,
+        }
+        return request.website.render("website_portal_school_management.program_clean", values)
+        
+    @http.route(['/program_clean/<model("school.program"):program>'], type='http', auth='public', website=True)
+    def program_clean_details(self, program, redirect=None, **post):
+        values = {
+            'program': program,
+        }
+        return request.website.render("website_portal_school_management.program_clean_details", values)

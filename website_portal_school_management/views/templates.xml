@@ -169,65 +169,104 @@
         </xpath>
     </template>
 
-    <template id="program" name="Programs">
-        <t t-call="website.layout">
-            <t t-set="title">Programmes</t>
-            <div class="oe_structure">
-                <div class="container">
-                    <div class="row text-center">
-                        <h2>Programmes</h2>
-                    </div>
-                    <div class="oe_structure" />
-                    <div class="row">
-                        <t t-set="d" t-value="False"/>
-                        <t t-set="c" t-value="False"/>
-                        <t t-foreach="programs" t-as="program">
-                            <t t-if="d != program.domain_id"> 
-                                <div class="clearfix"></div>
-                                <h3><t t-esc="program.domain_id.name" /></h3>
-                                <t t-set="d" t-value="program.domain_id"/>
-                                <t t-set="c" t-value="False"/>
-                            </t>
-                            <t t-if="c != program.cycle_id">
-                                <div class="clearfix"></div>
-                                <h4><t t-esc="program.cycle_id.name" /></h4>
-                                <t t-set="c" t-value="program.cycle_id"/>
-                            </t>
-                            <div class="col-md-4">
-                                <div class="thumbnail oe_school_program">
-                                    <div class="caption">
-                                        <a itemprop="url" t-att-href="'/program/%s' % slug(program)"><t t-esc="program.name" /></a>
-                                    </div>
+    <template id="program_content" name="Program Content">
+        <t t-set="title">Programmes</t>
+        <div class="oe_structure">
+            <div class="container">
+                <div class="row text-center">
+                    <h2>Programmes</h2>
+                </div>
+                <div class="oe_structure" />
+                <div class="row">
+                    <t t-set="d" t-value="False"/>
+                    <t t-set="c" t-value="False"/>
+                    <t t-foreach="programs" t-as="program">
+                        <t t-if="d != program.domain_id"> 
+                            <div class="clearfix"></div>
+                            <h3><t t-esc="program.domain_id.name" /></h3>
+                            <t t-set="d" t-value="program.domain_id"/>
+                            <t t-set="c" t-value="False"/>
+                        </t>
+                        <t t-if="c != program.cycle_id">
+                            <div class="clearfix"></div>
+                            <h4><t t-esc="program.cycle_id.name" /></h4>
+                            <t t-set="c" t-value="program.cycle_id"/>
+                        </t>
+                        <div class="col-md-4">
+                            <div class="thumbnail oe_school_program">
+                                <div class="caption" t-if="not is_clean">
+                                    <a itemprop="url" t-att-href="'/program/%s' % slug(program)"><t t-esc="program.name" /></a>
+                                </div>
+                                <div class="caption" t-if="is_clean">
+                                    <a itemprop="url" t-att-href="'/program_clean/%s' % slug(program)"><t t-esc="program.name" /></a>
                                 </div>
                             </div>
-                        </t>
-                    </div>
+                        </div>
+                    </t>
                 </div>
             </div>
+        </div>
+    </template>
+
+    <template id="layout_clean" inherit_id="website.layout" name="Editor" groups="base.group_website_publisher,base.group_website_designer">
+        <xpath expr='//div[@id = "wrapwrap"]/header' position="attributes">
+            <attribute name="t-att-disabled">is_clean and 'disabled' or ''</attribute>
+            <attribute name="t-att-style">is_clean and 'display: none' or ''</attribute>
+        </xpath>
+        <xpath expr='//div[@id = "wrapwrap"]/footer' position="attributes">
+            <attribute name="t-att-disabled">is_clean and 'disabled' or ''</attribute>
+            <attribute name="t-att-style">is_clean and 'display: none' or ''</attribute>
+        </xpath>
+    </template>
+
+    <template id="program" name="Programs">
+        <t t-call="website.layout">
+            <t t-call="website_portal_school_management.program_content"/>
+        </t>
+    </template>
+    
+    <template id="program_clean" name="Programs Clean">
+        <t t-call="website_portal_school_management.layout_clean">
+            <t t-set="is_clean" t-value="True"/>
+            <t t-set="menu_data" t-value="False"/>
+            <t t-call="website_portal_school_management.program_content"/>
         </t>
     </template>
 
     <template id="program_details" name="Program Details">
         <t t-call="website.layout">
-            <t t-set="title">Détails du programme</t>
-            <div class="oe_structure"/>
-            <article class="container oe_school_program_details">
-                <section class="row text-center">
-                    <div class="col-md-10"><h2>Détails du programme</h2></div>
-                    <div class="col-md-2">
-                        <span class="row">
-                            <a class="btn btn-default" t-att-href="'/print_program/%s' % slug(program)" target="new">
-                              <i class="fa fa-print fa-2x" title="Settings" aria-hidden="true"></i>
-                              <span class="sr-only">Print</span>
-                            </a>
-                        </span>
-                    </div>
-                </section>
-                <hr/>
-                <t t-call="website_portal_school_management.program_details_content"/>
-            </article>
+            <t t-call="website_portal_school_management.program_details_content_global"/>
         </t>
     </template>
+    
+    <template id="program_clean_details" name="Program Details Clean">
+        <t t-call="website_portal_school_management.layout_clean">
+            <t t-set="is_clean" t-value="True"/>
+            <t t-set="menu_data" t-value="False"/>
+            <t t-call="website_portal_school_management.program_details_content_global"/>
+        </t>
+    </template>
+
+    <template id="program_details_content_global" name="Program Details Content Global">
+        <t t-set="title">Détails du programme</t>
+        <div class="oe_structure"/>
+        <article class="container oe_school_program_details">
+            <section class="row text-center">
+                <div class="col-md-10"><h2>Détails du programme</h2></div>
+                <div class="col-md-2">
+                    <span class="row">
+                        <a class="btn btn-default" t-att-href="'/print_program/%s' % slug(program)" target="new">
+                          <i class="fa fa-print fa-2x" title="Settings" aria-hidden="true"></i>
+                          <span class="sr-only">Print</span>
+                        </a>
+                    </span>
+                </div>
+            </section>
+            <hr/>
+            <t t-call="website_portal_school_management.program_details_content"/>
+        </article>
+    </template>
+    
 
     <template id="program_details_content" name="Program Details Content">
         <section class="row">
