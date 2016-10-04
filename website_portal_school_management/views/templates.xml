@@ -298,12 +298,12 @@
             </div>
         </section>
         <hr/>
-        <section class="row">
+        <section class="row" t-if="program.description">
             <div class="col-md-12"><h4>VADE MECUM</h4></div>
             <div class="col-md-12" style='white-space: pre-wrap;'><t t-esc="program.description"/></div>
+            <hr/>
         </section>
-        <hr/>
-        <section class="row">
+        <section class="row" t-if="program.competency_ids">
             <div class="col-md-12"><h4>RÉFÉRENTIELS DE COMPÉTENCES ATTENDUES</h4></div>
             <div class="col-md-12">
                 <table class="table table-striped">
@@ -315,8 +315,8 @@
                     </tr>
                 </table>
             </div>
+            <hr/>
         </section>
-        <hr/>
         <section class="row">
             <div class="col-md-12">
                 <h4>PROGRAMME DES COURS</h4>
