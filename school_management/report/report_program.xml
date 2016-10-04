@@ -144,7 +144,7 @@
         <t t-call="report.html_container">
             <t t-set="data_report_margin_top" t-value="45" />
             <t t-set="data_report_header_spacing" t-value="40" />
-            <t t-set="bloc" t-value="docs[0]" />
+            <t t-foreach="docs" t-as="bloc">
             <t t-call="report.external_layout">
                 <div class="page">
                     <h1><t t-esc="bloc.name"/></h1>
@@ -168,6 +168,7 @@
                     </div>
                     
                 </div>
+            </t>
             </t>
         </t>
     </template>
