@@ -483,6 +483,7 @@ class IndividualCourseGroup(models.Model):
             all_dispensed = all_dispensed and ic.dispense
         if all_dispensed :
             self.dispense = True
+            self.acquiered  = 'A'
 
     @api.depends('dispense',
                  'first_session_result_bool',
