@@ -129,7 +129,7 @@ class IndividualCourseGroup(models.Model):
     '''Individual Course Group'''
     _name='school.individual_course_group'
     _description='Individual Course Group'
-    _inherit = ['mail.thread','school.year_sequence.mixin']
+    _inherit = ['mail.thread','ir.needaction_mixin','school.year_sequence.mixin']
     
     _order = 'sequence'
     
@@ -185,6 +185,10 @@ class IndividualCourseGroup(models.Model):
         self.total_hours = sum(course.hours for course in self.course_ids)
         self.total_credits = sum(course.credits for course in self.course_ids)
         self.total_weight = sum(course.weight for course in self.course_ids)
+
+    @api.model
+    def _needaction_domain_get(self):
+        return False
 
 class IndividualCourse(models.Model):
     '''Individual Course'''

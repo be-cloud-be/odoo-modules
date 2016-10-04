@@ -300,7 +300,7 @@
               <field name="credits" />
               <field name="weight" />
               <field name="has_second_session" />
-              <field name="url_ref" widget="url"/>
+              <field name="url_ref" widget="url" text="Description"/>
               <field name="level" invisible="1" />
             </group>
             <notebook>
@@ -309,6 +309,13 @@
               </page>
               <page string="Notes">
                 <field name="notes" />
+              </page>
+              <page string="Teachers">
+                <field name="teacher_ids">
+                  <tree string="Teachers">
+                    <field name="name" />
+                  </tree>
+                </field>
               </page>
             </notebook>
           </sheet>

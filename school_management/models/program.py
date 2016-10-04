@@ -293,13 +293,8 @@ class Course(models.Model):
             else:
                 course.name = "%s - %s" % (course.title, course.speciality_id.name)
     
-    current_teacher_ids = fields.Many2many('res.partner',compute='_get_teacher_ids',string='Current Teachers')
-    
-    @api.one
-    def _get_teacher_ids(self):
-        res = self.env['school.course_session'].search([['year_id', '=', self.env.user.current_year_id.id], ['course_id', '=', self.id]])
-        self.teacher_ids = res
-    
+    teacher_ids = fields.Many2many('res.partner','course_id','teacher_id',string='Teachers',domain="[('teacher', '=', '1')]")
+
 class ReportProgram(models.AbstractModel):
     _name = 'report.school_management.report_program'
 
