@@ -144,15 +144,19 @@
                                     </div>
                                     <div class="panel-body"> 
                                         <h4 t-if="not user.partner_id.has_paid_current_minerval">Vous n'avez pas réglé votre minerval, merci de vous mettre en ordre dès que possible.</h4>
+                                        <h4 t-if="user.partner_id.has_paid_current_minerval">Vous êtes en ordre de minerval, merci.</h4>
                                     </div>
                                 </div>
                                 <t t-set="bloc" t-value="user.partner_id.student_current_program_id"/>
                                 <div class="panel panel-default" t-if="bloc">
                                     <div class="panel-heading">  
-                                        Programme annuel en cours
+                                        Programme annuel en cours<t t-if="bloc.state == 'draft'"> - <b>Brouillon</b></t> 
                                     </div>
                                     <div class="panel-body">
                                         <t t-call="website_portal_school_management.school_bloc"/>
+                                    </div>
+                                    <div class="panel-footer" t-if="bloc.state == 'draft'">
+                                        Attention : Votre programme doit encore être approuvé par la commission des études.
                                     </div>
                                 </div>
                             </div>
