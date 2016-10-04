@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!--
+##############################################################################
+#
+#    Copyright (c) 2015 be-cloud.be
+#                       Jerome Sonnet <jerome.sonnet@be-cloud.be>
+#
+#    This program is free software: you can redistribute it and/or modify
+#    it under the terms of the GNU Affero General Public License as
+#    published by the Free Software Foundation, either version 3 of the
+#    License, or (at your option) any later version.
+#
+#    This program is distributed in the hope that it will be useful,
+#    but WITHOUT ANY WARRANTY; without even the implied warranty of
+#    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+#    GNU Affero General Public License for more details.
+#
+#    You should have received a copy of the GNU Affero General Public License
+#    along with this program.  If not, see <http://www.gnu.org/licenses/>.
+#
+##############################################################################
+-->
+<openerp>
+    <data>
+        <!-- Add choice to Individual Course Group form view -->
+        <record id="course_group_dispense_approuval_form" model="ir.ui.view">
+            <field name="name">school.course_group.dispense_approuval.view</field>
+            <field name="model">school.individual_course_group</field>
+            <field name="inherit_id" ref="school_evaluations.individual_course_group_eval_form" />
+            <field eval="25" name="priority" />
+            <field name="arch" type="xml">
+                <xpath expr="//group/field[@name='dispense']" position="after">
+                    <field name="is_dispense_approved" attrs="{'invisible': [('dispense','=',False)]}"/>
+                    <field name="dispense_approval_comment" attrs="{'invisible': [('dispense','=',False)]}"/>
+                </xpath>
+            </field>
+        </record>
+        
+        <!-- Individual Course Tree View -->
+        <record id="view_individual_course_group_dispense_approuval_tree" model="ir.ui.view">
+          <field name="name">school.individual_course_group.dispense_approuval.tree</field>
+          <field name="model">school.individual_course_group</field>
+          <field name="inherit_id" ref="school_management.view_individual_course_group_tree" />
+          <field eval="25" name="priority" />
+          <field name="arch" type="xml">
+            <xpath expr="//field[@name='name']" position="after">
+              <field name="teacher_id" />
+              <field name="dispense" />
+              <field name="is_dispense_approved" />
+            </xpath>
+          </field>
+        </record>
+        
+        <record id="view_individual_course_groups_dispense_approuval_filter" model="ir.ui.view">
+          <field name="name">individual_course_group.dispense_approuval.select</field>
+          <field name="model">school.individual_course_group</field>
+          <field name="inherit_id" ref="school_management.view_individual_course_groups_filter" />
+          <field name="arch" type="xml">
+              <xpath expr="//filter[@name='dispensed']" position="after">
+                  <filter name="dispense_waiting" string="Dispense Waiting Approval" domain="[('dispense', '=', True),('is_dispense_approved', '=', False)]"/>
+              </xpath>
+          </field>
+        </record>
+        
+    </data>
+</openerp>
