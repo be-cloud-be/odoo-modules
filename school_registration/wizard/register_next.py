@@ -86,9 +86,7 @@ class RegisterNext(models.TransientModel):
                         for index, new_course in enumerate(new_group.course_ids):
                             old_course = group.course_ids[index]
                             if old_course.teacher_id:
-                                new_course.write({
-                                    'teacher_id' : old_course.teacher_id
-                                })
+                                new_course.teacher_id = old_course.teacher_id
                         
         # Find in student history if erver one course_group was already acquiered
         
@@ -104,6 +102,7 @@ class RegisterNext(models.TransientModel):
                         res = old_course.first_session_result
                     changed = True
                     new_course.dispense = True
+                    new_course.is_dispense_approved = True
                     new_course.jun_result = res
 
             # old_group = self.env['school.individual_course_group'].search([('student_id','=',new_group.student_id.id),('source_course_group_id','=',new_group.source_course_group_id.id),('acquiered','=','A')])
