@@ -104,22 +104,7 @@ class RegisterNext(models.TransientModel):
                     new_course.dispense = True
                     new_course.is_dispense_approved = True
                     new_course.jun_result = res
-
-            # old_group = self.env['school.individual_course_group'].search([('student_id','=',new_group.student_id.id),('source_course_group_id','=',new_group.source_course_group_id.id),('acquiered','=','A')])
-            # if old_group:
-            #     old_group = old_group[0] # could happen there is multiple reports
-            #     for index, new_course in enumerate(new_group.course_ids):
-            #         _logger.debug("Set a dispense on %s",new_course.name)
-            #         old_course = old_group.course_ids[index]
-            #         if old_course.second_session_result_bool:
-            #             res = old_course.second_session_result
-            #         else:
-            #             res = old_course.first_session_result
-            #         new_course.dispense = True
-            #         new_course.jun_result = res
-            #     # TODO - see why we need to trigger this... again...
-            #     new_group.recompute_results()
-                    
+        
         return {
             'type': 'ir.actions.act_window',
             'res_model': 'school.individual_bloc',

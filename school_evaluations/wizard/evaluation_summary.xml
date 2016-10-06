@@ -32,7 +32,7 @@
             target="new" />
             
         <menuitem id="menu_report_evaluation_summary_wizard"
-            parent="school_management.menu_report" action="school_evaluation_summary_wizard_action" sequence="50"/>
+            parent="school_management.menu_teaching_report" action="school_evaluation_summary_wizard_action" sequence="50"/>
             
         <!-- wizard view -->
         <record id="evaluation_summary_wizard_view" model="ir.ui.view">

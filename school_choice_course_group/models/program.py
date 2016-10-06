@@ -58,3 +58,4 @@ class CourseGroup(models.Model):
             self.total_weight = self.total_weight_to_select
         else:
             super(CourseGroup, self)._get_courses_total()
+            

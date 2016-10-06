@@ -424,13 +424,15 @@
                <field name="bloc_id" options='{"no_open":True}'/>
               </h3>
             </div>
-            <group col="6">
-              <field name="source_course_id" colspan="6"/>
-              <field name="teacher_id" colspan="6" />
-              <field name="hours" />
-              <field name="credits" />
-              <field name="weight" />
-              <field name="dispense" />
+            <group col="4">
+              <field name="source_course_id" colspan="4"/>
+              <field name="needs_teacher_choice"/>
+              <field name="teacher_id" attrs="{'invisible':[('needs_teacher_choice','=',0)]}"/>
+              <field name="teacher_choice_id" attrs="{'invisible':[('needs_teacher_choice','=',1)]}"/>
+              <field name="hours"/>
+              <field name="credits"/>
+              <field name="weight"/>
+              <field name="dispense"/>
             </group>
           </sheet>
           <div class="oe_chatter">

@@ -129,7 +129,7 @@ class IndividualCourseGroup(models.Model):
     '''Individual Course Group'''
     _name='school.individual_course_group'
     _description='Individual Course Group'
-    _inherit = ['mail.thread','ir.needaction_mixin','school.year_sequence.mixin']
+    _inherit = ['mail.thread','school.year_sequence.mixin']
     
     _order = 'sequence'
     
@@ -186,15 +186,11 @@ class IndividualCourseGroup(models.Model):
         self.total_credits = sum(course.credits for course in self.course_ids)
         self.total_weight = sum(course.weight for course in self.course_ids)
 
-    @api.model
-    def _needaction_domain_get(self):
-        return False
-
 class IndividualCourse(models.Model):
     '''Individual Course'''
     _name = 'school.individual_course'
     _description = 'Individual Course'
-    _inherit = ['mail.thread','school.year_sequence.mixin']
+    _inherit = ['mail.thread','school.year_sequence.mixin','ir.needaction_mixin']
     
     _order = 'sequence'
     
@@ -206,7 +202,32 @@ class IndividualCourse(models.Model):
     
     year_id = fields.Many2one('school.year', related="course_group_id.bloc_id.year_id",store=True)
     student_id = fields.Many2one('res.partner', related="course_group_id.bloc_id.student_id",store=True)
-    teacher_id = fields.Many2one('res.partner', string='Teacher', domain=[('teacher', '=', True)], store=True)
+    
+    teacher_id = fields.Many2one('res.partner', string='Teacher', compute='compute_teacher_id', store=True)
+    teacher_choice_id = fields.Many2one('res.partner', string='Teacher Choice', store=True, domain=[('teacher', '=',1)]) #, domain=[('id', 'in', 'source_course_id.teacher_ids')]
+    needs_teacher_choice = fields.Boolean(string="Needs Teacher Choice", compute='compute_needs_teacher_choice')
+    
+    @api.depends('teacher_choice_id','source_course_id.teacher_ids')
+    @api.one
+    def compute_needs_teacher_choice(self):
+        if len(self.source_course_id.teacher_ids) == 1:
+            self.needs_teacher_choice = False
+        else:
+            self.needs_teacher_choice = True
+    
+    @api.depends('teacher_choice_id','source_course_id.teacher_ids')
+    @api.one
+    def compute_teacher_id(self):
+        if len(self.source_course_id.teacher_ids) == 1:
+            self.teacher_id = self.source_course_id.teacher_ids[0]
+        else:
+            self.teacher_id = self.teacher_choice_id
+    
+    @api.one
+    def guess_teacher_id(self):
+        old_course = self.env['school.individual_course'].search([('student_id','=',self.student_id.id),('year_id','=',self.year_id.previous.id),('title', '=', self.source_course_id.title)])
+        if len(old_course) == 1 and old_course.teacher_id:
+            self.teacher_id = old_course.teacher_id
 
     image = fields.Binary('Image', attachment=True, related='student_id.image')
     image_medium = fields.Binary('Image', attachment=True, related='student_id.image_medium')

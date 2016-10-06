@@ -32,17 +32,21 @@ class IndividualBloc(models.Model):
     def set_to_progress(self, context):
         for bloc in self:
             for icg in bloc.course_group_ids:
-                if icg.dispense and not icg.is_dispense_approved:
-                    raise UserError(_('Cannot set program on progress, %s dispense in %s is not approved.' % (icg.name, bloc.name)))
+                for ic in icg.course_ids:
+                    if ic.dispense and not ic.is_dispense_approved:
+                        raise UserError(_('Cannot set program on progress, %s dispense in %s is not approved.' % (icg.name, bloc.name)))
         return super(IndividualBloc, self).set_to_progress(context)
 
-class IndividualCourseGroup(models.Model):
-    '''Individual Course Group'''
-    _inherit = ['school.individual_course_group']
+class IndividualCourse(models.Model):
+    '''Individual Course'''
+    _inherit = ['school.individual_course']
 
     is_dispense_approved = fields.Boolean(string="Is Dispense Approved", default=False, track_visibility='onchange')
     dispense_approval_comment = fields.Text(string="Dispense Approval Comment")
     
     @api.model
     def _needaction_domain_get(self):
-        return [('dispense', '=', True),('is_dispense_approved', '=', False)]
+        if self.env.user.partner_id.teacher:
+            return [('teacher_id','=',self.env.user.partner_id.id),('dispense', '=', True),('is_dispense_approved', '=', False)]
+        else:
+            return [('dispense', '=', True),('is_dispense_approved', '=', False)]
