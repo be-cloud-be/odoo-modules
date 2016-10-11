@@ -35,11 +35,12 @@ class Bloc(models.Model):
     
     @api.one
     def populate_course_group_ids(self):
-        ret = self.child_course_group_ids
-        for child in self.child_bloc_ids:
-            child.populate_course_group_ids()
-            ret |= child.course_group_ids
-        self.course_group_ids = ret
+        if self.is_composite :
+            ret = self.child_course_group_ids
+            for child in self.child_bloc_ids:
+                child.populate_course_group_ids()
+                ret |= child.course_group_ids
+            self.course_group_ids = ret
         
 class CompositeBloc(models.Model):
     '''Composite Bloc'''

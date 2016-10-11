@@ -47,16 +47,24 @@ class Partner(models.Model):
     
     minerval_ids = fields.One2many('school.minerval', 'student_id', string='Minerval')
     has_paid_current_minerval = fields.Boolean(compute='_has_paid_current_minerval',string="Has paid current minerval", store=True)
+    
     student_current_program_id = fields.Many2one('school.individual_bloc', compute='_get_student_current_program_id', string='Program', store=True)
     student_current_program_name = fields.Char(related='student_current_program_id.source_bloc_name', string='Current Program', store=True)
+    student_program_ids = fields.One2many('school.individual_bloc', 'student_id', string='Programs')
     
-    student_program_ids = fields.One2many('school.individual_bloc', 'student_id', string="Programs")
+    student_current_course_ids = fields.One2many('school.individual_course', compute='_get_student_current_individual_course_ids', string='Courses')
+    student_course_ids = fields.One2many('school.individual_course', 'student_id', string='Courses', domain="[('year_id', '=', self.env.user.current_year_id.id)]")
     
     teacher_current_course_ids = fields.One2many('school.individual_course_proxy', compute='_get_teacher_current_individual_course_ids', string="Current Courses")
+    teacher_course_ids = fields.One2many('school.individual_course', 'teacher_id', string='Courses', domain="[('year_id', '=', self.env.user.current_year_id.id)]")
     
     @api.one
     def _get_teacher_current_individual_course_ids(self):
         self.teacher_current_course_ids = self.env['school.individual_course_proxy'].search([['year_id', '=', self.env.user.current_year_id.id], ['teacher_id', '=', self.id]])
+
+    @api.one
+    def _get_student_current_individual_course_ids(self):
+        self.teacher_current_course_ids = self.env['school.individual_course_proxy'].search([['year_id', '=', self.env.user.current_year_id.id], ['student_id', '=', self.id]])
 
     @api.one
     @api.depends('minerval_ids')

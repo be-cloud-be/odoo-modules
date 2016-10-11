@@ -31,7 +31,8 @@
             <field name="arch" type="xml">
                 <xpath expr="//sheet" position="before">
                     <header>
-                        <button string="Assing Program" type="action" name="%(action_assign_program_view)d" class="oe_highlight" context="{'default_student_id': active_id}" attrs="{'invisible': [('student','=',False)]}" />
+                        <button string="Assing Program" type="action" name="%(action_assign_program_view)d" class="oe_highlight" context="{'default_student_id': active_id}" attrs="{'invisible': [('student','=',False)]}" 
+                                    groups="school_management.group_employee"/>
                     </header>
                 </xpath>
             </field>

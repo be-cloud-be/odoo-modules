@@ -30,10 +30,10 @@
             <field eval="25" name="priority" />
             <field name="arch" type="xml">
                 <xpath expr="//header" position="inside">
-                    <button string="Add documents" type="action" name="%(action_document_add_wizard)d" class="oe_highlight" context="{'default_student_id': active_id}" />
+                    <button string="Add documents" type="action" name="%(action_document_add_wizard)d" class="oe_highlight" context="{'default_student_id': active_id}" groups="school_management.group_employee"/>
                 </xpath>
                 <xpath expr="//notebook[last()]" position="inside">
-                    <page name="official_document_list" string="Official Documents" attrs="{'invisible': [('student','=',False)]}">
+                    <page name="official_document_list" string="Official Documents" attrs="{'invisible': [('student','=',False)]}" >
                         <field name="official_document_ids">
                             <tree string="Programs">
                                 <field name="name" />

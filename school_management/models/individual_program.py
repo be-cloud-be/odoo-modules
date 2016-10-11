@@ -280,7 +280,10 @@ class IndividualCourseProxy(models.Model):
                 school_individual_course.title,
                 school_individual_course.year_id,
                 school_individual_course.teacher_id,
-                school_individual_course.source_course_id
+                school_individual_course.source_course_id,
+                COUNT(CAST(CAST(school_individual_course.year_id AS text)||
+                CAST(school_individual_course.teacher_id AS text)||
+                CAST(school_individual_course.source_course_id AS text) AS INTEGER)) as student_count
             FROM
                 school_individual_course
             WHERE

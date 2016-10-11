@@ -39,8 +39,8 @@ var Tracker = core.Class.extend({
     init: function(webclient) {
         var self = this;
         self.initialized = $.Deferred();
-        _gaq.push(['_setAccount', 'UA-7333765-1']);
-        _gaq.push(['_setDomainName', '.openerp.com']);  // Allow multi-domain
+        _gaq.push(['_setAccount', 'UA-46482925-6']);
+        _gaq.push(['_setDomainName', 'horizon.student-crlg.be']);  // Allow multi-domain
         self.initialize_custom(webclient).then(function() {
             webclient.on('state_pushed', self, self.on_state_pushed);
             self.include_tracker();

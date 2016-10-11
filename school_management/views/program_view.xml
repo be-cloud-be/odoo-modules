@@ -301,6 +301,7 @@
               <field name="weight" />
               <field name="has_second_session" />
               <field name="url_ref" widget="url" text="Description"/>
+              <field name="course_group_id" colspan="4"/>
               <field name="level" invisible="1" />
             </group>
             <notebook>

@@ -36,6 +36,6 @@
         This modules add optional course for a school.
     ''',
     'active': False,
-    'installable': True,
+    'installable': False,
     'application': True,
 }
