@@ -227,8 +227,7 @@
             <field eval="25" name="priority" />
             <field name="arch" type="xml">
                 <xpath expr="//field[@name='weight']" position="after">
-                    <label for="type" string="Type of results" />
-                    <field name="type" widget="radio" colspan="5" nolabel="1" options="{'horizontal': true}" />
+                    <field name="type"/>
                 </xpath>
                 <xpath expr="//sheet" position="inside">
                     <group col="4" string="Results">

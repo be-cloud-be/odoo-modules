@@ -29,7 +29,7 @@ class StudentGroup(models.Model):
     _name = 'school.student_group'
     _inherit = ['mail.thread','school.year_sequence.mixin']
     
-    _order = 'responsible_id, course_id'
+    _order = 'responsible_id, year_id, course_id'
     
     year_id = fields.Many2one('school.year', string='Year', required=True, default=lambda self: self.env.user.current_year_id)
     responsible_id = fields.Many2one('res.partner', string='Responsible', domain="[('type','=','contact')]", required=True)
@@ -52,7 +52,9 @@ class StudentGroup(models.Model):
                 studentg.short_name = studentg.title
     
     staff_ids = fields.Many2many('res.partner', 'group_staff_rel', 'group_id', 'staff_id', string='Staff', domain="[('type','=','contact')]")
+    
     student_ids = fields.Many2many('res.partner', 'group_student_rel', 'group_id', 'student_id', string='Student', domain="[('student','=','1')]")
+    individual_course_ids = fields.Many2many('school.individual_course', 'group_individual_course_rel', 'group_id', 'course_id', string='Individual Course')
     
     student_count = fields.Integer(compute='_compute_student_count', string="Student Count")
 	
@@ -92,16 +94,19 @@ class StudentGroup(models.Model):
     def generate_all_student_course_group(self):
         year_id = self.env.user.current_year_id
         all_blocs = self.env['school.bloc'].search([('year_id','=',year_id.id)])
-        # We are going through all courses
+        # We are going through all courses, of all current blocs
         all_course_ids = set()
         for bloc in all_blocs:
             for course_group in bloc.course_group_ids:
                 for course in course_group.course_ids:
                     all_course_ids.add(course.id)
+        # For each course we look for students and create the corresponding groups
         for course_id in all_course_ids :      
             course = self.env['school.course'].browse(course_id)
-            student_ids = self.env['school.individual_course'].search([('year_id','=',year_id.id),('source_course_id','=',course.id)]).mapped('student_id')
+            individual_course_ids = self.env['school.individual_course'].search([('year_id','=',year_id.id),('source_course_id','=',course.id)])
+            student_ids = individual_course_ids.mapped('student_id')
             if len(student_ids) > 0 :
+                # Only one teacher for this course
                 if len(course.teacher_ids) == 1:
                     old_group = self.env['school.student_group'].search([('responsible_id','=',course.teacher_ids.ids[0]),('year_id','=',year_id.id),('course_id','=',course.id)])
                     if not old_group:
@@ -114,22 +119,27 @@ class StudentGroup(models.Model):
                         })
                         # set all students in as only one theacher
                         new_group.student_ids = student_ids
+                        new_group.individual_course_ids = individual_course_ids
+                # Several teachers for this course
                 elif len(course.teacher_ids) > 1:
                     for teacher in course.teacher_ids:
                         old_group = self.env['school.student_group'].search([('responsible_id','=',teacher.id),('year_id','=',year_id.id),('course_id','=',course.id)])
                         if not old_group:
+                            # We create a group for each teacher
                             new_group = self.env['school.student_group'].create({
                                 'type': 'C',
                                 'year_id': year_id.id,
                                 'course_id': course.id,
                                 'responsible_id': teacher.id,
                             })
-                            # try to guess the teacher based on previous year
+                            # Try to find the group of the previous year
                             for student_id in student_ids:
-                                old_course = self.env['school.individual_course'].search([('student_id','=',student_id.id),('year_id','=',year_id.previous.id),('title', '=', course.title),('teacher_id','=',teacher.id)])
-                                if old_course:
-                                    new_group.student_ids |= student_id
-
+                                previous_group = self.env['school.student_group'].search([('responsible_id','=',teacher.id),('year_id','=',year_id.previous.id),('course_id.title','=',course.title),('student_ids','=',student_id.id)])
+                                if previous_group:
+                                    # Set students that were in the previous group
+                                    new_group.student_ids = previous_group.student_ids & student_ids
+                                    break
+                                
 class Course(models.Model):
     '''Course'''
     _inherit = 'school.course'
@@ -146,7 +156,10 @@ class IndividualCourse(models.Model):
     @api.depends('year_id','source_course_id')
     @api.one
     def compute_teacher_id(self):
-        student_group = self.env['school.student_group'].search([('year_id','=',self.year_id.id),('course_id','=',self.source_course_id.id),('student_ids','=',self.id)])
+        student_group = self.env['school.student_group'].search([('year_id','=',self.year_id.id),('course_id','=',self.source_course_id.id),('student_ids','=',self.student_id.id)])
+        if len(student_group) > 1:
+            import wdb
+            wdb.set_trace()
         if student_group:
             self.teacher_id = student_group.responsible_id
         else:
