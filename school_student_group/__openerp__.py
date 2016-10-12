@@ -35,6 +35,6 @@
         This modules group student for their activities (courses, projects,...)
     ''',
     'active': False,
-    'installable': False,
+    'installable': True,
     'application': True,
 }
