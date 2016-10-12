@@ -140,8 +140,7 @@ class IndividualCourseGroup(models.Model):
     
     year_id = fields.Many2one(related="bloc_id.year_id", string='Year', store=True)
     student_id = fields.Many2one(related="bloc_id.student_id", string='Student', store=True, domain=[('student', '=', True)])
-    teacher_id = fields.Many2one('res.partner', string='Teacher', store=True, domain=[('teacher', '=', True)])
-    
+
     image = fields.Binary('Image', attachment=True, related='student_id.image')
     image_medium = fields.Binary('Image', attachment=True, related='student_id.image_medium')
     image_small = fields.Binary('Image', attachment=True, related='student_id.image_small')
@@ -203,32 +202,6 @@ class IndividualCourse(models.Model):
     year_id = fields.Many2one('school.year', related="course_group_id.bloc_id.year_id",store=True)
     student_id = fields.Many2one('res.partner', related="course_group_id.bloc_id.student_id",store=True)
     
-    teacher_id = fields.Many2one('res.partner', string='Teacher', compute='compute_teacher_id', store=True)
-    teacher_choice_id = fields.Many2one('res.partner', string='Teacher Choice', store=True, domain=[('teacher', '=',1)]) #, domain=[('id', 'in', 'source_course_id.teacher_ids')]
-    needs_teacher_choice = fields.Boolean(string="Needs Teacher Choice", compute='compute_needs_teacher_choice')
-    
-    @api.depends('teacher_choice_id','source_course_id.teacher_ids')
-    @api.one
-    def compute_needs_teacher_choice(self):
-        if len(self.source_course_id.teacher_ids) == 1:
-            self.needs_teacher_choice = False
-        else:
-            self.needs_teacher_choice = True
-    
-    @api.depends('teacher_choice_id','source_course_id.teacher_ids')
-    @api.one
-    def compute_teacher_id(self):
-        if len(self.source_course_id.teacher_ids) == 1:
-            self.teacher_id = self.source_course_id.teacher_ids[0]
-        else:
-            self.teacher_id = self.teacher_choice_id
-    
-    @api.one
-    def guess_teacher_id(self):
-        old_course = self.env['school.individual_course'].search([('student_id','=',self.student_id.id),('year_id','=',self.year_id.previous.id),('title', '=', self.source_course_id.title)])
-        if len(old_course) == 1 and old_course.teacher_id:
-            self.teacher_id = old_course.teacher_id
-
     image = fields.Binary('Image', attachment=True, related='student_id.image')
     image_medium = fields.Binary('Image', attachment=True, related='student_id.image_medium')
     image_small = fields.Binary('Image', attachment=True, related='student_id.image_small')
@@ -255,61 +228,3 @@ class IndividualCourse(models.Model):
     
     course_group_id = fields.Many2one('school.individual_course_group', string='Course Groups', ondelete='cascade', readonly=True)
     bloc_id = fields.Many2one('school.individual_bloc', string='Bloc', related='course_group_id.bloc_id', readonly=True)
-    
-    
-class IndividualCourseProxy(models.Model):
-    _name = 'school.individual_course_proxy'
-    _auto = False
-
-    name = fields.Char(string="Name", readonly=True)
-    title = fields.Char(string="Title", readonly=True)
-    
-    year_id = fields.Many2one('school.year', string='Year', readonly=True)
-    teacher_id = fields.Many2one('res.partner', string='Teacher', readonly=True)
-    source_course_id = fields.Many2one('school.course', string="Source Course", readonly=True)
-
-    def init(self, cr):
-        """ School Individual Course Proxy """
-        tools.drop_view_if_exists(cr, 'school_individual_course_proxy')
-        cr.execute(""" CREATE VIEW school_individual_course_proxy AS (
-            SELECT
-                CAST(CAST(school_individual_course.year_id AS text)||
-                CAST(school_individual_course.teacher_id AS text)||
-                CAST(school_individual_course.source_course_id AS text) AS INTEGER) as id,
-                school_individual_course.name,
-                school_individual_course.title,
-                school_individual_course.year_id,
-                school_individual_course.teacher_id,
-                school_individual_course.source_course_id,
-                COUNT(CAST(CAST(school_individual_course.year_id AS text)||
-                CAST(school_individual_course.teacher_id AS text)||
-                CAST(school_individual_course.source_course_id AS text) AS INTEGER)) as student_count
-            FROM
-                school_individual_course
-            WHERE
-                school_individual_course.teacher_id IS NOT NULL
-            GROUP BY CAST(CAST(school_individual_course.year_id AS text)||
-                CAST(school_individual_course.teacher_id AS text)||
-                CAST(school_individual_course.source_course_id AS text) AS INTEGER),
-                school_individual_course.name,
-                school_individual_course.title,
-                school_individual_course.year_id,
-                school_individual_course.teacher_id,
-                school_individual_course.source_course_id
-        )""")
-        
-        
-    @api.multi
-    def edit_course(self):
-        self.ensure_one()
-        value = {
-            'domain': "[]",
-            'view_type': 'form',
-            'view_mode': 'tree,form',
-            'res_model': 'school.individual_course',
-            'view_id': False,
-            'context': dict(self._context or {}),
-            'type': 'ir.actions.act_window',
-            'search_view_id': False
-        }
-        return value

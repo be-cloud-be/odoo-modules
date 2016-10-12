@@ -152,17 +152,13 @@
           <field name="arch" type="xml">
             <search string="Search Course">
               <field name="name" filter_domain="[('name','ilike',self)]" />
-              <field name="teacher_id" filter_domain="[('teacher_id','ilike',self)]" />
               <field name="student_id" filter_domain="[('student_id','ilike',self)]" />
-              <filter name="my_courses" string="My Courses" domain="[('teacher_id.user_ids','=',uid)]" />
               <separator/>
               <filter string="Current Year" name="current" domain="[('year_sequence','=','current')]" />
               <filter string="Next Year" name="next" domain="[('year_sequence','=','next')]" />
               <filter string="Previous Year" name="previous" domain="[('year_sequence','=','previous')]" />
               <separator/>
-              <filter name="my_current_courses" string="My Current Courses" domain="[('teacher_id.user_ids','=',uid),('year_sequence','=','current')]" />
               <group expand="1" string="Group By">
-                <filter string="Teacher" context="{'group_by':'teacher_id'}" />
                 <filter string="Domain" context="{'group_by':'source_bloc_domain_id'}" />
                 <filter string="Cycle" context="{'group_by':'source_bloc_cycle_id'}" />
                 <filter string="Section" context="{'group_by':'source_bloc_section_id'}" />

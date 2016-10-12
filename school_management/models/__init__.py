@@ -21,4 +21,3 @@
 import res_partner
 import program
 import individual_program
-import course_session

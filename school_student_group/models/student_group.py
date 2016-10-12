@@ -137,18 +137,18 @@ class Course(models.Model):
     group_ids = fields.One2many('school.student_group', 'course_id', string='Groups')
     
     
-# class IndividualCourse(models.Model):
-#     '''Individual Course'''
-#     _inherit = 'school.individual_course'
+class IndividualCourse(models.Model):
+    '''Individual Course'''
+    _inherit = 'school.individual_course'
     
-#     teacher_id = fields.Many2one('res.partner', string='Teacher', compute='compute_teacher_id')
+    teacher_id = fields.Many2one('res.partner', string='Teacher', compute='compute_teacher_id')
 
-#     @api.depends('year_id','source_course_id')
-#     @api.one
-#     def compute_teacher_id(self):
-#         student_group = self.env['school.student_group'].search([('year_id','=',self.year_id.id),('course_id','=',self.source_course_id.id),('student_ids','=',self.id)])
-#         if student_group:
-#             self.teacher_id = student_group.responsible_id
-#         else:
-#             self.teacher_id = None
+    @api.depends('year_id','source_course_id')
+    @api.one
+    def compute_teacher_id(self):
+        student_group = self.env['school.student_group'].search([('year_id','=',self.year_id.id),('course_id','=',self.source_course_id.id),('student_ids','=',self.id)])
+        if student_group:
+            self.teacher_id = student_group.responsible_id
+        else:
+            self.teacher_id = None
         

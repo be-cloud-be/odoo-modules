@@ -53,19 +53,19 @@ class Partner(models.Model):
     student_program_ids = fields.One2many('school.individual_bloc', 'student_id', string='Programs')
     
     student_current_course_ids = fields.One2many('school.individual_course', compute='_get_student_current_individual_course_ids', string='Courses')
-    student_course_ids = fields.One2many('school.individual_course', 'student_id', string='Courses', domain="[('year_id', '=', self.env.user.current_year_id.id)]")
+    student_course_ids = fields.One2many('school.individual_course', compute='_get_student_current_individual_course_ids', string='Courses')
     
-    teacher_current_course_ids = fields.One2many('school.individual_course_proxy', compute='_get_teacher_current_individual_course_ids', string="Current Courses")
-    teacher_course_ids = fields.One2many('school.individual_course', 'teacher_id', string='Courses', domain="[('year_id', '=', self.env.user.current_year_id.id)]")
+    teacher_current_course_ids = fields.One2many('school.individual_course', compute='_get_teacher_current_individual_course_ids', string="Current Courses")
+    teacher_course_ids = fields.One2many('school.individual_course', compute='_get_teacher_current_individual_course_ids', string='Courses')
     
     @api.one
     def _get_teacher_current_individual_course_ids(self):
-        self.teacher_current_course_ids = self.env['school.individual_course_proxy'].search([['year_id', '=', self.env.user.current_year_id.id], ['teacher_id', '=', self.id]])
+        pass
 
     @api.one
     def _get_student_current_individual_course_ids(self):
-        self.teacher_current_course_ids = self.env['school.individual_course_proxy'].search([['year_id', '=', self.env.user.current_year_id.id], ['student_id', '=', self.id]])
-
+        pass
+        
     @api.one
     @api.depends('minerval_ids')
     def _has_paid_current_minerval(self):
@@ -84,11 +84,6 @@ class Partner(models.Model):
         for program in self.student_program_ids:
             if program.year_id == self.env.user.current_year_id:
                 self.student_current_program_id = program
-    
-    @api.one
-    def _get_teacher_current_course_session_ids(self):
-        res = self.env['school.course_session'].search([['year_id', '=', self.env.user.current_year_id.id], ['teacher_id', '=', self.id]])
-        self.teacher_current_assigment_ids = res
     
     # TODO : This is not working but don't know why
     @api.model

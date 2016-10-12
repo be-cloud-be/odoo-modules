@@ -293,7 +293,7 @@ class Course(models.Model):
             else:
                 course.name = "%s - %s" % (course.title, course.speciality_id.name)
     
-    teacher_ids = fields.Many2many('res.partner','course_id','teacher_id',string='Teachers',domain="[('teacher', '=', '1')]")
+    teacher_ids = fields.Many2many('res.partner', 'course_teacher_rel', 'course_id', 'teacher_id', string='Teachers')
 
 class ReportProgram(models.AbstractModel):
     _name = 'report.school_management.report_program'

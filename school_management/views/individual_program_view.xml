@@ -294,7 +294,6 @@
             </div>
             <group col="2" colspan="2">
               <field name="source_course_group_id" />
-              <field name="teacher_id" />
             </group>
             <group col="4" colspan="2" attrs="{'invisible': [('source_course_group_id','=',False)]}">
               <field name="weight" /><field name="total_weight" />
@@ -397,7 +396,6 @@
           <field name="year_id"/>
           <field name="student_id" />
           <field name="name" />
-          <field name="teacher_id" />
           <field name="dispense" />
         </tree>
       </field>
@@ -427,9 +425,6 @@
             </div>
             <group col="4">
               <field name="source_course_id" colspan="4"/>
-              <field name="needs_teacher_choice" invisible="1"/>
-              <field name="teacher_id"/>
-              <field name="teacher_choice_id" attrs="{'invisible':[('needs_teacher_choice','=',1)]}"/>
               <field name="hours"/>
               <field name="credits"/>
               <field name="weight"/>
@@ -450,7 +445,6 @@
       <field name="arch" type="xml">
         <search string="Search Courses">
           <field name="student_id" domain="[('type', '=', 'contact')]"/>
-          <field name="teacher_id" />
           <field name="source_bloc_id" string="Programme"/>
           <field name="source_course_id" string="Activité"/>
           <filter name="bloc_1" string="Bloc 1" domain="[('source_bloc_level', '=', 1)]"/>
@@ -464,7 +458,6 @@
           <filter name="dispensed" string="Dispensed" domain="[('dispense', '=', True)]"/>
           <filter name="not_dispensed" string="Not Dispensed" domain="[('dispense', '=', False)]"/>
           <separator/>
-          <filter name="my_current_courses" string="My Current Courses" domain="[('teacher_id.user_ids','=',uid),('year_sequence','=','current')]" />
           <group expand="1" string="Group By">
             <filter string="Domain" context="{'group_by':'source_bloc_domain_id'}" />
             <filter string="Cycle" context="{'group_by':'source_bloc_cycle_id'}" />
