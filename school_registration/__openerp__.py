@@ -25,7 +25,7 @@
     'author': 'be-Cloud.be (Jerome Sonnet)',
     'website': '',
     'category': 'School Management',
-    'depends': ['mail','school_management','school_evaluations','school_dispense_approval'],
+    'depends': ['school_dispense_approval'],
     'init_xml': [],
     'update_xml': [
         'wizard/register_next.xml',
