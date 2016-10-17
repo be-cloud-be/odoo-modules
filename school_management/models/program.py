@@ -217,9 +217,9 @@ class CourseGroup(models.Model):
     def compute_ue_name(self):
         for course_g in self:
             if course_g.level:
-                course_g.name = "Toto %s - %s - %s%s" % (course_g.title, course_g.speciality_id.name, course_g.cycle_id.short_name, course_g.level)
+                course_g.name = "%s - %s - %s%s" % (course_g.title, course_g.speciality_id.name, course_g.cycle_id.short_name, course_g.level)
             else:
-                course_g.name = "Toto %s - %s - %s" % (course_g.title, course_g.speciality_id.name, course_g.cycle_id.short_name)
+                course_g.name = "%s - %s - %s" % (course_g.title, course_g.speciality_id.name, course_g.cycle_id.short_name)
             
     code_ue = fields.Char(string='Code UE', compute='compute_code_ue', store=True)
     
