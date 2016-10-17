@@ -32,8 +32,12 @@
             <field name="model">school.cycle</field>
             <field eval="8" name="priority" />
             <field name="arch" type="xml">
-                <tree string="Specialities">
+                <tree string="Cycles" editable="top">
                     <field name="name" />
+                    <field name="short_name" />
+                    <field name="required_credits"/>
+                    <field name="type"/>
+                    <field name="grade"/>
                 </tree>
             </field>
         </record>

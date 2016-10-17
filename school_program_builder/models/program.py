@@ -63,6 +63,7 @@ class CompositeBloc(models.Model):
     def compute_name(self):
         for bloc in self:
             bloc.name = "%s - %s" % (bloc.title,[('0','Free'),('1','Bac 1'),('2','Bac 2'),('3','Bac 3'),('4','Master 1'),('5','Master 2'),][int(bloc.level)][1])
+    # TODO Change this to use cycle short name
 
     total_credits = fields.Integer(compute='_get_courses_total', string='Total Credits')
     total_hours = fields.Integer(compute='_get_courses_total', string='Total Hours')

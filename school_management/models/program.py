@@ -210,16 +210,16 @@ class CourseGroup(models.Model):
 
     bloc_ids = fields.Many2many('school.bloc','school_bloc_course_group_rel', id1='group_id', id2='bloc_id',string='Blocs', copy=False)
     
-    name = fields.Char(string='Name', compute='compute_name', store=True)
+    name = fields.Char(string='Name', compute='compute_ue_name', store=True)
     
-    @api.depends('title','level','speciality_id.name')
+    @api.depends('title','level','speciality_id.name', 'cycle_id.short_name')
     @api.multi
-    def compute_name(self):
+    def compute_ue_name(self):
         for course_g in self:
             if course_g.level:
-                course_g.name = "%s - %s - %s" % (course_g.title, course_g.speciality_id.name, course_g.level)
+                course_g.name = "Toto %s - %s - %s%s" % (course_g.title, course_g.speciality_id.name, course_g.cycle_id.short_name, course_g.level)
             else:
-                course_g.name = "%s - %s" % (course_g.title, course_g.speciality_id.name)
+                course_g.name = "Toto %s - %s - %s" % (course_g.title, course_g.speciality_id.name, course_g.cycle_id.short_name)
             
     code_ue = fields.Char(string='Code UE', compute='compute_code_ue', store=True)
     
@@ -284,14 +284,14 @@ class Course(models.Model):
     
     has_second_session = fields.Boolean(string="Has a second session", default=True)
     
-    @api.depends('title','level','speciality_id.name')
+    @api.depends('title','level','speciality_id.name', 'cycle_id.short_name')
     @api.multi
     def compute_name(self):
         for course in self:
             if course.level:
-                course.name = "%s - %s - %s" % (course.title, course.speciality_id.name, course.level)
+                course.name = "%s - %s - %s%s" % (course.title, course.speciality_id.name, course.cycle_id.short_name, course.level)
             else:
-                course.name = "%s - %s" % (course.title, course.speciality_id.name)
+                course.name = "%s - %s - %s" % (course.title, course.speciality_id.name, course.cycle_id.short_name)
     
     teacher_ids = fields.Many2many('res.partner','course_id','teacher_id',string='Teachers',domain="[('teacher', '=', '1')]")
 
@@ -327,7 +327,9 @@ class Domain(models.Model):
 class Cycle(models.Model):
     '''Cycle'''
     _name = 'school.cycle'
+    
     name = fields.Char(required=True, string='Name', size=60)
+    short_name = fields.Char(string='Short Name', size=2)
     description = fields.Text(string='Description')
     required_credits = fields.Integer(string='Required Credits')
     type = fields.Selection([
