@@ -68,7 +68,7 @@
                     <filter string="Teachers" name="teacher" domain="[('teacher','=',1), ('parent_id', '=', False)]" />
                     <filter string="Students" name="student" domain="[('student','=',1), ('parent_id', '=', False)]" />
                     <filter string="Others" name="other" domain="[('employee','=',0),('teacher','=',0),('student','=',0), ('parent_id', '=', False)]" />
-                    <filter string="Archived" name="archived" domain="[('active','=',False)]" />
+                    <filter string="Archived" name="archived" domain="[('active','=',False),('type','=','contact')]" />
                     <separator/>
                     <filter string="Registered" name="registered" domain="[('student_program_ids.year_id','=',user.current_year_id.id)]" />
                     <filter string="No Program" name="no_program" domain="[('student_current_program_id','=',False)]" />
