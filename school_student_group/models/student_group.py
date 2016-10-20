@@ -27,6 +27,7 @@ _logger = logging.getLogger(__name__)
 class StudentGroup(models.Model):
     '''Student Group'''
     _name = 'school.student_group'
+    _description = 'Student Group'
     _inherit = ['mail.thread','school.year_sequence.mixin']
     
     _order = 'responsible_id, course_id'
