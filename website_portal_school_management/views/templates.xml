@@ -103,6 +103,65 @@
         </div>
     </template>
 
+    <template id="school_student_bloc" name="Bloc">
+        <div class="col-md-12">
+            <table class="table table-condensed oe_school_program_table">
+                <caption style="font-size: 100%;">Grille du bloc - <t t-esc="bloc.name"/></caption>
+                <colgroup>
+                    <col style="width:75px"/>
+                    <col style="width:100%"/>
+                    <col style="width:60px"/>
+                    <col style="width:60px"/>
+                    <col style="width:60px"/>
+                    <col style="width:100px"/>
+                    <col style="width:100px"/>
+                    <col style="width:100px"/>
+                </colgroup>
+                <thead>
+                    <tr>
+                        <th>Code UE</th> 
+                        <th>Unités d’enseignement</th> 
+                        <th class="text-center">Heures</th> 
+                        <th class="text-center">ECTS</th>
+                        <th class="text-center">Pond</th>
+                        <th>Dispense</th>
+                    </tr> 
+                </thead>
+                <tbody>
+                    <t t-foreach="bloc.course_group_ids" t-as="course_group">
+                    <tr class="oe_school_course_group">
+                        <td><t t-esc="course_group.code_ue"/></td>
+                        <td><t t-esc="course_group.title"/></td>
+                        <td class="text-center"><t t-esc="course_group.total_hours"/></td>
+                        <td class="text-center"><t t-esc="course_group.total_credits"/></td>
+                        <td></td>
+                        <td class="text-center"><t t-if="course_group.dispense">Dis.</t></td>
+                    </tr>
+                    <tr t-foreach="course_group.course_ids" t-as="course">
+                        <td></td>
+                        <td t-if="course.url_ref"><a t-esc="course.title" t-att-href="course.url_ref" target="new"/></td>
+                        <td t-if="not course.url_ref"><t t-esc="course.title"/></td>
+                        <td class="text-center"><t t-esc="course.hours"/></td>
+                        <td class="text-center"><t t-esc="course.credits"/></td>
+                        <td class="text-center"><t t-esc="course.weight"/></td>
+                        <td class="text-center"><t t-if="course.dispense">Dis.</t></td>
+                    </tr>
+                    </t>
+                    <tr>
+                        <td></td>
+                        <td class="text-right">Total :</td>
+                        <td class="text-center"><t t-esc="bloc.total_hours"/></td>
+                        <td class="text-center"><t t-esc="bloc.total_credits"/></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </template>
+
     <template id="information" name="Information">
         <t t-call="website.layout">
             <t t-set="title">Information</t>
@@ -153,7 +212,7 @@
                                         Programme annuel en cours<t t-if="bloc.state == 'draft'"> - <b>Brouillon</b></t> 
                                     </div>
                                     <div class="panel-body">
-                                        <t t-call="website_portal_school_management.school_bloc"/>
+                                        <t t-call="website_portal_school_management.school_student_bloc"/>
                                     </div>
                                     <div class="panel-footer" t-if="bloc.state == 'draft'">
                                         Attention : Votre programme doit encore être approuvé par la commission des études.
