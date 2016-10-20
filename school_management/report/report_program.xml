@@ -123,7 +123,7 @@
                         <td class="text-center"><t t-esc="course.credits"/></td>
                         <td class="text-center"><t t-esc="course.weight"/></td>
                         <!--<td></td>-->
-                        <td></td>
+                        <td><t t-if="course.dispense">Disp.</t></td>
                     </tr>
                     </t>
                     <tr>
