@@ -32,16 +32,19 @@ class website_portal_school_management(http.Controller):
     @http.route(['/my/info'], type='http', auth='user', website=True)
     def details(self, redirect=None, **post):
         user = request.env['res.users'].browse(request.uid)
-        year = request.env['school.year'].browse(1) #TODO set this as global parameter
+        year = request.env['school.year'].browse(3) #TODO set this as global parameter
         _logger.info('HERHEEHREHREH')
         _logger.info(year)
         _logger.info(user)
         bloc = request.env['school.individual_bloc'].search([('year_id','=',year.id),('student_id','=',user.partner_id.id)])
+        teachers = request.env['school.individual_course'].search([('year_id','=',year.id),('student_id','=',user.partner_id.id)]).mapped('teacher_id')
+        teachers = set(teachers)
         _logger.info(bloc)
         values = {
             'user': user,
             'yead': year,
             'bloc': bloc,
+            'teachers':teachers,
         }
         return request.website.render("website_portal_school_management.information", values)
         

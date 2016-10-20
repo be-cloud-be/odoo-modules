@@ -204,25 +204,16 @@ class IndividualCourse(models.Model):
     student_id = fields.Many2one('res.partner', related="course_group_id.bloc_id.student_id",store=True)
     
     teacher_id = fields.Many2one('res.partner', string='Teacher', compute='compute_teacher_id', store=True)
-    teacher_choice_id = fields.Many2one('res.partner', string='Teacher Choice', store=True, domain=[('teacher', '=',1)]) #, domain=[('id', 'in', 'source_course_id.teacher_ids')]
-    needs_teacher_choice = fields.Boolean(string="Needs Teacher Choice", compute='compute_needs_teacher_choice')
-    
-    @api.depends('teacher_choice_id','source_course_id.teacher_ids')
-    @api.one
-    def compute_needs_teacher_choice(self):
-        if len(self.source_course_id.teacher_ids) == 1:
-            self.needs_teacher_choice = False
-        else:
-            self.needs_teacher_choice = True
+    teacher_choice_id = fields.Many2one('res.partner', string='Teacher Choice', domain=[('teacher', '=',1)])
     
     @api.depends('teacher_choice_id','source_course_id.teacher_ids')
     @api.one
     def compute_teacher_id(self):
-        if len(self.source_course_id.teacher_ids) == 1:
-            self.teacher_id = self.source_course_id.teacher_ids[0]
-        else:
+        if self.teacher_choice_id:
             self.teacher_id = self.teacher_choice_id
-    
+        else:
+            self.teacher_id = self.source_course_id.teacher_ids[0]
+
     @api.one
     def guess_teacher_id(self):
         old_course = self.env['school.individual_course'].search([('student_id','=',self.student_id.id),('year_id','=',self.year_id.previous.id),('title', '=', self.source_course_id.title)])

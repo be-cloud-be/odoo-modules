@@ -159,6 +159,20 @@
                                         Attention : Votre programme doit encore être approuvé par la commission des études.
                                     </div>
                                 </div>
+                                <div class="panel panel-default">
+                                    <div class="panel-heading">  
+                                        Vos enseignants
+                                    </div>
+                                    <!-- Table -->
+                                    <table class="table">
+                                        <t t-foreach="teachers" t-as="teacher">
+                                        <tr>
+                                            <td><t t-esc="teacher.name" /></td>
+                                            <td><a t-att-href="'mailto:'+teacher.email"><t t-esc="teacher.email" /></a></td>
+                                        </tr>
+                                        </t>
+                                    </table>
+                                </div>
                             </div>
                         </div>
                     </div>
