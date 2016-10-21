@@ -22,7 +22,7 @@
 -->
 <odoo>
 
-    <template id="assets_report" inherit_id="report.assets_common" name="School Management Reports">
+    <template id="assets_report" inherit_id="report.assets_common" name="School Management Website">
         <xpath expr="." position="inside">
             <!--<script type="text/javascript" src="/website_sale_options/static/src/js/website_sale.test.js"></script>
             <script type="text/javascript" src="/website_sale_options/static/src/js/website_sale.js"></script>-->
@@ -30,16 +30,43 @@
         </xpath>
     </template>
 
-    <template id="assets_frontend" inherit_id="website.assets_frontend" name="Shop Product Options">
+    <template id="assets_frontend" inherit_id="website.assets_frontend" name="School Management Website">
         <xpath expr="." position="inside">
             <!--<script type="text/javascript" src="/website_sale_options/static/src/js/website_sale.test.js"></script>
             <script type="text/javascript" src="/website_sale_options/static/src/js/website_sale.js"></script>-->
             <link rel='stylesheet' href='/website_portal_school_management/static/src/css/portal_school.css' />
         </xpath>
     </template>
+
+    <template id="school_course" name="Course">
+        <td t-if="course.url_ref"><a t-esc="course.title" t-att-href="course.url_ref" target="new"/></td>
+        <td t-if="not course.url_ref"><a t-esc="course.title" data-toggle="modal" data-target="#noDescription"/></td>
+    </template>
+
+    <template id="no_description" name="No Description Modal">
+        <!-- Modal -->
+        <div id="noDescription" class="modal fade" role="dialog">
+          <div class="modal-dialog">
+            <!-- Modal content-->
+            <div class="modal-content">
+              <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal">X</button>
+                <h4 class="modal-title">Information</h4>
+              </div>
+              <div class="modal-body">
+                <p>Pas de description disponible pour cette activité.</p>
+              </div>
+              <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+              </div>
+            </div>
+          </div>
+        </div>
+    </template>    
 
     <template id="school_bloc" name="Bloc">
         <div class="col-md-12">
+            <t t-call="website_portal_school_management.no_description"/>
             <table class="table table-condensed oe_school_program_table">
                 <caption style="font-size: 100%;">Grille du bloc - <t t-esc="bloc.name"/></caption>
                 <colgroup>
@@ -78,8 +105,7 @@
                     </tr>
                     <tr t-foreach="course_group.course_ids" t-as="course">
                         <td></td>
-                        <td t-if="course.url_ref"><a t-esc="course.title" t-att-href="course.url_ref" target="new"/></td>
-                        <td t-if="not course.url_ref"><t t-esc="course.title"/></td>
+                        <t t-call="website_portal_school_management.school_course"/>
                         <td class="text-center"><t t-esc="course.hours"/></td>
                         <td class="text-center"><t t-esc="course.credits"/></td>
                         <td class="text-center"><t t-esc="course.weight"/></td>
@@ -105,6 +131,7 @@
 
     <template id="school_student_bloc" name="Bloc">
         <div class="col-md-12">
+            <t t-call="website_portal_school_management.no_description"/>
             <table class="table table-condensed oe_school_program_table">
                 <caption style="font-size: 100%;">Grille du bloc - <t t-esc="bloc.name"/></caption>
                 <colgroup>
@@ -139,8 +166,7 @@
                     </tr>
                     <tr t-foreach="course_group.course_ids" t-as="course">
                         <td></td>
-                        <td t-if="course.url_ref"><a t-esc="course.title" t-att-href="course.url_ref" target="new"/></td>
-                        <td t-if="not course.url_ref"><t t-esc="course.title"/></td>
+                        <t t-call="website_portal_school_management.school_course"/>
                         <td class="text-center"><t t-esc="course.hours"/></td>
                         <td class="text-center"><t t-esc="course.credits"/></td>
                         <td class="text-center"><t t-esc="course.weight"/></td>
