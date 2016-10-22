@@ -49,6 +49,7 @@ class IndividualProgram(models.Model):
     track_id = fields.Many2one(related='speciality_id.track_id', string='Track',store=True)
     
     required_credits = fields.Integer(related='cycle_id.required_credits',string='Required Credits')
+    required_credits = fields.Integer(related='cycle_id.required_credits',string='Required Credits')
     
     @api.one
     @api.depends('cycle_id.name','speciality_id.name','student_id.name')
@@ -211,8 +212,10 @@ class IndividualCourse(models.Model):
     def compute_teacher_id(self):
         if self.teacher_choice_id:
             self.teacher_id = self.teacher_choice_id
-        else:
+        elif len(self.source_course_id.teacher_ids) > 0:
             self.teacher_id = self.source_course_id.teacher_ids[0]
+        else:
+            self.teacher_id = None
 
     @api.one
     def guess_teacher_id(self):

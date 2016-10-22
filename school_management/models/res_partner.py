@@ -110,5 +110,5 @@ class Minerval(models.Model):
     _name = 'school.minerval'
     
     year_id = fields.Many2one('school.year', string='Year', readonly=True)
-    student_id = fields.Many2one('res.partner', string='Student', domain="[('student', '=', '1')]", readonly=True)
+    student_id = fields.Many2one('res.partner', string='Student', domain="[('student', '=', '1')]", readonly=True)2016-10-
     payment_date = fields.Date(string='Payment Date',default=fields.Date.context_today)

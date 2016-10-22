@@ -26,6 +26,7 @@
     'website': '',
     'category': 'School Management',
     'depends': [
+        'web',
         'website',
     ],
     'data': [

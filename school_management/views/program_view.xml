@@ -763,7 +763,7 @@
             <field eval="18" name="priority"/>
             <field name="arch" type="xml">
                 <xpath expr="//field[@name='tz_offset']" position="after">
-                    <field name="current_year_id" placeholder="Current Year" />
+                    <field name="current_year_id" placeholder="Current Year" readonly="0"/>
                 </xpath>
             </field>
         </record>
