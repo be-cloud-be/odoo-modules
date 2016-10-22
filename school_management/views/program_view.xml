@@ -25,9 +25,9 @@
     <!-- Top menu item -->
     <menuitem name="Programs" id="menu_main_program" icon="fa-book" web_icon="school,static/description/icon.png" sequence="60" />
 
-    <menuitem name="Course Groups" parent="menu_main_program" id="menu_course_groups" sequence="1" />
+    <menuitem name="Course Groups" parent="menu_main_program" id="menu_course_groups" sequence="10" />
     
-    <menuitem name="Programs" parent="menu_main_program" id="menu_program" sequence="10" />
+    <menuitem name="Programs" parent="menu_main_program" id="menu_program" sequence="5" />
 
     <!--
     

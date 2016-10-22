@@ -39,5 +39,17 @@
             <field name="name">Evaluations</field>
         </record>
 
+        <record id="group_program_management" model="res.groups">
+            <field name="name">Evaluations</field>
+        </record>
+
+        <record id="group_registration" model="res.groups">
+            <field name="name">Inscriptions</field>
+        </record>
+
+        <record id="group_teacher_portal" model="res.groups">
+            <field name="name">Enseignant Portail</field>
+        </record>
+
     </data>
 </openerp>
