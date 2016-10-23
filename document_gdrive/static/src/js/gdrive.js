@@ -11,6 +11,7 @@ odoo.define('document_gdrive.menu_item', function(require) {
     var Sidebar = require('web.Sidebar');
     var Dialog = require('web.Dialog');
     var ActionManager = require('web.ActionManager');
+    var utils = require('web.utils');
 
     var _t = core._t;
     var QWeb = core.qweb;
@@ -32,40 +33,45 @@ odoo.define('document_gdrive.menu_item', function(require) {
 
         },
         onAuthApiLoad: function() {
-            var P = new Model('ir.config_parameter');
-            P.call('get_param', ['document.gdrive.client.id']).then(function(id) {
-                if (id) {
-                    var clientId = id;
-                    window.gapi.auth.authorize({
-                            'client_id': clientId,
-                            'scope': scope,
-                            'immediate': true,
-                            'include_granted_scopes': true
-                        },
-                        function(authResult) {
-                            if (authResult && !authResult.error) {
-                                odoo.gdrive.oauthToken = authResult.access_token;
-                            }
-                            else {
-                                gapi.auth.authorize({
-                                    client_id: clientId,
-                                    scope: scope,
-                                    immediate: false
-                                }, function(authResult) {
-                                    if (authResult && !authResult.error) {
-                                        odoo.gdrive.oauthToken = authResult.access_token;
-                                    }
-                                    else {
-                                        alert("Cannot get authorization token for Google Drive: " + authResult.error_subtype + " - " + authResult.error);
-                                    }
-                                });
-                            }
-                        });
-                }
-                else {
-                    console.log("Cannot access parameter 'document.gdrive.client.id' check your configuration");
-                }
-            });
+            odoo.gdrive.oauthToken = utils.get_cookie('odoo.gdrive.oauthToken');
+            if (!odoo.gdrive.oauthToken) {
+                var P = new Model('ir.config_parameter');
+                P.call('get_param', ['document.gdrive.client.id']).then(function(id) {
+                    if (id) {
+                        var clientId = id;
+                        window.gapi.auth.authorize({
+                                'client_id': clientId,
+                                'scope': scope,
+                                'immediate': true,
+                                'include_granted_scopes': true
+                            },
+                            function(authResult) {
+                                if (authResult && !authResult.error) {
+                                    odoo.gdrive.oauthToken = authResult.access_token
+                                    utils.set_cookie('odoo.gdrive.oauthToken',odoo.gdrive.oauthToken,24*60*60*365);
+                                }
+                                else {
+                                    gapi.auth.authorize({
+                                        client_id: clientId,
+                                        scope: scope,
+                                        immediate: false
+                                    }, function(authResult) {
+                                        if (authResult && !authResult.error) {
+                                            odoo.gdrive.oauthToken = authResult.access_token;
+                                            utils.set_cookie('odoo.gdrive.oauthToken',odoo.gdrive.oauthToken,24*60*60*365);
+                                        }
+                                        else {
+                                            alert("Cannot get authorization token for Google Drive: " + authResult.error_subtype + " - " + authResult.error);
+                                        }
+                                    });
+                                }
+                            });
+                    }
+                    else {
+                        console.log("Cannot access parameter 'document.gdrive.client.id' check your configuration");
+                    }
+                });
+            }
         },
 
         redraw: function() {
