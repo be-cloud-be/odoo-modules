@@ -38,7 +38,11 @@ odoo.define('document_gdrive.menu_item', function(require) {
 
         },
         onAuthApiLoad: function() {
+<<<<<<< HEAD
             //odoo.gdrive.oauthToken = utils.get_cookie('odoo.gdrive.oauthToken');
+=======
+            odoo.gdrive.oauthToken = utils.get_cookie('odoo.gdrive.oauthToken');
+>>>>>>> use cookie to store authToken
             if (!odoo.gdrive.oauthToken) {
                 var P = new Model('ir.config_parameter');
                 P.call('get_param', ['document.gdrive.client.id']).then(function(id) {
@@ -53,7 +57,11 @@ odoo.define('document_gdrive.menu_item', function(require) {
                             function(authResult) {
                                 if (authResult && !authResult.error) {
                                     odoo.gdrive.oauthToken = authResult.access_token
+<<<<<<< HEAD
                                     //utils.set_cookie('odoo.gdrive.oauthToken',odoo.gdrive.oauthToken,24*60*60*365);
+=======
+                                    utils.set_cookie('odoo.gdrive.oauthToken',odoo.gdrive.oauthToken,24*60*60*365);
+>>>>>>> use cookie to store authToken
                                 }
                                 else {
                                     gapi.auth.authorize({
@@ -63,7 +71,11 @@ odoo.define('document_gdrive.menu_item', function(require) {
                                     }, function(authResult) {
                                         if (authResult && !authResult.error) {
                                             odoo.gdrive.oauthToken = authResult.access_token;
+<<<<<<< HEAD
                                             //utils.set_cookie('odoo.gdrive.oauthToken',odoo.gdrive.oauthToken,24*60*60*365);
+=======
+                                            utils.set_cookie('odoo.gdrive.oauthToken',odoo.gdrive.oauthToken,24*60*60*365);
+>>>>>>> use cookie to store authToken
                                         }
                                         else {
                                             alert("Cannot get authorization token for Google Drive: " + authResult.error_subtype + " - " + authResult.error);
@@ -73,8 +85,12 @@ odoo.define('document_gdrive.menu_item', function(require) {
                             });
                     }
                     else {
+<<<<<<< HEAD
                         console.log(_t("Cannot access parameter 'document.gdrive.client.id' check your configuration in General Settings"));
                         alert(_t("Cannot access parameter 'document.gdrive.client.id' check your configuration in General Settings"));
+=======
+                        console.log("Cannot access parameter 'document.gdrive.client.id' check your configuration");
+>>>>>>> use cookie to store authToken
                     }
                 });
             }
