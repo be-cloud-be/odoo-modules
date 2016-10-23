@@ -18,12 +18,12 @@ odoo.define('document_gdrive.menu_item', function(require) {
 
     var scope = ['https://www.googleapis.com/auth/drive'];
 
-    var mySidebar = Sidebar.include({
+    Sidebar.include({
         init: function() {
             this._super.apply(this, arguments);
             odoo.gdrive = {};
             try {
-                gapi.load('auth2', {
+                gapi.load('auth', {
                     'callback': this.onAuthApiLoad
                 });
                 gapi.load('picker', {
@@ -38,13 +38,13 @@ odoo.define('document_gdrive.menu_item', function(require) {
 
         },
         onAuthApiLoad: function() {
-            odoo.gdrive.oauthToken = readGdriveTokenCookie();
+            //odoo.gdrive.oauthToken = utils.get_cookie('odoo.gdrive.oauthToken');
             if (!odoo.gdrive.oauthToken) {
                 var P = new Model('ir.config_parameter');
                 P.call('get_param', ['document.gdrive.client.id']).then(function(id) {
                     if (id) {
                         var clientId = id;
-                        window.gapi.auth2.authorize({
+                        window.gapi.auth.authorize({
                                 'client_id': clientId,
                                 'scope': scope,
                                 'immediate': true,
@@ -53,19 +53,16 @@ odoo.define('document_gdrive.menu_item', function(require) {
                             function(authResult) {
                                 if (authResult && !authResult.error) {
                                     odoo.gdrive.oauthToken = authResult.access_token
-                                    odoo.gdrive.idToken = authResult.id_token;
                                     //utils.set_cookie('odoo.gdrive.oauthToken',odoo.gdrive.oauthToken,24*60*60*365);
-                                    saveGdriveTokenCookie(odoo.gdrive.oauthToken);
                                 }
                                 else {
-                                    gapi.auth2.authorize({
+                                    gapi.auth.authorize({
                                         client_id: clientId,
                                         scope: scope,
                                         immediate: false
                                     }, function(authResult) {
                                         if (authResult && !authResult.error) {
                                             odoo.gdrive.oauthToken = authResult.access_token;
-                                            saveGdriveTokenCookie(odoo.gdrive.oauthToken);
                                             //utils.set_cookie('odoo.gdrive.oauthToken',odoo.gdrive.oauthToken,24*60*60*365);
                                         }
                                         else {
@@ -86,18 +83,11 @@ odoo.define('document_gdrive.menu_item', function(require) {
         redraw: function() {
             var self = this;
             this._super.apply(this, arguments);
-<<<<<<< HEAD
-<<<<<<< HEAD
             if(self.$el.find('.oe_sidebar_add_attachment').length > 0) {
-=======
-            if (self.$el.find('.oe_sidebar_add_attachment')) {
-                // Community version
->>>>>>> Add support for Enterprise Edition
                 self.$el.find('.oe_sidebar_add_attachment').after(QWeb.render('AddGDriveDocumentItem', {
                     widget: self
                 }))
                 self.$el.find('.oe_file_attachment').attr( "target", "_new" );
-<<<<<<< HEAD
                 self.$el.find('.oe_sidebar_add_gdrive').on('click', function(e) {
                     self.on_gdrive_doc();
                 });
@@ -110,25 +100,6 @@ odoo.define('document_gdrive.menu_item', function(require) {
                     self.on_gdrive_doc();
                 });
             }
-=======
-            } else {
-                // Enterprise version
-                self.$el.find('.o_sidebar_add_attachment').after(QWeb.render('AddGDriveDocumentItem', {
-                    widget: self
-                }))
-                self.$el.find('a[data-section$="files"]'').attr( "target", "_new" );
-            }
-                self.$el.find('.oe_sidebar_add_gdrive').on('click', function(e) {
-=======
-            self.$el.find('.oe_sidebar_add_attachment').after(QWeb.render('AddGDriveDocumentItem', {
-                widget: self
-            }))
-            self.$el.find('.oe_file_attachment').attr( "target", "_new" );
-            self.$el.find('.oe_sidebar_add_gdrive').on('click', function(e) {
->>>>>>> [FIX] used new_api for 9.0 branch
-                self.on_gdrive_doc();
-            });
->>>>>>> Add support for Enterprise Edition
         },
 
         pickerCallback: function(data) {
@@ -226,14 +197,4 @@ odoo.define('document_gdrive.menu_item', function(require) {
         },
     });
 
-    var cookieName = "odoo.gdrive.oauthToken";
-
-    function saveGdriveTokenCookie(oauthToken) {
-        utils.set_cookie(cookieName, oauthToken);
-        return;
-    }
-
-    function readGdriveTokenCookie() {
-        return utils.get_cookie(cookieName);
-    }
 });
