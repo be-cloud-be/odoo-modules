@@ -82,7 +82,7 @@
 
         <!-- <menuitem name="My Information" parent="menu_information" id="menu_details" action="school_teacher_act" sequence="10" /> -->
 
-        <record id="action_student_group_form_view1" model="ir.actions.act_window.view">
+        <!--<record id="action_student_group_form_view1" model="ir.actions.act_window.view">
           <field name="sequence" eval="0" />
           <field name="view_mode">kanban</field>
           <field name="view_id" ref="school_student_group.student_group_kanban_view" />
@@ -125,7 +125,52 @@
           <field name="context">{"search_default_my_groups":1}</field>
         </record>
         
-        <menuitem name="My Courses" parent="menu_information" id="menu_courses" action="action_report_school_courses" sequence="20" />
+        <menuitem name="My Courses" parent="menu_information" id="menu_courses" action="action_report_school_courses" sequence="20" /> -->
+        
+        <!--<record id="action_individual_course_form_view1" model="ir.actions.act_window.view">
+          <field name="sequence" eval="0" />
+          <field name="view_mode">kanban</field>
+          <field name="view_id" ref="school_management.individual_course_kanban_view" />
+          <field name="act_window_id" ref="action_report_school_proxy_courses" />
+        </record>-->
+        
+        <record id="view_individual_course_filter" model="ir.ui.view">
+            <field name="name">individual_course.select</field>
+            <field name="model">school.individual_course_proxy</field>
+            <field name="arch" type="xml">
+            <search string="Search Courses">
+                <field name="name" string="Nom de l'activité"/>
+                <filter name="my_courses" string="My Current Courses" domain="[('teacher_id','=',uid),('year_sequence','=','current')]" />
+                <field name="teacher_id" />
+            </search>
+            </field>
+        </record>
+
+        <!--<record id="action_report_school_proxy_courses" model="ir.actions.act_window">
+          <field name="name">My Courses</field>
+          <field name="res_model">school.individual_course_proxy</field>
+          <field name="view_type">form</field>
+          <field name="view_mode">kanban, tree, form</field>
+          <field name="search_view_id" ref="view_individual_course_filter" />
+          <field name="domain=">[('year_sequence','=','current')]</field>
+          <field name="context">{"search_default_my_courses":1}</field>
+        </record>
+
+        <record id="action_individual_course_tree_view1" model="ir.actions.act_window.view">
+          <field name="sequence" eval="1" />
+          <field name="view_mode">tree</field>
+          <field name="view_id" ref="school_management.view_course_tree" />
+          <field name="act_window_id" ref="action_report_school_proxy_courses" />
+        </record>
+        
+        <record id="action_individual_course_form_view2" model="ir.actions.act_window.view">
+          <field name="sequence" eval="2" />
+          <field name="view_mode">form</field>
+          <field name="view_id" ref="school_management.course_form" />
+          <field name="act_window_id" ref="action_report_school_proxy_courses" />
+        </record>
+
+        <menuitem name="My Courses" parent="menu_information" id="menu_courses" action="action_report_school_proxy_courses" sequence="20" />
 
         <record id="action_report_school_dispense" model="ir.actions.act_window">
             <field name="name">Dispenses</field>
@@ -138,7 +183,7 @@
             <field name="context">{"search_default_my_current_courses":1,"search_default_dispensed":1}</field>
         </record>
         
-        <menuitem name="My Dispenses" parent="menu_information" id="menu_dispense" action="action_report_school_dispense" sequence="30"/>
+        <menuitem name="My Dispenses" parent="menu_information" id="menu_dispense" action="action_report_school_dispense" sequence="30"/>-->
         
         <record id="view_individual_students_filter" model="ir.ui.view">
             <field name="name">student.select</field>

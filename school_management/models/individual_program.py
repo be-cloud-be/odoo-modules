@@ -254,6 +254,7 @@ class IndividualCourse(models.Model):
 class IndividualCourseProxy(models.Model):
     _name = 'school.individual_course_proxy'
     _auto = False
+    _inherit = ['school.year_sequence.mixin']
 
     name = fields.Char(string="Name", readonly=True)
     title = fields.Char(string="Title", readonly=True)
@@ -261,6 +262,8 @@ class IndividualCourseProxy(models.Model):
     year_id = fields.Many2one('school.year', string='Year', readonly=True)
     teacher_id = fields.Many2one('res.partner', string='Teacher', readonly=True)
     source_course_id = fields.Many2one('school.course', string="Source Course", readonly=True)
+    
+    student_count = fields.Integer(string="Student Count", readonly=True)
 
     def init(self, cr):
         """ School Individual Course Proxy """

@@ -192,6 +192,24 @@
         <t t-call="website.layout">
             <t t-set="title">Information</t>
             <div class="oe_structure">
+                <!-- Modal -->
+                <div id="largeImage" class="modal fade" role="dialog">
+                  <div class="modal-dialog">
+                    <!-- Modal content-->
+                    <div class="modal-content">
+                      <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal">X</button>
+                        <h4 class="modal-title">Ma photo</h4>
+                      </div>
+                      <div class="modal-body">
+                        <div t-field="user.partner_id.image" t-field-options="{&quot;widget&quot;: &quot;image&quot;, &quot;class&quot;: &quot;.img-rounded&quot;}"/>
+                      </div>
+                      <div class="modal-footer">
+                        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                      </div>
+                    </div>
+                  </div>
+                </div>
                 <div class="container">
                     <div class="row">
                         <div id="o_my_information" class="col-md-12">
@@ -201,8 +219,15 @@
                                     <div class="panel-heading">  
                                         Information de contact
                                     </div>
-                                    <div class="panel-body">  
-                                        <div t-field="user.partner_id" t-field-options='{"widget": "contact", "fields": ["email", "phone", "mobile", "address", "name"]}' />
+                                    <div class="panel-body">
+                                        <div class="row">
+                                            <div class="col-xs-2">
+                                                <div t-field="user.partner_id.image_medium" t-field-options="{&quot;widget&quot;: &quot;image&quot;, &quot;class&quot;: &quot;.img-rounded&quot;}" data-toggle="modal" data-target="#largeImage"/>
+                                            </div>
+                                            <div class="col-xs-10">
+                                                <div t-field="user.partner_id" t-field-options="{&quot;widget&quot;: &quot;contact&quot;, &quot;fields&quot;: [&quot;email&quot;, &quot;phone&quot;, &quot;mobile&quot;, &quot;address&quot;, &quot;name&quot;]}"/>
+                                            </div>
+                                        </div>
                                     </div>
                                 </div>
                                 <t t-foreach="user.partner_id.child_ids" t-as="child">
@@ -223,6 +248,7 @@
                                     </div>
                                 </div>
                                 </t>
+                                <t t-if="user.partner_id.student">
                                 <div class="panel panel-default">
                                     <div class="panel-heading">  
                                         Minerval
@@ -248,17 +274,31 @@
                                     <div class="panel-heading">  
                                         Vos enseignants
                                     </div>
-                                    <!-- Table -->
-                                    <table class="table">
-                                        <t t-foreach="teachers" t-as="teacher">
-                                        <tr>
-                                            <td></td>
-                                            <td><t t-esc="teacher.name" /></td>
-                                            <td><a t-att-href="'mailto:'+teacher.email"><t t-esc="teacher.email" /></a></td>
-                                        </tr>
-                                        </t>
-                                    </table>
+                                    <div class="panel-body">
+                                        <div class="row">
+                                            <t t-foreach="teachers" t-as="teacher">
+                                            <div class="col-xs-12 col-md-3">
+                                                <div class="panel panel-default">
+                                                    <div class="panel-image" style="min-height:380px;">
+                                                        <div t-field="teacher.image" t-field-options="{&quot;widget&quot;: &quot;image&quot;, &quot;class&quot;: &quot;panel-image-preview center-block&quot;}"/>
+                                                    </div>
+                                                    <div class="panel-body">
+                                                        <h4><t t-esc="teacher.name" /></h4>
+                                                    </div>
+                                                    <div class="panel-footer text-center">
+                                                        <h4>
+                                                            <a t-att-href="'mailto:'+teacher.email"><span class="glyphicon glyphicon-envelope"></span></a>
+                                                            <a href="#facebook"><span class="fa fa-facebook"></span></a>
+                                                            <a href="#twitter"><span class="fa fa-twitter"></span></a>
+                                                        </h4>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            </t>
+                                        </div>
+                                    </div>
                                 </div>
+                                </t>
                             </div>
                         </div>
                     </div>
