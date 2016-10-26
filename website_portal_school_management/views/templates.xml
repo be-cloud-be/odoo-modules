@@ -39,8 +39,8 @@
     </template>
 
     <template id="school_course" name="Course">
-        <td t-if="course.url_ref"><a t-esc="course.title" t-att-href="course.url_ref" target="new"/></td>
-        <td t-if="not course.url_ref"><a t-esc="course.title" data-toggle="modal" data-target="#noDescription"/></td>
+        <td t-if="course.url_ref"><a t-esc="course.title" t-att-href="course.url_ref" target="new"/><t t-if="course.teacher_id"><i> - <t t-esc="course.teacher_id.name"/></i></t></td>
+        <td t-if="not course.url_ref"><a t-esc="course.title" data-toggle="modal" data-target="#noDescription"/><t t-if="course.teacher_id"><i> - <t t-esc="course.teacher_id.name"/></i></t></td>
     </template>
 
     <template id="no_description" name="No Description Modal">
@@ -105,7 +105,8 @@
                     </tr>
                     <tr t-foreach="course_group.course_ids" t-as="course">
                         <td></td>
-                        <t t-call="website_portal_school_management.school_course"/>
+                        <td t-if="course.url_ref"><a t-esc="course.title" t-att-href="course.url_ref" target="new"/></td>
+                        <td t-if="not course.url_ref"><a t-esc="course.title" data-toggle="modal" data-target="#noDescription"/></td>
                         <td class="text-center"><t t-esc="course.hours"/></td>
                         <td class="text-center"><t t-esc="course.credits"/></td>
                         <td class="text-center"><t t-esc="course.weight"/></td>
@@ -282,7 +283,7 @@
                                                     <div class="panel-image" style="min-height:380px;">
                                                         <div t-field="teacher.image" t-field-options="{&quot;widget&quot;: &quot;image&quot;, &quot;class&quot;: &quot;panel-image-preview center-block&quot;}"/>
                                                     </div>
-                                                    <div class="panel-body">
+                                                    <div class="panel-body" style="min-height:90px;">
                                                         <h4><t t-esc="teacher.name" /></h4>
                                                     </div>
                                                     <div class="panel-footer text-center">
