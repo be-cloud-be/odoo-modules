@@ -70,12 +70,12 @@ class IndividualBloc(models.Model):
     
     program_id = fields.Many2one('school.individual_program', string='Individual Program', required=True)
     
-    year_id = fields.Many2one('school.year', string='Year', readonly=True)
+    year_id = fields.Many2one('school.year', string='Year')
     
     student_id = fields.Many2one(related='program_id.student_id', string='Student', domain="[('student', '=', '1')]", readonly=True, store=True)
     student_name = fields.Char(related='student_id.name', string="Student Name", readonly=True, store=True)
     
-    source_bloc_id = fields.Many2one('school.bloc', string="Source Bloc", readonly=True)
+    source_bloc_id = fields.Many2one('school.bloc', string="Source Bloc")
     source_bloc_name = fields.Char(related='source_bloc_id.name', string="Source Bloc Name", readonly=True, store=True)
     source_bloc_title = fields.Char(related='source_bloc_id.title', string="Source Bloc Title", readonly=True, store=True)
     source_bloc_level = fields.Selection([('0','Free'),('1','Bac 1'),('2','Bac 2'),('3','Bac 3'),('4','Master 1'),('5','Master 2'),],related='source_bloc_id.level', string="Source Bloc Level", readonly=True, store=True)

@@ -182,7 +182,7 @@
       <field name="view_id" ref="composite_bloc_form" />
       <field name="act_window_id" ref="action_composite_bloc_form" />
     </record>
-    <menuitem id="menu_building_composite_bloc_form" parent="school_management.menu_program" action="action_composite_bloc_form" sequence="20" />
+    <menuitem id="menu_building_composite_bloc_form" parent="school_management.menu_program" action="action_composite_bloc_form" sequence="20" groups="school_management.group_program_management"/>
         
     </data>
 </openerp>

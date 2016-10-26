@@ -123,7 +123,7 @@
             <field eval="25" name="priority" />
             <field name="arch" type="xml">
                 <xpath expr="//div[@name='button_box']" position="inside">
-                    <button name="pay_current_minerval" type="object" class="oe_stat_button" icon="fa-eur" attrs="{'invisible': [('student','=',False)]}">
+                    <button name="pay_current_minerval" type="object" class="oe_stat_button" icon="fa-eur" attrs="{'invisible': [('student','=',False)]}" groups="school_management.group_employee">
                         <field name="has_paid_current_minerval" widget="boolean_button" />
                     </button>
                 </xpath>

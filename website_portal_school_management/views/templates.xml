@@ -252,6 +252,7 @@
                                     <table class="table">
                                         <t t-foreach="teachers" t-as="teacher">
                                         <tr>
+                                            <td></td>
                                             <td><t t-esc="teacher.name" /></td>
                                             <td><a t-att-href="'mailto:'+teacher.email"><t t-esc="teacher.email" /></a></td>
                                         </tr>
