@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<templates>
+    <!--
+        This template is the ribbon at the top of the teacher dashboard that adds
+        some figures to it. We call this rubbon the "TeacherDashboard".
+        Inspired from the SaleDashboard.
+    -->
+    <t t-name="school_teacher_access.TeacherDashboard">
+        <div class="container o_teacher_dashboard">
+            <div class="row">
+                <table class="table table-condensed">
+                    <tr>
+                        <td class="o_text">
+                            <div class="o_highlight">Your courses</div>
+                        </td>
+                        <td class="o_main" title="To Courses">
+                            <a href="#" class="o_dashboard_action" name="school.courses">
+                                <span class="o_highlight">
+                                    0
+                                </span><br/>
+                                Courses
+                            </a>
+                        </td>
+                        <td class="o_main" title="To Descriptions">
+                            <a href="#" class="o_dashboard_action" name="school.course_descriptions">
+                                <span class="o_highlight">
+                                    7
+                                </span> <br/>
+                                Course Descriptions
+                            </a>
+                        </td>
+                        <td class="o_main" title="Dispenses">
+                            <a href="#" class="o_dashboard_action" name="crm.action_your_pipeline">
+                                <span class="o_highlight">
+                                    7
+                                </span> <br/>
+                                Dispenses
+                            </a>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="o_text">Les actions à faire</td>
+                        <td class="o_main" title="To Calendar">
+                            <a href="#" class="o_dashboard_action" name="calendar.action_calendar_event">
+                                9
+                            </a>
+                        </td>
+                        <td class="o_main" title="To Activities">
+                            <a href="#" class="o_dashboard_action" name="crm.crm_lead_action_activities" data-extra="this_week">
+                                28
+                            </a>
+                        </td>
+                        <td class="o_main" title="To Confirm">
+                            <a href="#" class="o_dashboard_action" name="crm.crm_lead_action_activities" data-extra="this_week">
+                                10
+                            </a>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td></td>
+                        <td></td>
+                        <!-- Hide overdue when there is none -->
+                        <td class="o_warning" title="To Activities">
+                            <a href="#" class="o_dashboard_action" name="crm.crm_lead_action_activities" data-extra="overdue">
+                                2
+                            </a>
+                        </td>
+                        <td  class="o_warning" title="To Opportunities">
+                            <a href="#" class="o_dashboard_action" name="crm.action_your_pipeline" data-extra="overdue">
+                                3
+                            </a>
+                        </td>
+                    </tr>
+                </table>
+            </div>
+        </div>
+    </t>
+</templates>

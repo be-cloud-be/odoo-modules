@@ -1,0 +1,185 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!--
+##############################################################################
+#
+#    Copyright (c) 2015 be-cloud.be
+#                       Jerome Sonnet <jerome.sonnet@be-cloud.be>
+#
+#    This program is free software: you can redistribute it and/or modify
+#    it under the terms of the GNU Affero General Public License as
+#    published by the Free Software Foundation, either version 3 of the
+#    License, or (at your option) any later version.
+#
+#    This program is distributed in the hope that it will be useful,
+#    but WITHOUT ANY WARRANTY; without even the implied warranty of
+#    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+#    GNU Affero General Public License for more details.
+#
+#    You should have received a copy of the GNU Affero General Public License
+#    along with this program.  If not, see <http://www.gnu.org/licenses/>.
+#
+##############################################################################
+-->
+<openerp>
+    <data>
+        
+        <!-- Top menu item -->
+        <menuitem name="Teachers" id="menu_main_program" icon="fa-book" web_icon="school,static/description/icon.png" sequence="1" />
+    
+        <menuitem name="My Information" parent="menu_main_program" id="menu_information" sequence="10" />
+
+        <!-- Teacher dashboard view -->
+        
+        <!-- add css / js -->
+        <template id="assets_backend" name="school_teacher_dashboard assets" inherit_id="web.assets_backend">
+            <xpath expr="." position="inside">
+                <link rel="stylesheet" href="/school_teacher_access/static/src/css/teacher_dashboard.less"/>
+                <script type="text/javascript" src="/school_teacher_access/static/src/js/teacher_dashboard.js"></script>
+            </xpath>
+        </template>
+        
+        <record id="school_teacher_view_kanban" model="ir.ui.view" >
+            <field name="name">school.teacher.dashboard</field>
+            <field name="model">school.teacher.report</field>
+            <field name="arch" type="xml">
+                <school_teacher_dashboard class="oe_background_grey o_kanban_dashboard o_teacher_kanban" create="0">
+                    <field name="name"/>
+                    <field name="title"/>
+                    <field name="source_course_id"/>
+                    <field name="student_count"/>
+                    <field name="dispenses"/>
+                    <field name="waiting_dispenses"/>
+                    <templates>
+                        <t t-name="kanban-box">
+                            <div class="o_kanban_card_header">
+                                <div class="o_kanban_card_header_title">
+                                    <div class="o_primary"><field name="name"/></div>
+                                </div>
+                                <div class="o_kanban_manage_button_section">
+                                    <a class="o_kanban_manage_toggle_button" href="#">More <i class="fa fa-caret-down"/></a>
+                                </div>
+                            </div>
+                        </t>
+                    </templates>
+                </school_teacher_dashboard>
+            </field>
+        </record>
+
+        <record id="school_teacher_act" model="ir.actions.act_window">
+            <field name="name">Dashboard</field>
+            <field name="res_model">school.teacher.report</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">school_teacher_dashboard</field>
+            <field name="context">{}</field>
+            <field name="domain">[('teacher_id.user_ids','=',uid)]</field>
+            <field name="view_id" ref="school_teacher_view_kanban"/>
+            <field name="help" type="html">
+                <p class="oe_view_nocontent_create">
+                    It seems you have no course set yet, please contact the administration.
+                </p>
+            </field>
+        </record>
+
+        <!-- <menuitem name="My Information" parent="menu_information" id="menu_details" action="school_teacher_act" sequence="10" /> -->
+
+        <record id="action_student_group_form_view1" model="ir.actions.act_window.view">
+          <field name="sequence" eval="0" />
+          <field name="view_mode">kanban</field>
+          <field name="view_id" ref="school_student_group.student_group_kanban_view" />
+          <field name="act_window_id" ref="action_report_school_courses" />
+        </record>
+        <record id="action_student_group_tree_view1" model="ir.actions.act_window.view">
+          <field name="sequence" eval="1" />
+          <field name="view_mode">tree</field>
+          <field name="view_id" ref="school_student_group.view_student_group_tree" />
+          <field name="act_window_id" ref="action_report_school_courses" />
+        </record>
+        <record id="action_student_group_form_view2" model="ir.actions.act_window.view">
+          <field name="sequence" eval="2" />
+          <field name="view_mode">form</field>
+          <field name="view_id" ref="school_student_group.student_group_form" />
+          <field name="act_window_id" ref="action_report_school_courses" />
+        </record>
+
+        <record id="view_student_group_filter" model="ir.ui.view">
+            <field name="name">individual_course.select</field>
+            <field name="model">school.student_group</field>
+            <field name="arch" type="xml">
+            <search string="Search Courses">
+                <field name="name" string="Nom de l'activité"/>
+                <filter name="my_groups" string="My Current Courses" domain="[('responsible_id.user_ids','=',uid)]" />
+                <field name="student_ids" domain="[('type', '=', 'contact')]"/>
+                <field name="responsible_id" />
+                <field name="course_id" string="Course"/>
+            </search>
+            </field>
+        </record>
+
+        <record id="action_report_school_courses" model="ir.actions.act_window">
+          <field name="name">My Courses</field>
+          <field name="res_model">school.student_group</field>
+          <field name="view_type">form</field>
+          <field name="view_mode">kanban, tree, form</field>
+          <field name="search_view_id" ref="view_student_group_filter" />
+          <field name="domain=">[('year_sequence','=','current')]</field>
+          <field name="context">{"search_default_my_groups":1}</field>
+        </record>
+        
+        <menuitem name="My Courses" parent="menu_information" id="menu_courses" action="action_report_school_courses" sequence="20" />
+
+        <record id="action_report_school_dispense" model="ir.actions.act_window">
+            <field name="name">Dispenses</field>
+            <field name="res_model">school.individual_course</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">pivot</field>
+            <field name="search_view_id" ref="school_dispense_approval.view_individual_dispense_filter" />
+            <field name="view_id" ref="school_dispense_approval.view_individual_course__dispense_pivot" />
+            <field name="domain=">[('year_sequence','=','current')]</field>
+            <field name="context">{"search_default_my_current_courses":1,"search_default_dispensed":1}</field>
+        </record>
+        
+        <menuitem name="My Dispenses" parent="menu_information" id="menu_dispense" action="action_report_school_dispense" sequence="30"/>
+        
+        <record id="view_individual_students_filter" model="ir.ui.view">
+            <field name="name">student.select</field>
+            <field name="model">res.partner</field>
+            <field name="arch" type="xml">
+            <search string="Search Courses">
+                <field name="name"/>
+                <filter name="my_students" string="My Students" domain="[('student_course_ids.teacher_id.user_ids','=',uid)]" />
+            </search>
+            </field>
+        </record>
+        
+        <record id="action_report_school_student" model="ir.actions.act_window">
+            <field name="name">Students</field>
+            <field name="res_model">res.partner</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">kanban, tree, form</field>
+            <field name="search_view_id" ref="view_individual_students_filter" />
+            <field name="context">{"search_default_my_students":1}</field>
+        </record>
+        
+        <record id="action_student_form_view1" model="ir.actions.act_window.view">
+          <field name="sequence" eval="0" />
+          <field name="view_mode">kanban</field>
+          <field name="view_id" ref="school_management.view_student_kanban_school" />
+          <field name="act_window_id" ref="action_report_school_student" />
+        </record>
+        <record id="action_student_tree_view1" model="ir.actions.act_window.view">
+          <field name="sequence" eval="1" />
+          <field name="view_mode">tree</field>
+          <field name="view_id" ref="school_management.view_student_tree_school" />
+          <field name="act_window_id" ref="action_report_school_student" />
+        </record>
+        <record id="action_student_form_view2" model="ir.actions.act_window.view">
+          <field name="sequence" eval="2" />
+          <field name="view_mode">form</field>
+          <field name="view_id" ref="school_management.view_student_form_school" />
+          <field name="act_window_id" ref="action_report_school_student" />
+        </record>
+        
+        <menuitem name="My Students" parent="menu_information" id="menu_student" action="action_report_school_student" sequence="40"/>
+        
+    </data>
+</openerp>
