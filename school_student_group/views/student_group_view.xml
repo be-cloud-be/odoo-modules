@@ -78,7 +78,7 @@
             <tree string="Student Group">
               <field name="responsible_id" />
               <field name="name" />
-              <field name="student_count" />
+              <field name="participant_count" />
             </tree>
           </field>
         </record>
@@ -231,7 +231,7 @@
         
         <menuitem id="menu_student_group_form" parent="menu_student_groups" action="action_student_group_form" sequence="25" />
       
-        <!-- Add evaluation to Course form view -->
+        <!-- Add groups to Course form view -->
         <record id="course_student_groups_form" model="ir.ui.view">
             <field name="name">school.course.student_group.view</field>
             <field name="model">school.course</field>
@@ -245,10 +245,30 @@
                                 <field name="year_id" />
                                 <field name="responsible_id" />
                                 <field name="short_name" />
-                                <field name="student_count" />
+                                <field name="participant_count" />
                             </tree>
-                        </field>-
+                        </field>
                     </page>
+                </xpath>
+            </field>
+        </record>
+        
+        <!-- Add groups to Course form view -->
+        <record id="course_student_groups_form" model="ir.ui.view">
+            <field name="name">school.course.student_group.view</field>
+            <field name="model">school.course</field>
+            <field name="inherit_id" ref="school_management.course_form" />
+            <field eval="25" name="priority" />
+            <field name="arch" type="xml">
+                <xpath expr="//sheet" position="inside">
+                    <field name="group_ids">
+                        <tree string="Course Session">
+                            <field name="year_id" />
+                            <field name="responsible_id" />
+                            <field name="short_name" />
+                            <field name="participant_count" />
+                        </tree>
+                    </field>
                 </xpath>
             </field>
         </record>

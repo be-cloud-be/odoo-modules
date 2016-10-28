@@ -57,66 +57,13 @@ class StudentGroup(models.Model):
     
     year_id = fields.Many2one('school.year', string='Year', required=True, default=lambda self: self.env.user.current_year_id)
     responsible_id = fields.Many2one('res.partner', string='Responsible', domain="[('type','=','contact')]", required=True)
-    type = fields.Selection([('C','Course'),('P','Project'),('O','Orchestre')],string="Group Type",default="C")
-    active = fields.Boolean('Active', default=True)
+    type = fields.Selection([('L','LinkedCourses'),('F','FreeCourses'),('P','Project'),('O','Others')],string="Group Type",default="F", required=True)
+    staff_ids = fields.Many2many('res.partner', 'group_staff_rel', 'group_id', 'staff_id', string='Staff', domain="[('type','=','contact')]")
     
     name = fields.Char(string='Name', compute='_compute_name', store=True)
     short_name = fields.Char(string='Name', compute='_compute_name', store=True) 
     title = fields.Char(string='Title')
-    
-    @api.depends('responsible_id','course_id.name','type','title','year_id')
-    @api.multi
-    def _compute_name(self):
-        for studentg in self:
-            if studentg.course_id:
-                studentg.name = "%s - %s - %s" % (studentg.year_id.name, studentg.course_id.name, studentg.responsible_id.name)
-                studentg.short_name = studentg.course_id.name
-            else:
-                studentg.name = "%s - %s" % (studentg.year_id.name, studentg.title)
-                studentg.short_name = studentg.title
-    
-    staff_ids = fields.Many2many('res.partner', 'group_staff_rel', 'group_id', 'staff_id', string='Staff', domain="[('type','=','contact')]")
-    
-    student_ids = fields.Many2many('res.partner', 'group_student_rel', 'group_id', 'student_id', string='Student', domain="[('student','=','1')]")
-    
-    individual_course_ids = fields.Many2many('school.individual_course', 'group_individual_course_rel', 'group_id', 'course_id', string='Individual Course')
-    
-    student_count = fields.Integer(compute='_compute_student_count', string="Student Count")
-	
-    @api.one
-    def _compute_student_count(self):
-        self.student_count = len(self.student_ids)
-    
-    course_id = fields.Many2one('school.course', string='Course')
-    
-    cycle_id = fields.Many2one(related='course_id.cycle_id', string='Cycle',store=True)
-    level = fields.Integer(related='course_id.level', string='Level',store=True)
-    speciality_id = fields.Many2one(related='course_id.speciality_id', string='Speciality',store=True)
-    domain_id = fields.Many2one(related='course_id.domain_id', string='Domain',store=True)
-    section_id = fields.Many2one(related='course_id.section_id', string='Section',store=True)
-    track_id = fields.Many2one(related='course_id.track_id', string='Track',store=True)
-    
-    @api.model
-    def create_student_course_group(self):
-        year_id = self.env.user.current_year_id
-        all_teacher_ids = self.env['res.partner'].search([('teacher','=',1)])
-        for teacher_id in all_teacher_ids:
-            current_course_ids = teacher_id.teacher_current_course_ids
-            for course_id in current_course_ids:
-                student_ids = self.env['school.individual_course'].search([('teacher_id','=',teacher_id.id),('year_id','=',year_id.id),('source_course_id','=',course_id.source_course_id.id)]).mapped('student_id')
-                old_group = self.env['school.student_group'].search([('responsible_id','=',teacher_id.id),('year_id','=',year_id.id),('course_id','=',course_id.source_course_id.id)])
-                if not old_group and len(student_ids) > 0:
-                    new_group = self.env['school.student_group'].create({
-                        'type': 'C',
-                        'year_id': year_id.id,
-                        'course_id': course_id.source_course_id.id,
-                        'responsible_id': teacher_id.id,
-                        # 'student_ids' : (0, _, student_ids.ids), TODO DOES NOT WORK, WHY ??
-                    })
-                    new_group.student_ids = student_ids
 
-    type = fields.Selection([('L','LinkedCourses'),('F','FreeCourses'),('P','Project'),('O','Others')],string="Group Type",default="F", required=True)
-    
     course_ids = fields.Many2many('school.course', 'group_course_rel', 'group_id', 'course_id', string='Courses', domain=lambda(self): "[('teacher_ids', '=', responsible_id)]" if self.type in ['L','F'] else "")
     
     domain_id = fields.Many2one('school.domain', computed='_compute_course_info', store=True)
@@ -134,11 +81,7 @@ class StudentGroup(models.Model):
             self.domain_id = None
             self.speciality_id = None
             self.cycle_id = None
-        
-    name = fields.Char(string='Name', compute='_compute_name', store=True)
-    short_name = fields.Char(string='Short Name', compute='_compute_name')
-    title = fields.Char(string='Title')
-    
+
     @api.one
     @api.depends('year_id', 'title', 'course_ids', 'responsible_id')
     def _compute_name(self):
@@ -297,7 +240,8 @@ class Course(models.Model):
     '''Course'''
     _inherit = 'school.course'
     
-    group_ids = fields.One2many('school.student_group', 'course_id', string='Groups')
+    group_ids = fields.Many2many('school.student_group', 'group_course_rel', 'course_id', 'group_id', string='Groups', readonly=True)
+    
     
 class IndividualCourse(models.Model):
     '''Individual Course'''
@@ -315,4 +259,4 @@ class IndividualCourse(models.Model):
         else:
             self.teacher_id = None
 
-    group_ids = fields.Many2many('school.individual_course', 'group_individual_course_rel', 'course_id', 'group_id', string='Groups')
+    group_ids = fields.Many2many('school.student_group', 'group_individual_course_rel', 'individual_course_id', 'group_id', string='Groups', readonly=True)

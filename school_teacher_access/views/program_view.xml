@@ -46,7 +46,7 @@
                     <field name="name"/>
                     <field name="title"/>
                     <field name="source_course_id"/>
-                    <field name="student_count"/>
+                    <field name="participant_count"/>
                     <field name="dispenses"/>
                     <field name="waiting_dispenses"/>
                     <templates>
@@ -89,9 +89,9 @@
             <search string="Search Groups">
                 <field name="name" string="Nom de l'activité"/>
                 <filter name="my_groups" string="My Current Courses" domain="[('responsible_id.user_ids','=',uid)]" />
-                <field name="student_ids" domain="[('type', '=', 'contact')]"/>
+                <field name="participant_ids" domain="[('type', '=', 'contact')]"/>
                 <field name="responsible_id" />
-                <field name="course_id" string="Course"/>
+                <field name="course_ids" string="Course"/>
             </search>
             </field>
         </record>
