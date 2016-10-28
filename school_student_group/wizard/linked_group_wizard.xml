@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!--
+##############################################################################
+#
+#    Copyright (c) 2015 be-cloud.be
+#                       Jerome Sonnet <jerome.sonnet@be-cloud.be>
+#
+#    This program is free software: you can redistribute it and/or modify
+#    it under the terms of the GNU Affero General Public License as
+#    published by the Free Software Foundation, either version 3 of the
+#    License, or (at your option) any later version.
+#
+#    This program is distributed in the hope that it will be useful,
+#    but WITHOUT ANY WARRANTY; without even the implied warranty of
+#    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+#    GNU Affero General Public License for more details.
+#
+#    You should have received a copy of the GNU Affero General Public License
+#    along with this program.  If not, see <http://www.gnu.org/licenses/>.
+#
+##############################################################################
+-->
+<odoo>
+    <record id="linked_group_wizard_view" model="ir.ui.view">
+        <field name="name">Generate Linked Course Groups</field>
+        <field name="model">school.linked_group_wizard</field>
+        <field name="arch" type="xml">
+            <form string="Generate Linked Course Groups">
+                <field name="year_id"/> 
+                <field name="domain_id"/> 
+                <footer>
+                    <button name="generate_all_linked_student_group" string="Generate" type="object" default_focus="1" class="oe_highlight" /> or
+                    <button string="Cancel" class="btn-default" special="cancel" />
+                </footer>
+            </form>
+        </field>
+    </record>
+
+    <record id="action_linked_group_wizard_view" model="ir.actions.act_window">
+        <field name="name">Generate Linked Course Groups</field>
+        <field name="res_model">school.linked_group_wizard</field>
+        <field name="type">ir.actions.act_window</field>
+        <field name="view_type">form</field>
+        <field name="view_mode">form</field>
+        <field name="view_id" ref="linked_group_wizard_view" />
+        <field name="context">{}</field>
+        <field name="target">new</field>
+    </record>
+    
+    <menuitem id="menu_linked_group_wizard_form" parent="menu_student_groups" action="action_linked_group_wizard_view" sequence="55" />
+    
+</odoo>
