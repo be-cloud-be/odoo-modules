@@ -43,6 +43,18 @@ class StudentGroup(models.Model):
              " * The 'Published' status is when a group is published and available for use.\n"
              " * The 'Archived' status is used when a group is obsolete and not publihed anymore.")
     
+    @api.multi
+    def unpublish(self):
+        return self.write({'state': 'draft'})
+    
+    @api.multi
+    def publish(self):
+        return self.write({'state': 'published'})
+    
+    @api.multi
+    def archive(self):
+        return self.write({'state': 'archived'})
+    
     year_id = fields.Many2one('school.year', string='Year', required=True, default=lambda self: self.env.user.current_year_id)
     responsible_id = fields.Many2one('res.partner', string='Responsible', domain="[('type','=','contact')]", required=True)
     type = fields.Selection([('C','Course'),('P','Project'),('O','Orchestre')],string="Group Type",default="C")
