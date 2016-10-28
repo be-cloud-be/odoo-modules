@@ -314,3 +314,5 @@ class IndividualCourse(models.Model):
             self.teacher_id = student_group.responsible_id
         else:
             self.teacher_id = None
+
+    group_ids = fields.Many2many('school.individual_course', 'group_individual_course_rel', 'course_id', 'group_id', string='Groups')
