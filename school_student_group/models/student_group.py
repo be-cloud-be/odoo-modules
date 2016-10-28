@@ -251,12 +251,9 @@ class IndividualCourse(models.Model):
     @api.one
     def compute_teacher_id(self):
         student_group = self.env['school.student_group'].search([('year_id','=',self.year_id.id),('course_ids','=',self.source_course_id.id),('participant_ids','=',self.student_id.id)])
-        if len(student_group) > 1:
-            import wdb
-            wdb.set_trace()
         if student_group:
             self.teacher_id = student_group.responsible_id
         else:
-            self.teacher_id = None
+            self.teacher_id = super(IndividualCourse, self).compute_teacher_id()
 
     group_ids = fields.Many2many('school.student_group', 'group_individual_course_rel', 'individual_course_id', 'group_id', string='Groups', readonly=True)
