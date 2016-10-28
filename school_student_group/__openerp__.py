@@ -29,6 +29,7 @@
     'init_xml': [],
     'update_xml': [
         'views/student_group_view.xml',
+        'wizard/linked_group_wizard.xml',
     ],
     'demo_xml': [],
     'description': '''

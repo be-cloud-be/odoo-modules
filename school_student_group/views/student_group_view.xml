@@ -41,26 +41,24 @@
           <field name="arch" type="xml">
             <kanban class="o_student_group_kanban">
               <field name="name" />
-              <field name="student_count"/>
+              <field name="participant_count"/>
               <templates>
                 <t t-name="kanban-box">
                   <div class="oe_kanban_global_click o_student_group_kanban">
                     <div class="o_kanban_card_header">
                       <div class="o_kanban_card_header_title">
                         <div class="o_primary">
-                          <strong><field name="name" /></strong>
+                          <strong>
+                            <field name="short_name"/><br></br>
+                          </strong>
+                          <field name="year_id"/> - <field name="responsible_id"/>
                         </div>
                       </div>
                       <div class="container o_kanban_card_content o_visible">
                         <div class="row">
                           <div class="col-xs-6 o_kanban_primary_left">
-                            <b>Students : </b>
-                            <field name="student_count" />
-                          </div><!--
-                          <div class="col-xs-6">
-                            <b>Hours : </b>
-                            <field name="total_hours" />
-                          </div>-->
+                            <span t-if="record.participant_count.value>0" class="badge"><i class="fa fa-fw fa-user"/><t t-esc="record.participant_count.value"/></span>
+                          </div>
                         </div>
                       </div>
                     </div>
@@ -92,18 +90,18 @@
           <field name="type">form</field>
           <field name="arch" type="xml">
             <form string="Student Group">
-              <!--<header>
-        		            <button name="transfert_confirm" states="draft" string="Validate" class="oe_highlight" groups="account.group_account_invoice"/>
-        		            <button name="transfert_cancel" states="draft,confirmed" string="Cancel Transfert" groups="account.group_account_invoice"/>
-        		            <field name="state" widget="statusbar" statusbar_visible="draft,confirmed,paid"/>
-        		        </header>-->
+              <header>
+                <button name="update_linked_students" type="object" string="Update Linked Students" attrs="{'invisible':['|',('type','!=','L'),('state','!=','draft')]}"/>
+                <button name="unpublish" type="object" states="published,archived" string="Set to Draft" />
+                <button name="publish" type="object" states="draft" string="Publish Group" class="oe_highlight" />
+                <button name="archive" type="object" states="draft,published" string="Archive Group" />
+                <field name="state" widget="statusbar" statusbar_visible="draft,published,archived" />
+              </header>
               <sheet>
                 <div class="oe_button_box" name="button_box">
-                            <button name="toggle_active" type="object"
-                                    class="oe_stat_button" icon="fa-archive">
-                                <field name="active" widget="boolean_button"
-                                    options='{"terminology": "archive"}'/>
-                            </button>
+                  <button type="object" class="oe_stat_button" icon="fa-users" name="action_participants_list">
+                    <field name="participant_count" widget="statinfo" string="Attendances"/>
+                  </button>
                 </div>
                 <div class="oe_title" colspan="4">
                   <h1>
@@ -113,22 +111,59 @@
                 <group col="4">
                   <field name="title" colspan="4" attrs="{'invisible':[('type','=','C')]}"/>
                   <field name="responsible_id" colspan="4"/>
-                  <field name="type"/>
-                  <field name="year_id"/>
-                  <field name="course_id" colspan="4"/>
+                  <field name="year_id"/><field name="type" />
                 </group>
-                <h3>Staffs</h3>
-                <field name="staff_ids">
-                  <tree string="Staff">
-                    <field name="name" />
-                  </tree>
-                </field>
-                <h3>Students</h3>
-                <field name="student_ids">
-                  <tree string="Student">
-                    <field name="name" />
-                  </tree>
-                </field>
+                <notebook>
+                  <page string="Participants" attrs="{'invisible':[('type','=','O')]}">
+                    <field name="individual_course_ids">
+                      <tree string="Participants" create="false" delete="false" editable="false">
+                        <field name="student_id" />
+                        <field name="name" />
+                      </tree>
+                    </field>
+                  </page>
+                  <!--<page string="Participants Liste" >
+                    <field name="participant_ids">
+                      <tree string="Participants">
+                        <field name="name" />
+                      </tree>
+                    </field>
+                  </page>-->
+                  <page string="Participants" attrs="{'invisible':[('type','!=','O')]}">-->
+                    <field name="picked_participant_ids">
+                      <tree string="Participants">
+                        <field name="name" />
+                      </tree>
+                    </field>
+                  </page>
+                  <page string="Courses" attrs="{'invisible':[('type','in',['O', 'P'])]}">
+                    <field name="course_ids">
+                      <tree string="Coures">
+                        <field name="name" />
+                      </tree>
+                    </field>
+                  </page>
+                  <page string="Staff">
+                    <field name="staff_ids">
+                      <tree string="Staff">
+                        <field name="name" />
+                      </tree>
+                    </field>
+                  </page>
+                  <!--<page string="Events">
+                    <field name="event_ids">
+                      <tree string="Events">
+                        <field name="name" string="Subject"/>
+                        <field name="allday" invisible="True"/>
+                        <field name="start" string="Start Date"/>
+                        <field name="stop" string="End Date"/>
+                        <field name="location"/>
+                        <field name="state" invisible="True"/>
+                        <field name="duration"/>
+                      </tree>
+                    </field>
+                  </page>-->
+                </notebook>
               </sheet>
               <div class="oe_chatter">
                 <field name="message_follower_ids" widget="mail_followers" />
@@ -148,6 +183,46 @@
               <filter string="Current Year" name="current" domain="[('year_sequence','=','current')]" />
               <filter string="Next Year" name="next" domain="[('year_sequence','=','next')]" />
               <filter string="Previous Year" name="previous" domain="[('year_sequence','=','previous')]" />
+              <group expand="1" string="Group By">
+                <filter string="Domain" context="{'group_by':'domain_id'}" />
+                <filter string="Cycle" context="{'group_by':'cycle_id'}" />
+                <filter string="Speciality" context="{'group_by':'speciality_id'}" />
+              </group>
+            </search>
+          </field>
+        </record>
+      
+      <record id="action_student_group_form" model="ir.actions.act_window">
+        <field name="name">Student Groups</field>
+        <field name="type">ir.actions.act_window</field>
+        <field name="res_model">school.student_group</field>
+        <field name="view_type">form</field>
+        <field name="view_mode">kanban,tree,form</field>
+        <field name="context">{}</field>
+        <field name="search_view_id" ref="view_student_group_filter" />
+        <field name="help" type="html">
+            <p class="oe_view_nocontent_create">
+              Click to add a student group.
+            </p>
+            <p>
+              Odoo helps you easily track all activities related to student groups.
+            </p>
+          </field>
+        </record>
+        
+        <record id="action_student_group_form_view1" model="ir.actions.act_window.view">
+          <field name="sequence" eval="0" />
+          <field name="view_mode">kanban</field>
+          <field name="view_id" ref="student_group_kanban_view" />
+          <field name="act_window_id" ref="action_student_group_form" />
+        </record>
+        <record id="action_student_group_tree_view1" model="ir.actions.act_window.view">
+          <field name="sequence" eval="1" />
+          <field name="view_mode">tree</field>
+          <field name="view_id" ref="view_student_group_tree" />
+          <field name="act_window_id" ref="action_student_group_form" />
+        </record>
+>>>>>>>>> local version
             </search>
           </field>
         </record>
@@ -200,14 +275,14 @@
             <field name="arch" type="xml">
                 <xpath expr="//notebook" position="inside">
                     <page name="student_groups" string="Course Session">
-                        <field name="group_ids">
+                        <!--<field name="group_ids">
                             <tree string="Course Session">
                                 <field name="year_id" />
                                 <field name="responsible_id" />
                                 <field name="short_name" />
                                 <field name="student_count" />
                             </tree>
-                        </field>
+                        </field>-->
                     </page>
                 </xpath>
             </field>
@@ -234,7 +309,7 @@
             <field eval="25" name="priority" />
             <field name="arch" type="xml">
                 <xpath expr="//field[@name='source_course_id']" position="before">
-                    <field name="teacher_id" colspan="6"/>
+                    <field name="teacher_id" colspan="4"/>
                 </xpath>
             </field>
         </record>
