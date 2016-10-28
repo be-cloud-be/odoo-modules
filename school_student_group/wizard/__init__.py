@@ -19,3 +19,4 @@
 #
 ##############################################################################
 import linked_group_wizard
+import merge_group_wizard

@@ -230,7 +230,7 @@
         </record>
         
         <menuitem id="menu_student_group_form" parent="menu_student_groups" action="action_student_group_form" sequence="25" />
-      
+
         <!-- Add groups to Course form view -->
         <record id="course_student_groups_form" model="ir.ui.view">
             <field name="name">school.course.student_group.view</field>
