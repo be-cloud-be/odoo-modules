@@ -46,7 +46,7 @@
                     <field name="name"/>
                     <field name="title"/>
                     <field name="source_course_id"/>
-                    <field name="participant_count"/>
+                    <field name="student_count"/>
                     <field name="dispenses"/>
                     <field name="waiting_dispenses"/>
                     <templates>
