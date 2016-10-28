@@ -47,7 +47,7 @@
                   <div class="oe_kanban_global_click o_student_group_kanban">
                     <div class="o_kanban_card_header">
                       <div class="o_kanban_card_header_title">
-                        <div class="o_primary">
+                        <div class="o_primary" style="min-height: 60px; max-height: 60px;">
                           <strong>
                             <field name="short_name"/><br></br>
                           </strong>
@@ -188,41 +188,6 @@
                 <filter string="Cycle" context="{'group_by':'cycle_id'}" />
                 <filter string="Speciality" context="{'group_by':'speciality_id'}" />
               </group>
-            </search>
-          </field>
-        </record>
-      
-      <record id="action_student_group_form" model="ir.actions.act_window">
-        <field name="name">Student Groups</field>
-        <field name="type">ir.actions.act_window</field>
-        <field name="res_model">school.student_group</field>
-        <field name="view_type">form</field>
-        <field name="view_mode">kanban,tree,form</field>
-        <field name="context">{}</field>
-        <field name="search_view_id" ref="view_student_group_filter" />
-        <field name="help" type="html">
-            <p class="oe_view_nocontent_create">
-              Click to add a student group.
-            </p>
-            <p>
-              Odoo helps you easily track all activities related to student groups.
-            </p>
-          </field>
-        </record>
-        
-        <record id="action_student_group_form_view1" model="ir.actions.act_window.view">
-          <field name="sequence" eval="0" />
-          <field name="view_mode">kanban</field>
-          <field name="view_id" ref="student_group_kanban_view" />
-          <field name="act_window_id" ref="action_student_group_form" />
-        </record>
-        <record id="action_student_group_tree_view1" model="ir.actions.act_window.view">
-          <field name="sequence" eval="1" />
-          <field name="view_mode">tree</field>
-          <field name="view_id" ref="view_student_group_tree" />
-          <field name="act_window_id" ref="action_student_group_form" />
-        </record>
->>>>>>>>> local version
             </search>
           </field>
         </record>
