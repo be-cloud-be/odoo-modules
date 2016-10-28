@@ -109,14 +109,14 @@
                   </h1>
                 </div>
                 <group col="4">
-                  <field name="title" colspan="4" attrs="{'invisible':[('type','=','C')]}"/>
+                  <field name="title" colspan="4" attrs="{'invisible':[('type','=','L')]}"/>
                   <field name="responsible_id" colspan="4"/>
                   <field name="year_id"/><field name="type" />
                 </group>
                 <notebook>
                   <page string="Participants" attrs="{'invisible':[('type','=','O')]}">
                     <field name="individual_course_ids">
-                      <tree string="Participants" create="false" delete="false" editable="false">
+                      <tree string="Participants" create="false" delete="false" editable="false" default_order="student_id,name">
                         <field name="student_id" />
                         <field name="name" />
                       </tree>

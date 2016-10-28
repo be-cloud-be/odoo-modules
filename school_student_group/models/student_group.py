@@ -32,6 +32,17 @@ class StudentGroup(models.Model):
     
     _order = 'responsible_id, year_id, name'
     
+    state = fields.Selection([
+            ('draft','Draft'),
+            ('published', 'Published'),
+            ('archived', 'Archived'),
+        ], string='Status', index=True, readonly=True, default='draft',
+        #track_visibility='onchange', TODO : is this useful for this case ?
+        copy=False,
+        help=" * The 'Draft' status is used when a new group is created and not published yet.\n"
+             " * The 'Published' status is when a group is published and available for use.\n"
+             " * The 'Archived' status is used when a group is obsolete and not publihed anymore.")
+    
     year_id = fields.Many2one('school.year', string='Year', required=True, default=lambda self: self.env.user.current_year_id)
     responsible_id = fields.Many2one('res.partner', string='Responsible', domain="[('type','=','contact')]", required=True)
     type = fields.Selection([('C','Course'),('P','Project'),('O','Orchestre')],string="Group Type",default="C")
@@ -133,7 +144,7 @@ class StudentGroup(models.Model):
 
     individual_course_ids = fields.Many2many('school.individual_course', 'school_group_individual_course_rel', 'group_id', 'individual_course_id', string='Individual Courses', domain="[('year_id','=',year_id)]")
     
-    event_ids = fields.One2many('calendar.event','student_group_id',string='Events')
+    #event_ids = fields.One2many('calendar.event','student_group_id',string='Events')
     
     @api.onchange('type')
     def onchange_type(self):
