@@ -469,12 +469,13 @@
           <separator/>
           <filter name="my_current_courses" string="My Current Courses" domain="[('teacher_id.user_ids','=',uid),('year_sequence','=','current')]" />
           <group expand="1" string="Group By">
+            <filter string="Source Course" context="{'group_by':'source_course_id'}" />
+            <separator/>
             <filter string="Domain" context="{'group_by':'source_bloc_domain_id'}" />
             <filter string="Cycle" context="{'group_by':'source_bloc_cycle_id'}" />
             <filter string="Section" context="{'group_by':'source_bloc_section_id'}" />
             <filter string="Track" context="{'group_by':'source_bloc_track_id'}" />
             <filter string="Speciality" context="{'group_by':'source_bloc_speciality_id'}" />
-            <filter string="Source Course" context="{'group_by':'source_course_id'}" />
           </group>
         </search>
       </field>
