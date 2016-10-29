@@ -33,6 +33,9 @@
         'wizard/merge_group_wizard.xml',
         'security/ir.model.access.csv',
     ],
+    'images': [
+        'static/src/img/*.png',
+    ],
     'demo_xml': [],
     'description': '''
         This modules group student for their activities (courses, projects,...)

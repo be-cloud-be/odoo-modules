@@ -42,12 +42,16 @@
             <kanban class="o_student_group_kanban">
               <field name="name" />
               <field name="participant_count"/>
+              <field name="type"/>
               <templates>
                 <t t-name="kanban-box">
                   <div class="oe_kanban_global_click o_student_group_kanban">
                     <div class="o_kanban_card_header">
+                      <div class="o_kanban_image">
+                          <img t-att-src="'/school_student_group/static/src/img/'+record.type.raw_value+'.png'"/>
+                      </div>
                       <div class="o_kanban_card_header_title">
-                        <div class="o_primary" style="min-height: 60px; max-height: 60px;">
+                        <div class="o_primary">
                           <strong>
                             <field name="short_name"/><br></br>
                           </strong>
@@ -110,41 +114,42 @@
                 </div>
                 <group col="4">
                   <field name="title" colspan="4" attrs="{'invisible':[('type','=','L')]}"/>
-                  <field name="responsible_id" colspan="4"/>
-                  <field name="year_id"/><field name="type" />
+                  <field name="responsible_id" colspan="4" options="{'no_create': True, 'no_open': True}"/>
+                  <field name="year_id" options="{'no_create': True, 'no_open': True}"/>
+                  <field name="type" />
                 </group>
                 <notebook>
                   <page string="Participants" attrs="{'invisible':[('type','=','O')]}">
-                    <field name="individual_course_ids">
-                      <tree string="Participants" create="false" delete="false" editable="false" default_order="student_id,name">
+                    <field name="individual_course_ids" options="{'no_create': True, 'no_open': True}">
+                      <tree string="Participants" default_order="student_id,name">
                         <field name="student_id" />
                         <field name="name" />
                       </tree>
                     </field>
                   </page>
-                  <!--<page string="Participants Liste" >
-                    <field name="participant_ids">
+                  <page string="Participants" invisible="1">
+                    <field name="participant_ids" options="{'no_create': True, 'no_open': True}">
                       <tree string="Participants">
                         <field name="name" />
                       </tree>
                     </field>
-                  </page>-->
-                  <page string="Participants" attrs="{'invisible':[('type','!=','O')]}">-->
-                    <field name="picked_participant_ids">
+                  </page>
+                  <page string="Participants" attrs="{'invisible':[('type','!=','O')]}">
+                    <field name="picked_participant_ids" options="{'no_create': True, 'no_open': True}">
                       <tree string="Participants">
                         <field name="name" />
                       </tree>
                     </field>
                   </page>
                   <page string="Courses" attrs="{'invisible':[('type','in',['O', 'P'])]}">
-                    <field name="course_ids">
-                      <tree string="Coures">
+                    <field name="course_ids" options="{'no_create': True, 'no_open': True}">
+                      <tree string="Courses">
                         <field name="name" />
                       </tree>
                     </field>
                   </page>
                   <page string="Staff">
-                    <field name="staff_ids">
+                    <field name="staff_ids" options="{'no_create': True, 'no_open': True}">
                       <tree string="Staff">
                         <field name="name" />
                       </tree>

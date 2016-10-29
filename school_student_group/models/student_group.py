@@ -56,7 +56,7 @@ class StudentGroup(models.Model):
         return self.write({'state': 'archived'})
     
     year_id = fields.Many2one('school.year', string='Year', required=True, default=lambda self: self.env.user.current_year_id)
-    responsible_id = fields.Many2one('res.partner', string='Responsible', domain="[('type','=','contact')]", required=True)
+    responsible_id = fields.Many2one('res.partner', string='Responsible', domain="[('type','=','contact')]", required=True, default=lambda self: self.env.user.partner_id)
     type = fields.Selection([('L','LinkedCourses'),('F','FreeCourses'),('P','Project'),('O','Others')],string="Group Type",default="F", required=True)
     staff_ids = fields.Many2many('res.partner', 'group_staff_rel', 'group_id', 'staff_id', string='Staff', domain="[('type','=','contact')]")
     
@@ -94,12 +94,9 @@ class StudentGroup(models.Model):
             self.short_name = self.title
 
     participant_ids = fields.Many2many('res.partner', 'school_group_participants_rel', 'group_id', 'res_partner_id', string='Participipants')
-    picked_participant_ids = fields.Many2many('res.partner', 'school_group_res_partner_rel', 'group_id', 'res_partner_id', string='Picked Participipants')
+    picked_participant_ids = fields.Many2many('res.partner', 'school_group_res_partner_rel', 'group_id', 'res_partner_id', string='Picked Participipants', domain="[('type', '=', 'contact')]")
     participant_count = fields.Integer(string="Participant Count", compute="_compute_participant_count")
-
     individual_course_ids = fields.Many2many('school.individual_course', 'school_group_individual_course_rel', 'group_id', 'individual_course_id', string='Individual Courses', domain="[('year_id','=',year_id)]")
-    
-    #event_ids = fields.One2many('calendar.event','student_group_id',string='Events')
     
     @api.onchange('type')
     def onchange_type(self):
@@ -240,20 +237,20 @@ class Course(models.Model):
     '''Course'''
     _inherit = 'school.course'
     
-    group_ids = fields.Many2many('school.student_group', 'group_course_rel', 'course_id', 'group_id', string='Groups', readonly=True)
+    group_ids = fields.Many2many('school.student_group', 'group_course_rel', 'course_id', 'group_id', string='Groups')
     
     
 class IndividualCourse(models.Model):
     '''Individual Course'''
     _inherit = 'school.individual_course'
     
-    @api.depends('year_id','source_course_id')
+    @api.depends('teacher_choice_id','source_course_id.teacher_ids','group_ids')
     @api.one
     def compute_teacher_id(self):
         student_group = self.env['school.student_group'].search([('year_id','=',self.year_id.id),('course_ids','=',self.source_course_id.id),('participant_ids','=',self.student_id.id)])
         if student_group:
             self.teacher_id = student_group.responsible_id
         else:
-            self.teacher_id = super(IndividualCourse, self).compute_teacher_id()
+            super(IndividualCourse, self).compute_teacher_id()
 
-    group_ids = fields.Many2many('school.student_group', 'group_individual_course_rel', 'individual_course_id', 'group_id', string='Groups', readonly=True)
+    group_ids = fields.Many2many('school.student_group', 'group_individual_course_rel', 'individual_course_id', 'group_id', string='Groups')
