@@ -280,10 +280,10 @@
                                             <t t-foreach="teachers" t-as="teacher">
                                             <div class="col-xs-12 col-md-2">
                                                 <div class="panel panel-default">
-                                                    <div class="panel-image" style="min-height:380px;">
+                                                    <div class="panel-image">
                                                         <div t-field="teacher.image" t-field-options="{&quot;widget&quot;: &quot;image&quot;, &quot;class&quot;: &quot;panel-image-preview center-block&quot;}"/>
                                                     </div>
-                                                    <div class="panel-body" style="min-height:90px;">
+                                                    <div class="panel-body">
                                                         <h4><t t-esc="teacher.name" /></h4>
                                                     </div>
                                                     <div class="panel-footer text-center">
