@@ -13,6 +13,11 @@
   background-color: #eeeeee;
   font-weight: bold; }
 
+.modal-body{
+    max-height: calc(100vh - 200px);
+    overflow-y: auto;
+}
+
 .hovereffect {
   width: 100%;
   height: 100%;
