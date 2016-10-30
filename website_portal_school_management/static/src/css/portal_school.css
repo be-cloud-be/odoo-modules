@@ -13,9 +13,14 @@
   background-color: #eeeeee;
   font-weight: bold; }
 
-.modal-body{
+.modal-body-scroll {
     max-height: calc(100vh - 200px);
     overflow-y: auto;
+}
+
+.teacher-desc {
+    padding:20px;
+    background-color:#eeeeee;
 }
 
 .hovereffect {

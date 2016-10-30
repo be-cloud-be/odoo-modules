@@ -288,12 +288,8 @@
                                                         <h4 class="modal-title"><t t-esc="teacher.name" /></h4>
                                                       </div>
                                                       <div class="modal-body modal-body-scroll">
-                                                        <div class="panel panel-default">
-                                                          <div class="row outer">
-                                                            <div class="col-md-6" t-field="teacher.image" t-field-options="{&quot;widget&quot;: &quot;image&quot;, &quot;class&quot;: &quot;img-responsivek&quot;}"/>
-                                                            <div class="col-md-6"><t t-raw="teacher.teacher_curriculum_vitae" />-</div>
-                                                          </div>
-                                                        </div>
+                                                        <div class="col-md-6" t-field="teacher.image" t-field-options="{&quot;widget&quot;: &quot;image&quot;, &quot;class&quot;: &quot;img-responsivek&quot;}"/>
+                                                        <div class="col-md-6 teacher-desc"><t t-raw="teacher.teacher_curriculum_vitae" />-</div>
                                                       </div>
                                                       <div class="modal-footer">
                                                         <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
