@@ -278,7 +278,40 @@
                                     <div class="panel-body">
                                         <div class="row">
                                             <t t-foreach="teachers" t-as="teacher">
-                                            <div class="col-xs-12 col-md-2">
+                                                <!-- Modal -->
+                                                <div t-att-id="'info_%d' % teacher.id" class="modal fade" role="dialog">
+                                                  <div class="modal-dialog modal-lg">
+                                                    <!-- Modal content-->
+                                                    <div class="modal-content">
+                                                      <div class="modal-header">
+                                                        <button type="button" class="close" data-dismiss="modal">X</button>
+                                                        <h4 class="modal-title">teacher.name</h4>
+                                                      </div>
+                                                      <div class="modal-body">
+                                                        <div class="panel panel-default">
+                                                          <div class="row outer">
+                                                            <div class="col-md-6" t-field="teacher.image" t-field-options="{&quot;widget&quot;: &quot;image&quot;, &quot;class&quot;: &quot;img-responsivek&quot;}"/>
+                                                            <div class="col-md-6"><t t-raw="teacher.teacher_curriculum_vitae" />-</div>
+                                                          </div>
+                                                        </div>
+                                                      </div>
+                                                      <div class="modal-footer">
+                                                        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                                                      </div>
+                                                    </div>
+                                                  </div>
+                                                </div>
+                                                <div class="col-md-2 col-sm-6 col-xs-12">
+                                                    <div class="hovereffect" style="min-height:240px">
+                                                        <div t-field="teacher.image" t-field-options="{&quot;widget&quot;: &quot;image&quot;, &quot;class&quot;: &quot;img-responsive center-block&quot;}"/>
+                                                        <div class="overlay">
+                                                           <h2><t t-esc="teacher.name" /></h2>
+                                                           <div class="info" data-toggle="modal" t-att-data-target="'#info_%d' % teacher.id">Infos</div><br/>
+                                                           <a class="info" t-att-href="'mailto:'+teacher.email"> Email - <span class="glyphicon glyphicon-envelope" style="font-size:200%;"></span></a>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            <!--<div class="col-xs-12 col-md-2">
                                                 <div class="panel panel-default">
                                                     <div class="panel-image">
                                                         <div t-field="teacher.image" t-field-options="{&quot;widget&quot;: &quot;image&quot;, &quot;class&quot;: &quot;panel-image-preview center-block&quot;}"/>
@@ -294,7 +327,7 @@
                                                         </h4>
                                                     </div>
                                                 </div>
-                                            </div>
+                                            </div>-->
                                             </t>
                                         </div>
                                     </div>

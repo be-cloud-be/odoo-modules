@@ -258,6 +258,9 @@
                             </tree>
                         </field>
                     </page>
+                    <page name="teacher_curriculum_vitae" string="Curriculum Vitae" attrs="{'invisible': [('teacher','=',False)]}">
+                        <field name="teacher_curriculum_vitae"/>
+                    </page>
                 </xpath>
             </field>
         </record>

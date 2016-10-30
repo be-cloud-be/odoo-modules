@@ -58,6 +58,8 @@ class Partner(models.Model):
     teacher_current_course_ids = fields.One2many('school.individual_course_proxy', compute='_get_teacher_current_individual_course_ids', string="Current Courses")
     teacher_course_ids = fields.One2many('school.individual_course', 'teacher_id', string='Courses', domain="[('year_id', '=', self.env.user.current_year_id.id)]")
     
+    teacher_curriculum_vitae = fields.Html('Curriculum Vitae')
+    
     @api.one
     def _get_teacher_current_individual_course_ids(self):
         self.teacher_current_course_ids = self.env['school.individual_course_proxy'].search([['year_id', '=', self.env.user.current_year_id.id], ['teacher_id', '=', self.id]])
