@@ -276,7 +276,7 @@
                                         Vos enseignants
                                     </div>
                                     <div class="panel-body">
-                                        <div class="row-fluid">
+                                        <div class="row">
                                             <t t-foreach="teachers" t-as="teacher">
                                                 <!-- Modal -->
                                                 <div t-att-id="'info_%d' % teacher.id" class="modal fade" role="dialog">
@@ -308,7 +308,7 @@
                                                     </div>
                                                 </div>
                                                 <t t-if="teacher_index % 4 == 3">
-                                                    <t t-raw="'&lt;/div&gt;&lt;div class=''row-fluid''&gt;'"/>
+                                                    <t t-raw="'&lt;/div&gt;&lt;div class=''row''&gt;'"/>
                                                 </t> 
                                             </t>
                                         </div>
