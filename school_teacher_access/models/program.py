@@ -24,8 +24,6 @@ from openerp.exceptions import UserError, ValidationError
 
 _logger = logging.getLogger(__name__)
 
-
-
 class view(models.Model):
     _name = 'ir.ui.view'
     _inherit = 'ir.ui.view'

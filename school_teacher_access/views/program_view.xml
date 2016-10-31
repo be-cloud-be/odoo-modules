@@ -174,7 +174,7 @@
             <field name="view_type">form</field>
             <field name="view_mode">pivot</field>
             <field name="search_view_id" ref="school_dispense_approval.view_individual_dispense_filter" />
-            <field name="view_id" ref="school_dispense_approval.view_individual_course__dispense_pivot" />
+            <field name="view_id" ref="school_dispense_approval.view_individual_course_dispense_pivot" />
             <field name="domain=">[('year_sequence','=','current')]</field>
             <field name="context">{"search_default_my_current_courses":1,"search_default_dispensed":1}</field>
         </record>

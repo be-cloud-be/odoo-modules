@@ -44,6 +44,17 @@ class IndividualCourse(models.Model):
     is_dispense_approved = fields.Boolean(string="Is Dispense Approved", default=False, track_visibility='onchange')
     dispense_approval_comment = fields.Text(string="Dispense Approval Comment")
     
+    dispense_char = fields.Char(string="Is Dispense Approved Text", compute="_compute_char", store=True)
+    is_dispense_approved_char = fields.Char(string="Is Dispensed Text", compute="_compute_char", store=True)
+    
+    @api.depends('dispense','is_dispense_approved')
+    @api.multi
+    def _compute_char(self):
+        for ic in self:
+            ic.dispense_char = _('Dispensed') if ic.dispense else _('Not Dispensed')
+            ic.is_dispense_approved_char = _('Approuved') if ic.is_dispense_approved else _('Not Approuved')
+        
+    
     @api.model
     def _needaction_domain_get(self):
         if self.env.user.partner_id.teacher:

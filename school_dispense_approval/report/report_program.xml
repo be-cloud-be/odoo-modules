@@ -23,7 +23,7 @@
 <odoo>
     
     <!-- Program Form View -->
-    <record model="ir.ui.view" id="view_individual_course__dispense_pivot">
+    <record model="ir.ui.view" id="view_individual_course_dispense_pivot">
       <field name="name">school.course.pivot</field>
       <field name="model">school.individual_course</field>
       <field name="type">pivot</field>
@@ -31,8 +31,8 @@
         <pivot string="Courses Summary">
             <field name="source_bloc_cycle_id" type="row"/>
             <field name="name" type="row"/>
-            <field name="dispense" type="col"/>
-            <field name="is_dispense_approved" type="col"/>
+            <field name="dispense_char" type="col"/>
+            <field name="is_dispense_approved_char" type="col"/>
         </pivot>
       </field>
     </record>
