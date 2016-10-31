@@ -44,8 +44,8 @@ class IndividualCourse(models.Model):
     is_dispense_approved = fields.Boolean(string="Is Dispense Approved", default=False, track_visibility='onchange')
     dispense_approval_comment = fields.Text(string="Dispense Approval Comment")
     
-    dispense_char = fields.Char(string="Is Dispense Approved Text", compute="_compute_char", store=True)
-    is_dispense_approved_char = fields.Char(string="Is Dispensed Text", compute="_compute_char", store=True)
+    dispense_char = fields.Char(string="Is Dispensed Text", compute="_compute_char", store=True)
+    is_dispense_approved_char = fields.Char(string="Is Dispense Approved Text", compute="_compute_char", store=True)
     
     @api.depends('dispense','is_dispense_approved')
     @api.multi
