@@ -276,7 +276,7 @@
                                         Vos enseignants
                                     </div>
                                     <div class="panel-body">
-                                        <div class="row">
+                                        <div class="row-fluid">
                                             <t t-foreach="teachers" t-as="teacher">
                                                 <!-- Modal -->
                                                 <div t-att-id="'info_%d' % teacher.id" class="modal fade" role="dialog">
@@ -297,7 +297,7 @@
                                                     </div>
                                                   </div>
                                                 </div>
-                                                <div class="col-md-3 col-sm-6 col-xs-12 mb8">
+                                                <div class="col-md-3 col-xs-12 mb8">
                                                     <div class="hovereffect" style="min-height:240px">
                                                         <div t-field="teacher.image" t-field-options="{&quot;widget&quot;: &quot;image&quot;, &quot;class&quot;: &quot;img-responsive center-block&quot;}"/>
                                                         <div class="overlay">
@@ -308,7 +308,7 @@
                                                     </div>
                                                 </div>
                                                 <t t-if="teacher_index % 4 == 3">
-                                                    <t t-raw="'&lt;/div&gt;&lt;div class=''row''&gt;'"/>
+                                                    <t t-raw="'&lt;/div&gt;&lt;div class=''row-fluid''&gt;'"/>
                                                 </t> 
                                             </t>
                                         </div>
