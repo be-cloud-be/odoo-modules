@@ -297,7 +297,7 @@
                                                     </div>
                                                   </div>
                                                 </div>
-                                                <div class="col-md-2 col-sm-6 col-xs-12">
+                                                <div class="col-md-3 col-sm-6 col-xs-12 mb8">
                                                     <div class="hovereffect" style="min-height:240px">
                                                         <div t-field="teacher.image" t-field-options="{&quot;widget&quot;: &quot;image&quot;, &quot;class&quot;: &quot;img-responsive center-block&quot;}"/>
                                                         <div class="overlay">
@@ -307,23 +307,9 @@
                                                         </div>
                                                     </div>
                                                 </div>
-                                            <!--<div class="col-xs-12 col-md-2">
-                                                <div class="panel panel-default">
-                                                    <div class="panel-image">
-                                                        <div t-field="teacher.image" t-field-options="{&quot;widget&quot;: &quot;image&quot;, &quot;class&quot;: &quot;panel-image-preview center-block&quot;}"/>
-                                                    </div>
-                                                    <div class="panel-body">
-                                                        <h4><t t-esc="teacher.name" /></h4>
-                                                    </div>
-                                                    <div class="panel-footer text-center">
-                                                        <h4>
-                                                            <a t-att-href="'mailto:'+teacher.email"><span class="glyphicon glyphicon-envelope"></span></a>
-                                                            <a href="#facebook"><span class="fa fa-facebook"></span></a>
-                                                            <a href="#twitter"><span class="fa fa-twitter"></span></a>
-                                                        </h4>
-                                                    </div>
-                                                </div>
-                                            </div>-->
+                                                <t t-if="teacher_index % 4 == 3">
+                                                    <t t-raw="'&lt;/div&gt;&lt;div class=''row''&gt;'"/>
+                                                </t> 
                                             </t>
                                         </div>
                                     </div>
