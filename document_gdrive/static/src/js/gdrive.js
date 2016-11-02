@@ -33,7 +33,7 @@ odoo.define('document_gdrive.menu_item', function(require) {
 
         },
         onAuthApiLoad: function() {
-            odoo.gdrive.oauthToken = utils.get_cookie('odoo.gdrive.oauthToken');
+            //odoo.gdrive.oauthToken = utils.get_cookie('odoo.gdrive.oauthToken');
             if (!odoo.gdrive.oauthToken) {
                 var P = new Model('ir.config_parameter');
                 P.call('get_param', ['document.gdrive.client.id']).then(function(id) {
@@ -48,7 +48,7 @@ odoo.define('document_gdrive.menu_item', function(require) {
                             function(authResult) {
                                 if (authResult && !authResult.error) {
                                     odoo.gdrive.oauthToken = authResult.access_token
-                                    utils.set_cookie('odoo.gdrive.oauthToken',odoo.gdrive.oauthToken,24*60*60*365);
+                                    //utils.set_cookie('odoo.gdrive.oauthToken',odoo.gdrive.oauthToken,24*60*60*365);
                                 }
                                 else {
                                     gapi.auth.authorize({
@@ -58,7 +58,7 @@ odoo.define('document_gdrive.menu_item', function(require) {
                                     }, function(authResult) {
                                         if (authResult && !authResult.error) {
                                             odoo.gdrive.oauthToken = authResult.access_token;
-                                            utils.set_cookie('odoo.gdrive.oauthToken',odoo.gdrive.oauthToken,24*60*60*365);
+                                            //utils.set_cookie('odoo.gdrive.oauthToken',odoo.gdrive.oauthToken,24*60*60*365);
                                         }
                                         else {
                                             alert("Cannot get authorization token for Google Drive: " + authResult.error_subtype + " - " + authResult.error);
