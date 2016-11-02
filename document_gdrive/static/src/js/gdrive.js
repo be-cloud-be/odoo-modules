@@ -31,17 +31,16 @@ odoo.define('document_gdrive.menu_item', function(require) {
                     if (id) {
                         var clientId = id;
                         gapi.client.init({
-                                'apiKey': 'AIzaSyCzAPoPFkrcsjjNhIXSYKnhsak5dVeX7J0',
-                                'clientId': clientId,
-                                'scope': scope,
-                                'immediate': true,
-                                'include_granted_scopes': true
-                            }).then(function() {
-                                console.log("We are logged in");
-                                console.log(GoogleAuth.currentUser.get());
-                            },function() {
-                                console.log("We are not logged in");
-                            })
+                            apiKey: 'AIzaSyCzAPoPFkrcsjjNhIXSYKnhsak5dVeX7J0',
+                            discoveryDocs: ["https://www.googleapis.com/discovery/v1/apis/drive/v2/rest"],
+                            clientId: clientId,
+                            scope: scope,
+                        }).then(function () {
+                          // Listen for sign-in state changes.
+                          gapi.auth2.getAuthInstance().isSignedIn.listen(function(){
+                                console.log("we are in");
+                            });
+                        });
                     }
                     else {
                         console.log("Cannot access parameter 'document.gdrive.client.id' check your configuration");
