@@ -21,30 +21,16 @@ odoo.define('document_gdrive.menu_item', function(require) {
     Sidebar.include({
         init: function() {
             this._super.apply(this, arguments);
-            odoo.gdrive = {};
-            try {
-                gapi.load('auth', {
-                    'callback': this.onAuthApiLoad
-                });
-                gapi.load('picker', {
-                    'callback': function() {
-                        odoo.gdrive.pickerApiLoaded = true;
-                    }
-                });
-            }
-            catch(err) {
-                console.log(err);
-            }
-
+            gapi.load('client:auth2:picker', onAuthApiLoad);
         },
         onAuthApiLoad: function() {
             //odoo.gdrive.oauthToken = utils.get_cookie('odoo.gdrive.oauthToken');
-            if (!odoo.gdrive.oauthToken) {
+            //if (!odoo.gdrive.oauthToken) {
                 var P = new Model('ir.config_parameter');
                 P.call('get_param', ['document.gdrive.client.id']).then(function(id) {
                     if (id) {
                         var clientId = id;
-                        window.gapi.auth.authorize({
+                        gapi.client.init({
                                 'client_id': clientId,
                                 'scope': scope,
                                 'immediate': true,
@@ -56,7 +42,7 @@ odoo.define('document_gdrive.menu_item', function(require) {
                                     //utils.set_cookie('odoo.gdrive.oauthToken',odoo.gdrive.oauthToken,24*60*60*365);
                                 }
                                 else {
-                                    gapi.auth.authorize({
+                                    gapi.client.init({
                                         client_id: clientId,
                                         scope: scope,
                                         immediate: false
@@ -76,7 +62,7 @@ odoo.define('document_gdrive.menu_item', function(require) {
                         console.log("Cannot access parameter 'document.gdrive.client.id' check your configuration");
                     }
                 });
-            }
+            //}
         },
 
         redraw: function() {
