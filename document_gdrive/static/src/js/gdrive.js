@@ -23,14 +23,19 @@ odoo.define('document_gdrive.menu_item', function(require) {
             self = this;
             this._super.apply(this, arguments);
             odoo.gdrive = {};
-            gapi.load('auth', {
-                'callback': function() {window.setTimeout(self.onAuthApiLoad,10);}
-            });
-            gapi.load('picker', {
-                'callback': function() {
-                    odoo.gdrive.pickerApiLoaded = true;
-                }
-            });
+            try {
+                gapi.load('auth', {
+                    'callback': function() {window.setTimeout(self.onAuthApiLoad,10);}
+                });
+                gapi.load('picker', {
+                    'callback': function() {
+                        odoo.gdrive.pickerApiLoaded = true;
+                    }
+                });
+            }
+            catch(err) {
+                console.log(err);
+            }
 
         },
         onAuthApiLoad: function() {
