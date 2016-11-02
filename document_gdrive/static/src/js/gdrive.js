@@ -21,7 +21,7 @@ odoo.define('document_gdrive.menu_item', function(require) {
     Sidebar.include({
         init: function() {
             this._super.apply(this, arguments);
-            gapi.load('client:auth2:picker', onAuthApiLoad);
+            gapi.load('client:auth2:picker', this.onAuthApiLoad);
         },
         onAuthApiLoad: function() {
             //odoo.gdrive.oauthToken = utils.get_cookie('odoo.gdrive.oauthToken');
