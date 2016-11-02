@@ -24,9 +24,15 @@ odoo.define('document_gdrive.menu_item', function(require) {
             this._super.apply(this, arguments);
             odoo.gdrive = {};
 <<<<<<< HEAD
+<<<<<<< HEAD
             try {
                 gapi.load('auth', {
                     'callback': this.onAuthApiLoad
+=======
+            try {
+                gapi.load('auth', {
+                    'callback': function() {window.setTimeout(self.onAuthApiLoad,10);}
+>>>>>>> try catch
                 });
                 gapi.load('picker', {
                     'callback': function() {
@@ -37,6 +43,7 @@ odoo.define('document_gdrive.menu_item', function(require) {
             catch(err) {
                 console.log(err);
             }
+<<<<<<< HEAD
 =======
             gapi.load('auth', {
                 'callback': function() {window.setTimeout(self.onAuthApiLoad,10);}
@@ -47,6 +54,8 @@ odoo.define('document_gdrive.menu_item', function(require) {
                 }
             });
 >>>>>>> add setTimeOut
+=======
+>>>>>>> try catch
 
         },
         onAuthApiLoad: function() {
