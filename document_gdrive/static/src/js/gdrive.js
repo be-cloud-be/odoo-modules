@@ -39,10 +39,14 @@ odoo.define('document_gdrive.menu_item', function(require) {
         },
         onAuthApiLoad: function() {
 <<<<<<< HEAD
+<<<<<<< HEAD
             //odoo.gdrive.oauthToken = utils.get_cookie('odoo.gdrive.oauthToken');
 =======
             odoo.gdrive.oauthToken = utils.get_cookie('odoo.gdrive.oauthToken');
 >>>>>>> use cookie to store authToken
+=======
+            //odoo.gdrive.oauthToken = utils.get_cookie('odoo.gdrive.oauthToken');
+>>>>>>> remove cookie usage
             if (!odoo.gdrive.oauthToken) {
                 var P = new Model('ir.config_parameter');
                 P.call('get_param', ['document.gdrive.client.id']).then(function(id) {
@@ -58,10 +62,14 @@ odoo.define('document_gdrive.menu_item', function(require) {
                                 if (authResult && !authResult.error) {
                                     odoo.gdrive.oauthToken = authResult.access_token
 <<<<<<< HEAD
+<<<<<<< HEAD
                                     //utils.set_cookie('odoo.gdrive.oauthToken',odoo.gdrive.oauthToken,24*60*60*365);
 =======
                                     utils.set_cookie('odoo.gdrive.oauthToken',odoo.gdrive.oauthToken,24*60*60*365);
 >>>>>>> use cookie to store authToken
+=======
+                                    //utils.set_cookie('odoo.gdrive.oauthToken',odoo.gdrive.oauthToken,24*60*60*365);
+>>>>>>> remove cookie usage
                                 }
                                 else {
                                     gapi.auth.authorize({
@@ -72,10 +80,14 @@ odoo.define('document_gdrive.menu_item', function(require) {
                                         if (authResult && !authResult.error) {
                                             odoo.gdrive.oauthToken = authResult.access_token;
 <<<<<<< HEAD
+<<<<<<< HEAD
                                             //utils.set_cookie('odoo.gdrive.oauthToken',odoo.gdrive.oauthToken,24*60*60*365);
 =======
                                             utils.set_cookie('odoo.gdrive.oauthToken',odoo.gdrive.oauthToken,24*60*60*365);
 >>>>>>> use cookie to store authToken
+=======
+                                            //utils.set_cookie('odoo.gdrive.oauthToken',odoo.gdrive.oauthToken,24*60*60*365);
+>>>>>>> remove cookie usage
                                         }
                                         else {
                                             alert("Cannot get authorization token for Google Drive: " + authResult.error_subtype + " - " + authResult.error);
