@@ -31,31 +31,12 @@ odoo.define('document_gdrive.menu_item', function(require) {
                     if (id) {
                         var clientId = id;
                         gapi.client.init({
-                                'client_id': clientId,
+                                'clientId': clientId,
                                 'scope': scope,
                                 'immediate': true,
                                 'include_granted_scopes': true
-                            },
-                            function(authResult) {
-                                if (authResult && !authResult.error) {
-                                    odoo.gdrive.oauthToken = authResult.access_token
-                                    //utils.set_cookie('odoo.gdrive.oauthToken',odoo.gdrive.oauthToken,24*60*60*365);
-                                }
-                                else {
-                                    gapi.client.init({
-                                        client_id: clientId,
-                                        scope: scope,
-                                        immediate: false
-                                    }, function(authResult) {
-                                        if (authResult && !authResult.error) {
-                                            odoo.gdrive.oauthToken = authResult.access_token;
-                                            //utils.set_cookie('odoo.gdrive.oauthToken',odoo.gdrive.oauthToken,24*60*60*365);
-                                        }
-                                        else {
-                                            alert("Cannot get authorization token for Google Drive: " + authResult.error_subtype + " - " + authResult.error);
-                                        }
-                                    });
-                                }
+                            }).then(function() {
+                                console.log("We are logged in");
                             });
                     }
                     else {
