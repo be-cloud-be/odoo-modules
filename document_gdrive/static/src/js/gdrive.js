@@ -77,7 +77,7 @@ odoo.define('document_gdrive.menu_item', function(require) {
         redraw: function() {
             var self = this;
             this._super.apply(this, arguments);
-            if(self.$el.find('.oe_sidebar_add_attachment')) {
+            if(self.$el.find('.oe_sidebar_add_attachment').length > 0) {
                 self.$el.find('.oe_sidebar_add_attachment').after(QWeb.render('AddGDriveDocumentItem', {
                     widget: self
                 }))
