@@ -34,12 +34,14 @@ odoo.define('document_gdrive.menu_item', function(require) {
                             apiKey: 'AIzaSyCzAPoPFkrcsjjNhIXSYKnhsak5dVeX7J0',
                             discoveryDocs: ["https://www.googleapis.com/discovery/v1/apis/drive/v2/rest"],
                             clientId: clientId,
-                            scope: scope,
+                            scope: 'profile',
                         }).then(function () {
-                          // Listen for sign-in state changes.
-                          gapi.auth2.getAuthInstance().isSignedIn.listen(function(){
+                            // Listen for sign-in state changes.
+                            gapi.auth2.getAuthInstance().isSignedIn.listen(function(){
                                 console.log("we are in");
                             });
+                            // And we try to sign in
+                            gapi.auth2.getAuthInstance().signIn()
                         });
                     }
                     else {
