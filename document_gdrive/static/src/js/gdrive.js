@@ -39,7 +39,7 @@ odoo.define('document_gdrive.menu_item', function(require) {
                             }).then(function() {
                                 console.log("We are logged in");
                                 console.log(GoogleAuth.currentUser.get());
-                            }).fail(function() {
+                            },function() {
                                 console.log("We are not logged in");
                             })
                     }
