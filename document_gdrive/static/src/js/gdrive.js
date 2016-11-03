@@ -172,7 +172,7 @@ odoo.define('document_gdrive.menu_item', function(require) {
 
             var P = new Model('ir.config_parameter');
             P.call('get_param', ['document.gdrive.upload.dir']).then(function(dir) {
-                if (odoo.gdrive.oauthToken) {
+                if (odoo.gdrive_oauthToken) {
                     var origin = window.location.protocol + '//' + window.location.host;
                     var picker = new google.picker.PickerBuilder().
                     addView(google.picker.ViewId.DOCS).
