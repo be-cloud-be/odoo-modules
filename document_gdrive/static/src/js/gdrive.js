@@ -35,7 +35,7 @@ odoo.define('document_gdrive.menu_item', function(require) {
                         gapi.load('client:auth:picker', this.onAuthApiLoadWithToken);
                     });
                 } else {
-                    gapi.load('client:auth:picker', this.onAuthApiLoad);
+                    gapi.load('client:auth:picker', this.onAuthApiLoadWithToken);
                 }
             } catch(err) {
                 console.log(err);
