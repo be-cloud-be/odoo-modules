@@ -102,7 +102,7 @@ odoo.define('document_gdrive.menu_item', function(require) {
                             },
                             function(authResult) {
                                 if (authResult && !authResult.error) {
-                                    odoo.gdrive.oauthToken = authResult.access_token
+                                    odoo.gdrive_oauthToken = authResult.access_token
                                     //utils.set_cookie('odoo.gdrive.oauthToken',odoo.gdrive.oauthToken,24*60*60*365);
                                 }
                             });
