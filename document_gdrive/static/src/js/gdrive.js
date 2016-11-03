@@ -11,44 +11,107 @@ odoo.define('document_gdrive.menu_item', function(require) {
     var Sidebar = require('web.Sidebar');
     var Dialog = require('web.Dialog');
     var ActionManager = require('web.ActionManager');
+    var session = require('web.session');
     var utils = require('web.utils');
 
     var _t = core._t;
     var QWeb = core.qweb;
 
-    var scope = ['https://www.googleapis.com/auth/drive'];
+    var scope = ['profile https://www.googleapis.com/auth/drive'];
 
     Sidebar.include({
         init: function() {
             this._super.apply(this, arguments);
-            gapi.load('client:auth2:picker', this.onAuthApiLoad);
+            
+            // Get Server-Side token if available
+            try {
+                odoo.gdrive_oauthToken = utils.get_cookie('odoo.gdrive_oauthToken');
+                if(!odoo.gdrive_oauthToken){
+                    new Model("res.users").call("read", [[session.uid], ["oauth_access_token"]]).done(function(result) {
+                        var user = result[0];
+                        odoo.gdrive_oauthToken = user.oauth_access_token;
+                        utils.set_cookie('odoo.gdrive_oauthToken',odoo.gdrive_oauthToken,24*60*60);
+                        console.log('We will try to use the token :'+odoo.gdrive_oauthToken);
+                        gapi.load('client:auth:picker', this.onAuthApiLoadWithToken);
+                    });
+                } else {
+                    gapi.load('client:auth:picker', this.onAuthApiLoad);
+                }
+            } catch(err) {
+                console.log(err);
+                gapi.load('client:auth:picker', this.onAuthApiLoad);
+            }
         },
+        
         onAuthApiLoad: function() {
-            //odoo.gdrive.oauthToken = utils.get_cookie('odoo.gdrive.oauthToken');
-            //if (!odoo.gdrive.oauthToken) {
-                var P = new Model('ir.config_parameter');
-                P.call('get_param', ['document.gdrive.client.id']).then(function(id) {
-                    if (id) {
-                        var clientId = id;
-                        gapi.client.init({
-                            apiKey: 'AIzaSyCzAPoPFkrcsjjNhIXSYKnhsak5dVeX7J0',
-                            discoveryDocs: ["https://www.googleapis.com/discovery/v1/apis/drive/v2/rest"],
-                            clientId: clientId,
-                            scope: 'profile',
-                        }).then(function () {
-                            // Listen for sign-in state changes.
-                            gapi.auth2.getAuthInstance().isSignedIn.listen(function(){
-                                console.log("we are in");
-                            });
-                            // And we try to sign in
-                            gapi.auth2.getAuthInstance().signIn()
+            var P = new Model('ir.config_parameter');
+            P.call('get_param', ['document.gdrive.client.id']).then(function(id) {
+                if (id) {
+                    var clientId = id;
+                    window.gapi.auth.authorize({
+                            'client_id': clientId,
+                            'scope': scope,
+                            'immediate': true,
+                            'include_granted_scopes': true
+                        },
+                        function(authResult) {
+                            if (authResult && !authResult.error) {
+                                odoo.gdrive_oauthToken = authResult.access_token
+                                utils.set_cookie('odoo.gdrive.oauthToken',odoo.gdrive_oauthToken,24*60*60);
+                            }
+                            else {
+                                gapi.auth.authorize({
+                                    client_id: clientId,
+                                    scope: scope,
+                                    immediate: false
+                                }, function(authResult) {
+                                    if (authResult && !authResult.error) {
+                                        odoo.gdrive_oauthToken = authResult.access_token
+                                        utils.set_cookie('odoo.gdrive.oauthToken',odoo.gdrive_oauthToken,24*60*60);
+                                    }
+                                    else {
+                                        alert("Cannot get authorization token for Google Drive: " + authResult.error_subtype + " - " + authResult.error);
+                                    }
+                                });
+                            }
                         });
-                    }
-                    else {
-                        console.log("Cannot access parameter 'document.gdrive.client.id' check your configuration");
-                    }
-                });
-            //}
+                }
+                else {
+                    console.log("Cannot access parameter 'document.gdrive.client.id' check your configuration");
+                }
+            });
+        },
+        
+        onAuthApiLoadWithToken: function() {
+            var P = new Model('ir.config_parameter');
+            P.call('get_param', ['document.gdrive.client.id']).then(function(id) {
+                if (id) {
+                    var clientId = id;
+                    gapi.client.init({
+                        apiKey: 'AIzaSyCzAPoPFkrcsjjNhIXSYKnhsak5dVeX7J0',
+                        discoveryDocs: ["https://www.googleapis.com/discovery/v1/apis/drive/v2/rest"],
+                        clientId: clientId,
+                        scope: 'profile ' + scope,
+                    }).then(function () {
+                        gapi.auth.setToken(odoo.gdrive_oauthToken);
+                        gapi.auth.authorize({
+                                'client_id': clientId,
+                                'scope': scope,
+                                'immediate': true,
+                                'include_granted_scopes': true
+                            },
+                            function(authResult) {
+                                if (authResult && !authResult.error) {
+                                    odoo.gdrive.oauthToken = authResult.access_token
+                                    //utils.set_cookie('odoo.gdrive.oauthToken',odoo.gdrive.oauthToken,24*60*60*365);
+                                }
+                            });
+                        });
+                }
+                else {
+                    console.log("Cannot access parameter 'document.gdrive.client.id' check your configuration");
+                }
+            });
         },
 
         redraw: function() {
@@ -120,7 +183,7 @@ odoo.define('document_gdrive.menu_item', function(require) {
                     addView(google.picker.ViewId.RECENTLY_PICKED).
                     enableFeature(google.picker.Feature.MULTISELECT_ENABLED).
                     addView(new google.picker.DocsUploadView().setParent(dir)).
-                    setOAuthToken(odoo.gdrive.oauthToken).
+                    setOAuthToken(odoo.gdrive_oauthToken).
                     setLocale('en'). // TODO set local of the user
                     setCallback(callback).
                     setOrigin(origin).
