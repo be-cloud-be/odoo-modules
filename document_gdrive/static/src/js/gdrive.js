@@ -170,10 +170,6 @@ odoo.define('document_gdrive.menu_item', function(require) {
             var context = this.session.user_context;
             var callback = this.pickerCallback;
 
-            if(!odoo.gdrive.oauthToken) {
-                this.onAuthApiLoad()
-            }
-
             var P = new Model('ir.config_parameter');
             P.call('get_param', ['document.gdrive.upload.dir']).then(function(dir) {
                 if (odoo.gdrive.pickerApiLoaded && odoo.gdrive.oauthToken) {
