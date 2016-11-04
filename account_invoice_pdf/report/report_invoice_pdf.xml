@@ -42,10 +42,13 @@
     </template>
 
     <template id="report_invoice_document_inherit_invoice_pdf" inherit_id="account.report_invoice_document">
-        <xpath expr="//div[@class='page']" position="before">
+        <<xpath expr="//div[@class='page']" position="before">
             <div style="
-                background:url('/account_invoice_pdf/static/src/img/background.png') no-repeat;
-                background-size:100%;
+                background-image: url('/account_invoice_pdf/static/src/img/background.png');
+                background-position: center center ;
+                background-repeat: no-repeat;
+                background-attachment:fixed;
+                background-size: cover;
                 min-height:100%;
                 width: 100%;
                 height: 100%;
