@@ -53,7 +53,7 @@
                 <img src="/account_invoice_pdf/static/src/img/gallys_logo_bottom.svg" t-if="template_type == 'pdf'"/>
             </div>
             <div style="position: absolute;top: 705px;left: 0;z-index:-1;">
-                <img src="/account_invoice_pdf/static/src/img/gallys_logo_bottom_left.png" t-if="template_type == 'pdf'"/>
+                <img src="/account_invoice_pdf/static/src/img/gallys_logo_bottom_left.svg" t-if="template_type == 'pdf'"/>
             </div>
         </xpath>
         <xpath expr="//div[@class='page']" position="after">
