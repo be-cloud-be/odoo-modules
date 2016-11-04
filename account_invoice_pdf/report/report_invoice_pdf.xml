@@ -44,7 +44,7 @@
     <template id="report_invoice_document_inherit_invoice_pdf" inherit_id="account.report_invoice_document">
         <xpath expr="//div[@class='page']" position="before">
             <div style="position: absolute;top: 100px;left: 0;">
-                <img src="/account_invoice_pdf/static/src/img/background.png"/>
+                <img src="/account_invoice_pdf/static/src/img/gallys_logo.png"/>
             </div>
         </xpath>
         <xpath expr="//div[@class='page']" position="after">
