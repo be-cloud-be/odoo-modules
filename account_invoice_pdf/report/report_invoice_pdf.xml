@@ -54,7 +54,7 @@
             </div>
         </xpath>
         <xpath expr="//div[@class='page']" position="after">
-            <div class="page container" style="padding-top:200px" t-if="template_type == 'pdf'">
+            <div class="page container" style="padding:50px" t-if="template_type == 'pdf'">
                 <t t-call="account_invoice_pdf.report_invoice_condgeneral" t-lang="o.partner_id.lang"/>
             </div>
         </xpath>
