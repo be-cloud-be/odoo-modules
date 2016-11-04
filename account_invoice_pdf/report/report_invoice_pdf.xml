@@ -34,7 +34,7 @@
         
     <template id="report_invoice_pdf">
         <t t-call="report.html_container">
-            <t t-set="template_type" t-value="pdf"/>
+            <t t-set="template_type" t-value="true"/>
             <t t-foreach="docs" t-as="o">
                 <t t-call="account.report_invoice_document" t-lang="o.partner_id.lang"/>
             </t>
@@ -46,15 +46,15 @@
              <attribute name="style">padding:30px;</attribute>
         </xpath>
         <xpath expr="//div[@class='page']" position="inside">
-            <div style="position: absolute;top: 75px;left: 0;" t-if="template_type == 'pdf'">
+            <div style="position: absolute;top: 75px;left: 0;" t-if="template_type">
                 <img src="/account_invoice_pdf/static/src/img/gallys_logo.png"/>
             </div>
-            <div style="position: absolute;bottom: 75px;right: 0;" t-if="template_type == 'pdf'">
+            <div style="position: absolute;bottom: 75px;right: 0;" t-if="template_type">
                 <img src="/account_invoice_pdf/static/src/img/gallys_logo_bottom.png"/>
             </div>
         </xpath>
         <xpath expr="//div[@class='page']" position="after">
-            <div class="page container" style="padding:50px" t-if="template_type == 'pdf'">
+            <div class="page container" style="padding-top:200px" t-if="template_type == 'pdf'">
                 <t t-call="account_invoice_pdf.report_invoice_condgeneral" t-lang="o.partner_id.lang"/>
             </div>
         </xpath>
