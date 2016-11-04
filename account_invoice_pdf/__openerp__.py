@@ -39,6 +39,7 @@
     ],
     'images': [
         'static/src/img/*.png',
+        'static/src/img/*.svg',
     ],
     'installable': True,
     'active': True,
