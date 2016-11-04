@@ -47,12 +47,12 @@
         </xpath>
         <xpath expr="//div[@class='page']" position="inside">
             <div style="position: absolute;top: 75px;left: 0;" t-if="template_type == 'pdf'">
-                <img src="/account_invoice_pdf/static/src/img/gallys_logo.png"/>
+                <img src="/account_invoice_pdf/static/src/img/gallys_logo.svg"/>
             </div>
-            <div style="position: absolute;top: 1050px;right:0;width:50%;">
-                <img src="/account_invoice_pdf/static/src/img/gallys_logo_bottom.png" t-if="template_type == 'pdf'" style="width:50%"/>
+            <div style="position: absolute;top: 1050px;right:0;">
+                <img src="/account_invoice_pdf/static/src/img/gallys_logo_bottom.svg" t-if="template_type == 'pdf'"/>
             </div>
-            <div style="position: absolute;top: 1100px;left: 0;">
+            <div style="position: absolute;top: 705px;left: 0;">
                 <img src="/account_invoice_pdf/static/src/img/gallys_logo_bottom_left.png" t-if="template_type == 'pdf'"/>
             </div>
         </xpath>
