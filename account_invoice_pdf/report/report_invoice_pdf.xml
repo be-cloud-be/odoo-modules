@@ -42,6 +42,11 @@
     </template>
 
     <template id="report_invoice_document_inherit_invoice_pdf" inherit_id="account.report_invoice_document">
+        <xpath expr="//div[@class='page']" position="inside">
+            <div class="backgroundimage" style="position:absolute;opacity:0.25;font-size:3em;width:100%;height:100%;z-index:1000;">
+                <img src="/account_invoice_pdf/static/src/img/background.png'"/>
+            </div>
+        </xpath>
         <xpath expr="//div[@class='page']" position="after">
             <div class="page container" style="padding:50px">
                 <t t-call="account_invoice_pdf.report_invoice_condgeneral" t-lang="o.partner_id.lang"/>

@@ -37,6 +37,9 @@
     'data': [
         'report/report_invoice_pdf.xml',
     ],
+    'images': [
+        'static/src/img/*.png',
+    ],
     'installable': True,
     'active': True,
 }
