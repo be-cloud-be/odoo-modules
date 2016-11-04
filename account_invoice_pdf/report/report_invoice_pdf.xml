@@ -43,7 +43,7 @@
 
     <template id="report_invoice_document_inherit_invoice_pdf" inherit_id="account.report_invoice_document">
         <xpath expr="//div[@class='page']" position="after">
-            <div class="page container" style="padding:30px">
+            <div class="page container" style="padding:50px">
                 <t t-call="account_invoice_pdf.report_invoice_condgeneral" t-lang="o.partner_id.lang"/>
             </div>
         </xpath>
