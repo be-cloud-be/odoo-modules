@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!--
+##############################################################################
+#
+#    Copyright (c) 2015 be-cloud.be
+#                       Jerome Sonnet <jerome.sonnet@be-cloud.be>
+#
+#    This program is free software: you can redistribute it and/or modify
+#    it under the terms of the GNU Affero General Public License as
+#    published by the Free Software Foundation, either version 3 of the
+#    License, or (at your option) any later version.
+#
+#    This program is distributed in the hope that it will be useful,
+#    but WITHOUT ANY WARRANTY; without even the implied warranty of
+#    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+#    GNU Affero General Public License for more details.
+#
+#    You should have received a copy of the GNU Affero General Public License
+#    along with this program.  If not, see <http://www.gnu.org/licenses/>.
+#
+##############################################################################
+-->
+<odoo>
+    
+    <!-- report -->
+    <report 
+        id="account_invoice_pdf"
+        model="account.invoice"
+        string="Invoice as PDF"
+        report_type="qweb-pdf"
+        name="account_invoice_pdf.report_invoice_pdf"
+        file="account_invoice_pdf.report_invoice_pdf"
+        />
+        
+    <template id="report_invoice_pdf">
+        <t t-call="report.html_container">
+            <t t-set="template_type" t-value="pdf"/>
+            <t t-foreach="docs" t-as="o">
+                <t t-call="account.report_invoice_document" t-lang="o.partner_id.lang"/>
+                <t t-call="account_invoice_pdf.report_invoice_condgeneral" t-lang="o.partner_id.lang"/>
+            </t>
+        </t>
+    </template>
+
+    <template id="report_invoice_condgeneral">
+        <div style="page-break-inside: auto"></div>
+        <h3>CONDITIONS GENERALES DE VENTE ET DE FACTURATION</h3>
+        <ol type="1">
+          <li>Tous nos services, factures et contrats sont soumis aux conditions générales reprises ci-après. Il ne pourra en être dérogé qu’à condition de le stipuler explicitement et par écrit.</li>
+          <li>Toute contestation portant sur la nature, l’objet ou le montant de nos prestations doit être signalée par écrit et par courrier recommandé dans un délai de 8 jours après réception de notre facture, sous peine de forclusion.</li>
+          <li>Nos factures sont payables à notre siège d’exploitation dans le mois à partir de la date de facturation sauf stipulation contraire écrite.</li>
+        </ol>
+    </template>
+    
+</odoo>
