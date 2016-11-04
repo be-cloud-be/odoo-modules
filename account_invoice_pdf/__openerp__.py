@@ -35,7 +35,7 @@
     'depends': ['account'],
     'init_xml': [],
     'data': [
-            
+        'report/report_invoice_pdf.xml',
     ],
     'installable': True,
     'active': True,
