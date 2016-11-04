@@ -43,7 +43,7 @@
 
     <template id="report_invoice_document_inherit_invoice_pdf" inherit_id="account.report_invoice_document">
         <xpath expr="//div[@class='page']" position="after">
-            <div class="page">
+            <div class="page container" style="padding:30px">
                 <t t-call="account_invoice_pdf.report_invoice_condgeneral" t-lang="o.partner_id.lang"/>
             </div>
         </xpath>
@@ -53,9 +53,23 @@
         <div style="page-break-inside: auto"></div>
         <h3>CONDITIONS GENERALES DE VENTE ET DE FACTURATION</h3>
         <ol type="1">
-          <li>Tous nos services, factures et contrats sont soumis aux conditions générales reprises ci-après. Il ne pourra en être dérogé qu’à condition de le stipuler explicitement et par écrit.</li>
-          <li>Toute contestation portant sur la nature, l’objet ou le montant de nos prestations doit être signalée par écrit et par courrier recommandé dans un délai de 8 jours après réception de notre facture, sous peine de forclusion.</li>
-          <li>Nos factures sont payables à notre siège d’exploitation dans le mois à partir de la date de facturation sauf stipulation contraire écrite.</li>
+            <li>Tous nos services, factures et contrats sont soumis aux conditions générales reprises ci-après. Il ne pourra en être dérogé qu’à condition de le stipuler explicitement et par écrit.</li>
+            <li>Toute contestation portant sur la nature, l’objet ou le montant de nos prestations doit être signalée par écrit et par courrier recommandé dans un délai de 8 jours après réception de notre facture, sous peine de forclusion.</li>
+            <li>Nos factures sont payables à notre siège d’exploitation dans le mois à partir de la date de facturation sauf stipulation contraire écrite.</li>
+            <li>En cas de non-paiement de nos factures dans le délai prescrit à l’article 3, des intérêts de retard au taux d’intérêt légal sont dus de plein droit et sans mise en demeure préalable et toutes nos créances deviennent immédiatement exigibles.</li>
+            <li>En cas de non-paiement de nos factures dans le délai prescrit à l’article 3, une indemnité forfaitaire et irréductible de 15% avec un minimum de 125 EUR est due de plein droit à titre de dommages et intérêts. </li>
+            <li>Le non-paiement d’acomptes et / ou de factures nous autorise à suspendre nos services et travaux dans les limites légales ainsi qu’à retenir nos rapports sans qu’aucune indemnité ne puisse être exigée et sous réserve de l’indemnisation complète de notre préjudice. Les acomptes restent acquis en cas de défaut de paiement. </li>
+            <li>Tous les contrats sont soumis à la législation belge.  Tout litige relève de la compétence exclusive des tribunaux de l’arrondissement judiciaire de Verviers.</li>
+        </ol>
+        <h3>ALGEMENE VERKOOPS- EN FACTUURVOORWAARDEN</h3>
+        <ol>
+            <li>Al onze diensten, facturen en contracten worden beheerst door de hiernavermelde algemene voorwaarden. Er kan enkel van afgeweken worden mits uitdrukkelijk én schriftelijk beding. </li>
+            <li>Alle betwistingne met betrekking tot de aard, het voorwerp of het bedrag van onze prestaties moetne schiftelijk en aangetekend worden gedaan binnen de 8 dagen na ontvangst van onze factuur, dit alles op strafe van verklaring van niet-ontvankelijkheid. </li>
+            <li>Onze gacturen zijn betaalbaar op onze exploitative zetel binnen de maand na factuurdatum behoudens andersluidend schriftelijk beding.</li>
+            <li>In geval van niet-betaling van onze facturen binnen de termijn bepaald in artikel 3 zijn van rechtswege en zonder voorafgaandelijke ingebrekestelling verwijlintresten aan de wettelijke intrestvoet verschuldidg en worden al onze vorderingen onmiddelijk opeisbaar. </li>
+            <li>In geval van niet-betaling van onze facturen binnen de termijn bepaald in artikel 3 is van rechtwege, ten titel van bedongen en aanvaarde forfaitaire en onherleidbare vergoeding, een schadevergoeding verschuldigd van 15% met een minimum van 125 EUR. </li>
+            <li>De niet-betaling van voordschotten en/of facturen laat ons toe diensten en werkzaamheden binnen de beperkingen van techtswege op te schorten alsmede onze rapporten in te houden dit zonder dat enige schadevergoeding gevorderd kan worden en onder voorbehoud van integrale vergoeding van onze schade. Bettalde voorschotten blijven in geval van wanbetaling der factureb verworven. </li>
+            <li>Alle contracten zijn onderworpen aan de Belgische wetgeving. Alle geschillen vallen onder de uitsluitende bevoegdheid van de Rechtbanken van het gerechtekijk arrondissement van Verviers.</li>
         </ol>
     </template>
     
