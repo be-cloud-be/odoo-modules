@@ -37,9 +37,16 @@
             <t t-set="template_type" t-value="pdf"/>
             <t t-foreach="docs" t-as="o">
                 <t t-call="account.report_invoice_document" t-lang="o.partner_id.lang"/>
-                <t t-call="account_invoice_pdf.report_invoice_condgeneral" t-lang="o.partner_id.lang"/>
             </t>
         </t>
+    </template>
+
+    <template id="report_invoice_document_inherit_invoice_pdf" inherit_id="account.report_invoice_document">
+        <xpath expr="//div[@class='page']" position="after">
+            <div class="page">
+                <t t-call="account_invoice_pdf.report_invoice_condgeneral" t-lang="o.partner_id.lang"/>
+            </div>
+        </xpath>
     </template>
 
     <template id="report_invoice_condgeneral">
