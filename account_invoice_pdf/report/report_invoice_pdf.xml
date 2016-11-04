@@ -50,11 +50,11 @@
                 <img src="/account_invoice_pdf/static/src/img/gallys_logo.png"/>
             </div>
             <div style="position: absolute;top: 950px;right: 0;">
-                <img src="/account_invoice_pdf/static/src/img/gallys_logo_bottom.png"/>
+                <img src="/account_invoice_pdf/static/src/img/gallys_logo_bottom.png" t-if="template_type == 'pdf'"/>
             </div>
         </xpath>
         <xpath expr="//div[@class='page']" position="after">
-            <div class="page container" style="padding-top:200px">
+            <div class="page container" style="padding-top:200px" t-if="template_type == 'pdf'">
                 <t t-call="account_invoice_pdf.report_invoice_condgeneral" t-lang="o.partner_id.lang"/>
             </div>
         </xpath>
