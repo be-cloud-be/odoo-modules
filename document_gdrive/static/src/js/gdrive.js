@@ -105,8 +105,7 @@ odoo.define('document_gdrive.menu_item', function(require) {
                                         'client_id': clientId,
                                         'scope': scope,
                                         'immediate': false,
-                                        'include_granted_scopes': true,
-                                        'authuser': -1
+                                        'include_granted_scopes': true
                                     }, function(authResult) {
                                         if (authResult && !authResult.error) {
                                             odoo.gdrive_oauthToken = authResult.access_token;
