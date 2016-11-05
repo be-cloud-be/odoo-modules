@@ -57,9 +57,10 @@ odoo.define('document_gdrive.menu_item', function(require) {
                             }
                             else {
                                 gapi.auth.authorize({
-                                    client_id: clientId,
-                                    scope: scope,
-                                    immediate: false
+                                    'client_id' : clientId,
+                                    'scope' : scope,
+                                    'immediate' : false,
+                                    'include_granted_scopes' : true,
                                 }, function(authResult) {
                                     if (authResult && !authResult.error) {
                                         odoo.gdrive_oauthToken = authResult.access_token
