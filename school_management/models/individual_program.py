@@ -231,7 +231,7 @@ class IndividualCourse(models.Model):
 
     credits = fields.Integer(related="source_course_id.credits", readonly=True)
     hours = fields.Integer(related="source_course_id.hours", readonly=True)
-    weight =  fields.Float(related="source_course_id.weight", readonly=True)
+    weight =  fields.Float(related="source_course_id.weight", readonly=True, default=1.00)
     
     dispense = fields.Boolean(string="Dispensed",default=False,track_visibility='onchange')
     
