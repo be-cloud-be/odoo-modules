@@ -37,6 +37,13 @@
     'data': [
         'report/report_invoice_pdf.xml',
     ],
+<<<<<<< HEAD
+=======
+    'images': [
+        'static/src/img/*.png',
+        'static/src/img/*.svg',
+    ],
+>>>>>>> 9.0-gallys-pdf
     'installable': True,
     'active': True,
 }
