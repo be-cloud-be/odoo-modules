@@ -98,16 +98,18 @@ odoo.define('document_gdrive.menu_item', function(require) {
                             },
                             function(authResult) {
                                 if (authResult && !authResult.error) {
-                                    odoo.gdrive.oauthToken = authResult.access_token
+                                    odoo.gdrive_oauthToken = authResult.access_token
                                 }
                                 else {
                                     gapi.auth.authorize({
-                                        client_id: clientId,
-                                        scope: scope,
-                                        immediate: false
+                                        'client_id': clientId,
+                                        'scope': scope,
+                                        'immediate': false,
+                                        'include_granted_scopes': true,
+                                        'authuser': -1
                                     }, function(authResult) {
                                         if (authResult && !authResult.error) {
-                                            odoo.gdrive.oauthToken = authResult.access_token;
+                                            odoo.gdrive_oauthToken = authResult.access_token;
                                         }
                                         else {
                                             alert("Cannot get authorization token for Google Drive: " + authResult.error_subtype + " - " + authResult.error);
