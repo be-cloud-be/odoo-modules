@@ -20,7 +20,7 @@ odoo.define('document_gdrive.menu_item', function(require) {
     var scope = ['profile https://www.googleapis.com/auth/drive'];
 
     Sidebar.include({
-        ready: function() {
+        start: function() {
             this._super.apply(this, arguments);
             
             // Get Server-Side token if available
