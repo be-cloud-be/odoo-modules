@@ -46,7 +46,7 @@ class AccountTimesheetReport(models.AbstractModel):
 
     @api.model
     def get_template(self):
-        return 'account_timsheet_report.report_timesheet'
+        return 'account_reports.report_financial'
         
 class AccountReportContextTimesheet(models.TransientModel):
     _name = "account.report.context.timesheet"
