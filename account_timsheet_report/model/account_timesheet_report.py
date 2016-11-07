@@ -47,6 +47,7 @@ class AccountTimesheetReport(models.AbstractModel):
                 'id' : analytic_line.id,
                 'name' : analytic_line.partner_id.name,
                 'type' : 'partner_id',
+                'footnotes': {},
                 'unfoldable' : False,
                 'columns' : [analytic_line.unit_amount],
                 'level' : 0,
