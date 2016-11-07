@@ -43,7 +43,7 @@ class AccountTimesheetReport(models.AbstractModel):
         analytic_lines = self.env['account.analytic.line'].read_group(base_domain, ['partner_id','unit_amount'], ['partner_id'], orderby='partner_id')
         lines = []
         for analytic_line in analytic_lines:
-            if len(analytic_line['partner_id'] > 1):
+            if analytic_line['partner_id'] :
                 lines.append({
                     'id' : analytic_line['partner_id'][0],
                     'name' : analytic_line['partner_id'][1],
