@@ -40,7 +40,7 @@ class AccountTimesheetReport(models.AbstractModel):
             'company_ids': context_id.company_ids.ids
         })
         base_domain = [('product_uom_id','=',4),('date', '>=', context['date_from']), ('date', '<=', context['date_to']), ('company_id', 'in', context['company_ids'])]
-        analytic_lines = self.env['account.analytic.line'].search(base_domain, order='partner_id, date')
+        analytic_lines = self.env['account.analytic.line'].read_group(base_domain, ['partner_id','unit_amount'], ['partner_id'], orderby='partner_id')
         lines = []
         for analytic_line in analytic_lines:
             lines.append({
