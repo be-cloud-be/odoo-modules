@@ -30,8 +30,16 @@ class AccountTimesheetReport(models.AbstractModel):
     
     @api.model
     def get_lines(self, context_id, line_id=None):
-        context = self.env.context
-        base_domain = [('product_uom_id','=',4),('date', '>=', context['date_from']), ('date', '<=', context['date_to']), ('company_id', 'in', context['company_ids']), ('account_id.internal_type', 'in', self.env.context['account_types'])]
+        if type(context_id) == int:
+            context_id = self.env['account.report.context.timesheet'].search([['id', '=', context_id]])
+        context = dict(self.env.context)
+        context.update({
+            'date_from': context_id.date_from,
+            'date_to': context_id.date_to,
+            'context_id': context_id,
+            'company_ids': context_id.company_ids.ids
+        })
+        base_domain = [('product_uom_id','=',4),('date', '>=', context['date_from']), ('date', '<=', context['date_to']), ('company_id', 'in', context['company_ids'])]
         analytic_lines = self.env['account.analytic.line'].search(base_domain, order='partner_id, date')
         lines = []
         for analytic_line in analytic_lines:
