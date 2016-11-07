@@ -30,7 +30,20 @@ class AccountTimesheetReport(models.AbstractModel):
     
     @api.model
     def get_lines(self, context_id, line_id=None):
-        return []
+        context = self.env.context
+        base_domain = [('product_uom_id','=',4),('date', '>=', context['date_from']), ('date', '<=', context['date_to']), ('company_id', 'in', context['company_ids']), ('account_id.internal_type', 'in', self.env.context['account_types'])]
+        analytic_lines = self.env['account.analytic.line'].search(base_domain, order='partner_id, date')
+        lines = []
+        for analytic_line in analytic_lines:
+            lines.append({
+                'id' : analytic_line.id,
+                'name' : analytic_line.partner_id.name,
+                'type' : 'partner_id',
+                'unfoldable' : False,
+                'columns' : [analytic_line.unit_amount],
+                'level' : 0,
+            })
+        return lines
 
     @api.model
     def get_title(self):
