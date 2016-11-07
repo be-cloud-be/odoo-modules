@@ -44,8 +44,8 @@ class AccountTimesheetReport(models.AbstractModel):
         lines = []
         for analytic_line in analytic_lines:
             lines.append({
-                'id' : analytic_line.partner_id.id,
-                'name' : analytic_line.partner_id.name,
+                'id' : analytic_line.partner_id[0],
+                'name' : analytic_line.partner_id[1],
                 'type' : 'partner_id',
                 'footnotes': {},
                 'unfoldable' : False,
