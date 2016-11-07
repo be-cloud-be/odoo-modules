@@ -28,7 +28,7 @@ class AccountTimesheetReport(models.AbstractModel):
     _name="account.timesheet.report"
     _description="Timesheet Report"
     
-    @api.models
+    @api.model
     def get_lines(self, context_id, line_id=None):
         return []
 
