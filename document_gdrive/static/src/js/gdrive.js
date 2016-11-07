@@ -87,7 +87,7 @@ odoo.define('document_gdrive.menu_item', function(require) {
                         apiKey: 'AIzaSyCzAPoPFkrcsjjNhIXSYKnhsak5dVeX7J0',
                         discoveryDocs: ["https://www.googleapis.com/discovery/v1/apis/drive/v2/rest"],
                         clientId: clientId,
-                        scope: 'profile ' + scope,
+                        scope: scope,
                     }).then(function () {
                         gapi.auth.setToken(odoo.gdrive_oauthToken);
                         gapi.auth.authorize({
