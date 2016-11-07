@@ -28,7 +28,7 @@
         <record id="action_account_timesheet_report" model="ir.actions.client">
             <field name="name">Timesheet Report</field>
             <field name="tag">account_report_generic</field>
-            <field name="context" eval="{'url':'/account/timesheet/1','model':'account.timesheet.report'}" />
+            <field name="context" eval="{'url':'/account_reports/output_format/timesheet/1','model':'account.timesheet.report'}" />
         </record>
         
         <menuitem id="menu_action_account_timesheet_report" name="Timesheet Report" action="action_account_timesheet_report" parent="account.menu_finance_reports"/>
