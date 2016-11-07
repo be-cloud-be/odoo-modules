@@ -63,12 +63,15 @@ class AccountReportContextTimesheet(models.TransientModel):
     def get_columns_types(self):
         return ['number']
 
+class AccountReportContextCommon(models.TransientModel):
+    _inherit = "account.report.context.common"
+
     def _report_name_to_report_model(self):
-        ret = super(AccountReportContextTimesheet, self)._report_name_to_report_model()
+        ret = super(AccountReportContextCommon, self)._report_name_to_report_model()
         ret['timesheet'] = 'account.timesheet.report'
         return ret
 
     def _report_model_to_report_context(self):
-        ret = super(AccountReportContextTimesheet, self)._report_model_to_report_context()
+        ret = super(AccountReportContextCommon, self)._report_model_to_report_context()
         ret['account.timesheet.report'] = 'account.report.context.timesheet'
         return ret
