@@ -128,7 +128,10 @@ class AccountReportTimesheetWizard(models.TransientModel):
         data['date_from'] = self.date_from
         data['date_to'] = self.date_to
         data['company_ids'] = self.company_ids.ids
-        data['partner_ids'] = data.get('active_ids',False)
+        if self.partner_ids:
+            data['partner_ids'] = self.partner_ids
+        else :
+            data['partner_ids'] = data.get('active_ids',False)
         return self.env['report'].get_action(self, 'account_timsheet_report.report_tr_pdf_content', data=data)
     
 
