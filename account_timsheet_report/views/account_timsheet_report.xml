@@ -81,7 +81,16 @@
                 <t t-foreach="data" t-as="item">
                     <t t-call="report.external_layout">
                     <div class="page">
-                        This is a test <span t-field="item.partner_id"/>
+                        This is a test <span t-esc="item.partner_id.name"/>
+                        <div style="position: absolute;top: 75px;left: 0;" t-if="template_type == 'pdf'">
+                            <img src="/account_invoice_pdf/static/src/img/gallys_logo.png"/>
+                        </div>
+                        <div style="position: absolute;top: 1050px;right:0;">
+                            <img src="/account_invoice_pdf/static/src/img/gallys_logo_bottom.svg" t-if="template_type == 'pdf'"/>
+                        </div>
+                        <div style="position: absolute;top: 705px;left: 0;z-index:-1;">
+                            <img src="/account_invoice_pdf/static/src/img/gallys_logo_bottom_left.svg" t-if="template_type == 'pdf'"/>
+                        </div>
                     </div>
                     </t>
                 </t>
