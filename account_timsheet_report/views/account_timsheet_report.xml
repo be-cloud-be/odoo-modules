@@ -58,8 +58,8 @@
                 model="account.analytic.line" 
                 string="Timesheet Report PDF" 
                 report_type="qweb-pdf" 
-                name="account_timsheet_report.timesheet_report_pdf_content" 
-                file="account_timsheet_report.timesheet_report_pdf_content"
+                name="account_timsheet_report.report_tr_pdf_content" 
+                file="account_timsheet_report.report_tr_pdf_content"
         />
     
         <record id="action_account_timesheet_report_pdf" model="ir.actions.act_window">
