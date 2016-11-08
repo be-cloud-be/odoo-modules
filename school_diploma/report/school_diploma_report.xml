@@ -444,9 +444,8 @@
                                     Mme TWYFFELS : Si possible, ajouter le tableau illustrant l'ancien système
                                 </div>
                                 L'étudiant-e a terminé son cursus dans le système établi en application du décret du 7 novembre 2013. 
-                                <img src="/school_diploma/static/src/images/systeme.png"/>
                             </div>
-                            
+                            <img src="/school_diploma/static/src/images/systeme.png" width="100%"/>
                         </div>
                     </div>
                 </div>
