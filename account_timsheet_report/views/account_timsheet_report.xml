@@ -81,7 +81,7 @@
                 <t t-foreach="data" t-as="item">
                     <t t-call="report.external_layout">
                     <div class="page">
-                        This is a test <t t-field="item.partner_id"/>
+                        This is a test <span t-field="item.partner_id"/>
                     </div>
                     </t>
                 </t>
