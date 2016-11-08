@@ -142,20 +142,22 @@ class AccountReportTimesheetPDF(models.AbstractModel):
         
         analytic_lines = self.env['account.analytic.line'].search(base_domain, order='partner_id, date')
         current_partner = False
-        data = False
+        line_data = False
         for line in analytic_lines:
             if line.partner_id != current_partner:
-                if data:
-                    res_data.append(data)
-                data = {
+                if line_data:
+                    res_data.append(line_data)
+                line_data = {
                     'partner_id' : line.partner_id,
                     'lines' : []
                 }
                 current_partner = line.partner_id
-            data['lines'].append(line)
-        if data:
-            res_data.append(data)
+            line_data['lines'].append(line)
+        if line_data:
+            res_data.append(line_data)
         docargs = {
+            'date_from' : data['date_from'],
+            'date_to' : data['date_to'],
             'data': res_data,
             'time': time,
         }
