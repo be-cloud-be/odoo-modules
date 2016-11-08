@@ -100,11 +100,11 @@
                         <div class="row mt32">
                             <div class="col-xs-4">
                                 <strong>Période du :</strong>
-                                <p t-esc="date_from"/>
+                                <p t-esc="date_from.strftime('%d-%m-%Y')"/>
                             </div>
                             <div class="col-xs-4">
                                 <strong>Au:</strong>
-                                <p t-esc="date_to"/>
+                                <p t-esc="date_to.strftime('%d-%m-%Y')"/>
                             </div>
                             <div class="col-xs-4">
                                 <strong>Imprimé le :</strong>
