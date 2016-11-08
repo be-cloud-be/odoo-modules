@@ -12,13 +12,14 @@ odoo.define('school_evaluations.action_school_portal_main', function (require) {
     var QWeb = core.qweb;
     
     $(document).ready(function () {
+        // TODO : pas nécessaire de faire ce call get_session_info ??
         session.rpc("/web/session/get_session_info", {}).then(function(result) {
             var Users = new Model('res.users');
             Users.call('has_group', ['school_management.group_teacher']).then(function(has_group){
                 if(has_group){
                     $("#oe_main_menu_navbar").remove();
                 }
-            })
+            });
         }); 
     });
     

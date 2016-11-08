@@ -440,7 +440,7 @@ class IndividualCourseGroup(models.Model):
             self.second_session_result = 0
             self.second_session_result_bool = False
 
-    @api.depends('second_session_result_bool','second_session_result')
+    @api.depends('second_session_result_bool','second_session_result','first_session_acquiered')
     @api.one
     def compute_second_session_acquiered(self):
         _logger.debug('Trigger "compute_second_session_acquiered" on Course Group %s' % self.name)
@@ -464,11 +464,9 @@ class IndividualCourseGroup(models.Model):
         ## Compute Final Results
         if self.second_session_result_bool :
             self.final_result = self.second_session_result
-            self.acquiered = self.second_session_acquiered
             self.final_result_bool = True
         elif self.first_session_result_bool :
             self.final_result = self.first_session_result
-            self.acquiered = self.first_session_acquiered
             self.final_result_bool = True
         else :
             self.final_result_bool = False
@@ -486,20 +484,13 @@ class IndividualCourseGroup(models.Model):
             self.acquiered  = 'A'
 
     @api.depends('dispense',
-                 'first_session_result_bool',
-                 'first_session_acquiered',
-                 'second_session_result_bool',
                  'second_session_acquiered')
     @api.one
     def compute_acquiered(self):
         if self.dispense:
             self.acquiered  = 'A'
-        elif self.second_session_result_bool :
-            self.acquiered = self.second_session_acquiered
-        elif self.second_session_result_bool :
-            self.acquiered = self.second_session_acquiered
         else :
-            self.acquiered = 'NA'
+            self.acquiered = self.second_session_acquiered
     
     
 class Course(models.Model):
