@@ -44,26 +44,15 @@ class AccountTimesheetReport(models.AbstractModel):
         analytic_lines = self.env['account.analytic.line'].search(base_domain, order='partner_id, date')
         lines = []
         for analytic_line in analytic_lines:
-            if analytic_line['partner_id'] :
-                lines.append({
-                    'id' : analytic_line['partner_id'][0],
-                    'name' : analytic_line['partner_id'][1],
-                    'type' : 'partner_id',
-                    'footnotes': {},
-                    'unfoldable' : False,
-                    'columns' : [analytic_line['unit_amount']],
-                    'level' : 0,
-                })
-            else :
-                lines.append({
-                    'id' : '_blank',
-                    'name' : '',
-                    'type' : 'partner_id',
-                    'footnotes': {},
-                    'unfoldable' : False,
-                    'columns' : [analytic_line['unit_amount']],
-                    'level' : 0,
-                })
+            lines.append({
+                'id' : analytic_line.id,
+                'name' : analytic_line.partner_id,
+                'type' : 'partner_id',
+                'footnotes': {},
+                'unfoldable' : False,
+                'columns' : [analytic_line.unit_amount],
+                'level' : 0,
+            })
         return lines
 
     @api.model
