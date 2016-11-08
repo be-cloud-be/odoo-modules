@@ -53,7 +53,7 @@ class AccountTimesheetReport(models.AbstractModel):
                     'footnotes': {},
                     'unfoldable' : False,
                     'columns' : [],
-                    'level' : 0,
+                    'level' : 1,
                 })
                 current_partner = analytic_line.partner_id
             lines.append({
@@ -63,7 +63,7 @@ class AccountTimesheetReport(models.AbstractModel):
                 'footnotes': {},
                 'unfoldable' : False,
                 'columns' : [analytic_line.date, analytic_line.unit_amount],
-                'level' : 1,
+                'level' : 0,
             })
         return lines
 
@@ -77,7 +77,7 @@ class AccountTimesheetReport(models.AbstractModel):
 
     @api.model
     def get_report_type(self):
-        return 'account_reports.account_report_type_date_range_analytic'
+        return 'account_reports.account_report_type_date_range_no_comparison'
 
     @api.model
     def get_template(self):
