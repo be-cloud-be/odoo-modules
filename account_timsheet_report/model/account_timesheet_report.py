@@ -43,7 +43,11 @@ class AccountTimesheetReport(models.AbstractModel):
         base_domain = [('product_uom_id','=',4),('date', '>=', context['date_from']), ('date', '<=', context['date_to']), ('company_id', 'in', context['company_ids'])]
         analytic_lines = self.env['account.analytic.line'].search(base_domain, order='partner_id, date')
         lines = []
+        current_partner = False
         for analytic_line in analytic_lines:
+            if analytic_line.partner_id != current_partner:
+                
+                current_partner = analytic_line.partner_id
             lines.append({
                 'id' : analytic_line.id,
                 'name' : analytic_line.partner_id.name,
@@ -139,6 +143,7 @@ class AccountReportTimesheetPDF(models.AbstractModel):
                     'partner_id' : line.partner_id,
                     'lines' : []
                 }
+                current_partner = line.partner_id
             data['lines'].append(line)
         if data:
             res_data.append(data)
