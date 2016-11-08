@@ -50,7 +50,7 @@ class AccountTimesheetReport(models.AbstractModel):
             if analytic_line.partner_id != current_partner:
                 lines.append({
                     'id' : analytic_line.partner_id.id,
-                    'name' : analytic_line.partner_id.name,
+                    'name' : analytic_line.partner_id.name if analytic_line.partner_id.name else "NO PARTNER",
                     'type' : 'partner_id',
                     'footnotes': {},
                     'unfoldable' : False,
