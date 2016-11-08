@@ -34,7 +34,7 @@
             <field name="context" eval="{'url':'/account_reports/output_format/timesheet/1','model':'account.timesheet.report'}" />
         </record>
         
-        <menuitem id="menu_action_account_timesheet_report" name="Timesheet Report Online" action="action_account_timesheet_report" parent="menu_action_account_timesheet_report"/>
+        <menuitem id="menu_action_account_timesheet_report_web" name="Timesheet Report Online" action="action_account_timesheet_report" parent="menu_action_account_timesheet_report"/>
         
         <!-- report -->
         <record id="account_timesheet_report_pdf_view" model="ir.ui.view">
@@ -72,7 +72,7 @@
             <field name="target">new</field>
         </record>
         
-        <menuitem id="menu_action_account_timesheet_report" name="Timesheet Report PDF" action="action_account_timesheet_report_pdf" parent="menu_action_account_timesheet_report"/>
+        <menuitem id="menu_action_account_timesheet_report_pdf" name="Timesheet Report PDF" action="action_account_timesheet_report_pdf" parent="menu_action_account_timesheet_report"/>
         
         <template id="timesheet_report_pdf_content">
             <t t-call="report.html_container">
