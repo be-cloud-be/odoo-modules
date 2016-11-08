@@ -46,16 +46,24 @@ class AccountTimesheetReport(models.AbstractModel):
         current_partner = False
         for analytic_line in analytic_lines:
             if analytic_line.partner_id != current_partner:
-                
+                lines.append({
+                    'id' : analytic_line.partner_id.id,
+                    'name' : analytic_line.partner_id.name,
+                    'type' : 'partner_id',
+                    'footnotes': {},
+                    'unfoldable' : False,
+                    'columns' : [],
+                    'level' : 0,
+                })
                 current_partner = analytic_line.partner_id
             lines.append({
                 'id' : analytic_line.id,
-                'name' : analytic_line.partner_id.name,
+                'name' : analytic_line.name,
                 'type' : 'partner_id',
                 'footnotes': {},
                 'unfoldable' : False,
                 'columns' : [analytic_line.date, analytic_line.unit_amount],
-                'level' : 0,
+                'level' : 1,
             })
         return lines
 
