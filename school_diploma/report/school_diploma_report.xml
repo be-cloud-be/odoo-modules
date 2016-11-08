@@ -282,12 +282,9 @@
                                 <h4><span t-field="o.cycle_id"/> en <span t-field="o.speciality_id"/> réussi avec <span t-field="o.grade"/>.</h4>
                                 <p>
                                     Les notes obtenues pour chaque unité d'enseignement sont renseignées ci-dessous. 
-                                    <div class="alert alert-danger" role="alert">
-                                        Le texte demande d'indiquer toutes les dates de délibération et que les cotes soient sur 100.
-                                    </div>
                                 </p>
                                 <div class="alert alert-danger" role="alert">
-                                    N'est ce pas mieux de mettre le détail en annexe?
+                                    Mme TWYFFELS : On peut mettre les tableaux en annexe pour peut qu'elles aient le tampon ou la signature du secrétaire et qu'elles soient numérotées.
                                 </div>
                             </div>
                             <t t-foreach="o.bloc_ids" t-as="bloc">
@@ -447,7 +444,7 @@
                                     Mme TWYFFELS : Si possible, ajouter le tableau illustrant l'ancien système
                                 </div>
                                 L'étudiant-e a terminé son cursus dans le système établi en application du décret du 7 novembre 2013. 
-                                <img src="http://www.enseignement.be/upload/pics/000000000004/000000002844_20150505104556_l.jpg"/>
+                                <img src="/school_diploma/static/src/images/systeme.png"/>
                             </div>
                             
                         </div>
