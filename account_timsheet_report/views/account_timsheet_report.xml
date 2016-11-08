@@ -114,16 +114,18 @@
                         <table class="table table-striped mt16">
                             <thead>
                                 <tr>
+                                    <th>Date</th>
                                     <th>Description</th>
-                                    <th class="text-center">Date</th>
-                                    <th class="text-right">Hours</th>
+                                    <th class="text-right">Heures</th>
                                 </tr>
                             </thead>
                             <tbody class="invoice_tbody">
                                 <tr t-foreach="item['lines']" t-as="l">
-                                    <td><span t-field="l.name"/></td>
-                                    <td class="text-center">
+                                    <td>
                                         <span t-field="l.date"/>
+                                    </td>
+                                    <td>
+                                        <span t-field="l.name"/>
                                     </td>
                                     <td class="text-right">
                                         <span t-field="l.unit_amount"/>
