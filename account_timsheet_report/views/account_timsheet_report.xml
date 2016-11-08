@@ -78,9 +78,10 @@
             <t t-call="report.html_container">
                 <t t-set="data_report_margin_top" t-value="20"/>
                 <t t-set="data_report_header_spacing" t-value="15"/>
-                <t t-set="data_report_dpi" t-value="110"/>
-                <t t-call="report.external_layout">
+                <t t-foreach="data" t-as="item">
+                    <t t-call="report.external_layout">
                     <div class="page">
+                        This is a test <t t-field="item.partner_id"/>
                     </div>
                 </t>
             </t>
