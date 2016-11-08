@@ -100,17 +100,37 @@
                         <div class="row mt32">
                             <div class="col-xs-4">
                                 <strong>Période du :</strong>
-                                <p t-esc="date_from.strftime('%d-%m-%Y')"/>
+                                <p t-esc="date_from.strftime('%d/%m/%Y')"/>
                             </div>
                             <div class="col-xs-4">
                                 <strong>Au:</strong>
-                                <p t-esc="date_to.strftime('%d-%m-%Y')"/>
+                                <p t-esc="date_to.strftime('%d/%m/%Y')"/>
                             </div>
                             <div class="col-xs-4">
                                 <strong>Imprimé le :</strong>
-                                <p t-esc="time.strftime('%d-%m-%Y')"/>
+                                <p t-esc="time.strftime('%d/%m/%Y')"/>
                             </div>
                         </div>
+                        <table class="table table-striped mt16">
+                            <thead>
+                                <tr>
+                                    <th>Description</th>
+                                    <th class="text-center">Date</th>
+                                    <th class="text-right">Hours</th>
+                                </tr>
+                            </thead>
+                            <tbody class="invoice_tbody">
+                                <tr t-foreach="item['lines']" t-as="l">
+                                    <td><span t-field="l.name"/></td>
+                                    <td class="text-center">
+                                        <span t-field="l.date"/>
+                                    </td>
+                                    <td class="text-right">
+                                        <span t-field="l.unit_amount"/>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
                     </div>
                     </t>
                 </t>
