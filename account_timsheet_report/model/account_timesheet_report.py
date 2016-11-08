@@ -23,6 +23,7 @@ from datetime import datetime
 
 from openerp import api, fields, models, _
 from openerp.exceptions import UserError, ValidationError
+from odoo.tools import DEFAULT_SERVER_DATETIME_FORMAT, DEFAULT_SERVER_DATE_FORMAT
 
 _logger = logging.getLogger(__name__)
 
