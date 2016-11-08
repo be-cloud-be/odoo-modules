@@ -122,11 +122,11 @@ class AccountReportTimesheetWizard(models.TransientModel):
         data['date_from'] = self.date_from
         data['date_to'] = self.date_to
         data['partner_ids'] = data.get('active_ids',False)
-        return self.env['report'].get_action(self, 'account_timsheet_report.report_timesheet_report_pdf_content', data=data)
+        return self.env['report'].get_action(self, 'account_timsheet_report.report_tr_pdf_content', data=data)
     
 
 class AccountReportTimesheetPDF(models.AbstractModel):
-    _name = 'report.account_timsheet_report.report_timesheet_report_pdf_content'
+    _name = 'report.account_timsheet_report.report_tr_pdf_content'
     
     @api.multi
     def render_html(self, data):
@@ -154,4 +154,4 @@ class AccountReportTimesheetPDF(models.AbstractModel):
             'data': res_data,
             'time': time,
         }
-        return self.env['report'].render('account_timsheet_report.report_timesheet_report_pdf_content', docargs)
+        return self.env['report'].render('account_timsheet_report.report_tr_pdf_content', docargs)

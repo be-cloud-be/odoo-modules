@@ -74,7 +74,7 @@
         
         <menuitem id="menu_action_account_timesheet_report_pdf" name="Timesheet Report PDF" action="action_account_timesheet_report_pdf" parent="menu_action_account_timesheet_report"/>
         
-        <template id="timesheet_report_pdf_content">
+        <template id="report_tr_pdf_content">
             <t t-call="report.html_container">
                 <t t-set="data_report_margin_top" t-value="20"/>
                 <t t-set="data_report_header_spacing" t-value="15"/>
