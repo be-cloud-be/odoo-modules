@@ -19,7 +19,7 @@
 ##############################################################################
 import logging
 import time
-from datetime import datetime
+from datetime import datetime, date, timedelta
 
 from openerp import api, fields, models, _
 from openerp.exceptions import UserError, ValidationError
@@ -117,8 +117,8 @@ class AccountReportTimesheetWizard(models.TransientModel):
     _name="account.timesheet.report.wizard"
     _description="Account Timesheet Report Wizard"
     
-    date_from = fields.Date(string="Date From")
-    date_to = fields.Date(string="Date To")
+    date_from = fields.Date(string="Date From",default=lambda s:  (date.today().replace(day=1) - timedelta(days=1)).replace(day=1))
+    date_to = fields.Date(string="Date To",default=lambda s: date.today().replace(day=1) - timedelta(days=1))
     company_ids = fields.Many2many('res.company', relation='account_timsheet_report_company', default=lambda s: [(6, 0, [s.env.user.company_id.id])])
     
     @api.multi
