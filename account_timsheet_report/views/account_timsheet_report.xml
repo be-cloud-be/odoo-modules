@@ -25,12 +25,66 @@
 -->
 <openerp>
     <data>
+        
+        <menuitem id="menu_action_account_timesheet_report" name="Timesheet Report" parent="account.menu_finance_reports"/>
+        
         <record id="action_account_timesheet_report" model="ir.actions.client">
             <field name="name">Timesheet Report</field>
             <field name="tag">account_report_generic</field>
             <field name="context" eval="{'url':'/account_reports/output_format/timesheet/1','model':'account.timesheet.report'}" />
         </record>
         
-        <menuitem id="menu_action_account_timesheet_report" name="Timesheet Report" action="action_account_timesheet_report" parent="account.menu_finance_reports"/>
+        <menuitem id="menu_action_account_timesheet_report" name="Timesheet Report Online" action="action_account_timesheet_report" parent="menu_action_account_timesheet_report"/>
+        
+        <!-- report -->
+        <record id="account_timesheet_report_pdf_view" model="ir.ui.view">
+            <field name="name">Timesheet Report PDF</field>
+            <field name="model">account.timesheet.report.wizard</field>
+            <field name="arch" type="xml">
+                <form string="Timesheet Report PDF">
+                    <group col="4">
+                        <field name="from_date"/>
+                        <field name="to_date" />
+                    </group>
+                    <footer>
+                        <button name="print_report" string="Print" type="object" default_focus="1" class="oe_highlight" /> or
+                        <button string="Cancel" class="oe_link" special="cancel" />
+                    </footer>
+                </form>
+            </field>
+        </record>
+    
+        <report id="account_timesheet_report_pdf" 
+                model="account.analytic.line" 
+                string="Timesheet Report PDF" 
+                report_type="qweb-pdf" 
+                name="account_timsheet_report.timesheet_report_pdf_content" 
+                file="account_timsheet_report.timesheet_report_pdf_content"
+        />
+    
+        <record id="action_account_timesheet_report_pdf" model="ir.actions.act_window">
+            <field name="name">Timesheet Report PDF</field>
+            <field name="res_model">account.timesheet.report.wizard</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">form</field>
+            <field name="view_id" ref="account_timesheet_report_pdf_view" />
+            <field name="target">new</field>
+        </record>
+        
+        <menuitem id="menu_action_account_timesheet_report" name="Timesheet Report PDF" action="action_account_timesheet_report_pdf" parent="menu_action_account_timesheet_report"/>
+        
+        <template id="timesheet_report_pdf_content">
+            <t t-call="report.html_container">
+                <t t-set="data_report_margin_top" t-value="20"/>
+                <t t-set="data_report_header_spacing" t-value="15"/>
+                <t t-set="data_report_dpi" t-value="110"/>
+                <t t-call="report.external_layout">
+                    <div class="page">
+                    </div>
+                </t>
+            </t>
+        </template>
+        
     </data>
 </openerp>

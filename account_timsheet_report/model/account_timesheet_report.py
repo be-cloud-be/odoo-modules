@@ -40,7 +40,7 @@ class AccountTimesheetReport(models.AbstractModel):
             'company_ids': context_id.company_ids.ids
         })
         base_domain = [('product_uom_id','=',4),('date', '>=', context['date_from']), ('date', '<=', context['date_to']), ('company_id', 'in', context['company_ids'])]
-        analytic_lines = self.env['account.analytic.line'].read_group(base_domain, ['partner_id','unit_amount'], ['partner_id'], orderby='partner_id')
+        analytic_lines = self.env['account.analytic.line'].search(base_domain, ['partner_id','unit_amount'], orderby='partner_id, date desc')
         lines = []
         for analytic_line in analytic_lines:
             if analytic_line['partner_id'] :
@@ -108,3 +108,50 @@ class AccountReportContextCommon(models.TransientModel):
         ret = super(AccountReportContextCommon, self)._report_model_to_report_context()
         ret['account.timesheet.report'] = 'account.report.context.timesheet'
         return ret
+        
+class AccountReportTimesheetWizard(models.TransientModel):
+    _name="account.timesheet.report.wizard"
+    _description="Account Timesheet Report Wizard"
+    
+    date_from = fields.Date(string="Date From")
+    date_to = fields.Date(string="Date To")
+    
+    @api.multi
+    def print_report(self, data):
+        self.ensure_one()
+        data['date_from'] = self.date_from
+        data['date_to'] = self.date_to
+        data['partner_ids'] = data.get('active_ids',False)
+        return self.env['report'].get_action(self, 'account_timsheet_report.report_timesheet_report_pdf_content', data=data)
+    
+
+class AccountReportTimesheetPDF(models.AbstractModel):
+    _name = 'report.account_timsheet_report.report_timesheet_report_pdf_content'
+    
+    @api.multi
+    def render_html(self, data):
+        res_data = []
+        context = dict(self.env.context)
+        base_domain = [('product_uom_id','=',4),('date', '>=', data['date_from']), ('date', '<=', data['date_to']), ('company_id', 'in', context['company_ids'])]
+        if data['partner_ids']:
+            base_domain.append(('partner_id','in',data['partner_ids']))
+        
+        analytic_lines = self.env['account.analytic.line'].search(base_domain, ['partner_id','unit_amount'], orderby='partner_id, date desc')
+        current_partner = False
+        data = False
+        for line in analytic_lines:
+            if line.partner_id <> current_partner:
+                if data:
+                    res_data.append(data)
+                data = {
+                    'partner_id' : line.partner_id,
+                    'lines' : []
+                }
+            data['lines'].append(line)
+        if data:
+            res_data.append(data)
+        docargs = {
+            'data': res_data,
+            'time': time,
+        }
+        return self.env['report'].render('account_timsheet_report.report_timesheet_report_pdf_content', docargs)
