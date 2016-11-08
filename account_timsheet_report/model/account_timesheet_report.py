@@ -18,6 +18,7 @@
 #
 ##############################################################################
 import logging
+import time
 
 from openerp import api, fields, models, _
 from openerp.exceptions import UserError, ValidationError
@@ -115,12 +116,14 @@ class AccountReportTimesheetWizard(models.TransientModel):
     
     date_from = fields.Date(string="Date From")
     date_to = fields.Date(string="Date To")
+    company_ids = fields.Many2many('res.company', relation='account_timsheet_report_company', default=lambda s: [(6, 0, [s.env.user.company_id.id])])
     
     @api.multi
     def print_report(self, data):
         self.ensure_one()
         data['date_from'] = self.date_from
         data['date_to'] = self.date_to
+        data['company_ids'] = self.company_ids.ids
         data['partner_ids'] = data.get('active_ids',False)
         return self.env['report'].get_action(self, 'account_timsheet_report.report_tr_pdf_content', data=data)
     
@@ -132,7 +135,7 @@ class AccountReportTimesheetPDF(models.AbstractModel):
     def render_html(self, data):
         res_data = []
         context = dict(self.env.context)
-        base_domain = [('product_uom_id','=',4),('date', '>=', data['date_from']), ('date', '<=', data['date_to']), ('company_id', 'in', context['company_ids'])]
+        base_domain = [('product_uom_id','=',4),('date', '>=', data['date_from']), ('date', '<=', data['date_to']), ('company_id', 'in', data['company_ids'])]
         if data['partner_ids']:
             base_domain.append(('partner_id','in',data['partner_ids']))
         
@@ -140,7 +143,7 @@ class AccountReportTimesheetPDF(models.AbstractModel):
         current_partner = False
         data = False
         for line in analytic_lines:
-            if line.partner_id <> current_partner:
+            if line.partner_id != current_partner:
                 if data:
                     res_data.append(data)
                 data = {
