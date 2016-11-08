@@ -78,7 +78,7 @@
             <t t-call="report.html_container">
                 <t t-foreach="data" t-as="item">
                     <t t-call="report.external_layout">
-                    <div class="page">
+                    <div class="page" style="padding:200px 50px 50px 50px;">
                         <t t-set="line" t-value="item['lines'][0]"/>
                         <div style="position: absolute;top: 75px;left: 0;" t-if="template_type == 'pdf'">
                             <img src="/account_invoice_pdf/static/src/img/gallys_logo.png"/>
@@ -100,15 +100,15 @@
                         <div class="row mt32">
                             <div class="col-xs-4">
                                 <strong>Période du :</strong>
-                                <p t-est="date_from"/>
+                                <p t-esc="date_from"/>
                             </div>
                             <div class="col-xs-4">
                                 <strong>Au:</strong>
-                                <p t-est="date_to"/>
+                                <p t-esc="date_to"/>
                             </div>
                             <div class="col-xs-4">
                                 <strong>Imprimé le :</strong>
-                                <p t-est="time"/>
+                                <p t-esc="datetime.datetime.now().strftime('%d-%m-%Y')"/>
                             </div>
                         </div>
                     </div>

@@ -155,9 +155,12 @@ class AccountReportTimesheetPDF(models.AbstractModel):
             line_data['lines'].append(line)
         if line_data:
             res_data.append(line_data)
+            
+        date_from = datetime.strptime(data['date_from'], DEFAULT_SERVER_DATE_FORMAT)
+        date_to = datetime.strptime(data['date_to'], DEFAULT_SERVER_DATE_FORMAT)
         docargs = {
-            'date_from' : data['date_from'],
-            'date_to' : data['date_to'],
+            'date_from' : date_from,
+            'date_to' : date_to,
             'data': res_data,
             'time': time,
         }
