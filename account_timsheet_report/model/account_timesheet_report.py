@@ -59,7 +59,7 @@ class AccountTimesheetReport(models.AbstractModel):
             lines.append({
                 'id' : analytic_line.id,
                 'name' : analytic_line.name,
-                'type' : 'move_line_id',
+                'type' : 'payment',
                 'footnotes': {},
                 'unfoldable' : False,
                 'columns' : [analytic_line.date, analytic_line.unit_amount],
