@@ -40,7 +40,7 @@ class AccountTimesheetReport(models.AbstractModel):
             'company_ids': context_id.company_ids.ids
         })
         base_domain = [('product_uom_id','=',4),('date', '>=', context['date_from']), ('date', '<=', context['date_to']), ('company_id', 'in', context['company_ids'])]
-        analytic_lines = self.env['account.analytic.line'].search(base_domain, ['partner_id','unit_amount'], orderby='partner_id, date desc')
+        analytic_lines = self.env['account.analytic.line'].search(base_domain, ['partner_id','unit_amount'], order='partner_id, date desc')
         lines = []
         for analytic_line in analytic_lines:
             if analytic_line['partner_id'] :
@@ -136,7 +136,7 @@ class AccountReportTimesheetPDF(models.AbstractModel):
         if data['partner_ids']:
             base_domain.append(('partner_id','in',data['partner_ids']))
         
-        analytic_lines = self.env['account.analytic.line'].search(base_domain, ['partner_id','unit_amount'], orderby='partner_id, date desc')
+        analytic_lines = self.env['account.analytic.line'].search(base_domain, ['partner_id','unit_amount'], order='partner_id, date desc')
         current_partner = False
         data = False
         for line in analytic_lines:
