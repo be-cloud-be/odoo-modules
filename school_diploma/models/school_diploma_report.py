@@ -42,4 +42,5 @@ class SchoolDiplomaReport(models.AbstractModel):
             'docs': docs,
             'locale' : locale,
         }
+        locale.setlocale(locale.LC_ALL,'fr_BE') # TODO : shoud set to user locale
         return self.pool['report'].render(cr, uid, [], report.report_name, docargs, context=context)

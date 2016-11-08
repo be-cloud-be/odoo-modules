@@ -45,7 +45,6 @@
             <t t-set="data_report_header_spacing" t-value="25"/>
             <t t-foreach="docs" t-as="o">
                 <div class="page">
-                    <t t-raw="locale.setlocale(locale.LC_ALL, 'fr_BE')"/>
                     <div class="container">
                         <div class="row" style="margin-bottom:30px;">
                             <div class="col-xs-12 text-center">
@@ -62,7 +61,7 @@
                         </div>
                         <div class="row"  style="margin-top:60px;">
                             <div class="col-xs-12">
-                                Nous, Président-e, Secrétaire et Membres du jury chargés de conférer le grade académique concerné, déclarons que
+                                Nous, Président, Secrétaire et Membres du jury chargés de conférer le grade académique concerné, déclarons que
                             </div>
                         </div>
                         <div class="row"  style="margin-top:60px;">
@@ -94,10 +93,10 @@
                                 Le titulaire
                             </div>
                             <div class="col-xs-6">
-                                L’ autorité académique
+                                L’autorité académique
                             </div>
                         </div>
-                        <div class="row" style="margin-top:150px;">
+                        <div class="row" style="margin-top:135px;">
                             <div class="col-xs-12 small">
                                 Un supplément est annexé au présent diplôme. Il atteste notamment la liste des enseignements du programme d’études suivi par l’étudiant<t t-if="o.student_id.gender == 'female'">e</t>, 
                                 les conditions d’accès aux études et les évaluations sanctionnées par le grade académique conféré.
@@ -151,9 +150,8 @@
                         <div class="row">
                             <div class="col-xs-12">
                                 <h2>Avertissement :</h2>
-                                Ce présent supplément ne vaut qu’accompagné du diplôme officiel délivré par le CONSERVATOIRE ROYAL DE LIEGE 
-                                et contresigné par la Communauté française de Belgique.<br/>
-                                This Diploma Supplement is only valid if presented with the official diploma issued by the CONSERVATOIRE ROYAL DE LIEGE and countersigned by the Belgian French-speaking Community.
+                                Ce présent supplément ne vaut qu’accompagné du diplôme officiel.<br/>
+                                This Diploma Supplement is only valid if presented with the official diploma.
                             </div>
                         </div>
                         <div class="row">
@@ -171,7 +169,7 @@
                                 Prénom(s) / Given name(s) :
                             </div>
                             <div class="col-xs-10 col-xs-offset-2" style="font-style: bold;">
-                                <span t-field="o.student_id.firstname"/>
+                                <span t-field="o.student_id.firstname"/> <span t-field="o.student_id.initials"/>
                             </div>
                             <div class="col-xs-11 col-xs-offset-1" style="font-style: italic;margin-bottom:10px;margin-top:10px;">
                                 Date (jour/mois/année) et lieu de naissance / Date (day/month/year) and place of birth :
@@ -195,7 +193,7 @@
                                     Intitulé du diplôme et titre conféré / Name of qualification and title conferred :
                             </div>
                             <div class="col-xs-10 col-xs-offset-2" style="font-style: bold;">
-                                <span t-field="o.cycle_id"/> en <span t-field="o.domain_id.long_name"/>
+                                <span t-field="o.cycle_id"/>
                             </div>
                             <div class="col-xs-11 col-xs-offset-1" style="font-style: italic;margin-bottom:10px;margin-top:10px;">
                                     Principaux domaines d'études couverts par le diplôme / Main fields of study for the qualification :
@@ -203,9 +201,9 @@
                             <div class="col-xs-10 col-xs-offset-2" style="font-style: bold;">
                                 <ul>
                                     <li>Domaine : <span t-field="o.domain_id.long_name"/></li>
-                                    <li>Section : <span t-field="o.section_id"/></li>
+                                    <!--<li>Section : <span t-field="o.section_id"/></li>
                                     <li>Option : <span t-field="o.track_id"/></li>
-                                    <li>Spécialité : <span t-field="o.speciality_id"/></li>
+                                    <li>Spécialité : <span t-field="o.speciality_id"/></li>-->
                                 </ul>
                             </div>
                             <div class="col-xs-11 col-xs-offset-1" style="font-style: italic;margin-bottom:10px;margin-top:10px;">
@@ -232,7 +230,8 @@
                                 Niveau de qualification / Level of qualification :
                             </div>
                             <div class="col-xs-10 col-xs-offset-2" style="font-style: bold;">
-                                Enseignement organisé en deux cycles :<br/> 
+                                Enseignement de type <span t-field="o.cycle_id.type"/> organisé en deux cycles :<br/> 
+                                <span t-field="o.cycle_id.description"/><br/>
                                 Pour de plus amples explications sur la signification de ce classement, voir rubrique information<br/> 
                                 sur le système national d’enseignement supérieur<br/> 
                             </div>
@@ -249,6 +248,10 @@
                                 Réussite de l'épreuve d'admission organisée conformément à l'arrêté du Gouvernement du 17 juillet 2002 
                                 organisant l'épreuve d'admission dans les Ecoles supérieures des Arts organisées ou subventionnées par 
                                 la Communauté Française.
+                                <div class="alert alert-danger" role="alert">
+                                    Mme TWYFFELS : Ajouter le titre d'accès, par exemple Certificat d'Enseignement secondaire supérieur 
+                                    ou autre titre prévu à l'article 107 ou décision du jury d'admission...)
+                                </div>
                             </div>
                         </div>
                         <div class="row">
@@ -261,9 +264,6 @@
                             </div>
                             <div class="col-xs-10 col-xs-offset-2" style="font-style: bold;">
                                 Formation à temps plein. 
-                                <div class="alert alert-danger" role="alert">
-                                    La desciption officielle demande d'indiquer "Enseignement modulaire."
-                                </div>
                             </div>
                             <div class="col-xs-11 col-xs-offset-1" style="font-style: italic;margin-bottom:10px;margin-top:10px;">
                                 Exigences du programme / Programme requirements :
@@ -273,12 +273,7 @@
                                 En outre, au terme de sa formation, l'étudiant est tenu de présenter un travail de fin d'études et /ou un mémoire, si celui-ci 
                                 est prévu par le règlement particulier des études.
                                 <br/>
-                                Le jury de délibération déclare admis de plein droit l'étudiant qui a obtenu au moins 50 % des points attribués à chaque examen 
-                                et à chaque évaluation artistique et 50 % des points attribués à l'ensemble de l'épreuve. Le jury de délibération délibère collégialement 
-                                et souverainement sur la réussite, l'ajournement ou le refus des étudiants non admis de plein droit ainsi que sur l'attribution des mentions.
-                                <br/>
-                                En l'occurrence, l’étudiant doit être capable de maîtriser les objectifs particuliers de la formation suivie tels que explicités 
-                                dans le projet pédagogique et artistique de l’ Ecole supérieure des Arts. 
+                                Voir profil d'enseignement et référentiel de compétences annexés au présent supplément.
                             </div>
                             <div class="col-xs-11 col-xs-offset-1" style="font-style: italic;margin-bottom:10px;margin-top:10px;">
                                 Précisions sur le programme / Programme details :
@@ -351,42 +346,22 @@
                             </div>
                             <div class="col-xs-10 col-xs-offset-2" style="font-style: bold;">
                                 <p>
-                                    L’évaluation finale d’une activité d’enseignement s’exprime sous forme d’une note, comprise entre 0 et 20, 
-                                    le seuil de réussite étant 10/20. L’évaluation globale d’une année d’études s’exprime sous forme d’un pourcentage 
-                                    accompagné d’une  mention selon le tableau de correspondance ci-dessous.
-                                </p>
-                                <p>
-                                    Le jury de délibération attribue collégialement et souverainement cette mention.
-                                </p>
-                                <table class="table">
-                                    <tr>
-                                        <td>Mention obtenue</td><td>% des points (ensemble des examens d’une année)</td>
-                                    </tr>
-                                    <tr>
-                                        <td>La plus grande distinction</td><td>90%</td>
-                                    </tr>
-                                    <tr>
-                                        <td>La grande distinction</td><td>80%</td>
-                                    </tr>
-                                    <tr>
-                                        <td>La distinction</td><td>70%</td>
-                                    </tr>
-                                    <tr>
-                                        <td>La satisfaction</td><td>60%</td>
-                                    </tr>
-                                </table>
-                                <p>
+                                    L’évaluation finale d’une unité d’enseignement s’exprime sous forme d’une note, comprise entre 0 et 20, 
+                                    le seuil de réussite étant 10/20. Si ce seuil n'est pas atteint, le jury peut souverainement proclamer 
+                                    la réussite d'une unité d'enseignement, de l'ensemble des unités suivies durant une année académique ou 
+                                    d'un cycle d'études.
+                                    
                                     En fonction de leur importance, le jury tient compte d'un coefficient de pondération, figurant dans le règlement 
-                                    particulier des études de l’école,  pour chaque activité d’enseignement reprise au programme des études. Le règlement 
-                                    des examens et le relevé de notes sont remis annuellement à chaque étudiant(e).<br/>
-                                    La note globale obtenue par année d’études, les notes obtenues pour chaque activité d’enseignement et leur transcription 
-                                    dans le système de notation ECTS sont renseignées dans une annexe au présent supplément.
+                                    particulier des études de l’école, pour chaque activité ou unité d'enseignement reprise au programme des études. Le règlement 
+                                    des examens et le relevé de notes sont remis annuellement à chaque étudiant(e).
                                 </p>
                             </div>
                             <div class="col-xs-11 col-xs-offset-1" style="font-style: italic;margin-bottom:10px;margin-top:10px;">
                                 Classification générale du diplômé / Overall classification of the graduate :
                             </div>
                             <div class="col-xs-10 col-xs-offset-2" style="font-style: bold;">
+                                Sur base de l'ensemble des notes obtenues par l'étudiant-e au cours du cycle, le jury lui octroie éventuellement 
+                                une mention conformément au règlement des études : <br/>
                                 <span style="text-transform: uppercase;" t-field="o.grade"/>
                             </div>
                         </div>
@@ -397,6 +372,15 @@
                             </div>
                             <div class="col-xs-11 col-xs-offset-1" style="font-style: italic;margin-bottom:10px;margin-top:10px;">
                                 Accès à un niveau d'études supérieur / Access to further study :
+                            </div>
+                            <div class="col-xs-10 col-xs-offset-2" style="font-style: bold;">
+                                En règle générale, les titulaires d'un grade académique de bachelier de type court ont accès aux études conduisant à un 
+                                grade académique de bachelier de spécialisation ; les titulaires d’un grade académique de bachelier de type long ont accès 
+                                à des études conduisant au grade de master, médecin ou médecin vétérinaire; les titulaires d'un grade académique de master 
+                                ont accès aux études sanctionnées par le grade académique d'agrégé de l'enseignement secondaire supérieur qui habilite à 
+                                enseigner dans un établissement d'enseignement secondaire, à des études universitaires sanctionnées par un grade académique 
+                                de master de spécialisation; les titulaires d'un grade académique de master en 120 crédits au moins peuvent être admis aux 
+                                études universitaires de 3e cycle. 
                             </div>
                             <div class="col-xs-11 col-xs-offset-1" style="font-style: italic;margin-bottom:10px;margin-top:10px;">
                                 Statut professionnel / Professional status :
@@ -416,7 +400,10 @@
                             <div class="col-xs-10 col-xs-offset-2" style="font-style: bold;">
                                 <ul>
                                     <li>Site web de l'établissement : www.crlg.be</li>
-                                    <li>Site web de la Communauté française de Belgique : www.cfwb.be</li>
+                                    <li>Site web de la Communauté française de Belgique :  www.fwb.be et www.enseignement.be</li>
+                                    <li>Site Web du centre ENIC-NARIC de la Communauté française : www.enseignement.be/enic-naric</li>
+                                    <li>Site Web des réseaux européens ENIC-NARIC : www.enic-naric.net</li>
+                                    <li>Site Web de l’ARES : www.ares-ac.be</li>
                                 </ul>
                             </div>
                         </div>
@@ -453,10 +440,16 @@
                                 <small>Information on the national higher education system</small></h3>
                             </div>
                             <div class="col-xs-10 col-xs-offset-2" style="font-style: bold;">
-                                Système progressivement d’application en Communauté française à partir de l’année académique 2004-2005 
-                                selon le décret du 31 mars 2004 définissant l’enseignement supérieur, favorisant son intégration à l’espace 
-                                européen de l’enseignement supérieur et refinançant les universités.
-                            </div>
+                                L'étudiant-e a commencé son cursus dans le système progressivement d’application en Communauté française à 
+                                partir de l’année académique 2004-2005 selon le décret du 31 mars 2004 définissant l’enseignement supérieur, 
+                                favorisant son intégration à l’espace européen de l’enseignement supérieur et refinançant les universités.
+                                <div class="alert alert-danger" role="alert">
+                                    Mme TWYFFELS : Si possible, ajouter le tableau illustrant l'ancien système
+                                </div>
+                                L'étudiant-e a terminé son cursus dans le système établi en application du décret du 7 novembre 2013. 
+                                <img src="http://www.enseignement.be/upload/pics/000000000004/000000002844_20150505104556_l.jpg"/>
+                            /div>
+                            
                         </div>
                     </div>
                 </div>
