@@ -43,6 +43,7 @@
             <field name="arch" type="xml">
                 <form string="Timesheet Report PDF">
                     <group col="4">
+                        <field name="partner_ids" widget="many2many_tags"/>
                         <field name="date_from"/>
                         <field name="date_to" />
                     </group>
