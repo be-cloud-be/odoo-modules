@@ -43,8 +43,8 @@
             <field name="arch" type="xml">
                 <form string="Timesheet Report PDF">
                     <group col="4">
-                        <field name="from_date"/>
-                        <field name="to_date" />
+                        <field name="date_from"/>
+                        <field name="date_to" />
                     </group>
                     <footer>
                         <button name="print_report" string="Print" type="object" default_focus="1" class="oe_highlight" /> or
