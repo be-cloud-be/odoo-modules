@@ -108,7 +108,7 @@
                             </div>
                             <div class="col-xs-4">
                                 <strong>Imprimé le :</strong>
-                                <p t-esc="datetime.datetime.now().strftime('%d-%m-%Y')"/>
+                                <p t-esc="time.strftime('%d-%m-%Y')"/>
                             </div>
                         </div>
                     </div>
