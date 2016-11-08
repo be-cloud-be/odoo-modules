@@ -46,11 +46,11 @@ class AccountTimesheetReport(models.AbstractModel):
         for analytic_line in analytic_lines:
             lines.append({
                 'id' : analytic_line.id,
-                'name' : analytic_line.partner_id,
+                'name' : analytic_line.partner_id.name,
                 'type' : 'partner_id',
                 'footnotes': {},
                 'unfoldable' : False,
-                'columns' : [analytic_line.unit_amount],
+                'columns' : [analytic_line.date, analytic_line.unit_amount],
                 'level' : 0,
             })
         return lines
@@ -80,11 +80,11 @@ class AccountReportContextTimesheet(models.TransientModel):
         return self.env['account.timesheet.report']
 
     def get_columns_names(self):
-        return ['Hours']
+        return ['Date','Hours']
 
     @api.multi
     def get_columns_types(self):
-        return ['number']
+        return ['date','number']
 
 class AccountReportContextCommon(models.TransientModel):
     _inherit = "account.report.context.common"
