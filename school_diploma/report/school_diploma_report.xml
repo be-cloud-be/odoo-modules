@@ -33,24 +33,25 @@
             model="school.individual_program" 
             string="Cycle Diploma" 
             report_type="qweb-pdf" 
-            name="school_diploma.report_diploma_for_student_content" 
-            file="school_diploma.report_diploma_for_student_content"
+            name="school_diploma.report_diploma_content" 
+            file="school_diploma.report_diploma_content"
             attachment_use="True"
             attachment="object.name+'-DIP-'+time.strftime('%d-%m-%Y')+'.pdf'"
     />
     
-    <template id="report_diploma_for_student_content">
+    <template id="report_diploma_content">
         <t t-call="report.html_container">
             <t t-set="data_report_margin_top" t-value="30"/>
             <t t-set="data_report_header_spacing" t-value="25"/>
             <t t-foreach="docs" t-as="o">
                 <div class="page">
+                    <t t-raw="locale.setlocale(locale.LC_ALL, 'fr_BE')"/>
                     <div class="container">
                         <div class="row" style="margin-bottom:30px;">
                             <div class="col-xs-12 text-center">
                                 <h3>COMMUNAUTÉ FRANÇAISE DE BELGIQUE<br/>
                                     Enseignement supérieur de plein exercice de type <span t-field="o.cycle_id.type"/></h3>
-                                <h3>Conservatoire royal de Liège<br/>Boulevard Piercot, 29, 4000 LIÈGE</h3>
+                                <h3>Conservatoire royal de Liège<br/>Ecole supérieure des Arts<br/>Boulevard Piercot, 29, 4000 LIÈGE</h3>
                                 <h4>Domaine : <span t-field="o.domain_id.long_name"/></h4>
                             </div>
                         </div>
@@ -66,12 +67,12 @@
                         </div>
                         <div class="row"  style="margin-top:60px;">
                             <div class="col-xs-12 text-center">
-                                <t t-if="o.student_id.gender == 'male'">Monsieur</t><t t-if="o.student_id.gender == 'female'">Madame</t> <span t-field="o.student_id"/> <span t-field="o.student_id.initials"/><br/>
-                                né<t t-if="o.student_id.gender == 'female'">e</t> à <span t-field="o.student_id.birthplace"/> le <span t-field="o.student_id.birthdate_date"/>
+                                <span t-field="o.student_id.firstname"/> <span t-field="o.student_id.initials"/> <span t-field="o.student_id.lastname"/> <br/>
+                                né<t t-if="o.student_id.gender == 'female'">e</t> à <span t-field="o.student_id.birthplace"/> le <span t-esc="time.strftime('%-d %B %Y',time.strptime(o.student_id.birthdate_date,'%Y-%m-%d'))"/>
                                 <br/>
                                 a obtenu en l’année académique <span t-field="o.grade_year_id"/><br/>
-                                le grade académique de <span t-field="o.cycle_id.grade"/> en <span t-field="o.domain_id"/> option <span t-field="o.speciality_id"/> 
-                                <t t-if="o.grade == 'without'"><span t-field="o.grade"/></t><t t-if="o.grade != 'without'"> avec <span t-field="o.grade"/></t>
+                                le grade académique de <span t-field="o.cycle_id.grade"/> en <span t-field="o.domain_id.long_name"/> : <span t-field="o.speciality_id"/> 
+                                <t t-if="o.grade == 'without'"><span t-field="o.grade"/></t><t t-if="o.grade != 'without'"> <br/> avec <span t-field="o.grade"/></t>
                             </div>
                         </div>
                         <div class="row"  style="margin-top:60px;">
@@ -82,10 +83,10 @@
                         </div>
                         <div class="row" style="margin-top:60px;">
                             <div class="col-xs-6">
-                                Le/La Président-e du jury
+                                Le Président du jury
                             </div>
                             <div class="col-xs-6">
-                                Le/La Secrétaire du jury
+                                Le Secrétaire du jury
                             </div>
                         </div>
                         <div class="row" style="margin-top:120px;">
@@ -93,12 +94,12 @@
                                 Le titulaire
                             </div>
                             <div class="col-xs-6">
-                                L’/Les autorité(s) académique(s)
+                                L’ autorité académique
                             </div>
                         </div>
                         <div class="row" style="margin-top:150px;">
                             <div class="col-xs-12 small">
-                                Un supplément est annexé au présent diplôme. Il atteste notamment la liste des enseignements du programme d’études suivi par l’étudiant-e, 
+                                Un supplément est annexé au présent diplôme. Il atteste notamment la liste des enseignements du programme d’études suivi par l’étudiant<t t-if="o.student_id.gender == 'female'">e</t>, 
                                 les conditions d’accès aux études et les évaluations sanctionnées par le grade académique conféré.
                             </div>
                         </div>
@@ -136,7 +137,7 @@
                                 <img src="/school_diploma/static/src/images/europass.png"/>
                                 <h3>COMMUNAUTÉ FRANÇAISE DE BELGIQUE<br/>
                                     Enseignement supérieur de plein exercice de type <span t-field="o.cycle_id.type"/></h3>
-                                <h3>Conservatoire royal de Liège<br/>Boulevard Piercot, 29, 4000 LIÈGE</h3>
+                                <h3>Conservatoire royal de Liège<br/>Ecole supérieure des Arts<br/>Boulevard Piercot, 29, 4000 LIÈGE</h3>
                                 <h4>Domaine : <span t-field="o.domain_id.long_name"/></h4>
                             </div>
                         </div>
