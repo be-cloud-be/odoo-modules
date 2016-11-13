@@ -187,6 +187,7 @@ odoo.define('document_gdrive.menu_item', function(require) {
             gapi = {};
             google = {};
             googleapis = {};
+            this._super();
         },
         
     });
