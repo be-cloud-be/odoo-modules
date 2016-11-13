@@ -75,7 +75,7 @@ odoo.define('document_gdrive.menu_item', function(require) {
                 else {
                     console.log("Cannot access parameter 'document.gdrive.client.id' check your configuration");
                 }
-            });
+            }.bind( self ));
         },
         
         openPicker: function() {
