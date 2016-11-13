@@ -3,6 +3,11 @@
 //# Copyright 2016 Sodexis
 //# License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
 
+var odoo;
+var openerp;
+var gapi;
+var google;
+
 odoo.define('document_gdrive.menu_item', function(require) {
     "use strict";
 
@@ -12,7 +17,7 @@ odoo.define('document_gdrive.menu_item', function(require) {
     var Dialog = require('web.Dialog');
     var ActionManager = require('web.ActionManager');
     var session = require('web.session');
-    
+
     var _t = core._t;
     var QWeb = core.qweb;
 
@@ -22,10 +27,6 @@ odoo.define('document_gdrive.menu_item', function(require) {
 
         on_gdrive_doc: function() {
             var self = this;
-            var view = self.getParent();
-            var ids = (view.fields_view.type != "form") ? view.groups.get_selection().ids : [view.datarecord.id];
-            var context = this.session.user_context;
-            var callback = this.pickerCallback;
 
             if(odoo.gdrive_oauthToken){
                 // We are good to go...
@@ -140,6 +141,11 @@ odoo.define('document_gdrive.menu_item', function(require) {
         },
 
         openPicker: function() {
+            var self = this;
+            var callback = this.pickerCallback;
+            var view = self.getParent();
+            var ids = (view.fields_view.type != "form") ? view.groups.get_selection().ids : [view.datarecord.id];
+            var context = this.session.user_context;
             var P = new Model('ir.config_parameter');
             P.call('get_param', ['document.gdrive.upload.dir']).then(function(dir) {
                 if (odoo.gdrive_oauthToken) {
