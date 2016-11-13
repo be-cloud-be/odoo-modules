@@ -40,14 +40,13 @@ odoo.define('document_gdrive.menu_item', function(require) {
                             var user = result[0];
                             odoo.gdrive_oauthToken = user.oauth_access_token;
                             console.log('We will try to use the existing token :'+odoo.gdrive_oauthToken);
-                            gapi.load('client:auth:picker', this.onAuthApiLoadWithToken);
+                            gapi.load('client:auth:picker', self.onAuthApiLoadWithToken);
                         } else {
-                            gapi.load('client:auth:picker', this.onAuthApiLoad);
+                            gapi.load('client:auth:picker', self.onAuthApiLoad);
                         }
                     });
                 } catch(err) {
                     console.log(err);
-                    gapi.load('client:auth:picker', this.onAuthApiLoad);
                 }
             }
         },
