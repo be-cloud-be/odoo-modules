@@ -19,27 +19,38 @@ odoo.define('document_gdrive.menu_item', function(require) {
     var scope = ['profile https://www.googleapis.com/auth/drive'];
 
     Sidebar.include({
-        start: function() {
-            this._super.apply(this, arguments);
-            
-            // Get Server-Side token if available
-            try {
-                if(!odoo.gdrive_oauthToken){
+
+        on_gdrive_doc: function() {
+            var self = this;
+            var view = self.getParent();
+            var ids = (view.fields_view.type != "form") ? view.groups.get_selection().ids : [view.datarecord.id];
+            var context = this.session.user_context;
+            var callback = this.pickerCallback;
+
+            if(odoo.gdrive_oauthToken){
+                // We are good to go...
+                openPicker();
+            } else {
+                // Else we need to authenticate
+                // Get Server-Side token if available
+                try {
                     new Model("res.users").call("read", [[session.uid], ["oauth_access_token"]]).done(function(result) {
-                        var user = result[0];
-                        odoo.gdrive_oauthToken = user.oauth_access_token;
-                        console.log('We will try to use the token :'+odoo.gdrive_oauthToken);
-                        gapi.load('client:auth:picker', this.onAuthApiLoadWithToken);
+                        if(results){
+                            var user = result[0];
+                            odoo.gdrive_oauthToken = user.oauth_access_token;
+                            console.log('We will try to use the existing token :'+odoo.gdrive_oauthToken);
+                            gapi.load('client:auth:picker', this.onAuthApiLoadWithToken);
+                        } else {
+                            gapi.load('client:auth:picker', this.onAuthApiLoad);
+                        }
                     });
-                } else {
-                    gapi.load('client:auth:picker', this.onAuthApiLoadWithToken);
+                } catch(err) {
+                    console.log(err);
+                    gapi.load('client:auth:picker', this.onAuthApiLoad);
                 }
-            } catch(err) {
-                console.log(err);
-                gapi.load('client:auth:picker', this.onAuthApiLoad);
             }
         },
-        
+
         onAuthApiLoad: function() {
             var P = new Model('ir.config_parameter');
             P.call('get_param', ['document.gdrive.client.id']).then(function(id) {
@@ -84,10 +95,8 @@ odoo.define('document_gdrive.menu_item', function(require) {
                 if (id) {
                     var clientId = id;
                     gapi.client.init({
-                        apiKey: 'AIzaSyCzAPoPFkrcsjjNhIXSYKnhsak5dVeX7J0',
                         discoveryDocs: ["https://www.googleapis.com/discovery/v1/apis/drive/v2/rest"],
                         clientId: clientId,
-                        scope: scope,
                     }).then(function () {
                         gapi.auth.setToken(odoo.gdrive_oauthToken);
                         gapi.auth.authorize({
@@ -122,6 +131,32 @@ odoo.define('document_gdrive.menu_item', function(require) {
                     console.log("Cannot access parameter 'document.gdrive.client.id' check your configuration");
                 }
             });
+        },
+
+        openPicker: function() {
+            var P = new Model('ir.config_parameter');
+            P.call('get_param', ['document.gdrive.upload.dir']).then(function(dir) {
+                if (odoo.gdrive_oauthToken) {
+                    var origin = window.location.protocol + '//' + window.location.host;
+                    var picker = new google.picker.PickerBuilder().
+                    addView(google.picker.ViewId.DOCS).
+                    addView(google.picker.ViewId.RECENTLY_PICKED).
+                    enableFeature(google.picker.Feature.MULTISELECT_ENABLED).
+                    addView(new google.picker.DocsUploadView().setParent(dir)).
+                    setOAuthToken(odoo.gdrive_oauthToken).
+                    setLocale('en'). // TODO set local of the user
+                    setCallback(callback).
+                    setOrigin(origin).
+                    build();
+                    picker.context = new openerp.web.CompoundContext(context, {
+                        'active_ids': ids,
+                        'active_id': [ids[0]],
+                        'active_model': view.dataset.model,
+                    });
+                    picker.view = view;
+                    picker.setVisible(true);
+                }
+            }).fail(this.on_select_file_error);    
         },
 
         redraw: function() {
@@ -171,38 +206,6 @@ odoo.define('document_gdrive.menu_item', function(require) {
                     } // TODO Check why this API changed in saas-6 ??
                 });
             }
-        },
-
-        on_gdrive_doc: function() {
-            var self = this;
-            var view = self.getParent();
-            var ids = (view.fields_view.type != "form") ? view.groups.get_selection().ids : [view.datarecord.id];
-            var context = this.session.user_context;
-            var callback = this.pickerCallback;
-
-            var P = new Model('ir.config_parameter');
-            P.call('get_param', ['document.gdrive.upload.dir']).then(function(dir) {
-                if (odoo.gdrive_oauthToken) {
-                    var origin = window.location.protocol + '//' + window.location.host;
-                    var picker = new google.picker.PickerBuilder().
-                    addView(google.picker.ViewId.DOCS).
-                    addView(google.picker.ViewId.RECENTLY_PICKED).
-                    enableFeature(google.picker.Feature.MULTISELECT_ENABLED).
-                    addView(new google.picker.DocsUploadView().setParent(dir)).
-                    setOAuthToken(odoo.gdrive_oauthToken).
-                    setLocale('en'). // TODO set local of the user
-                    setCallback(callback).
-                    setOrigin(origin).
-                    build();
-                    picker.context = new openerp.web.CompoundContext(context, {
-                        'active_ids': ids,
-                        'active_id': [ids[0]],
-                        'active_model': view.dataset.model,
-                    });
-                    picker.view = view;
-                    picker.setVisible(true);
-                }
-            }).fail(this.on_select_file_error);
         },
 
         on_select_file_error: function(response) {
