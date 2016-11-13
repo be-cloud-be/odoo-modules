@@ -29,7 +29,7 @@ odoo.define('document_gdrive.menu_item', function(require) {
             } else {
                 odoo.gdrive = {};
                 try {
-                    gapi.load('client:auth:picker', this.onAuthApiLoad);
+                    gapi.load('client:auth:picker', this.onAuthApiLoad.bind(self));
                 }
                 catch(err) {
                     console.log(err);
