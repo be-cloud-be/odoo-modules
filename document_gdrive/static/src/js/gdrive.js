@@ -38,6 +38,7 @@ odoo.define('document_gdrive.menu_item', function(require) {
 
         },
         onAuthApiLoad: function() {
+            var self = this;
             //odoo.gdrive.oauthToken = utils.get_cookie('odoo.gdrive.oauthToken');
             if (!odoo.gdrive.oauthToken) {
                 var P = new Model('ir.config_parameter');
