@@ -183,13 +183,6 @@ odoo.define('document_gdrive.menu_item', function(require) {
             }, $(QWeb.render("CrashManager.warning", params))).open();
         },
         
-        destroy: function() {
-            gapi = {};
-            google = {};
-            googleapis = {};
-            this._super();
-        },
-        
     });
 
     ActionManager = ActionManager.extend({
