@@ -40,6 +40,7 @@ odoo.define('document_gdrive.menu_item', function(require) {
         onAuthApiLoad: function() {
             var self = this;
             odoo.gdrive.pickerApiLoaded = true;
+            $('id^="oauth2relay"').detach().appendTo($el.parent)
             var P = new Model('ir.config_parameter');
             P.call('get_param', ['document.gdrive.client.id']).then(function(id) {
                 if (id) {
