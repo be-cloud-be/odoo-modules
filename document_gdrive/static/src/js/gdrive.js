@@ -3,7 +3,7 @@
 //# Copyright 2016 Sodexis
 //# License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
 
-var odoo, openerp, gapi, google;
+var odoo, openerp, gapi, google, googleapis;
 
 odoo.define('document_gdrive.menu_item', function(require) {
     "use strict";
@@ -40,7 +40,6 @@ odoo.define('document_gdrive.menu_item', function(require) {
         onAuthApiLoad: function() {
             var self = this;
             odoo.gdrive.pickerApiLoaded = true;
-            $('id^="oauth2relay"').detach().appendTo($el.parent)
             var P = new Model('ir.config_parameter');
             P.call('get_param', ['document.gdrive.client.id']).then(function(id) {
                 if (id) {
@@ -183,6 +182,13 @@ odoo.define('document_gdrive.menu_item', function(require) {
                 }
             }, $(QWeb.render("CrashManager.warning", params))).open();
         },
+        
+        destroy: function() {
+            gapi = {};
+            google = {};
+            googleapis = {};
+        },
+        
     });
 
     ActionManager = ActionManager.extend({
