@@ -23,7 +23,6 @@ odoo.define('document_gdrive.menu_item', function(require) {
     Sidebar.include({
 
         on_gdrive_doc: function() {
-            debugger;
             var self = this;
             if(odoo.gdrive && odoo.gdrive.oauthToken) {
                 self.openPicker();
@@ -39,7 +38,6 @@ odoo.define('document_gdrive.menu_item', function(require) {
         },
         
         onAuthApiLoad: function() {
-            debugger;
             var self = this;
             odoo.gdrive.pickerApiLoaded = true;
             var P = new Model('ir.config_parameter');
@@ -183,6 +181,13 @@ odoo.define('document_gdrive.menu_item', function(require) {
                     }
                 }
             }, $(QWeb.render("CrashManager.warning", params))).open();
+        },
+        
+        destroy: function(){
+            google = {};
+            googleapis = {};
+            odoo = {};
+            openerp = {};
         },
         
     });
