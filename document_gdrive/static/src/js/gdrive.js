@@ -3,6 +3,8 @@
 //# Copyright 2016 Sodexis
 //# License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
 
+var odoo, openerp, gapi, google;
+
 odoo.define('document_gdrive.menu_item', function(require) {
     "use strict";
 
@@ -21,65 +23,99 @@ odoo.define('document_gdrive.menu_item', function(require) {
     Sidebar.include({
         init: function() {
             this._super.apply(this, arguments);
-            odoo.gdrive = {};
-            try {
-                gapi.load('auth', {
-                    'callback': this.onAuthApiLoad
-                });
-                gapi.load('picker', {
-                    'callback': function() {
-                        odoo.gdrive.pickerApiLoaded = true;
-                    }
-                });
-            }
-            catch(err) {
-                console.log(err);
-            }
+            
 
         },
         
-        onAuthApiLoad: function() {
-            //odoo.gdrive.oauthToken = utils.get_cookie('odoo.gdrive.oauthToken');
-            if (!odoo.gdrive.oauthToken) {
-                var P = new Model('ir.config_parameter');
-                P.call('get_param', ['document.gdrive.client.id']).then(function(id) {
-                    if (id) {
-                        var clientId = id;
-                        window.gapi.auth.authorize({
-                                'client_id': clientId,
-                                'scope': scope,
-                                'immediate': true,
-                                'include_granted_scopes': true
-                            },
-                            function(authResult) {
-                                if (authResult && !authResult.error) {
-                                    odoo.gdrive.oauthToken = authResult.access_token
-                                    //utils.set_cookie('odoo.gdrive.oauthToken',odoo.gdrive.oauthToken,24*60*60*365);
-                                }
-                                else {
-                                    gapi.auth.authorize({
-                                        client_id: clientId,
-                                        scope: scope,
-                                        immediate: false
-                                    }, function(authResult) {
-                                        if (authResult && !authResult.error) {
-                                            odoo.gdrive.oauthToken = authResult.access_token;
-                                            //utils.set_cookie('odoo.gdrive.oauthToken',odoo.gdrive.oauthToken,24*60*60*365);
-                                        }
-                                        else {
-                                            alert("Cannot get authorization token for Google Drive: " + authResult.error_subtype + " - " + authResult.error);
-                                        }
-                                    });
-                                }
-                            });
-                    }
-                    else {
-                        console.log("Cannot access parameter 'document.gdrive.client.id' check your configuration");
-                    }
-                });
+        on_gdrive_doc: function() {
+            var self = this;
+            if(odoo.gdrive.oauthToken) {
+                self.openPicker();
+            } else {
+                odoo.gdrive = {};
+                try {
+                    gapi.load('client:auth:picker', this.onAuthApiLoad);
+                }
+                catch(err) {
+                    console.log(err);
+                }       
             }
         },
+        
+        onAuthApiLoad: function() {
+            odoo.gdrive.pickerApiLoaded = true;
+            var P = new Model('ir.config_parameter');
+            P.call('get_param', ['document.gdrive.client.id']).then(function(id) {
+                if (id) {
+                    var clientId = id;
+                    window.gapi.auth.authorize({
+                            'client_id': clientId,
+                            'scope': scope,
+                            'immediate': true,
+                            'include_granted_scopes': true
+                        },
+                        function(authResult) {
+                            if (authResult && !authResult.error) {
+                                odoo.gdrive.oauthToken = authResult.access_token
+                            }
+                            else {
+                                gapi.auth.authorize({
+                                    client_id: clientId,
+                                    scope: scope,
+                                    immediate: false
+                                }, function(authResult) {
+                                    if (authResult && !authResult.error) {
+                                        odoo.gdrive.oauthToken = authResult.access_token;
+                                    }
+                                    else {
+                                        alert("Cannot get authorization token for Google Drive: " + authResult.error_subtype + " - " + authResult.error);
+                                    }
+                                });
+                            }
+                        });
+                }
+                else {
+                    console.log("Cannot access parameter 'document.gdrive.client.id' check your configuration");
+                }
+            });
+        },
+        
+        openPicker: function() {
+            var self = this;
+            var view = self.getParent();
+            var ids = (view.fields_view.type != "form") ? view.groups.get_selection().ids : [view.datarecord.id];
+            var context = this.session.user_context;
+            var callback = this.pickerCallback;
 
+            if(!odoo.gdrive.oauthToken) {
+                this.onAuthApiLoad()
+            }
+
+            var P = new Model('ir.config_parameter');
+            P.call('get_param', ['document.gdrive.upload.dir']).then(function(dir) {
+                if (odoo.gdrive.pickerApiLoaded && odoo.gdrive.oauthToken) {
+                    var origin = window.location.protocol + '//' + window.location.host;
+                    var picker = new google.picker.PickerBuilder().
+                    addView(google.picker.ViewId.DOCS).
+                    addView(google.picker.ViewId.RECENTLY_PICKED).
+                    enableFeature(google.picker.Feature.MULTISELECT_ENABLED).
+                    addView(new google.picker.DocsUploadView().setParent(dir)).
+                    setOAuthToken(odoo.gdrive.oauthToken).
+                    setLocale('en'). // TODO set local of the user
+                    setCallback(callback).
+                    setOrigin(origin).
+                    build();
+                    picker.context = new openerp.web.CompoundContext(context, {
+                        'active_ids': ids,
+                        'active_id': [ids[0]],
+                        'active_model': view.dataset.model,
+                    });
+                    picker.view = view;
+                    picker.setVisible(true);
+                }
+            }).fail(this.on_select_file_error);
+        },
+        
         redraw: function() {
             var self = this;
             this._super.apply(this, arguments);
@@ -127,42 +163,6 @@ odoo.define('document_gdrive.menu_item', function(require) {
                     } // TODO Check why this API changed in saas-6 ??
                 });
             }
-        },
-
-        on_gdrive_doc: function() {
-            var self = this;
-            var view = self.getParent();
-            var ids = (view.fields_view.type != "form") ? view.groups.get_selection().ids : [view.datarecord.id];
-            var context = this.session.user_context;
-            var callback = this.pickerCallback;
-
-            if(!odoo.gdrive.oauthToken) {
-                this.onAuthApiLoad()
-            }
-
-            var P = new Model('ir.config_parameter');
-            P.call('get_param', ['document.gdrive.upload.dir']).then(function(dir) {
-                if (odoo.gdrive.pickerApiLoaded && odoo.gdrive.oauthToken) {
-                    var origin = window.location.protocol + '//' + window.location.host;
-                    var picker = new google.picker.PickerBuilder().
-                    addView(google.picker.ViewId.DOCS).
-                    addView(google.picker.ViewId.RECENTLY_PICKED).
-                    enableFeature(google.picker.Feature.MULTISELECT_ENABLED).
-                    addView(new google.picker.DocsUploadView().setParent(dir)).
-                    setOAuthToken(odoo.gdrive.oauthToken).
-                    setLocale('en'). // TODO set local of the user
-                    setCallback(callback).
-                    setOrigin(origin).
-                    build();
-                    picker.context = new openerp.web.CompoundContext(context, {
-                        'active_ids': ids,
-                        'active_id': [ids[0]],
-                        'active_model': view.dataset.model,
-                    });
-                    picker.view = view;
-                    picker.setVisible(true);
-                }
-            }).fail(this.on_select_file_error);
         },
 
         on_select_file_error: function(response) {
