@@ -68,9 +68,9 @@ odoo.define('document_gdrive.menu_item', function(require) {
                                     else {
                                         alert("Cannot get authorization token for Google Drive: " + authResult.error_subtype + " - " + authResult.error);
                                     }
-                                });
+                                }.bind( self ));
                             }
-                        });
+                        }.bind( self ));
                 }
                 else {
                     console.log("Cannot access parameter 'document.gdrive.client.id' check your configuration");
