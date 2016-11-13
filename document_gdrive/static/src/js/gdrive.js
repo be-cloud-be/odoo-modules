@@ -102,6 +102,37 @@ odoo.define('document_gdrive.menu_item', function(require) {
             }
         },
 
+        openPicker: function() {
+            var self = this;
+            var callback = this.pickerCallback;
+            var view = self.getParent();
+            var ids = (view.fields_view.type != "form") ? view.groups.get_selection().ids : [view.datarecord.id];
+            var context = this.session.user_context;
+            var P = new Model('ir.config_parameter');
+            P.call('get_param', ['document.gdrive.upload.dir']).then(function(dir) {
+                if (odoo.gdrive_oauthToken) {
+                    var origin = window.location.protocol + '//' + window.location.host;
+                    var picker = new google.picker.PickerBuilder().
+                    addView(google.picker.ViewId.DOCS).
+                    addView(google.picker.ViewId.RECENTLY_PICKED).
+                    enableFeature(google.picker.Feature.MULTISELECT_ENABLED).
+                    addView(new google.picker.DocsUploadView().setParent(dir)).
+                    setOAuthToken(odoo.gdrive_oauthToken).
+                    setLocale('en'). // TODO set local of the user
+                    setCallback(callback).
+                    setOrigin(origin).
+                    build();
+                    picker.context = new openerp.web.CompoundContext(context, {
+                        'active_ids': ids,
+                        'active_id': [ids[0]],
+                        'active_model': view.dataset.model,
+                    });
+                    picker.view = view;
+                    picker.setVisible(true);
+                }
+            }).fail(this.on_select_file_error);    
+        },
+
         redraw: function() {
             var self = this;
             this._super.apply(this, arguments);
