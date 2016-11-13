@@ -35,7 +35,7 @@ odoo.define('document_gdrive.menu_item', function(require) {
                 // Get Server-Side token if available
                 try {
                     new Model("res.users").call("read", [[session.uid], ["oauth_access_token"]]).done(function(result) {
-                        if(results){
+                        if(result){
                             var user = result[0];
                             odoo.gdrive_oauthToken = user.oauth_access_token;
                             console.log('We will try to use the existing token :'+odoo.gdrive_oauthToken);
