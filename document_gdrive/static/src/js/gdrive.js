@@ -186,8 +186,7 @@ odoo.define('document_gdrive.menu_item', function(require) {
         destroy: function(){
             google = {};
             googleapis = {};
-            odoo = {};
-            openerp = {};
+            gapi = {};
         },
         
     });
