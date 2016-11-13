@@ -64,7 +64,8 @@ odoo.define('document_gdrive.menu_item', function(require) {
                         },
                         function(authResult) {
                             if (authResult && !authResult.error) {
-                                odoo.gdrive_oauthToken = authResult.access_token
+                                odoo.gdrive_oauthToken = authResult.access_token;
+                                openPicker();
                             }
                             else {
                                 gapi.auth.authorize({
@@ -74,7 +75,8 @@ odoo.define('document_gdrive.menu_item', function(require) {
                                     'include_granted_scopes' : true,
                                 }, function(authResult) {
                                     if (authResult && !authResult.error) {
-                                        odoo.gdrive_oauthToken = authResult.access_token
+                                        odoo.gdrive_oauthToken = authResult.access_token;
+                                        openPicker();
                                     }
                                     else {
                                         alert("Cannot get authorization token for Google Drive: " + authResult.error_subtype + " - " + authResult.error);
@@ -107,7 +109,8 @@ odoo.define('document_gdrive.menu_item', function(require) {
                             },
                             function(authResult) {
                                 if (authResult && !authResult.error) {
-                                    odoo.gdrive_oauthToken = authResult.access_token
+                                    odoo.gdrive_oauthToken = authResult.access_token;
+                                    openPicker();
                                 }
                                 else {
                                     gapi.auth.authorize({
@@ -118,6 +121,7 @@ odoo.define('document_gdrive.menu_item', function(require) {
                                     }, function(authResult) {
                                         if (authResult && !authResult.error) {
                                             odoo.gdrive_oauthToken = authResult.access_token;
+                                            openPicker();
                                         }
                                         else {
                                             alert("Cannot get authorization token for Google Drive: " + authResult.error_subtype + " - " + authResult.error);
