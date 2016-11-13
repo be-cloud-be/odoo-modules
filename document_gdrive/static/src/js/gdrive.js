@@ -24,7 +24,7 @@ odoo.define('document_gdrive.menu_item', function(require) {
 
         on_gdrive_doc: function() {
             var self = this;
-            if(odoo.gdrive.oauthToken) {
+            if(odoo.gdrive && odoo.gdrive.oauthToken) {
                 self.openPicker();
             } else {
                 odoo.gdrive = {};
