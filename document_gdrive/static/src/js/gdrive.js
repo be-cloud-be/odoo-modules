@@ -45,32 +45,55 @@ odoo.define('document_gdrive.menu_item', function(require) {
                     if (id) {
                         var clientId = id;
                         window.gapi.auth.authorize({
-                                'client_id': clientId,
-                                'scope': scope,
-                                'immediate': true,
-                                'include_granted_scopes': true
-                            },
-                            function(authResult) {
-                                if (authResult && !authResult.error) {
-                                    odoo.gdrive.oauthToken = authResult.access_token
-                                    //utils.set_cookie('odoo.gdrive.oauthToken',odoo.gdrive.oauthToken,24*60*60*365);
-                                }
-                                else {
-                                    gapi.auth.authorize({
-                                        client_id: clientId,
-                                        scope: scope,
-                                        immediate: false
-                                    }, function(authResult) {
-                                        if (authResult && !authResult.error) {
-                                            odoo.gdrive.oauthToken = authResult.access_token;
-                                            //utils.set_cookie('odoo.gdrive.oauthToken',odoo.gdrive.oauthToken,24*60*60*365);
-                                        }
-                                        else {
-                                            alert("Cannot get authorization token for Google Drive: " + authResult.error_subtype + " - " + authResult.error);
-                                        }
-                                    });
-                                }
-                            });
+                            'client_id': clientId,
+                            'scope': scope,
+                            'immediate': true,
+                            'include_granted_scopes': true
+                        },
+                        function(authResult) {
+                            if (authResult && !authResult.error) {
+                                odoo.gdrive_oauthToken = authResult.access_token;
+                                self.openPicker();
+                            }
+                            else {
+                                var interval = setInterval(function() {
+                                    var $ifr = $('[id^=oauth2relay]');
+                                    if (!window._windows.length) {
+                                      clearInterval(interval);
+                                      return;
+                                    }
+                                    if ($ifr.length) {
+                                      clearInterval(interval);
+                                      $ifr.detach();
+                                      var w = window._windows.pop();
+                                      if (w) {
+                                        var interval2 = setInterval(function() {
+                                          if (w.closed) {
+                                            clearInterval(interval2);
+                                            $('body').append($ifr);
+                                            gapi.auth.authorize({
+                                                'client_id' : clientId,
+                                                'scope' : scope,
+                                                'immediate' : false,
+                                                'include_granted_scopes' : true,
+                                            }, function(authResult) {
+                                                if (authResult && !authResult.error) {
+                                                    odoo.gdrive_oauthToken = authResult.access_token;
+                                                    self.openPicker();
+                                                }
+                                                else {
+                                                    alert("Cannot get authorization token for Google Drive: " + authResult.error_subtype + " - " + authResult.error);
+                                                }
+                                            });
+                                          }
+                                        });
+                                      } else {                
+                                        $('body').append($ifr);
+                                      }
+                                    }
+                                },500);
+                            }
+                        });
                     }
                     else {
                         console.log("Cannot access parameter 'document.gdrive.client.id' check your configuration");
