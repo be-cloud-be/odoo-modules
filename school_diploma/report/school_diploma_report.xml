@@ -126,13 +126,13 @@
     
     <template id="report_diploma_supp_content">
         <t t-call="report.html_container">
-            <t t-set="data_report_margin_top" t-value="35"/>
+            <t t-set="data_report_margin_top" t-value="30"/>
             <t t-set="data_report_header_spacing" t-value="25"/>
             <t t-foreach="docs" t-as="o">
                 <div class="page">
                     <div class="container">
                         <div class="row">
-                            <div class="col-xs-12 text-center">
+                            <div class="col-xs-12 text-center" style="margin-top:120px;">
                                 <img src="/school_diploma/static/src/images/europass.png"/>
                                 <h3>COMMUNAUTÉ FRANÇAISE DE BELGIQUE<br/>
                                     Enseignement supérieur de plein exercice de type <span t-field="o.cycle_id.type"/></h3>
@@ -193,7 +193,7 @@
                                     Intitulé du diplôme et titre conféré / Name of qualification and title conferred :
                             </div>
                             <div class="col-xs-10 col-xs-offset-2" style="font-style: bold;">
-                                <span t-field="o.cycle_id"/> : <span t-field="o.section_id"/>
+                                <span t-field="o.cycle_id"/> : <span t-field="o.speciality_id"/>
                             </div>
                             <div class="col-xs-11 col-xs-offset-1" style="font-style: italic;margin-bottom:10px;margin-top:10px;">
                                     Principaux domaines d'études couverts par le diplôme / Main fields of study for the qualification :
