@@ -386,9 +386,7 @@
                                 L'étudiant-e a commencé son cursus dans le système progressivement d’application en Communauté française à 
                                 partir de l’année académique 2004-2005 selon le décret du 31 mars 2004 définissant l’enseignement supérieur, 
                                 favorisant son intégration à l’espace européen de l’enseignement supérieur et refinançant les universités.
-                                <div class="alert alert-danger" role="alert">
-                                    Mme TWYFFELS : Si possible, ajouter le tableau illustrant l'ancien système
-                                </div>
+                                <br/>
                                 L'étudiant-e a terminé son cursus dans le système établi en application du décret du 7 novembre 2013. 
                             </div>
                             <img src="/school_diploma/static/src/images/systeme.png" width="100%"/>
@@ -399,7 +397,7 @@
                     <div class="container">
                         <h1>Annexe 1</h1>
                         <t t-foreach="o.bloc_ids" t-as="bloc">
-                        <div class="col-xs-8 col-xs-offset-2">
+                        <div class="col-xs-10 col-xs-offset-1">
                             <table class="table table-condensed oe_school_program_table">
                                 <caption style="font-size: 100%;"><span t-field="bloc.year_id"/> - <span t-field="bloc.source_bloc_id"/><br/>                       
                                     <span style="font-style: italic;margin-bottom:10px;margin-top:10px;" t-field="bloc.state"/>
