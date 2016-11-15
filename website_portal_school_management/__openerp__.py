@@ -28,6 +28,7 @@
     'depends': [
         'web',
         'website',
+        'portal',
     ],
     'data': [
         'views/templates.xml',

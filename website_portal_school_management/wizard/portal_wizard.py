@@ -20,35 +20,36 @@
 ##############################################################################
 import logging
 
-from openerp import api, fields, models, _
+from openerp.osv import fields, osv
+from openerp.tools.translate import _
+from openerp.tools import email_split
+from openerp import SUPERUSER_ID
 from openerp.exceptions import UserError
-from openerp.tools.safe_eval import safe_eval
 
 _logger = logging.getLogger(__name__)
 
-class PortalWizard(models.TransientModel):
+class wizard(osv.osv_memory):
     _inherit = 'portal.wizard'
 
-    @api.onchange('portal_id')
-    def onchange_portal_id(self):
+    def onchange_portal_id(self, cr, uid, ids, portal_id, context=None):
         # for each partner, determine corresponding portal.wizard.user records
-        partner_ids = self.env.context.get('active_ids', [])
+        res_partner = self.pool.get('res.partner')
+        partner_ids = context and context.get('active_ids') or []
         contact_ids = set()
         user_changes = []
-        for partner in self.env['res.partner'].sudo().browse(partner_ids):
-            contact_partners = partner.child_ids or [partner]
-            for contact in contact_partners:
+        for partner in res_partner.browse(cr, SUPERUSER_ID, partner_ids, context):
+            # do not get into child_ids here
+            for contact in [partner]:
                 # make sure that each contact appears at most once in the list
-                # and that parent_id is null otherwise it uses the adresses...
-                if contact.id not in contact_ids and not contact.parent_id:
+                if contact.id not in contact_ids:
                     contact_ids.add(contact.id)
                     # default to in_portal = True
                     in_portal = True
                     if contact.user_ids:
-                        in_portal = self.portal_id in contact.user_ids[0].groups_id
+                        in_portal = portal_id in [g.id for g in contact.user_ids[0].groups_id]
                     user_changes.append((0, 0, {
                         'partner_id': contact.id,
                         'email': contact.email,
                         'in_portal': in_portal,
                     }))
-        self.user_ids = user_changes
+        return {'value': {'user_ids': user_changes}}
