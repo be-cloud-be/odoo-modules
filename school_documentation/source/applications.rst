@@ -8,3 +8,4 @@ Modules
    programmes
    evaluations
    tools
+   users
