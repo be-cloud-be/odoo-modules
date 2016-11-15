@@ -1,4 +1,4 @@
-:banner: banners/user_management.jpg
+:banner: banners/users_management.jpg
 
 ========================
 Gestion des utilisateurs
@@ -36,11 +36,50 @@ supplémentaires/Portail Etudiants*.
 L'étudiant reçoit alors un email sur sa boîte "xxxx@crlg.be" et doit suivre le
 lien pour valider son accès.
 
-Ajout d'un personnel administratif
-----------------------------------
-
-
-
 Ajout d'un enseignant
 ---------------------
 
+Les enseignants sont ajouté de manière identique aux étudiants, à l'exception du
+type d'accès au portail à sélectionner, il faut prendre l'option 
+*School Management/Enseignat Portail*.
+
+Ajout d'un personnel administratif
+----------------------------------
+
+Le personnel administratif est lui ajouté par l'administrateur au moyen du menu
+*Configuration/Utilisateurs*. La raison est un besoin de pouvoir affiner les
+droits de chaque utilisateurs alors que les autres types ont tous les mêmes 
+droits.
+
+.. tip::
+    Il faut veiller à remplir le champs *Année en cours*.
+
+Il faut impérativement remplir l'adresse "xxxx@crlg.be" dans le champs *Adresse électronique*
+ceci afin de permettre l'authentification *Google*.
+
+Dans le pannel *School Management* il convient de sélectionner au minima *employé*,
+mais également tous les groupes de fonctions que l'utilisateurs sera amené à utiliser.
+
+.. image:: users/groups.png
+
+Délibération
+    Permet l'accès à l'interface de délibération.
+    
+Inscriptions
+    Permet de modifier les programmes individuels des étudiants et ainsi gérer
+    le processus d'inscription.
+
+Gestion des programmes
+    Permet de modifier la définition des programmes, des unités d'enseignement et
+    des activités d'apprentissages.
+    
+.. tip::
+    En passant en mode *developper* via le menu *A propos/Activate developper mode*
+    il est aussi possible de retirer la possibilité de créer des contacts. Cette
+    possibilité est assignée par défaut.
+    
+Une invitation à rejoindre Horizon est automatiquement envoyée à l'utilisateur
+pour l'inviter à valider son compte et confirmer son accès.
+
+Il est possible de renvoyer une invitation à partir de ce même écran si 
+nécessaire.
