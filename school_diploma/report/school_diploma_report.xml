@@ -392,9 +392,7 @@
                             <img src="/school_diploma/static/src/images/systeme.png" width="100%"/>
                         </div>
                     </div>
-                </div>
-                <div class="page">
-                    <div class="container">
+                    <div class="container" style="page-break-before:always;">
                         <h1>Annexe 1</h1>
                         <t t-foreach="o.bloc_ids" t-as="bloc">
                         <div class="col-xs-10 col-xs-offset-1">
