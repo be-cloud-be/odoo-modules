@@ -182,56 +182,6 @@ class StudentGroup(models.Model):
             self.individual_course_ids = self.env['school.individual_course'].search([('year_id','=',self.year_id.id),('source_course_id','in',self.course_ids.ids)])
             self.participant_ids = self.individual_course_ids.mapped('student_id')
             self.participant_count = len(self.participant_ids)
-            
-    @api.model
-    def generate_all_student_course_group(self):
-        year_id = self.env.user.current_year_id
-        all_blocs = self.env['school.bloc'].search([('year_id','=',year_id.id)])
-        # We are going through all courses, of all current blocs
-        all_course_ids = set()
-        for bloc in all_blocs:
-            for course_group in bloc.course_group_ids:
-                for course in course_group.course_ids:
-                    all_course_ids.add(course.id)
-        # For each course we look for students and create the corresponding groups
-        for course_id in all_course_ids :      
-            course = self.env['school.course'].browse(course_id)
-            individual_course_ids = self.env['school.individual_course'].search([('year_id','=',year_id.id),('source_course_id','=',course.id)])
-            student_ids = individual_course_ids.mapped('student_id')
-            if len(student_ids) > 0 :
-                # Only one teacher for this course
-                if len(course.teacher_ids) == 1:
-                    old_group = self.env['school.student_group'].search([('responsible_id','=',course.teacher_ids.ids[0]),('year_id','=',year_id.id),('course_id','=',course.id)])
-                    if not old_group:
-                        new_group = self.env['school.student_group'].create({
-                            'type': 'C',
-                            'year_id': year_id.id,
-                            'course_id': course.id,
-                            'responsible_id': course.teacher_ids.ids[0],
-                            # 'student_ids' : (0, _, student_ids.ids), TODO DOES NOT WORK, WHY ??
-                        })
-                        # set all students in as only one theacher
-                        new_group.student_ids = student_ids
-                        new_group.individual_course_ids = individual_course_ids
-                # Several teachers for this course
-                elif len(course.teacher_ids) > 1:
-                    for teacher in course.teacher_ids:
-                        old_group = self.env['school.student_group'].search([('responsible_id','=',teacher.id),('year_id','=',year_id.id),('course_id','=',course.id)])
-                        if not old_group:
-                            # We create a group for each teacher
-                            new_group = self.env['school.student_group'].create({
-                                'type': 'C',
-                                'year_id': year_id.id,
-                                'course_id': course.id,
-                                'responsible_id': teacher.id,
-                            })
-                            # Try to find the group of the previous year
-                            for student_id in student_ids:
-                                previous_group = self.env['school.student_group'].search([('responsible_id','=',teacher.id),('year_id','=',year_id.previous.id),('course_id.title','=',course.title),('student_ids','=',student_id.id)])
-                                if previous_group:
-                                    # Set students that were in the previous group
-                                    new_group.student_ids = previous_group.student_ids & student_ids
-                                    break
                                 
 class Course(models.Model):
     '''Course'''
@@ -244,13 +194,36 @@ class IndividualCourse(models.Model):
     '''Individual Course'''
     _inherit = 'school.individual_course'
     
-    @api.depends('teacher_choice_id','source_course_id.teacher_ids','group_ids')
-    @api.one
-    def compute_teacher_id(self):
-        student_group = self.env['school.student_group'].search([('year_id','=',self.year_id.id),('course_ids','=',self.source_course_id.id),('participant_ids','=',self.student_id.id)])
-        if student_group:
-            self.teacher_id = student_group.responsible_id
-        else:
-            super(IndividualCourse, self).compute_teacher_id()
+    @api.multi
+    def write(self, vals):
+        res = super(IndividualCourse, self).write(vals)
+        if vals.get('teacher_id') or vals.get('teacher_choice_id'):
+            for ic in self:
+                old_group = self.env['school.student_group'].search([('year_id','=',ic.year_id.id),('course_ids','=',ic.source_course_id.id),('participant_ids','=',ic.student_id.id)])
+                # remove from old group
+                if old_group:
+                    old_group.individual_course_ids -= ic
+                    old_group.participant_ids -= ic.student_id
+                    old_group.participant_count = len(old_group.participant_ids)
+                # add into new group
+                new_group = self.env['school.student_group'].search([('year_id','=',ic.year_id.id),('course_ids','=',ic.source_course_id.id),('responsible_id','=',self.teacher_id.id)])
+                if new_group:
+                    new_group.individual_course_ids |= ic
+                    new_group.participant_ids |= ic.student_id
+                    new_group.participant_count = len(new_group.participant_ids)
+                else:
+                    new_group = self.env['school.student_group'].create({
+                        'type': 'L',
+                        'year_id': ic.year_id.id,
+                        'responsible_id': self.teacher_id.id,
+                        # 'student_ids' : (0, _, student_ids.ids), TODO DOES NOT WORK, WHY ??
+                    })
+                    # set all students in as only one theacher
+                    new_group.course_ids |= ic.source_course_id
+                    new_group.individual_course_ids |= ic
+                    new_group.participant_ids |= ic.student_id
+                    new_group.participant_count = 1
+            
+        return res
 
     group_ids = fields.Many2many('school.student_group', 'group_individual_course_rel', 'individual_course_id', 'group_id', string='Groups')
