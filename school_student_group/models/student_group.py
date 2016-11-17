@@ -190,6 +190,35 @@ class Course(models.Model):
     group_ids = fields.Many2many('school.student_group', 'group_course_rel', 'course_id', 'group_id', string='Groups')
     
     
+class IndividualBloc(models.Model):
+    '''Individual Bloc'''
+    _inherit = 'school.individual_bloc'
+    
+    group_ids = fields.One2many('school.student_group', compute='_compute_group_ids', readonly=True, copy=False)
+    group_count = fields.Integer(compute='_compute_group_ids', readonly=True)
+    
+    @api.depends('year_id','student_id')
+    @api.one
+    def _compute_group_ids(self):
+        for bloc in self:
+            bloc.group_ids = self.env['school.student_group'].search([('year_id','=',bloc.year_id.id),('participant_ids','=',bloc.student_id.id)])
+            bloc.group_count = len(bloc.group_ids)
+    
+    @api.multi
+    def action_view_group(self):
+        group_ids = self.mapped('group_ids')
+        domain = "[('id', 'in', " + str(group_ids.ids) + ")]"
+        return {
+                'name': _('Student Group'),
+                'type': 'ir.actions.act_window',
+                'view_type': 'form',
+                'view_mode': 'kanaban,tree,form',
+                'res_model': 'school.student_group',
+                'domain': domain
+        }
+        # TODO : Kanaban does not show up, why ??
+
+    
 class IndividualCourse(models.Model):
     '''Individual Course'''
     _inherit = 'school.individual_course'
