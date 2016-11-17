@@ -43,18 +43,21 @@ class LinkedGroupWizard(models.TransientModel):
         # For each course we look for students and create the corresponding groups
         for course_id in all_course_ids :
             course = self.env['school.course'].browse(course_id)
-            # Only one teacher for this course
-            if len(course.teacher_ids) == 1:
-                individual_course_ids = self.env['school.individual_course'].search([('year_id','=',self.year_id.id),('source_course_id','=',course.id)])
-                student_ids = individual_course_ids.mapped('student_id')
-                if len(student_ids) > 0 :
-                    old_group = self.env['school.student_group'].search([('responsible_id','=',course.teacher_ids.ids[0]),('year_id','=',self.year_id.id),('course_ids','=',course.id),('type','=','L')])
+            teacher_ids = self.env['school.individual_course'].read_group([('year_id','=',self.year_id.id),('source_course_id','=',course.id)], ['teacher_id'],['teacher_id'])
+            for teacher_id in teacher_ids:
+                # If a teacher is defined, orphan course are not concerned at this time
+                if teacher_id['teacher_id']:
+                    individual_course_ids = self.env['school.individual_course'].search([('year_id','=',self.year_id.id),('source_course_id','=',course.id),('teacher_id', '=', teacher_id['teacher_id'][0])])
+                    student_ids = individual_course_ids.mapped('student_id')
+                    old_group = self.env['school.student_group'].search([('responsible_id','=',teacher_id['teacher_id'][0]),('year_id','=',self.year_id.id),('course_ids','=',course.id)])
                     if not old_group:
                         new_group = self.env['school.student_group'].create({
                             'type': 'L',
                             'year_id': self.year_id.id,
-                            'responsible_id': course.teacher_ids.ids[0]
+                            'responsible_id': teacher_id['teacher_id'][0],
+                            # 'student_ids' : (0, _, student_ids.ids), TODO DOES NOT WORK, WHY ??
                         })
+                        # set all students in as only one theacher
                         new_group.course_ids |= course
                         new_group.individual_course_ids = individual_course_ids
                         new_group.participant_ids = student_ids

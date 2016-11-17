@@ -123,7 +123,7 @@
                     <field name="individual_course_ids" options="{'no_create': True, 'no_open': True}">
                       <tree string="Participants" default_order="student_id,name">
                         <field name="student_id" />
-                        <field name="name" />
+                        <field name="source_bloc_name" />
                       </tree>
                     </field>
                   </page>
