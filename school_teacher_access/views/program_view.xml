@@ -168,13 +168,28 @@
         
         <menuitem name="My Students" parent="menu_information" id="menu_student" action="action_report_school_student" sequence="40"/>
 
+        <!-- Individual Course Tree View -->
+        <record id="view_individual_course_dispense_tree" model="ir.ui.view">
+          <field name="name">school.individual_course.tree</field>
+          <field name="model">school.individual_course</field>
+          <field eval="8" name="priority" />
+          <field name="arch" type="xml">
+            <tree string="Individual Course" editable="top" create="0" colors="green:dispense" default_order="student_id">
+              <field name="year_id"/>
+              <field name="student_id" />
+              <field name="name" />
+              <field name="dispense" />
+            </tree>
+          </field>
+        </record>
+
         <record id="action_report_school_dispense" model="ir.actions.act_window">
             <field name="name">Dispenses</field>
             <field name="res_model">school.individual_course</field>
             <field name="view_type">form</field>
-            <field name="view_mode">pivot</field>
+            <field name="view_mode">tree</field>
             <field name="search_view_id" ref="school_dispense_approval.view_individual_dispense_filter" />
-            <field name="view_id" ref="school_dispense_approval.view_individual_course_dispense_pivot" />
+            <field name="view_id" ref="view_individual_course_dispense_tree" />
             <field name="domain=">[('year_sequence','=','current')]</field>
             <field name="context">{"search_default_my_current_courses":1,"search_default_dispensed":1}</field>
         </record>

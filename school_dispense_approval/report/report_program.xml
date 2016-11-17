@@ -45,6 +45,16 @@
           <field name="name" filter_domain="[('name','ilike',self)]" />
           <field name="teacher_id" filter_domain="[('teacher_id','ilike',self)]" />
           <field name="student_id" filter_domain="[('student_id','ilike',self)]" />
+           <separator/>
+          <filter name="dispensed" string="Dispensed" domain="[('dispense', '=', True)]"/>
+          <filter name="not_dispensed" string="Not Dispensed" domain="[('dispense', '=', False)]"/>
+           <separator/>
+          <filter name="bloc_1" string="Bac 1" domain="[('source_bloc_level', '=', 1)]"/>
+          <filter name="bloc_2" string="Bac 2" domain="[('source_bloc_level', '=', 2)]"/>
+          <filter name="bloc_3" string="Bac 3" domain="[('source_bloc_level', '=', 3)]"/>
+          <filter name="bloc_4" string="Master 1" domain="[('source_bloc_level', '=', 4)]"/>
+          <filter name="bloc_5" string="Master 2" domain="[('source_bloc_level', '=', 5)]"/>
+           <separator/>
           <filter name="my_courses" string="My Courses" domain="[('teacher_id.user_ids','=',uid)]" />
           <separator/>
           <filter string="Current Year" name="current" domain="[('year_sequence','=','current')]" />
