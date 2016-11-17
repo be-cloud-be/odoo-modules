@@ -190,10 +190,10 @@
                                 <small>Information identifying the qualification</small></h3>
                             </div>
                             <div class="col-xs-11 col-xs-offset-1" style="font-style: italic;margin-bottom:10px;margin-top:10px;">
-                                    Intitulé du diplôme et titre conféré / Name of qualification and title conferred :
+                                Intitulé du diplôme et titre conféré / Name of qualification and title conferred :
                             </div>
                             <div class="col-xs-10 col-xs-offset-2" style="font-style: bold;">
-                                <span t-field="o.cycle_id"/> : <span t-field="o.speciality_id"/>
+                                <span t-field="o.cycle_id"/>
                             </div>
                             <div class="col-xs-11 col-xs-offset-1" style="font-style: italic;margin-bottom:10px;margin-top:10px;">
                                     Principaux domaines d'études couverts par le diplôme / Main fields of study for the qualification :
