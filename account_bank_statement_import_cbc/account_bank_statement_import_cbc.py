@@ -38,15 +38,16 @@ class AccountBankStatementImport(models.TransientModel):
     
     attrnames  = [
         'local_account', 'rubrique',  'entity', 'local_currency', 'statement_id', 'execution_date', 'message', 'value_date',
-        'transferred_amount', 'balance', 'debit', 'credit', 'bicc_c', 'counterparty', 'counterparty_addr', 'struct_com', 'remark',
+        'transferred_amount', 'balance', 'debit', 'credit', 'counterparty_account', 'bicc_c', 'counterparty', 'counterparty_addr', 'struct_com', 'remark', 'empty',
     ]
-    
+
     def utf_8_encoder(self,unicode_csv_data):
         for line in unicode_csv_data:
             yield line.encode('utf-8')
     
     def _parse_file(self,data_file):
-        
+        import wdb
+        wdb.set_trace()        
         currency = None
         account = None
         statements = []
