@@ -38,7 +38,7 @@ class AccountBankStatementImport(models.TransientModel):
     
     attrnames  = [
         'local_account', 'rubrique',  'entity', 'local_currency', 'statement_id', 'execution_date', 'message', 'value_date',
-        'transferred_amount', 'balance', 'remark',
+        'transferred_amount', 'balance', 'debit', 'credit', 'bicc_c', 'counterparty', 'counterparty_addr', 'struct_com', 'remark',
     ]
     
     def utf_8_encoder(self,unicode_csv_data):
@@ -87,6 +87,7 @@ class AccountBankStatementImport(models.TransientModel):
                         'balance_end_real': transaction['balance'],
                         'date': transaction['execution_date'],
                         'transactions' : [],
+                        'partner_name' : transaction['counterparty'],
                     }
                     statements.append(statement)
                     currency = transaction['local_currency']
