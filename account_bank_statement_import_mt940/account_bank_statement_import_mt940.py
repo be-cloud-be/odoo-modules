@@ -74,5 +74,6 @@ class AccountBankStatementImport(models.TransientModel):
             return None, None, None
                     
         except Exception, e:
-            _logger.info(e)
-            raise UserError(_("The following problem occurred during import. The file might not be valid.\n\n %s" % e.message))
+            _logger.exception(e)
+            _logger.debug("Statement file was not recognized as a MT940 file, trying next parser", exc_info=True)
+            return super(AccountBankStatementImport, self)._parse_file(data_file)

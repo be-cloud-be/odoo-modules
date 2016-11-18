@@ -115,6 +115,7 @@ class AccountBankStatementImport(models.TransientModel):
         
         finally :
             if (len(statements) > 0) :
+                _logger.debug("Statements for %s" % account, exc_info=True)
                 return currency, account, statements
             else :
                 _logger.debug("No statement found, trying next parser", exc_info=True)
