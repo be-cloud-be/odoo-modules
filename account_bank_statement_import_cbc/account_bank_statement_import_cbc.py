@@ -46,8 +46,6 @@ class AccountBankStatementImport(models.TransientModel):
             yield line.encode('utf-8')
     
     def _parse_file(self,data_file):
-        import wdb
-        wdb.set_trace()        
         currency = None
         account = None
         statements = []
