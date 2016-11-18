@@ -19,6 +19,7 @@
 #
 ##############################################################################
 import logging
+from datetime import date
 
 from openerp import api, fields, models, _
 from openerp.exceptions import UserError
@@ -78,7 +79,7 @@ class BuildingAsset(models.Model):
     _name = 'construction.building_asset'
     _description = 'Building Asset'
     
-    name = fields.Char(string="Name")
+    _inherits = {'resource.resource': 'resource_id'}
     
     state = fields.Selection([
             ('development', 'In development'),
@@ -100,6 +101,8 @@ class BuildingAsset(models.Model):
     confirmed_lead_id = fields.Many2one('crm.lead', string='Confirmed Lead')
     candidate_lead_ids = fields.One2many('crm.lead', 'building_asset_id', string='Candidate Leads', domain=['|',('active','=',True),('active','=',False)])
     sale_order_ids = fields.One2many('sale.order', 'building_asset_id', string="Sale Orders")
+    
+    resource_id = fields.Many2one('resource.resource', 'Resource', ondelete='cascade', required=True)
     
 class SaleOrder(models.Model):
     _inherit = "sale.order"

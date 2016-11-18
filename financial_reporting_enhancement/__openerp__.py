@@ -32,7 +32,7 @@
     """,
     "author": "be-cloud.be (Jerome Sonnet)",
     "website": "http://www.be-cloud.be",
-    'depends': ['account'],
+    'depends': ['account','hr_expense'],
     'init_xml': [],
     'data': [
         'financial_reporting_enhancement.xml',
