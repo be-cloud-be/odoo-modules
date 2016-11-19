@@ -30,7 +30,32 @@ class Partner(models.Model):
     _inherit = 'res.partner'
     
     official_document_ids = fields.One2many('school.official_document', 'student_id', string="Official Documents")
-
+    official_document_count = fields.Integer(string='Missing Official Documents Count', compute="_compute_official_document_missing_count")
+    official_document_missing_count = fields.Integer(string='Missing Official Documents Count', compute="_compute_official_document_missing_count")
+    
+    @api.depends('official_document_ids','official_document_ids.is_available')
+    @api.multi
+    def _compute_official_document_missing_count(self):
+        docs_data = self.env['school.official_document'].read_group(
+            [('student_id', 'in', self.ids), ('is_available', '=', False)], ['student_id'], ['student_id'])
+        result = dict((data['student_id'][0], data['student_id_count']) for data in docs_data)
+        for partner in self:
+            partner.official_document_count = len(partner.official_document_ids)
+            partner.official_document_missing_count = result.get(partner.id, 0)
+            
+    @api.multi
+    def action_view_documents(self):
+        official_document_ids = self.mapped('official_document_ids')
+        domain = "[('id', 'in', " + str(official_document_ids.ids) + ")]"
+        return {
+                'name': _('Documents'),
+                'type': 'ir.actions.act_window',
+                'view_type': 'form',
+                'view_mode': 'tree,form',
+                'res_model': 'school.official_document',
+                'domain': domain
+        }
+            
 class OfficialDocument(models.Model):
     '''Official Document'''
     _name = 'school.official_document'

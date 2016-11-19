@@ -95,21 +95,11 @@
             <field eval="25" name="priority" />
             <field name="arch" type="xml">
                 <field name="mobile" position="after">
-                    <field name="has_paid_current_minerval" />
-                    <field name="student" />
-                    <field name="student_current_program_name" attrs="{'invisible': [('student','=',False)]}" />
+                    <field name="official_document_missing_count" />
                 </field>
-                <xpath expr="//div[@class='oe_kanban_details']//ul" position="replace">
-                    <li t-if="record.student_current_program_name.value" class="o_text_overflow">
-                        <field name="student_current_program_name" />
-                    </li>
-                </xpath>
                 <xpath expr="//div[@class='oe_kanban_partner_links']" position="inside">
-                    <t t-if="record.has_paid_current_minerval.raw_value == true">
-                        <span class="badge" attrs="{'invisible': [('student','=',False)]}"><i class="fa fa-check-square" aria-hidden="true"></i></span>
-                    </t>
-                    <t t-if="record.has_paid_current_minerval.raw_value == false">
-                        <span class="badge" attrs="{'invisible': [('student','=',False)]}"><i class="fa fa-square" aria-hidden="true"></i></span>
+                    <t t-if="record.official_document_missing_count &gt; 0">
+                        <span class="badge" attrs="{'invisible': [('official_document_missing_count','=',0)]}">Missing <field name='official_document_missing_count' /> docs</span>
                     </t>
                 </xpath>
             </field>
