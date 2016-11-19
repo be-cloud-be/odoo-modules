@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!--
+##############################################################################
+#
+#    Copyright (c) 2015 be-cloud.be
+#                       Jerome Sonnet <jerome.sonnet@be-cloud.be>
+#
+#    This program is free software: you can redistribute it and/or modify
+#    it under the terms of the GNU Affero General Public License as
+#    published by the Free Software Foundation, either version 3 of the
+#    License, or (at your option) any later version.
+#
+#    This program is distributed in the hope that it will be useful,
+#    but WITHOUT ANY WARRANTY; without even the implied warranty of
+#    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+#    GNU Affero General Public License for more details.
+#
+#    You should have received a copy of the GNU Affero General Public License
+#    along with this program.  If not, see <http://www.gnu.org/licenses/>.
+#
+##############################################################################
+-->
+
+<odoo>
+    <data>
+        <template id="assets_frontend" inherit_id="website.assets_frontend" name="Shop">
+          <xpath expr="." position="inside">
+              <script type="text/javascript" src="/website_sale_promo/static/src/js/website_sale_promo.js"></script>
+          </xpath>
+        </template>
+        
+        <template id="cart_promo_code" name="Promo Code" inherit_id="website_sale.total">
+            <xpath expr="//div[@id='order_total_untaxed']" position="before">
+                <div class="row" id="code_promo">
+                  <label class="col-md-6 col-sm-6 control-label mt8" for="name" data-toggle="tooltip" delay="0" title="Le code promotion vous permet de profiter d'une réduction de 15% sur le tarif affiché pendant 6 mois et de faire profiter votre parrain de la même réduction."><i class="fa fa-question-circle" aria-hidden="true"/> Code Promo</label>
+                  <div class="col-md-6 col-sm-6" style="font-size:80%">
+                    <input name="code_promo" type="text" class="code_promo form-control" t-att-data-website-sale-order-id="website_sale_order.id" t-att-value="int(website_sale_order.code_promo)" />
+                  </div>
+                </div>
+            </xpath>
+        </template>
+    </data>
+</odoo>

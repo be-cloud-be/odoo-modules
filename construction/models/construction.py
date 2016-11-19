@@ -19,10 +19,8 @@
 #
 ##############################################################################
 import logging
-<<<<<<< HEAD
 from datetime import date
-=======
->>>>>>> 56577596d3a4bc3c80469a86fad32cb910fcbcda
+
 
 from openerp import api, fields, models, _
 from openerp.exceptions import UserError
@@ -105,11 +103,9 @@ class BuildingAsset(models.Model):
     candidate_lead_ids = fields.One2many('crm.lead', 'building_asset_id', string='Candidate Leads', domain=['|',('active','=',True),('active','=',False)])
     sale_order_ids = fields.One2many('sale.order', 'building_asset_id', string="Sale Orders")
     
-<<<<<<< HEAD
     resource_id = fields.Many2one('resource.resource', 'Resource', ondelete='cascade', required=True)
     
-=======
->>>>>>> 56577596d3a4bc3c80469a86fad32cb910fcbcda
+
 class SaleOrder(models.Model):
     _inherit = "sale.order"
     
