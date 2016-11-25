@@ -36,7 +36,7 @@
         <t t-call="report.html_container">
             <t t-set="data_report_margin_top" t-value="30" />
             <t t-set="data_report_header_spacing" t-value="15" />
-            <t t-foreach="data" t-as="group">
+            <t t-foreach="docs" t-as="group">
                 <t t-call="report.external_layout">
                 <div class="page">
                     <div class="container">
