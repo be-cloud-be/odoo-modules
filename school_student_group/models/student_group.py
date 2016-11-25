@@ -95,8 +95,9 @@ class StudentGroup(models.Model):
 
     participant_ids = fields.Many2many('res.partner', 'school_group_participants_rel', 'group_id', 'res_partner_id', string='Participipants')
     picked_participant_ids = fields.Many2many('res.partner', 'school_group_res_partner_rel', 'group_id', 'res_partner_id', string='Picked Participipants', domain="[('type', '=', 'contact')]")
-    participant_count = fields.Integer(string="Participant Count", compute="_compute_participant_count")
+    participant_count = fields.Integer(string="Participant Count", compute="_compute_count")
     individual_course_ids = fields.Many2many('school.individual_course', 'school_group_individual_course_rel', 'group_id', 'individual_course_id', string='Individual Courses', domain="[('year_id','=',year_id)]")
+    individual_course_count = fields.Integer(string="Participant Count", compute="_compute_count")
     
     @api.onchange('type')
     def onchange_type(self):
@@ -161,9 +162,11 @@ class StudentGroup(models.Model):
             raise ValidationError(_('Cannot select Individual Courses on this type of group.'))
         self.participant_count = len(self.participant_ids)
 
-    @api.one    
-    def _compute_participant_count(self):
+    @api.one
+    @api.depends('participant_ids','individual_course_ids')
+    def _compute_count(self):
         self.participant_count = len(self.participant_ids)
+        self.individual_course_count = len(self.individual_course_ids)
 
     @api.multi
     def action_participants_list(self):
@@ -175,6 +178,20 @@ class StudentGroup(models.Model):
             'domain': [('id', 'in', self.participant_ids.ids)],
             'view_mode': 'tree',
         }
+
+    @api.multi
+    def action_result_list(self):
+        self.ensure_one()
+        view_id = self.env.ref('school_evaluations.individual_course_eval_tree_security').id
+        return {
+            'type': 'ir.actions.act_window',
+            'name': 'Results',
+            'res_model': 'school.individual_course',
+            'domain': [('id', 'in', self.individual_course_ids.ids)],
+            'view_id' : view_id,
+            'view_mode': 'tree',
+        }
+    
 
     @api.one
     def update_linked_students(self):

@@ -106,6 +106,9 @@
                   <button type="object" class="oe_stat_button" icon="fa-users" name="action_participants_list">
                     <field name="participant_count" widget="statinfo" string="Attendances"/>
                   </button>
+                  <button type="object" class="oe_stat_button" icon="fa-table" name="action_result_list" attrs="{'invisible':[('type','in',['O', 'P'])]}">
+                    <field name="individual_course_count" widget="statinfo" string="Results"/>
+                  </button>
                 </div>
                 <div class="oe_title" colspan="4">
                   <h1>
