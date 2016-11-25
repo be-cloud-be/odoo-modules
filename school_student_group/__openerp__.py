@@ -29,6 +29,7 @@
     'init_xml': [],
     'update_xml': [
         'views/student_group_view.xml',
+        'report/report_student_group.xml',
         'wizard/linked_group_wizard.xml',
         'wizard/merge_group_wizard.xml',
         'security/ir.model.access.csv',

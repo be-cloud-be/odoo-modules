@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!--
+##############################################################################
+#
+#    Copyright (c) 2015 be-cloud.be
+#                       Jerome Sonnet <jerome.sonnet@be-cloud.be>
+#
+#    This program is free software: you can redistribute it and/or modify
+#    it under the terms of the GNU Affero General Public License as
+#    published by the Free Software Foundation, either version 3 of the
+#    License, or (at your option) any later version.
+#
+#    This program is distributed in the hope that it will be useful,
+#    but WITHOUT ANY WARRANTY; without even the implied warranty of
+#    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+#    GNU Affero General Public License for more details.
+#
+#    You should have received a copy of the GNU Affero General Public License
+#    along with this program.  If not, see <http://www.gnu.org/licenses/>.
+#
+##############################################################################
+-->
+<odoo>
+    
+    <record model='ir.ui.view' id='school_student_group_merge_wizard_form'>
+        <field name='name'>school.student_group.merge.wizard.form</field>
+        <field name='model'>school.student_group.merge.wizard</field>
+        <field name='arch' type='xml'>
+            <form string='Merge Groups Wizard'>
+                <sheet>
+                    <group col="2">
+                        <field name="dst_group_id" domain="[('id', 'in', group_ids and group_ids[0] and group_ids[0][2] or False)]"/>
+                    </group>
+                    <field name="group_ids" nolabel="1">
+                        <tree string="Groups">
+                            <field name="name" />
+                            <field name="participant_count" />
+                        </tree>
+                    </field>
+                    <footer>
+                        <button name="merge_groups" string="Merge" type="object" default_focus="1" class="oe_highlight" /> or
+                        <button string="Cancel" class="btn-default" special="cancel" />
+                    </footer>
+                </sheet>
+            </form>
+        </field>
+    </record>
+    
+    <act_window id="action_student_group_merge" res_model="school.student_group.merge.wizard" src_model="school.student_group"
+        target="new" multi="True" key2="client_action_multi" view_mode="form" name="Merge Selected Groups"/>
+    
+</odoo>

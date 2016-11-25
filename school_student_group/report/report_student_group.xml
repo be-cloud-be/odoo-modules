@@ -1,0 +1,97 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!--
+##############################################################################
+#
+#    Copyright (c) 2015 be-cloud.be
+#                       Jerome Sonnet <jerome.sonnet@be-cloud.be>
+#
+#    This program is free software: you can redistribute it and/or modify
+#    it under the terms of the GNU Affero General Public License as
+#    published by the Free Software Foundation, either version 3 of the
+#    License, or (at your option) any later version.
+#
+#    This program is distributed in the hope that it will be useful,
+#    but WITHOUT ANY WARRANTY; without even the implied warranty of
+#    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+#    GNU Affero General Public License for more details.
+#
+#    You should have received a copy of the GNU Affero General Public License
+#    along with this program.  If not, see <http://www.gnu.org/licenses/>.
+#
+##############################################################################
+-->
+<odoo>
+    
+    <!-- report -->
+    <report 
+        id="report_student_group"
+        model="school.student_group"
+        string="Student Groups"
+        report_type="qweb-pdf"
+        name="school_student_group.report_student_group_content"
+        file="school_student_group.report_student_group_content"
+        />
+        
+    <template id="report_student_group_content">
+        <t t-call="report.html_container">
+            <t t-set="data_report_margin_top" t-value="30" />
+            <t t-set="data_report_header_spacing" t-value="15" />
+            <t t-foreach="data" t-as="group">
+                <t t-call="report.external_layout">
+                <div class="page">
+                    <div class="container">
+                        <div class="panel panel-default" style="page-break-before:always;">
+                            <!-- Default panel contents -->
+                            <div class="panel-heading">
+                                <h3><span t-field="group.name" /></h3>
+                            </div>
+                            <!-- Table -->
+                            <table class="table table-bordered">
+                                <thead>
+                                    <colgroup>
+                                        <col style="width:2px" />
+                                        <col style="width:10px" />
+                                        <col style="width:10px" />
+                                        <col style="width:5px" />
+                                        <col style="width:50px" />
+                                    </colgroup>
+                                    <tr>
+                                        <th>Row</th>
+                                        <th>Photo</th>
+                                        <th>Last Name</th>
+                                        <th>First Name</th>
+                                        <th>Comments</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <t t-foreach="group.participant_ids" t-as="partner">
+                                        <tr>
+                                            <td>
+                                                <span t-field="partner_count" />
+                                            </td>
+                                            <td>
+                                                <img border="1" name="image" t-att-src="partner.image_small"/>
+                                            </td>
+                                            <td>
+                                                <span t-field="partner.lastname" />
+                                            </td>
+                                            <td>
+                                                <span t-field="partner.lastname" />
+                                            </td>
+                                            <td>
+                                                <span t-field="partner.firstname" />
+                                            </td>
+                                            <td></td>
+                                        </tr>
+                                    </t>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+                </t>
+            </t>
+        </t>
+    </template>
+
+</odoo>
