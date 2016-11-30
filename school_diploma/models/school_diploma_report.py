@@ -28,6 +28,12 @@ from openerp.tools.misc import DEFAULT_SERVER_DATETIME_FORMAT, DEFAULT_SERVER_DA
 
 _logger = logging.getLogger(__name__)
 
+class IndividualProgram(models.Model):
+    '''Individual Program'''
+    _inherit='school.individual_program'
+    
+    access_requirements = fields.Text(string="Access Requirements")
+
 class SchoolDiplomaReport(models.AbstractModel):
     _name = 'report.school_diploma.report_diploma_content'
     

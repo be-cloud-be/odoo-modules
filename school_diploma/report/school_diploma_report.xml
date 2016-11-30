@@ -22,6 +22,18 @@
 -->
 <odoo>
     
+    <!-- Add evaluation to Individual Program form view -->
+    <record id="individual_program_diplom_form" model="ir.ui.view">
+        <field name="name">school.individual_program.diplom.view</field>
+        <field name="model">school.individual_program</field>
+        <field name="inherit_id" ref="school_management.individual_program_form" />
+        <field eval="25" name="priority" />
+        <field name="arch" type="xml">
+            <xpath expr="//field[@name='required_credits']" position="after">            
+                <field name="access_requirements" colspan="4"/>
+            </xpath>
+        </field>
+    </record>
 
     <!--
     
@@ -247,11 +259,8 @@
                             <div class="col-xs-10 col-xs-offset-2" style="font-style: bold;">
                                 Réussite de l'épreuve d'admission organisée conformément à l'arrêté du Gouvernement du 17 juillet 2002 
                                 organisant l'épreuve d'admission dans les Ecoles supérieures des Arts organisées ou subventionnées par 
-                                la Communauté Française.
-                                <div class="alert alert-danger" role="alert">
-                                    Mme TWYFFELS : Ajouter le titre d'accès, par exemple Certificat d'Enseignement secondaire supérieur 
-                                    ou autre titre prévu à l'article 107 ou décision du jury d'admission...)
-                                </div>
+                                la Communauté Française.<br/>
+                                <span t-field="o.access_requirements"/>
                             </div>
                         </div>
                         <div class="row">
