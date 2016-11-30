@@ -29,7 +29,7 @@ class CourseSessionGeneration(models.TransientModel):
     _name = "school.course_session.generate"
     _description = "Course Session Generation"
     
-    year_id = fields.Many2one('school.year', string="Year")
+    year_id = fields.Many2one('school.year', string="Year", ondelete='cascade')
 
     @api.one
     @api.depends('year_id')

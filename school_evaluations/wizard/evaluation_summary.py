@@ -35,9 +35,9 @@ class EvaluationSummaryWizard(models.TransientModel):
     _name = "school.evaluation.summary.wizard"
     _description = "School Evaluation Summary Wizard"
 
-    year_id = fields.Many2one('school.year', string='Year', default=lambda self: self.env.user.current_year_id)
+    year_id = fields.Many2one('school.year', string='Year', default=lambda self: self.env.user.current_year_id, ondelete='cascade')
     
-    domain_id = fields.Many2one('school.domain', string='Domain')
+    domain_id = fields.Many2one('school.domain', string='Domain', ondelete='cascade')
     
     session = fields.Selection([
             ('first','First Session'),

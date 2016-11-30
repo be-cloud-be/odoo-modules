@@ -30,7 +30,7 @@ class YearOpening(models.TransientModel):
     _name = "school.year_opening"
     _description = "Year Opening Wizard"
     
-    year_id = fields.Many2one('school.year', string="Year", required=True)
+    year_id = fields.Many2one('school.year', string="Year", required=True, ondelete='cascade')
 
     program_to_duplicate_ids = fields.Many2many('school.program', string="Program to Duplicate")
     

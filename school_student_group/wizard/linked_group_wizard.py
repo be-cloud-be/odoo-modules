@@ -28,8 +28,8 @@ class LinkedGroupWizard(models.TransientModel):
     _name = "school.linked_group_wizard"
     _description = "Linked Group Wizard"
     
-    year_id = fields.Many2one('school.year', string="Year", required=True, default=lambda self: self.env.user.current_year_id)
-    domain_id = fields.Many2one('school.domain', string="Domain", required=True)
+    year_id = fields.Many2one('school.year', string="Year", required=True, default=lambda self: self.env.user.current_year_id, ondelete='cascade')
+    domain_id = fields.Many2one('school.domain', string="Domain", required=True, ondelete='cascade')
     
     @api.one
     def generate_all_linked_student_group(self):

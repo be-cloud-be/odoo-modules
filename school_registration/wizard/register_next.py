@@ -30,12 +30,12 @@ class RegisterNext(models.TransientModel):
     _name = "school.register_next_wizard"
     _description = "Register Next Wizard"
     
-    init_bloc_id = fields.Many2one('school.individual_bloc', string="Initial Bloc", required=True, readonly=True)
-    year_id = fields.Many2one('school.year', related="init_bloc_id.year_id.next", readonly=True)
+    init_bloc_id = fields.Many2one('school.individual_bloc', string="Initial Bloc", required=True, readonly=True, ondelete='cascade')
+    year_id = fields.Many2one('school.year', related="init_bloc_id.year_id.next", readonly=True, ondelete='cascade')
     init_source_bloc_name = fields.Char(string="Initial Source Bloc", readonly=True, related="init_bloc_id.source_bloc_name")
-    student_id = fields.Many2one('res.partner', related="init_bloc_id.student_id", readonly=True)
+    student_id = fields.Many2one('res.partner', related="init_bloc_id.student_id", readonly=True, ondelete='cascade')
     
-    new_source_bloc_id = fields.Many2one('school.bloc', string="New Source Bloc", domain="[('year_id','=',year_id)]")
+    new_source_bloc_id = fields.Many2one('school.bloc', string="New Source Bloc", domain="[('year_id','=',year_id)]", ondelete='cascade')
 
     @api.model
     def default_get(self, fields):
@@ -119,10 +119,10 @@ class AddAnticipatedWizard(models.TransientModel):
     _name = "school.add_anticipated_wizard"
     _description = "Add Anticipated Wizard"
     
-    init_bloc_id = fields.Many2one('school.individual_bloc', string="Initial Bloc", required=True, readonly=True)
-    year_id = fields.Many2one('school.year', related="init_bloc_id.year_id", readonly=True)
-    init_source_bloc_name = fields.Char(string="Initial Source Bloc", readonly=True, related="init_bloc_id.source_bloc_name")
-    student_id = fields.Many2one('res.partner', related="init_bloc_id.student_id", readonly=True)
+    init_bloc_id = fields.Many2one('school.individual_bloc', string="Initial Bloc", required=True, readonly=True, ondelete='cascade')
+    year_id = fields.Many2one('school.year', related="init_bloc_id.year_id", readonly=True, ondelete='cascade')
+    init_source_bloc_name = fields.Char(string="Initial Source Bloc", readonly=True, related="init_bloc_id.source_bloc_name", ondelete='cascade')
+    student_id = fields.Many2one('res.partner', related="init_bloc_id.student_id", readonly=True, ondelete='cascade')
     
     course_group_ids = fields.Many2many('school.course_group', string='New Source Course Group') # TODO add a domain to filter??
     

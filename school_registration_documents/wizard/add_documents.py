@@ -30,9 +30,9 @@ class AddDocuments(models.TransientModel):
     _name = "school.add_documents_wizard"
     _description = "Add Documents Wizard"
     
-    student_id = fields.Many2one('res.partner', required=True)
+    student_id = fields.Many2one('res.partner', required=True, ondelete='cascade')
     
-    document_type_ids = fields.Many2many('school.official_document_type','add_documents_wizard_official_document_type_rel', 'add_documents_wizard_id','document_type_id', string="Official Document Types")
+    document_type_ids = fields.Many2many('school.official_document_type','add_documents_wizard_official_document_type_rel', 'add_documents_wizard_id','document_type_id', string="Official Document Types", ondelete='cascade')
     
     @api.model
     def default_get(self, fields):
