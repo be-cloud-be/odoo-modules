@@ -252,7 +252,7 @@ class IndividualCourse(models.Model):
                     old_group.participant_ids -= ic.student_id
                     old_group.participant_count = len(old_group.participant_ids)
                 # add into new group
-                new_group = self.env['school.student_group'].search([('year_id','=',ic.year_id.id),('course_ids','=',ic.source_course_id.id),('responsible_id','=',self.teacher_id.id)])
+                new_group = self.env['school.student_group'].search([('year_id','=',ic.year_id.id),('course_ids','=',ic.source_course_id.id),('responsible_id','=',ic.teacher_id.id)])
                 if new_group:
                     new_group.individual_course_ids |= ic
                     new_group.participant_ids |= ic.student_id

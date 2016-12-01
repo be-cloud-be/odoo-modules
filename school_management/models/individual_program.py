@@ -21,7 +21,7 @@
 import logging
 
 from openerp import api, fields, models, tools, _
-from openerp.exceptions import UserError
+from openerp.exceptions import UserError, AccessError
 
 _logger = logging.getLogger(__name__)
 
@@ -125,6 +125,17 @@ class IndividualBloc(models.Model):
     _sql_constraints = [
 	        ('uniq_student_bloc', 'unique(year_id, student_id, source_bloc_id)', 'This individual bloc already exists.'),
     ]
+    
+    @api.multi
+    def message_get_suggested_recipients(self):
+        recipients = super(IndividualBloc, self).message_get_suggested_recipients()
+        try:
+            for bloc in self:
+                if bloc.student_id:
+                    bloc._message_add_suggested_recipient(recipients, partner=bloc.student_id, reason=_('Student'))
+        except AccessError:  # no read access rights -> just ignore suggested recipients because this imply modifying followers
+            pass
+        return recipients
             
 class IndividualCourseGroup(models.Model):
     '''Individual Course Group'''
