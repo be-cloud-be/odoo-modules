@@ -155,10 +155,12 @@ class AccountReportTimesheetPDF(models.AbstractModel):
                     res_data.append(line_data)
                 line_data = {
                     'partner_id' : line.partner_id,
-                    'lines' : []
+                    'lines' : [],
+                    'total' : 0,
                 }
                 current_partner = line.partner_id
             line_data['lines'].append(line)
+            line_data['total'] += line.unit_amount
         if line_data:
             res_data.append(line_data)
             

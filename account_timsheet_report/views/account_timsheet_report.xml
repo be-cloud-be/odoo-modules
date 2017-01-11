@@ -121,6 +121,9 @@
                                 </tr>
                             </thead>
                             <tbody class="invoice_tbody">
+                                <td></td>
+                                <td>Total</td>
+                                <td>item['total']</td>
                                 <tr t-foreach="item['lines']" t-as="l">
                                     <td>
                                         <span t-field="l.date"/>
