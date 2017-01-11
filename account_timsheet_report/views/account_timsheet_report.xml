@@ -123,7 +123,7 @@
                             <tbody class="invoice_tbody">
                                 <td></td>
                                 <td><b>Total</b></td>
-                                <td><b><span t-field="item['total']"/></b></td>
+                                <td><b><span t-esc="item['total']"/></b></td>
                                 <tr t-foreach="item['lines']" t-as="l">
                                     <td>
                                         <span t-field="l.date"/>
