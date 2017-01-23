@@ -22,7 +22,6 @@
 odoo.define('mail_ir_attachement.composer', function (require) {
 	"use strict";
 	
-<<<<<<< HEAD
 	var core = require('web.core');
 	var Widget = require('web.Widget');
 	var Model = require('web.Model');
@@ -78,19 +77,5 @@ odoo.define('mail_ir_attachement.composer', function (require) {
 	    	
 	    },
 
-=======
-	var Widget = require('web.Widget');
-	var Model = require('web.Model');
-	
-	var composer = require('mail.composer');
-
-	composer.BasicComposer.include({
-		
-		events: _.defaults({
-	        'click .o_composer_button_add_ir_attachment': 'on_add_ir_attachment',
-	    }, composer.BasicComposer.prototype.events),
-		
-		
->>>>>>> First Try
 	});
 });
