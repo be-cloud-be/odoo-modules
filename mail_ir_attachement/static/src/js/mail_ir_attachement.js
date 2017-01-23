@@ -38,6 +38,7 @@ odoo.define('mail_ir_attachement.composer', function (require) {
 	    }, composer.BasicComposer.prototype.events),
 
 		init: function (parent, option) {
+			this._super(parent, option);
 			this.context = option.context;
 		},
 
