@@ -31,7 +31,7 @@
     This module adds all the emails sent/received in Odoo to the Partner Form View.
 
     By default only the email sent from the Partner record will be displayed, it makes
-    it difficult to get an overview of the messages sent/received from a partner.difficult
+    it difficult to get an overview of the messages sent/received from a partner.
     
     This modules allows you to better follow your partners.
     """, 
