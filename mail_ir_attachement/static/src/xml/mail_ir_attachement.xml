@@ -2,27 +2,15 @@
 <templates id="template" xml:space="preserve">
 
     <t t-name="IrAttachementButton">
-        <div class="o_followers_title_box open">
-            <button aria-expanded="true" data-toggle="dropdown" class="btn btn-sm btn-default dropdown-toggle">
-                    <span class="o_followers_count">Un abonné</span>
-                    <span class="caret"></span>
-                </button>
-            <ul class="dropdown-menu dropdown-menu-right o_followers_list" role="menu">
-                <li class="o_add_follower">
-                    <a href="#"> Ajouter des abonnés </a>
-                </li>
-                <li class="o_add_follower_channel">
-                    <a href="#"> Ajouter des canaux </a>
-                </li>
-                <li class="divider"></li>
-                <li class="o_partner">
-                    <img src="/web/image/res.partner/3/image_small"/>
-                    <a class="o_mail_redirect" data-oe-id="3" data-oe-model="res.partner" title="Administrateur" href="#">Administrateur</a>
-                    <i class="fa fa-pencil o_edit_subtype hide" title="Modifier abonnement" data-id="6124" data-oe-id="3" data-oe-model="res.partner"></i>
-                    <i class="fa fa-remove o_remove_follower" title="Retirer cet abonné"></i>
-                </li>
-            </ul>
-        </div>
+        <button aria-expanded="true" data-toggle="dropdown" class="btn btn-sm btn-default dropdown-toggle">
+            <span class="o_followers_count">Attach a file</span>
+            <span class="caret"></span>
+        </button>
+        <ul class="dropdown-menu dropdown-menu-right o_followers_list" role="menu">
+            <li class="o_add_follower">
+                <a href="#"> Ajouter des abonnés </a>
+            </li>
+        </ul>
     </t>
 
 </templates>
