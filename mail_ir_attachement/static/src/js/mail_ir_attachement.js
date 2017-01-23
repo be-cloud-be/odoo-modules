@@ -22,12 +22,17 @@
 odoo.define('mail_ir_attachement.composer', function (require) {
 	"use strict";
 	
+	var core = require('web.core');
 	var Widget = require('web.Widget');
 	var Model = require('web.Model');
 	
+	var _t = core._t;
+	var QWeb = core.qweb;
+	
 	var composer = require('mail.composer');
 
-	composer.BasicComposer.include({
+	var IrAttachementComposer = composer.BasicComposer.extend({
+    	template: 'mail_ir_attachement.ChatComposer',
 		
 		events: _.defaults({
 	        'click .o_composer_button_add_ir_attachment': 'on_add_ir_attachment',
