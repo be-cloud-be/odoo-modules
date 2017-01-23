@@ -16,7 +16,7 @@
                 </li>
                 <li class="divider"></li>
                 <li class="o_partner">
-                    <img src="/web/image/res.partner/3/image_small">
+                    <img src="/web/image/res.partner/3/image_small"/>
                     <a class="o_mail_redirect" data-oe-id="3" data-oe-model="res.partner" title="Administrateur" href="#">Administrateur</a>
                     <i class="fa fa-pencil o_edit_subtype hide" title="Modifier abonnement" data-id="6124" data-oe-id="3" data-oe-model="res.partner"></i>
                     <i class="fa fa-remove o_remove_follower" title="Retirer cet abonné"></i>
