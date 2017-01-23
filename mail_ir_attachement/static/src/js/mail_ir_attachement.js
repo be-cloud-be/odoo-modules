@@ -37,10 +37,11 @@ odoo.define('mail_ir_attachement.composer', function (require) {
 	        'click .o_composer_button_add_ir_attachment': 'on_add_ir_attachment',
 	    }, composer.BasicComposer.prototype.events),
 
-		start: function () {
-			this.$('.o_composer_buttons').append('<button tabindex="6" class="btn btn-sm btn-icon fa fa-file-text o_composer_button_add_ir_attachment" type="button"/>')
-			return this._super();
-		},
-		
+	    renderElement: function() {
+	    	this._super();
+	        var $content = $(QWeb.render('IrAttachementButton', {widget: this}).trim());
+			this.$('.o_composer_buttons').append($content);
+	    },
+
 	});
 });
