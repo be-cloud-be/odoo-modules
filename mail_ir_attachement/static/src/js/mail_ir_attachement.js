@@ -31,13 +31,16 @@ odoo.define('mail_ir_attachement.composer', function (require) {
 	
 	var composer = require('mail.composer');
 
-	var IrAttachementComposer = composer.BasicComposer.extend({
-    	template: 'mail_ir_attachement.ChatComposer',
-		
+	composer.BasicComposer.include({
+
 		events: _.defaults({
 	        'click .o_composer_button_add_ir_attachment': 'on_add_ir_attachment',
 	    }, composer.BasicComposer.prototype.events),
-		
+
+		start: function () {
+			this.$('.o_composer_buttons').append('<button tabindex="6" class="btn btn-sm btn-icon fa fa-file-text o_composer_button_add_ir_attachment" type="button"/>')
+			return this._super();
+		},
 		
 	});
 });
