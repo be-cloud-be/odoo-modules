@@ -58,7 +58,7 @@ odoo.define('mail_ir_attachement.composer', function (require) {
 
 		on_add_ir_attachment: function(event) {
 	    	var self = this;
-	    	var attachment_id = self.$(event.currentTarget.parentElement).data('attachment-id');
+	    	var attachment_id = self.$(event.target.parentElement).data('attachment-id');
 	    	self.attachments.forEach(function(attachment) {
 				if(attachment.id == attachment_id){
 					var attachment_ids = self.get('attachment_ids');
