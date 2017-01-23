@@ -63,7 +63,7 @@ odoo.define('mail_ir_attachement.composer', function (require) {
 				if(attachment.id == attachment_id){
 					var attachment_ids = self.get('attachment_ids');
 					attachment_ids.push({
-		                'id': 0,
+		                'id': attachment.id,
 		                'name': attachment.name,
 		                'filename': attachment.name,
 		                'url': attachment.local_url,
@@ -71,6 +71,7 @@ odoo.define('mail_ir_attachement.composer', function (require) {
 		                'mimetype': attachment.mimetype,
 		            });
 		            self.set('attachment_ids', attachment_ids);
+		            self.render_attachments();
 				}
 			});
 	    	
