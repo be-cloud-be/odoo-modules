@@ -23,7 +23,7 @@
 <templates xml:space="preserve">
     
     <t t-name="mail_ir_attachement.ChatComposer" t-extend="mail.ChatComposer">
-        <t t-jquery=".o_composer_button_add_attachment" t-operation="append">
+        <t t-jquery=".o_composer_button_add_attachment" t-operation="after">
             <button tabindex="6" class="btn btn-sm btn-icon fa fa-file-text o_composer_button_add_ir_attachment" type="button"/>
         </t>
     </t>
