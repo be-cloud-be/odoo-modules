@@ -82,13 +82,13 @@ odoo.define('mail_ir_attachement.composer', function (require) {
 	var Widget = require('web.Widget');
 	var Model = require('web.Model');
 	
-	var BasicComposer = require('mail.BasicComposer');
+	var composer = require('mail.composer');
 
-	BasicComposer.include({
+	composer.BasicComposer.include({
 		
 		events: _.defaults({
 	        'click .o_composer_button_add_ir_attachment': 'on_add_ir_attachment',
-	    }, BasicComposer.prototype.events),
+	    }, composer.BasicComposer.prototype.events),
 		
 		
 >>>>>>> First Try
