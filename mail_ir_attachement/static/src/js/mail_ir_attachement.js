@@ -56,5 +56,9 @@ odoo.define('mail_ir_attachement.composer', function (require) {
 	        
 	    },
 
+		on_add_ir_attachment: function(event) {
+	    	console.log(event);	
+	    },
+
 	});
 });
