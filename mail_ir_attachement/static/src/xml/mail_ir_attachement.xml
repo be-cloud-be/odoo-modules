@@ -7,8 +7,8 @@
             <span class="caret"></span>
         </button>
         <ul class="dropdown-menu dropdown-menu-right o_followers_list" role="menu">
-            <li class="o_add_follower">
-                <a href="#"> Ajouter des abonnés </a>
+            <li t-foreach="widget.attachments" t-as="attachment" class="o_add_follower" t-att-data-attachment-id="attachment.id">
+                <a href="#"> <span t-esc="attachment.name"/> </a>
             </li>
         </ul>
     </t>

@@ -46,10 +46,10 @@ odoo.define('mail_ir_attachement.composer', function (require) {
 	    	this._super();
 	    	var self = this;
 	    	
-	    	return new Model('ir.attachment').query(['id', 'name'])
+	    	return new Model('ir.attachment').query(['id', 'name','local_url'])
                .filter([['res_model', '=', self.context.default_model], ['res_id', '=', self.context.default_res_id]])
-               .all().then(function (attachements) {
-                	self.attachements = attachements;
+               .all().then(function (attachments) {
+                	self.attachments = attachments;
                 	var $content = $(QWeb.render('IrAttachementButton', {widget: self}).trim());
 					self.$('.o_composer_buttons').append($content);
                 });
