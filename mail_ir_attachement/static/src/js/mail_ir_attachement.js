@@ -46,7 +46,7 @@ odoo.define('mail_ir_attachement.composer', function (require) {
 	    	this._super();
 	    	var self = this;
 	    	
-	    	return new Model('ir.attachment').query(['id', 'name','local_url'])
+	    	return new Model('ir.attachment').query(['id', 'name','local_url','mimetype'])
                .filter([['res_model', '=', self.context.default_model], ['res_id', '=', self.context.default_res_id]])
                .all().then(function (attachments) {
                 	self.attachments = attachments;
@@ -61,8 +61,16 @@ odoo.define('mail_ir_attachement.composer', function (require) {
 	    	var attachment_id = self.$(event.currentTarget.parentElement).data('attachment-id');
 	    	self.attachments.forEach(function(attachment) {
 				if(attachment.id == attachment_id){
-					console.log(attachment);
-					return;
+					var attachment_ids = self.get('attachment_ids');
+					attachment_ids.push({
+		                'id': 0,
+		                'name': attachment.name,
+		                'filename': attachment.name,
+		                'url': attachment.local_url,
+		                'upload': false,
+		                'mimetype': attachment.mimetype,
+		            });
+		            self.set('attachment_ids', attachment_ids);
 				}
 			});
 	    	
