@@ -25,6 +25,7 @@ odoo.define('mail_ir_attachement.composer', function (require) {
 	var core = require('web.core');
 	var Widget = require('web.Widget');
 	var Model = require('web.Model');
+	var ViewManager = require('web.ViewManager');
 	
 	var _t = core._t;
 	var QWeb = core.qweb;
