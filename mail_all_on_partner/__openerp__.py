@@ -28,8 +28,13 @@
     'version': '0.1',
     'category': 'Tools',
     'description': """
-    This module link all emails to the partner whatever the model it is attached to.
-    """,
+    This module adds all the emails sent/received in Odoo to the Partner Form View.
+
+    By default only the email sent from the Partner record will be displayed, it makes
+    it difficult to get an overview of the messages sent/received from a partner.difficult
+    
+    This modules allows you to better follow your partners.
+    """, 
     "author": "be-cloud.be (Jerome Sonnet)",
     "website": "http://www.be-cloud.be",
     'depends': ['mail'],
