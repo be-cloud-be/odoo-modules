@@ -33,5 +33,4 @@ class Partner(models.Model):
     
     @api.one
     def _get_all_message_ids(self):
-        linked_messages = self.env['mail.message'].search(['|',('author_id','=',self.id),('partner_ids','in',self.id)])
-        return self.message_ids + linked_messages
+        self.all_message_ids = self.message_ids + self.env['mail.message'].search(['|',('author_id','=',self.id),('partner_ids','in',self.id)])
