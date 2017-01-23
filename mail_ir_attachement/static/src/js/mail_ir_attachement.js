@@ -37,8 +37,8 @@ odoo.define('mail_ir_attachement.composer', function (require) {
 	        'click .o_composer_button_add_ir_attachment': 'on_add_ir_attachment',
 	    }, composer.BasicComposer.prototype.events),
 
-		init: function (view, code) {
-			this.view = view;
+		init: function (parent, option) {
+			this.context = option.context;
 		},
 
 	    renderElement: function() {
