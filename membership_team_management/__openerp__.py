@@ -36,5 +36,5 @@
 This modules add a management of member being assigned to a team.
     ''',
     'active': False,
-    'installable': True,
+    'installable': False,
 }

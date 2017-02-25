@@ -38,5 +38,5 @@ Add support for several analytic plans on vouchers.
     ],
     'qweb': [
     ],
-    "installable": True,
+    "installable": False,
 }

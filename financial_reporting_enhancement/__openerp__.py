@@ -37,7 +37,7 @@
     'data': [
         'financial_reporting_enhancement.xml',
     ],
-    'installable': True,
+    'installable': False,
     'active': True,
 }
 # vim:expandtab:smartindent:tabstop=4:softtabstop=4:shiftwidth=4:
