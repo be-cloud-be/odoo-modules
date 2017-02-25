@@ -35,7 +35,7 @@
     'depends': ['sale','document'],
     'init_xml': [],
     'data': [],
-    'installable': True,
+    'installable': False,
     'active': True,
 }
 # vim:expandtab:smartindent:tabstop=4:softtabstop=4:shiftwidth=4:

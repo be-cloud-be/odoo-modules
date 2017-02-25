@@ -47,7 +47,7 @@
     'depends': ['web'],
     'init_xml': [],
     'data': ['web_keyboard_navigation_view.xml'],
-    'installable': True,
+    'installable': False,
     'active': True,
 }
 # vim:expandtab:smartindent:tabstop=4:softtabstop=4:shiftwidth=4:
