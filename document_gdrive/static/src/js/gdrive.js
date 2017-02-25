@@ -73,7 +73,8 @@ odoo.define('document_gdrive.menu_item', function(require) {
                             });
                     }
                     else {
-                        console.log("Cannot access parameter 'document.gdrive.client.id' check your configuration");
+                        console.log(_t("Cannot access parameter 'document.gdrive.client.id' check your configuration in General Settings"));
+                        alert(_t("Cannot access parameter 'document.gdrive.client.id' check your configuration in General Settings"));
                     }
                 });
             }
