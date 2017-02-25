@@ -19,5 +19,5 @@ creation of the Financial Accounting records).
     'depends': ['account_bank_statement_import'],
     'demo': [],
     'auto_install': True,
-    'installable': True,
+    'installable': False,
 }

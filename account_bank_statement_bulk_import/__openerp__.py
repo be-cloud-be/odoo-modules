@@ -37,5 +37,5 @@ This module allows you to import a set of statement files in Odoo at once.
     'depends': ['account_bank_statement_import'],
     'demo': [],
     'auto_install': True,
-    'installable': True,
+    'installable': False,
 }

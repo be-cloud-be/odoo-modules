@@ -40,7 +40,7 @@
     'depends': ['mail'],
     'init_xml': [],
     'data': [ 'views/res_partner_view.xml' ],
-    'installable': True,
+    'installable': False,
     'active': True,
 }
 # vim:expandtab:smartindent:tabstop=4:softtabstop=4:shiftwidth=4:

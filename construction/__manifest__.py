@@ -39,7 +39,7 @@
         'security/ir.model.access.csv',
         
     ],
-    'installable': True,
+    'installable': False,
     'active': True,
     'auto_install': False,
     'application': True,
