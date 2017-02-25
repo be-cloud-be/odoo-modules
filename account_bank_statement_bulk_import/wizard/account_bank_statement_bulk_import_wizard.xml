@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+##############################################################################
+#
+#    Copyright (c) 2015 be-cloud.be
+#                       Jerome Sonnet <jerome.sonnet@be-cloud.be>
+#
+#    This program is free software: you can redistribute it and/or modify
+#    it under the terms of the GNU Affero General Public License as
+#    published by the Free Software Foundation, either version 3 of the
+#    License, or (at your option) any later version.
+#
+#    This program is distributed in the hope that it will be useful,
+#    but WITHOUT ANY WARRANTY; without even the implied warranty of
+#    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+#    GNU Affero General Public License for more details.
+#
+#    You should have received a copy of the GNU Affero General Public License
+#    along with this program.  If not, see <http://www.gnu.org/licenses/>.
+#
+##############################################################################
+-->
+<odoo>
+    <record id="account_bank_statement_bulk_import_view" model="ir.ui.view">
+        <field name="name">Bulk Import Statement</field>
+        <field name="model">account_bulk_import_wizard.account_bulk_import_wizard</field>
+        <field name="arch" type="xml">
+            <form string="Bulk Import Statement">
+                <h2>Bulk Import Statements</h2>
+                Please zip all your files into one zip and upload it:
+                <field name="zip_file" placeholder="Zip of all files to import..."/>
+                <footer>
+                    <button name="bulk_import_statement" string="Bulk Import" type="object" default_focus="1" class="oe_highlight" /> or
+                    <button string="Cancel" class="btn-default" special="cancel" />
+                </footer>
+            </form>
+        </field>
+    </record>
+    
+    <record id="action_account_bank_statement_bulk_import" model="ir.actions.act_window">
+        <field name="name">Bulk Import Statement</field>
+        <field name="res_model">account_bulk_import_wizard.account_bulk_import_wizard</field>
+        <field name="type">ir.actions.act_window</field>
+        <field name="view_type">form</field>
+        <field name="view_mode">form</field>
+        <field name="view_id" ref="account_bank_statement_bulk_import_view" />
+        <field name="context">{}</field>
+        <field name="target">new</field>
+    </record>
+</odoo>

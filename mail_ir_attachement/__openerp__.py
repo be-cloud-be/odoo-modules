@@ -1,5 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
-<!--
+# -*- encoding: utf-8 -*-
 ##############################################################################
 #
 #    OpenERP, Open Source Management Solution    
@@ -22,10 +21,23 @@
 #    along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #
 ##############################################################################
--->
-<openerp>
-    <data>
 
-    </data>
-</openerp>
 
+{
+    'name': 'Mail attach ir_attachement',
+    'version': '0.1',
+    'category': 'Tools',
+    'description': """
+    This module add the possibility to attach ir_attachement to an email in
+    the composer interface.
+    """,
+    "author": "be-cloud.be (Jerome Sonnet)",
+    "website": "http://www.be-cloud.be",
+    'depends': ['mail'],
+    'init_xml': [],
+    'data': ['views/mail_view.xml'],
+    'qweb': ['static/src/xml/*.xml'],
+    'installable': True,
+    'active': True,
+}
+# vim:expandtab:smartindent:tabstop=4:softtabstop=4:shiftwidth=4:

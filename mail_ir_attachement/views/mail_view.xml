@@ -25,7 +25,10 @@
 -->
 <openerp>
     <data>
-
+        <template id="assets_backend" name="mail_ir_attachement assets" inherit_id="web.assets_backend">
+            <xpath expr="." position="inside">
+                <script type="text/javascript" src="/mail_ir_attachement/static/src/js/mail_ir_attachement.js"></script>
+            </xpath>
+        </template>
     </data>
 </openerp>
-

@@ -1,5 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
-<!--
+# -*- encoding: utf-8 -*-
 ##############################################################################
 #
 #    OpenERP, Open Source Management Solution    
@@ -22,10 +21,26 @@
 #    along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #
 ##############################################################################
--->
-<openerp>
-    <data>
 
-    </data>
-</openerp>
 
+{
+    'name': 'Mail All On Partner',
+    'version': '0.1',
+    'category': 'Tools',
+    'description': """
+    This module adds all the emails sent/received in Odoo to the Partner Form View.
+
+    By default only the email sent from the Partner record will be displayed, it makes
+    it difficult to get an overview of the messages sent/received from a partner.
+    
+    This modules allows you to better follow your partners.
+    """, 
+    "author": "be-cloud.be (Jerome Sonnet)",
+    "website": "http://www.be-cloud.be",
+    'depends': ['mail'],
+    'init_xml': [],
+    'data': [ 'views/res_partner_view.xml' ],
+    'installable': True,
+    'active': True,
+}
+# vim:expandtab:smartindent:tabstop=4:softtabstop=4:shiftwidth=4:

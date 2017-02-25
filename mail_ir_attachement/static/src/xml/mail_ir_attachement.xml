@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<templates id="template" xml:space="preserve">
+
+    <t t-name="IrAttachementButton">
+        <button aria-expanded="true" data-toggle="dropdown" class="btn btn-sm btn-default dropdown-toggle">
+            <span class="o_followers_count">Attach a file</span>
+            <span class="caret"></span>
+        </button>
+        <ul class="dropdown-menu dropdown-menu-right o_followers_list" role="menu">
+            <li t-foreach="widget.attachments" t-as="attachment" class="o_composer_button_add_ir_attachment" t-att-data-attachment-id="attachment.id">
+                <a href="#"> <span t-esc="attachment.name"/> </a>
+            </li>
+        </ul>
+    </t>
+
+</templates>
