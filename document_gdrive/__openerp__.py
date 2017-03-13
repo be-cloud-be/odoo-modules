@@ -5,14 +5,10 @@
 
 {
     'name': 'Google Drive Attachment',
-<<<<<<< HEAD
     'version': '10.0.1.0.0',
-=======
-    'version': '9.0.1.0.0',
->>>>>>> [FIX] used new_api for 9.0 branch
     'category': 'Tools',
     'description': """
-Module that allows to attach a Google Drive Document.
+        Module that allows to attach a Google Drive Document.
     """,
     'author': "be-cloud.be (Jerome Sonnet),Sodexis",
     'website': 'http://www.be-cloud.be',
