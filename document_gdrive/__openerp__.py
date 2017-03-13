@@ -5,7 +5,7 @@
 
 {
     'name': 'Google Drive Attachment',
-    'version': '9.0.1.0.0',
+    'version': '10.0.1.0.0',
     'category': 'Tools',
     'description': """
 Module that allows to attach a Google Drive Document.
