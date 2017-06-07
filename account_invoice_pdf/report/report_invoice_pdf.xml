@@ -57,13 +57,18 @@
                     <img src="/account_invoice_pdf/static/src/img/gallys_logo_bottom_left.svg" t-if="template_type == 'pdf'"/>
                 </div>
             </div>
-            
+            <div t-if="o.company_id == 15"><!-- MD Constulting -->
+                <div style="position: absolute;top: 75px;left: 0;" t-if="template_type == 'pdf'">
+                    <img src="/account_invoice_pdf/static/src/img/logo duez.png"/>
+                </div>
+            </div>
         </xpath>
         <xpath expr="//div[@class='page']" position="after">
-            <!-- Gallys -->
+            <t t-if="o.company_id == 1"><!-- Gallys -->
             <div class="page container" style="padding:75px" t-if="template_type == 'pdf'">
                 <t t-call="account_invoice_pdf.report_invoice_condgeneral" t-lang="o.partner_id.lang"/>
             </div>
+            </t>
         </xpath>
     </template>
 
