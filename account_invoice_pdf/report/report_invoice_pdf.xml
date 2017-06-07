@@ -61,7 +61,7 @@
         </xpath>
         <xpath expr="//div[@class='page']" position="after">
             <!-- Gallys -->
-            <div class="page container" style="padding:75px" t-if="o.company_id == 1 && template_type == 'pdf'">
+            <div class="page container" style="padding:75px" t-if="template_type == 'pdf'">
                 <t t-call="account_invoice_pdf.report_invoice_condgeneral" t-lang="o.partner_id.lang"/>
             </div>
         </xpath>
