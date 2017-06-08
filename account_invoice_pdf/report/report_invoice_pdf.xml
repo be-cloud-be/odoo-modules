@@ -43,7 +43,8 @@
 
     <template id="report_invoice_document_inherit_invoice_pdf" inherit_id="account.report_invoice_document">
         <xpath expr="//div[@class='page']" position="attributes">
-             <attribute name="style">padding:200px 50px 50px 50px;</attribute>
+            <attribute t-if="o.company_id.id == 1" name="style">padding:200px 50px 50px 50px;</attribute> 
+            <attribute t-if="o.company_id.id == 15" name="style">padding:300px 75px 50px 75px;</attribute>
         </xpath>
         <xpath expr="//div[@class='page']" position="inside">
             <div t-if="o.company_id.id == 1"><!-- Gallys -->
