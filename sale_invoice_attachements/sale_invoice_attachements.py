@@ -28,10 +28,22 @@ class AccountInvoice(models.Model):
     _inherit = 'account.invoice'
 
     @api.multi
-    def count_attachments(self):
+    def _compute_count_attachments(self):
         attachment_data = self.env['ir.attachment'].read_group([('res_model', '=', 'account.invoice'), ('res_id', 'in', self.ids)], ['res_id'], ['res_id'])
         attachment = dict((data['res_id'], data['res_id_count']) for data in attachment_data)
         for invoice in self:
             invoice.attachment_count = attachment.get(invoice.id, 0)
 
-    attachment_count = fields.Integer(string="Attachment Count" ,compute="count_attachments")
+    attachment_count = fields.Integer(string="Attachment Count" ,compute="_compute_count_attachments")
+    
+    @api.one
+    @api.depends('payment_move_line_ids.amount_residual')
+    def _compute_last_payment_date(self):
+        self.last_payment_date = None
+        if self.payment_move_line_ids:
+            for payment in self.payment_move_line_ids:
+                if payment.date > self.last_payment_date:
+                    self.last_payment_date = payment.date
+    # TODO : use analytic query ??
+                
+    last_payment_date = fields.Date(string="Last Payment Date" ,compute="_compute_last_payment_date")
