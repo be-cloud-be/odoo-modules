@@ -97,89 +97,132 @@ class ExportFile(models.Model):
         shutil.copy(join(dirname(__file__),"BOBLINK.TXT"), tmpdir)
         
         ## Create CLIENTS.DBF
-        partner_ids = self.invoice_ids.mapped('partner_id')
-        db_part = dbf.Table(join(tmpdir, "CLIENTS.DBF"), codepage='utf8', field_specs='CID C(10); CCUSTYPE C(1); CSUPTYPE C(1); CNAME1 C(40); CADDRESS1 C(40); CADDRESS2 C(40); CZIPCODE C(10); CLOCALITY C(40); CCOUNTRY C(6); CVATREF C(2); CVATNO C(12); CVATCAT C(1);')
-        db_part.open()
-        for partner in partner_ids:
-            rec = dbf.create_template(db_part)
-            rec.cid = partner.ref if partner.ref else ""
-            rec.ccustype = "C"
-            rec.csuptype = "U"
-            rec.cname1 = partner.name if partner.name else ""
-            rec.caddress1 = partner.street if partner.street else ""
-            rec.caddress2 = partner.street2 if partner.street2 else ""
-            rec.czipcode = partner.zip if partner.zip else ""
-            rec.clocality = partner.city if partner.city else ""
-            rec.ccountry = partner.country_id.code if partner.country_id else ""
-            rec.cvatref = partner.vat[:2] if partner.vat else ""
-            rec.cvatno = partner.vat[2:] if partner.vat else ""
-            rec.cvatcat = ""
-            db_part.append(rec) 
-        db_part.close()
-        
-        ## Create SALES.DBF
-        db_inv = dbf.Table(join(tmpdir, "SALES.DBF"), codepage='utf8', 
-        field_specs='TDBK C(4); TFYEAR C(5); TYEAR N(4,0); TMONTH N(2,0); TDOCNO N(10,0); TDOCDATE D; TTYPCIE C(1); TCOMPAN C(10); TDUEDATE D; TAMOUNT N(10,2); TREMINT C(40); TREMEXT C(40); TINTMODE C(1); TINVVCS C(12)')
-        db_inv_line = dbf.Table(join(tmpdir, "SALESL.DBF"), codepage='utf8', 
-        field_specs='TDBK C(4); TFYEAR C(5); TYEAR N(4,0); TMONTH N(2,0); TDOCNO N(10,0); TDOCLINE N(5,0); TTYPELINE C(1); TACTTYPE C(1); TACCOUNT C(10); TAMOUNT N(10,2); TBASVAT N(10,2); TVATTOTAMN N(10,2); TVATAMN N(10,2); TVATDBLAMN N(10,2); TBASLSTAMN N(10,2); TVSTORED C(10); TDC C(1); TREM C(40)')
+        partner_field_specs = 'CID C(10); CCUSTYPE C(1); CSUPTYPE C(1); CNAME1 C(40); CADDRESS1 C(40); CADDRESS2 C(40); CZIPCODE C(10); CLOCALITY C(40); CCOUNTRY C(6); CVATREF C(2); CVATNO C(12); CVATCAT C(1);'
 
-        db_inv.open()
-        db_inv_line.open()
-        for invoice in self.invoice_ids:
-            rec = dbf.create_template(db_inv)
-            rec.tdbk = "VEN"
-            date = fields.Date.from_string(invoice['date'])
-            rec.tfyear = date.strftime("%Y")
-            rec.tyear = date.year
-            rec.tmonth = date.month
-            rec.tdocno = int(re.sub("\D", "", invoice.number))
-            rec.tdocdate = dbf.Date(date)
-            rec.ttypcie = 'C'
-            rec.tcompan = invoice.partner_id.ref if invoice.partner_id.ref else ""
-            rec.tduedate = dbf.Date(fields.Date.from_string(invoice['date_due']))
-            rec.tamount = invoice.amount_total
-            rec.tremint = invoice.name if invoice.name else ""
-            rec.tremext = invoice.reference if invoice.reference else ""
-            rec.tintmode = "S"
-            rec.tinvvcs= re.sub("\D", "", invoice.reference) if invoice.reference else ""
-            line_nb = 0
-            for invoice_line in invoice.invoice_line_ids:
-                rec_line = dbf.create_template(db_inv_line)
-                rec_line.tdbk = rec.tdbk
-                rec_line.tfyear = rec.tfyear
-                rec_line.tyear = rec.tyear
-                rec_line.tmonth = rec.tmonth
-                rec_line.tdocno = rec.tdocno
-                rec_line.tdocline = line_nb
-                line_nb += 1
-                rec_line.ttypeline = "S"
-                rec_line.tacttype = "A"
-                rec_line.taccount = "700000" # TODO : Make this a config param
-                rec_line.tamount = invoice_line.price_subtotal
-                rec_line.tbasvat = invoice_line.price_subtotal
-                vat = 0.0
-                taxes = invoice_line.get_taxes_values()
-                for tax in taxes:
-                    vat += taxes[tax]['amount'] # SHOULD WE FILTER TO GET ONLY VAT
-                rec_line.tvattotamn = vat
-                rec_line.tvatamn = vat
-                rec_line.tvatdblamn = 0
-                rec_line.tbaslstamn = invoice_line.price_subtotal
-                code = invoice_line.invoice_line_tax_ids[0].sage_50_code if invoice_line.invoice_line_tax_ids else ""
-                rec_line.tvstored = code if code else ""
-                rec_line.tdc = "C" if invoice_line.price_subtotal_signed > 0 else "D"
-                rec_line.trem = invoice.partner_id.name
-                db_inv_line.append(rec_line) 
-            db_inv.append(rec) 
-        db_inv.close()
-        db_inv_line.close()
-        
+        partner_list = [
+            {
+                'db_name': 'CUSTOMERS.DBF',
+                'domain': ['|', ('type', '=', 'out_invoice'), ('type', '=', 'out_refund')],
+            },
+            {
+                'db_name': 'SUPPLIERS.DBF',
+                'domain': ['|', ('type', '=', 'in_invoice'), ('type', '=', 'in_refund')],
+            }
+        ]
+
+        for partner_type in partner_list:
+            db = dbf.Table(join(tmpdir, partner_type.get('db_name')), codepage='utf8', field_specs=partner_field_specs)
+            db.open()
+            partner_ids = self.invoice_ids.search(partner_type.get('domain')).mapped('partner_id')
+            for partner in partner_ids:
+                rec = dbf.create_template(db)
+                rec.cid = partner.ref if partner.ref else ""
+                rec.ccustype = "C"
+                rec.csuptype = "U"
+                rec.cname1 = partner.name if partner.name else ""
+                rec.caddress1 = partner.street if partner.street else ""
+                rec.caddress2 = partner.street2 if partner.street2 else ""
+                rec.czipcode = partner.zip if partner.zip else ""
+                rec.clocality = partner.city if partner.city else ""
+                rec.ccountry = partner.country_id.code if partner.country_id else ""
+                rec.cvatref = partner.vat[:2] if partner.vat else ""
+                rec.cvatno = partner.vat[2:] if partner.vat else ""
+                rec.cvatcat = ""
+                db.append(rec) 
+            db.close()
+
+        ## CREATE SALES.DBF + lines AND PURCHASES.DBF + lines
+        header_field_specs = 'TDBK C(4); TFYEAR C(5); TYEAR N(4,0); TMONTH N(2,0); TDOCNO N(10,0); TDOCDATE D; TTYPCIE C(1); TCOMPAN C(10); TDUEDATE D; TAMOUNT N(10,2); TREMINT C(40); TREMEXT C(40); TINTMODE C(1); TINVVCS C(12)'
+        line_field_specs = 'TDBK C(4); TFYEAR C(5); TYEAR N(4,0); TMONTH N(2,0); TDOCNO N(10,0); TDOCLINE N(5,0); TTYPELINE C(1); TACTTYPE C(1); TACCOUNT C(10); TAMOUNT N(10,2); TBASVAT N(10,2); TVATTOTAMN N(10,2); TVATAMN N(10,2); TVATDBLAMN N(10,2); TBASLSTAMN N(10,2); TVSTORED C(10); TDC C(1); TREM C(40)'
+
+        # CREATE INVOICES LIST
+        invoices_list = [
+            {
+                'db_header_name': 'SALES.DBF',
+                'db_line_name': 'SALESL.DBF',
+                'domain': ['|', ('type', '=', 'out_invoice'), ('type', '=', 'out_refund')],
+                'journal': "VEN",
+                'doc_type': 'C',
+                'line_doc_type_invoice': 'C',
+                'line_doc_type_refund': 'D',
+            },
+            {
+                'db_header_name': 'PURCHASES.DBF',
+                'db_line_name': 'PURCHASESL.DBF',
+                'domain': ['|', ('type', '=', 'in_invoice'), ('type', '=', 'in_refund')],
+                'journal': "ACH",
+                'doc_type': 'S',
+                'line_doc_type_invoice': 'D',
+                'line_doc_type_refund': 'C',
+            },
+        ]
+
+        for invoice_type in invoices_list:
+            db_inv = dbf.Table(join(tmpdir, invoice_type.get('db_header_name')), codepage='utf8', field_specs=header_field_specs)
+            db_inv_line = dbf.Table(join(tmpdir, invoice_type.get('db_line_name')), codepage='utf8', field_specs=line_field_specs)
+
+            db_inv.open()
+            db_inv_line.open()
+
+            invoice_ids = self.invoice_ids.search(invoice_type.get('domain'))
+
+            for invoice in invoice_ids:
+                rec = dbf.create_template(db_inv)
+                rec.tdbk = invoice_type.get('journal')
+                date = fields.Date.from_string(invoice['date'])
+                rec.tfyear = date.strftime("%Y")
+                rec.tyear = date.year
+                rec.tmonth = date.month
+                rec.tdocno = int(re.sub("\D", "", invoice.number))
+                rec.tdocdate = dbf.Date(date)
+                rec.ttypcie = invoice_type.get('doc_type')
+                rec.tcompan = invoice.partner_id.ref if invoice.partner_id.ref else ""
+                rec.tduedate = dbf.Date(fields.Date.from_string(invoice['date_due']))
+                rec.tamount = invoice.amount_total
+                rec.tremint = invoice.name if invoice.name else ""
+                rec.tremext = invoice.reference if invoice.reference else ""
+                rec.tintmode = "S"
+                rec.tinvvcs= re.sub("\D", "", invoice.reference) if invoice.reference else ""
+                line_nb = 0
+                for invoice_line in invoice.invoice_line_ids:
+                    rec_line = dbf.create_template(db_inv_line)
+                    rec_line.tdbk = rec.tdbk
+                    rec_line.tfyear = rec.tfyear
+                    rec_line.tyear = rec.tyear
+                    rec_line.tmonth = rec.tmonth
+                    rec_line.tdocno = rec.tdocno
+                    rec_line.tdocline = line_nb
+                    line_nb += 1
+                    rec_line.ttypeline = "S"
+                    rec_line.tacttype = "A"
+                    rec_line.taccount = invoice_line.account_id.code
+                    rec_line.tamount = invoice_line.price_subtotal
+                    rec_line.tbasvat = invoice_line.price_subtotal
+                    vat = 0.0
+                    taxes = invoice_line.get_taxes_values()
+                    for tax in taxes:
+                        vat += taxes[tax]['amount'] # SHOULD WE FILTER TO GET ONLY VAT
+                    rec_line.tvattotamn = vat
+                    rec_line.tvatamn = vat
+                    rec_line.tvatdblamn = 0
+                    rec_line.tbaslstamn = invoice_line.price_subtotal
+                    code = invoice_line.invoice_line_tax_ids[0].sage_50_code if invoice_line.invoice_line_tax_ids else ""
+                    rec_line.tvstored = code if code else ""
+                    rec_line.tdc = invoice_type.get('line_doc_type_invoice') if invoice_line.price_subtotal_signed > 0 else invoice_type.get('line_doc_type_refund')
+                    rec_line.trem = invoice.partner_id.name
+                    db_inv_line.append(rec_line) 
+                db_inv.append(rec) 
+            db_inv.close()
+            db_inv_line.close()
+
+        # ZIP AND SAVE
         temp = tempfile.mktemp(suffix='')
         shutil.make_archive(temp, 'zip', tmpdir)
         fn = open('%s.zip' % temp, 'r')
         self.export_file = base64.encodestring(fn.read())
         fn.close()
-        
+
+        #  MARK INVOICES AS EXPORTED
         for invoice in self.invoice_ids:
             invoice.is_exported_to_sage_50 = True
             
