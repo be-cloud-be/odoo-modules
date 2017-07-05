@@ -50,7 +50,6 @@
                     <field name="name" string="Project Name"/>
                     <field name="type"/>
                     <field name="construction_state"/>
-                    <field name="state"/>
                 </tree>
             </field>
         </record>
