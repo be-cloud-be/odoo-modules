@@ -45,12 +45,16 @@
         <!-- Add asset count and link to kanban -->
         
         <!-- Add link to building asset on Sale Order form view -->
-        <record id="view_sale_order_form_construction" model="ir.ui.view">
-            <field name="name">view.sale.order.form.construction</field>
-            <field name="model">sale.order</field>
-            <field name="inherit_id" ref="sale.view_order_form" />
+        <record id="view_project_kanban_construction" model="ir.ui.view">
+            <field name="name">project.project.kanban.construction</field>
+            <field name="model">project.project</field>
+            <field name="inherit_id" ref="project.view_project_kanban" />
             <field eval="18" name="priority" />
             <field name="arch" type="xml">
+                <xpath expr="//field[@name='task_count']" position="after">
+                    <field name="asset_count"/>
+                </xpath>
+                
                 <xpath expr="//div[@class='o_project_kanban_boxes']" position="inside">
                     <div t-if="record.asset_count.raw_value" class="o_project_kanban_box">
                         <a name="view_building_asset_tree" type="object">
