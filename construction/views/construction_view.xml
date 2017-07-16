@@ -45,9 +45,9 @@
         <!-- Add asset count and link to kanban -->
         
         <!-- Add link to building asset on Sale Order form view -->
-        <record id="view_project_kanban_construction" model="ir.ui.view">
+        <!--<record id="view_project_kanban_construction" model="ir.ui.view">
             <field name="name">project.project.kanban.construction</field>
-            <field name="model">project.project</field>
+            <field name="model">construction.building_site</field>
             <field name="inherit_id" ref="project.view_project_kanban" />
             <field eval="18" name="priority" />
             <field name="arch" type="xml">
@@ -64,7 +64,7 @@
                     </div>   
                 </xpath>
             </field>
-        </record>
+        </record>-->
         
         <record id="view_building_site_tree" model="ir.ui.view">
             <field name="name">Building Site Tree</field>
