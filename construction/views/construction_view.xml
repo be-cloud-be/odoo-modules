@@ -28,7 +28,7 @@
             Building Sites
             
         -->
-    
+        
         <!-- Add link to building site on Project form view -->
         <record id="view_project_form_construction" model="ir.ui.view">
             <field name="name">view.project.project.form.construction</field>
@@ -38,6 +38,26 @@
             <field name="arch" type="xml">
                 <xpath expr="//field[@name='user_id']" position="after">
                     <field name='building_site_id' />
+                </xpath>
+            </field>
+        </record>
+        
+        <!-- Add asset count and link to kanban -->
+        
+        <!-- Add link to building asset on Sale Order form view -->
+        <record id="view_sale_order_form_construction" model="ir.ui.view">
+            <field name="name">view.sale.order.form.construction</field>
+            <field name="model">sale.order</field>
+            <field name="inherit_id" ref="sale.view_order_form" />
+            <field eval="18" name="priority" />
+            <field name="arch" type="xml">
+                <xpath expr="//div[@class='o_project_kanban_boxes']" position="inside">
+                    <div t-if="record.asset_count.raw_value" class="o_project_kanban_box">
+                        <a name="view_building_asset_tree" type="object">
+                            <span class="o_value"><t t-esc="record.asset_count.value"/></span>
+                            <span class="o_label">Assets</span>
+                        </a>
+                    </div>   
                 </xpath>
             </field>
         </record>

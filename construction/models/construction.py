@@ -67,6 +67,11 @@ class BuildingSite(models.Model):
     
     acquisition_lead = fields.Many2one('crm.lead', string='Acquisition Lead')
     asset_ids = fields.One2many('construction.building_asset', 'site_id', string="Building Assets")
+    asset_count = fields.Integer(compute='_compute_asset_count')
+    
+    def _compute_asset_count(self):
+        for site in self:
+            site.asset_counts = len(site.asset_ids)
     
 class Project(models.Model):
     _inherit = "project.project"
