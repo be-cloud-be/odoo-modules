@@ -2,20 +2,19 @@
 # see LICENSE file
 
 {
-    'name': 'Construction Projects',
+    'name': 'Construction VAT reduced',
     'version': '0.1',
     'category': 'Sales',
     'description': """
-    Manage construction projects
+    Manage reduced VAT as applied in Luxembourg.
     """,
     "author": "be-cloud.be (Jerome Sonnet)",
     "website": "http://www.be-cloud.be",
-    'depends': ['sale','crm','project'],
+    'depends': ['construction'],
     'init_xml': [],
     'data': [
-        'views/construction_view.xml',
+        'views/construction_reduced_vat_view.xml',
         'security/ir.model.access.csv',
-        
     ],
     'installable': True,
     'active': True,
