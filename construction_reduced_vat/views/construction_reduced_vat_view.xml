@@ -1,0 +1,90 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!--
+##############################################################################
+#
+#    Copyright (c) 2015 be-cloud.be
+#                       Jerome Sonnet <jerome.sonnet@be-cloud.be>
+#
+#    This program is free software: you can redistribute it and/or modify
+#    it under the terms of the GNU Affero General Public License as
+#    published by the Free Software Foundation, either version 3 of the
+#    License, or (at your option) any later version.
+#
+#    This program is distributed in the hope that it will be useful,
+#    but WITHOUT ANY WARRANTY; without even the implied warranty of
+#    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+#    GNU Affero General Public License for more details.
+#
+#    You should have received a copy of the GNU Affero General Public License
+#    along with this program.  If not, see <http://www.gnu.org/licenses/>.
+#
+##############################################################################
+-->
+<openerp>
+    <data>
+        
+        <record id="view_reduced_vat_agreement_tree" model="ir.ui.view">
+            <field name="name">Reduced VAT Agreement Tree</field>
+            <field name="model">construction.reduced_vat_agreement</field>
+            <field name="arch" type="xml">
+                <tree string="Reduced VAT Agreement">
+                    <field name="agreement_code"/>
+                    <field name="partner_id"/>
+                    <field name="agreement_total_amount"/>
+                    <field name="agreement_remaining_amount"/>
+                    <field name="state"/>
+                </tree>
+            </field>
+        </record>
+        
+        <record id="reduced_vat_agreement_view" model="ir.ui.view">
+            <field name="name">Reduced VAT Agreement Form</field>
+            <field name="model">construction.reduced_vat_agreement</field>
+            <field name="arch" type="xml">
+                <form string="Reduced VAT Agreement">
+                    <header>
+                        <field name="state" widget="statusbar" statusbar_visible="draft,requested,approved,rejected" />
+                    </header>
+                    <sheet>
+                        <div class="o_title">
+                            <h2>
+                                <field name="name" />
+                            </h2>
+                        </div>
+                        <field name="agreement_code" />
+                        <field name="partner_id"/>
+                        <separator string="Invoices"/>
+                        <field name="asset_ids" nolabel="1" >
+                            <tree string="Invoices" editable="false">
+                                <field name="number"/>
+                                <field name="invoice_date"/>
+                                <field name="amount_untaxed"/>
+                                <field name="state"/>
+                            </tree>
+                        </field>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+        
+        <record id="open_view_reduced_vat_agreement_all_config" model="ir.actions.act_window">
+            <field name="name">Reduced VAT Agreements</field>
+            <field name="res_model">construction.reduced_vat_agreement</field>
+            <field name="view_type">form</field>
+            <field name="domain">[]</field>
+            <field name="view_mode">list,form</field>
+            <field name="search_view_id" ref="project.view_project_project_filter"/>
+            <field name="context">{}</field>
+            <field name="help" type="html">
+                <p class="oe_view_nocontent_create">
+                    Create a new Reduced VAT Agreement.
+                </p><p>
+                    Organize your Reduced VAT Agreement (add assets, follow acquisition and sale process, plan projects).
+                </p>
+            </field>
+        </record>
+        
+        <menuitem action="open_view_reduced_vat_agreement_all_config" id="menu_building_projects_config" name="Reduced VAT Agreements" parent="project.menu_project_config" sequence="15"/>
+        
+    </data>
+</openerp>

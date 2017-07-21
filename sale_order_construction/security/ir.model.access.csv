@@ -1,2 +1,0 @@
-id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
-chantier_employee,chantier_employee,model_sale_order_construction_chantier,group_employee,1,1,1,1

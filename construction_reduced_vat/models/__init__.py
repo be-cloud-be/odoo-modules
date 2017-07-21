@@ -19,4 +19,4 @@
 #
 ##############################################################################
 
-import sale_order
+import construction_reduced_vat
