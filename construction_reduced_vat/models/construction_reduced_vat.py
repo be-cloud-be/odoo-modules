@@ -50,10 +50,13 @@ class ReducedVATAgreement(models.Model):
     def _compute_name(self):
        self.name = "%s - %s" % (self.agreement_code, self.partner_id.name)
     
-    agreement_total_amount = fields.Monetary(string="Agreement Total Amount", track_visibility='onchange')
-    
+    agreement_total_amount = fields.Monetary(string="Agreement Total Amount", currency_field='company_currency_id', track_visibility='onchange')
     invoice_ids = fields.One2many('account.invoice','reduced_vat_agreement_id',string="Invoices")
-    agreement_remaining_amount = fields.Monetary(string="Agreement Remaining Amount", compute="_compute_remaining_amount",store=True)
+    agreement_remaining_amount = fields.Monetary(string="Agreement Remaining Amount", compute="_compute_remaining_amount", currency_field='company_currency_id', store=True)
+    company_currency_id = fields.Many2one('res.currency', related='company_id.currency_id', string="Company Currency", readonly=True)
+    company_id = fields.Many2one('res.company', string='Company', change_default=True,
+        required=True, readonly=True, states={'draft': [('readonly', False)]},
+        default=lambda self: self.env['res.company']._company_default_get('account.invoice'))
     
     @api.one
     @api.depends('agreement_total_amount','invoice_ids.amount_untaxed')
