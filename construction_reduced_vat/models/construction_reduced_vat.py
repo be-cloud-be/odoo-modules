@@ -36,7 +36,7 @@ class ReducedVATAgreement(models.Model):
             ('approved', 'Approved'),
             ('rejected', 'Rejected'),
             ('archived', 'Archived'),
-        ], string='State', required=True, help="")
+        ], string='State', required=True, help="", default="draft")
         
     active = fields.Boolean(default=True)
     
