@@ -2,6 +2,31 @@
 <odoo>
     <data>
         
+        <record id="view_reduced_vat_agreement_report" model="ir.ui.view">
+            <field name="name">Reduced VAT Agreement Report</field>
+            <field name="model">construction.reduced_vat_agreement_report</field>
+            <field name="arch" type="xml">
+                <tree string="Reduced VAT Agreement Report">
+                    <field name="agreement_code"/>
+                    <field name="matricule"/>
+                    <field name="zip_code"/>
+                    <field name="date"/>
+                    <field name="number"/>
+                    <field name="amount_untaxed"/>
+                    <field name="amount_tax"/>
+                </tree>
+            </field>
+        </record>
+        
+        <record id="open_view_reduced_vat_agreement_report" model="ir.actions.act_window">
+            <field name="name">Reduced VAT Agreements Report</field>
+            <field name="res_model">construction.reduced_vat_agreement_report</field>
+            <field name="view_type">form</field>
+            <field name="domain">[]</field>
+            <field name="view_mode">list</field>
+            <!--<field name="search_view_id" ref="project.view_project_project_filter"/>-->
+            <field name="context">{}</field>
+        </record>
         
         <menuitem action="open_view_reduced_vat_agreement_report" id="menu_building_projects_config" name="Reduced VAT Agreements Report" parent="construction.menu_construction" sequence="35"/>
         
