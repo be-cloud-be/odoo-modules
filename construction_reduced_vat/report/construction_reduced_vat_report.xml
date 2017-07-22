@@ -9,7 +9,7 @@
                 <tree string="Reduced VAT Agreement Report">
                     <field name="agreement_code"/>
                     <field name="matricule"/>
-                    <field name="zip_code"/>
+                    <field name="zip"/>
                     <field name="date"/>
                     <field name="number"/>
                     <field name="amount_untaxed"/>
