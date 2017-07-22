@@ -89,5 +89,18 @@
         
         <menuitem action="open_view_reduced_vat_agreement_all_config" id="menu_building_projects_config" name="Reduced VAT Agreements" parent="project.menu_project_config" sequence="15"/>
         
+        <!-- Add link to building asset on Sale Order form view -->
+        <record id="invoice_form_reduced_vat_agreement" model="ir.ui.view">
+            <field name="name">account.invoice.form.reduced_vat_agreement</field>
+            <field name="model">account.invoice</field>
+            <field name="inherit_id" ref="account.invoice_form" />
+            <field eval="18" name="priority" />
+            <field name="arch" type="xml">
+                <xpath expr="//field[@name='date_invoice']" position="after">
+                    <field name='reduced_vat_agreement_id' domain="[('partner_id', '=', partner_id)]" />
+                </xpath>
+            </field>
+        </record>
+        
     </data>
 </openerp>
