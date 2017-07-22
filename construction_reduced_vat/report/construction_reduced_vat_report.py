@@ -47,7 +47,7 @@ class ReducedVATAgreementReport(models.Model):
         # self._table = construction_reduced_vat_agreement_report
         tools.drop_view_if_exists(self.env.cr, self._table)
         self.env.cr.execute("""CREATE or REPLACE VIEW %s as (
-            SELECT agg.agreement_code, cust.matricule, s_addr.zip, inv.date_invoice as date, inv.move_name as number, inv.amount_untaxed, inv.amount_tax
+            SELECT inv.id, agg.agreement_code, cust.matricule, s_addr.zip, inv.date_invoice as date, inv.move_name as number, inv.amount_untaxed, inv.amount_tax
             FROM account_invoice inv, res_partner cust, construction_reduced_vat_agreement agg, construction_building_asset ba, construction_building_site bs, res_partner s_addr
             WHERE inv.partner_id = cust.id AND inv.reduced_vat_agreement_id = agg.id AND inv.building_asset_id = ba.id AND ba.site_id = bs.id AND bs.address_id = s_addr.id
         )""" % (self._table))
