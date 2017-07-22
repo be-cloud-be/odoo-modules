@@ -39,8 +39,8 @@ class ReducedVATAgreementReport(models.Model):
     zip_code = fields.Char(string="Zip Code",readonly=True)
     date = fields.Date(string="Date",readonly=True)
     number = fields.Char(string="Number",readonly=True)
-    amount_untaxed = fields.Monetary(string='Untaxed Amount',readonly=True)
-    amount_tax = fields.Monetary(string='Tax Amount',readonly=True)
+    amount_untaxed = fields.Integer(string='Untaxed Amount',readonly=True)
+    amount_tax = fields.Integer(string='Tax Amount',readonly=True)
     
     @api.model_cr
     def init(self):
