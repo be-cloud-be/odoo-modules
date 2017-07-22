@@ -57,7 +57,7 @@
                             <field name="agreement_total_amount"/>
                         </group>
                         <separator string="Invoices"/>
-                        <field name="invoice_ids" nolabel="1" >
+                        <field name="invoice_ids" nolabel="1" readonly="1">
                             <tree string="Invoices" editable="false">
                                 <field name="number"/>
                                 <field name="date_invoice"/>
@@ -97,7 +97,7 @@
             <field eval="18" name="priority" />
             <field name="arch" type="xml">
                 <xpath expr="//field[@name='date_invoice']" position="after">
-                    <field name='reduced_vat_agreement_id' domain="[('partner_id', '=', partner_id)]" />
+                    <field name='reduced_vat_agreement_id' domain="[('partner_id', '=', partner_id)]" options="{'no_create': True}" />
                 </xpath>
             </field>
         </record>
