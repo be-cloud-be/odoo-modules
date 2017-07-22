@@ -131,3 +131,9 @@ class Invoice(models.Model):
     _inherit = 'account.invoice'
     
     building_asset_id = fields.Many2one('construction.building_asset', string='Building Asset', ondelete='set null')
+    
+class Partner(models.Model):
+    '''Partner'''
+    _inherit = 'res.partner'
+    
+    matricule = fields.Char(string="Matricule")
