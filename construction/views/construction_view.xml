@@ -23,7 +23,7 @@
 <openerp>
     <data>
         
-        <menuitem id="menu_construction" name="Construction" parent="project.menu_project" sequence="10"/>
+        <menuitem id="menu_construction" name="Construction" parent="project.menu_main_pm" sequence="10"/>
         
         <!--
         
@@ -168,7 +168,7 @@
             </field>
         </record>
         
-        <menuitem action="open_view_building_site_all_config" id="menu_building_projects_config" name="Building Sites" parent="project.menu_project_config" sequence="15"/>
+        <menuitem action="open_view_building_site_all_config" id="menu_building_projects_config" name="Building Sites" parent="construction.menu_construction" sequence="15"/>
         
         <!--
         
@@ -255,7 +255,7 @@
             </field>
         </record>
         
-        <menuitem action="open_view_building_asset_all_config" id="menu_building_assets_config" name="Building Assets" parent="project.menu_project_config" sequence="20"/>
+        <menuitem action="open_view_building_asset_all_config" id="menu_building_assets_config" name="Building Assets" parent="construction.menu_construction" sequence="25"/>
         
         
         <!--
