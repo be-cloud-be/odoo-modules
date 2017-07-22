@@ -39,8 +39,12 @@ class ReducedVATAgreementReport(models.Model):
     zip = fields.Char(string="Zip Code",readonly=True)
     date = fields.Date(string="Date",readonly=True)
     number = fields.Char(string="Number",readonly=True)
-    amount_untaxed = fields.Integer(string='Untaxed Amount',readonly=True)
-    amount_tax = fields.Integer(string='Tax Amount',readonly=True)
+    amount_untaxed = fields.Monetary(string='Untaxed Amount',readonly=True, currency_field='company_currency_id')
+    amount_tax = fields.Monetary(string='Tax Amount',readonly=True, currency_field='company_currency_id')
+    
+    company_currency_id = fields.Many2one('res.currency', related='company_id.currency_id', string="Company Currency", readonly=True)
+    company_id = fields.Many2one('res.company', string='Company', readonly=True,
+        default=lambda self: self.env['res.company']._company_default_get('account.invoice'))
     
     @api.model_cr
     def init(self):
