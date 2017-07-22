@@ -15,6 +15,7 @@
     'data': [
         'views/construction_reduced_vat_view.xml',
         'security/ir.model.access.csv',
+        'report/construction_reduced_vat_report.xml',
     ],
     'installable': True,
     'active': True,
