@@ -51,8 +51,11 @@
                                 <field name="name" />
                             </h2>
                         </div>
-                        <field name="agreement_code" />
-                        <field name="partner_id"/>
+                        <group col="2">
+                            <field name="agreement_code" />
+                            <field name="partner_id"/>
+                            <field name="agreement_total_amount"/>
+                        </group>
                         <separator string="Invoices"/>
                         <field name="invoice_ids" nolabel="1" >
                             <tree string="Invoices" editable="false">
