@@ -43,7 +43,12 @@
             <field name="arch" type="xml">
                 <form string="Reduced VAT Agreement">
                     <header>
-                        <field name="state" widget="statusbar" statusbar_visible="draft,requested,approved,rejected" />
+                        <button name="action_request" type="object" states="draft" string="Validate" class="oe_highlight" groups="account.group_account_invoice"/>
+                        <button name="action_approve" type="object" states="draft,requested" string="Approve" groups="account.group_account_invoice"/>
+                        <button name="action_reject" type="object" states="requested" string="Reject" groups="account.group_proforma_invoices"/>
+                        <button name="action_archive" type="object" states="draft,requested,rejected" string="Archive" groups="account.group_proforma_invoices"/>
+                        <button name="action_draft" type="object" states="requested,approved,rejected,archived" string="Reset to Draft" type="object" groups="account.group_account_invoice"/>
+                        <field name="state" widget="statusbar" nolabel="1" statusbar_visible="draft,requested,approved,rejected" />
                     </header>
                     <sheet>
                         <div class="o_title">
