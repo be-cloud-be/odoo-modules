@@ -36,7 +36,7 @@ class ReducedVATAgreementReport(models.Model):
     
     agreement_code = fields.Char(string='Agreement Code',readonly=True)
     matricule = fields.Char(string="Matricule",readonly=True)
-    zip_code = fields.Char(string="Zip Code",readonly=True)
+    zip = fields.Char(string="Zip Code",readonly=True)
     date = fields.Date(string="Date",readonly=True)
     number = fields.Char(string="Number",readonly=True)
     amount_untaxed = fields.Integer(string='Untaxed Amount',readonly=True)
