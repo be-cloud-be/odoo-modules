@@ -68,4 +68,4 @@ class Invoice(models.Model):
     '''Invoice'''
     _inherit = 'account.invoice'
     
-    agreement_code = fields.Char(string='Agreement Code',help='Agreement Code given by the administration', readonly=True)
+    reduced_vat_agreement_id = fields.Many2one('construction.reduced_vat_agreement', string='Reduced VAT Agreement', readonly=True, states={'draft': [('readonly', False)]})
