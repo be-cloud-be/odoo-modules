@@ -93,7 +93,7 @@
             </field>
         </record>
         
-        <menuitem action="open_view_reduced_vat_agreement_all_config" id="menu_building_projects_config" name="Reduced VAT Agreements" parent="project.menu_project_config" sequence="15"/>
+        <menuitem action="open_view_reduced_vat_agreement_all_config" id="menu_building_projects_config" name="Reduced VAT Agreements" parent="construction.menu_construction" sequence="30"/>
         
         <!-- Add link to building asset on Sale Order form view -->
         <record id="invoice_form_reduced_vat_agreement" model="ir.ui.view">

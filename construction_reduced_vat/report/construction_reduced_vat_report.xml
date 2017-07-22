@@ -1,6 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <odoo>
     <data>
-    
+        
+        
+        <menuitem action="open_view_reduced_vat_agreement_report" id="menu_building_projects_config" name="Reduced VAT Agreements Report" parent="construction.menu_construction" sequence="35"/>
+        
     </data>
 </odoo>

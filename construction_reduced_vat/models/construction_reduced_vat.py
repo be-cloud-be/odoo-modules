@@ -66,7 +66,7 @@ class ReducedVATAgreement(models.Model):
         
     active = fields.Boolean(default=True)
     
-    agreement_code = fields.Char(string='Agreement Code',help='Agreement Code given by the administration', readonly=True, states={'draft': [('readonly', False)]})
+    agreement_code = fields.Char(string='Code',help='Agreement Code given by the administration', readonly=True, states={'draft': [('readonly', False)]})
     partner_id = fields.Many2one('res.partner', string='Customer', readonly=True, states={'draft': [('readonly', False)]}, required=True)
     
     name = fields.Char(compute='_compute_name', store=True)
@@ -76,9 +76,9 @@ class ReducedVATAgreement(models.Model):
     def _compute_name(self):
        self.name = "%s - %s" % (self.agreement_code, self.partner_id.name)
     
-    agreement_total_amount = fields.Monetary(string="Agreement Total Amount", currency_field='company_currency_id', track_visibility='onchange')
+    agreement_total_amount = fields.Monetary(string="Total Amount", currency_field='company_currency_id', track_visibility='onchange', readonly=True, states={'draft': [('readonly', False)]})
     invoice_ids = fields.One2many('account.invoice','reduced_vat_agreement_id',string="Invoices")
-    agreement_remaining_amount = fields.Monetary(string="Agreement Remaining Amount", compute="_compute_remaining_amount", currency_field='company_currency_id', store=True)
+    agreement_remaining_amount = fields.Monetary(string="Remaining Amount", compute="_compute_remaining_amount", currency_field='company_currency_id', store=True)
     company_currency_id = fields.Many2one('res.currency', related='company_id.currency_id', string="Company Currency", readonly=True)
     company_id = fields.Many2one('res.company', string='Company', change_default=True,
         required=True, readonly=True, states={'draft': [('readonly', False)]},

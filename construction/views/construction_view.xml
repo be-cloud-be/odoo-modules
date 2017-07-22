@@ -23,6 +23,8 @@
 <openerp>
     <data>
         
+        <menuitem id="menu_construction" name="Construction" parent="project.menu_project" sequence="10"/>
+        
         <!--
         
             Building Sites
