@@ -43,15 +43,14 @@ class ReducedVATAgreementReport(models.Model):
     amount_tax = fields.Monetary(string='Tax Amount',readonly=True, currency_field='company_currency_id')
     
     company_currency_id = fields.Many2one('res.currency', related='company_id.currency_id', string="Company Currency", readonly=True)
-    company_id = fields.Many2one('res.company', string='Company', readonly=True,
-        default=lambda self: self.env['res.company']._company_default_get('account.invoice'))
+    company_id = fields.Many2one('res.company', string='Company', readonly=True)
     
     @api.model_cr
     def init(self):
         # self._table = construction_reduced_vat_agreement_report
         tools.drop_view_if_exists(self.env.cr, self._table)
         self.env.cr.execute("""CREATE or REPLACE VIEW %s as (
-            SELECT inv.id, agg.agreement_code, cust.matricule, s_addr.zip, inv.date_invoice as date, inv.move_name as number, inv.amount_untaxed, inv.amount_tax
+            SELECT inv.id, agg.agreement_code, cust.matricule, s_addr.zip, inv.date_invoice as date, inv.move_name as number, inv.amount_untaxed, inv.amount_tax, inv.company_id
             FROM account_invoice inv, res_partner cust, construction_reduced_vat_agreement agg, construction_building_asset ba, construction_building_site bs, res_partner s_addr
             WHERE inv.partner_id = cust.id AND inv.reduced_vat_agreement_id = agg.id AND inv.building_asset_id = ba.id AND ba.site_id = bs.id AND bs.address_id = s_addr.id
         )""" % (self._table))
