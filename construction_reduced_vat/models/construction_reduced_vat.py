@@ -62,7 +62,7 @@ class ReducedVATAgreement(models.Model):
         
     @api.multi
     def action_archive(self):
-        return self.write({'state': 'arvhived','active':False})
+        return self.write({'state': 'archived','active':False})
         
     active = fields.Boolean(default=True)
     
