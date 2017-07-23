@@ -24,8 +24,8 @@
             <field name="arch" type="xml">
                 <search string="Search Project">
                     <field name="partner_id" string="Customer"/>
-                    <field name="current_quarter" string="Current Quarter"/>
-                    <field name="last_quarter" string="Last Quarter"/>
+                    <field name="current_quarter" string="Current Quarter" omain="[('current_quarter','=',True)]"/>
+                    <field name="last_quarter" string="Last Quarter" omain="[('last_quarter','=',True)]"/>
                     <filter string="Archived" name="inactive" domain="[('active','=',False)]"/>
                 </search>
             </field>
