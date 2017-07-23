@@ -18,13 +18,26 @@
             </field>
         </record>
         
+        <record id="reduced_vat_agreement_report_filter" model="ir.ui.view">
+            <field name="name">reduced_vat_agreement.reduced_vat_agreement_report.select</field>
+            <field name="model">construction.reduced_vat_agreement_report</field>
+            <field name="arch" type="xml">
+                <search string="Search Project">
+                    <field name="partner_id" string="Customer"/>
+                    <field name="current_quarter" string="Current Quarter"/>
+                    <field name="last_quarter" string="Last Quarter"/>
+                    <filter string="Archived" name="inactive" domain="[('active','=',False)]"/>
+                </search>
+            </field>
+        </record>
+        
         <record id="open_view_reduced_vat_agreement_report" model="ir.actions.act_window">
             <field name="name">Reduced VAT Agreements Report</field>
             <field name="res_model">construction.reduced_vat_agreement_report</field>
             <field name="view_type">form</field>
             <field name="domain">[]</field>
             <field name="view_mode">list</field>
-            <!--<field name="search_view_id" ref="project.view_project_project_filter"/>-->
+            <field name="search_view_id" ref="construction_reduced_vat.reduced_vat_agreement_report_filter"/>
             <field name="context">{}</field>
         </record>
         
