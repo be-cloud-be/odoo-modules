@@ -45,6 +45,9 @@ class ReducedVATAgreementReport(models.Model):
     company_currency_id = fields.Many2one('res.currency', related='company_id.currency_id', string="Company Currency", readonly=True)
     company_id = fields.Many2one('res.company', string='Company', readonly=True)
     
+    last_quarter = fields.Boolean('Last Quarter')
+    current_quarter = fields.Boolean('Current Quarter')
+    
     @api.model_cr
     def init(self):
         # self._table = construction_reduced_vat_agreement_report
