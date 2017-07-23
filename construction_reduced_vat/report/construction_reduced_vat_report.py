@@ -48,6 +48,7 @@ class ReducedVATAgreementReport(models.Model):
     last_quarter = fields.Boolean('Last Quarter')
     current_quarter = fields.Boolean('Current Quarter')
     active = fields.Boolean('Active')
+    partner_id = fields.Many2one('res.partner', string='Customer', readonly=True)
     
     @api.model_cr
     def init(self):
@@ -58,6 +59,7 @@ class ReducedVATAgreementReport(models.Model):
             , to_char(date_trunc('quarter', current_date)::date - 1, 'yyyy-q') = to_char(inv.date_invoice, 'yyyy-q') as last_quarter
             , to_char(current_date, 'yyyy-q') = to_char(inv.date_invoice, 'yyyy-q') as current_quarter            
             , agg.active
+            , inv.partner_id
             FROM account_invoice inv, res_partner cust, construction_reduced_vat_agreement agg, construction_building_asset ba, construction_building_site bs, res_partner s_addr
             WHERE inv.partner_id = cust.id AND inv.reduced_vat_agreement_id = agg.id AND inv.building_asset_id = ba.id AND ba.site_id = bs.id AND bs.address_id = s_addr.id
         )""" % (self._table))
