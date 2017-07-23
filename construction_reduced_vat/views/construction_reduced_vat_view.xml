@@ -115,7 +115,7 @@
                     Agréation TVA : <span t-field="o.reduced_vat_agreement_id.agreement_code"/>
                 </p>
                 <p>
-                    Matricule : <span t-field="o.partner_id.matricle"/>
+                    Matricule : <span t-field="o.partner_id.matricule"/>
                 </p>
                 </t>
             </xpath>
