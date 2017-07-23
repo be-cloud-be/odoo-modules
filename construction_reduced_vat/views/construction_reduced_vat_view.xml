@@ -95,7 +95,7 @@
         
         <menuitem action="open_view_reduced_vat_agreement_all" id="menu_reduced_vat_agreement_all" name="Reduced VAT Agreements" parent="construction.menu_construction" sequence="30"/>
         
-        <!-- Add link to building asset on Sale Order form view -->
+        <!-- Add link Invoice form view -->
         <record id="invoice_form_reduced_vat_agreement" model="ir.ui.view">
             <field name="name">account.invoice.form.reduced_vat_agreement</field>
             <field name="model">account.invoice</field>
@@ -107,6 +107,20 @@
                 </xpath>
             </field>
         </record>
+        
+        <template id="report_invoice_document_inherit_sale_stock" inherit_id="account.report_invoice_document">
+            <xpath expr="//p[@t-if='o.payment_term_id']" position="after">
+                <t t-if="o.reduced_vat_agreement_id">
+                <p>
+                    Agréation TVA : <span t-field="o.reduced_vat_agreement_id.agreement_code"/>
+                </p>
+                <p>
+                    Matricule : <span t-field="o.partner_id.matricle"/>
+                </p>
+                </t>
+            </xpath>
+        </template>
+    
         
     </data>
 </openerp>
