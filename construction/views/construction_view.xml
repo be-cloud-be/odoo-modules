@@ -205,6 +205,7 @@
                             </h2>
                         </div>
                         <group col="2">
+                            <field name="title" class="oe_edit_only"/>
                             <field name="partner_id" />
                             <field name="type" />
                             <field name="confirmed_lead_id" />
