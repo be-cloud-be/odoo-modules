@@ -354,9 +354,9 @@
             <xpath expr="//p[@t-if='o.payment_term_id']" position="after">
                 <t t-if="o.building_asset_id">
                 <p>
-                    Concerne le chantier : 
+                    Concerne le chantier situé : 
                 </p>
-                <div name="invoice_address" class="col-xs-5 col-xs-offset-7">
+                <div name="invoice_address" class="col-xs-5 col-xs-offset-1">
                     <address t-field="o.building_asset_id.site_id.address_id"
                         t-options='{"widget": "contact", "fields": ["address"], "no_marker": True}' />
                 </div>
