@@ -31,7 +31,7 @@
             <field name="arch" type="xml">
                 <xpath expr="//field[@name='confirmed_lead_id']" position="after">
                     <field name="is_vefa"/>
-                    <field name="vefa_bank_account_id" attrs="{'required':[('is_vefa','=',true)],'invisible': [('is_vefa', '=', false)]}"/>
+                    <field name="vefa_bank_account_id" attrs="{'required':[('is_vefa','=',True)],'invisible': [('is_vefa', '=', False)]}"/>
                 </xpath>
             </field>
         </record>
