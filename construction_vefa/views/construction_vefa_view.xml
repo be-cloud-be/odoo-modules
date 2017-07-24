@@ -65,7 +65,7 @@
             <xpath expr="//p[@t-if='o.payment_term_id']" position="after">
                 <t t-if="o.is_vefa">
                 <p>
-                    A payer exclusivement sur le compte de la VEFA : <span t-field="o.vefa_bank_acc_number"/> - <span t-field="o.vefa_bank_id"/>
+                    A payer exclusivement sur le compte de la VEFA : <span t-field="o.building_asset_id.vefa_bank_acc_number"/> - <span t-field="o.building_asset_id.vefa_bank_id"/>
                 </p>
                 </t>
             </xpath>
