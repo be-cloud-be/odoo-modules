@@ -61,19 +61,15 @@
             </field>
         </record>
         
-        <template id="report_invoice_document_inherit_sale_stock" inherit_id="account.report_invoice_document">
+        <template id="report_invoice_document_inherit_vefa" inherit_id="account.report_invoice_document">
             <xpath expr="//p[@t-if='o.payment_term_id']" position="after">
-                <t t-if="o.vefa_id">
+                <t t-if="o.is_vefa">
                 <p>
-                    Agréation TVA : <span t-field="o.vefa_id.agreement_code"/>
-                </p>
-                <p>
-                    Matricule : <span t-field="o.partner_id.matricule"/>
+                    A payer exclusivement sur le compte de la VEFA : <span t-field="o.vefa_bank_acc_number"/> - <span t-field="o.vefa_bank_id"/>
                 </p>
                 </t>
             </xpath>
         </template>
-    
         
     </data>
 </openerp>
