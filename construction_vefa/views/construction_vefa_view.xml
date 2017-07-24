@@ -23,6 +23,18 @@
 <openerp>
     <data>
         
+        <!-- Add boolean Building Asset form view -->
+        <record model="ir.ui.view" id="construction_vefa_sale_order">
+            <field name="name">construction.building_asset.vefa.view.form</field>
+            <field name="model">construction.building_asset</field>
+            <field name="inherit_id" ref="construction.building_asset_view"/>
+            <field name="arch" type="xml">
+                <xpath expr="//field[@name='confirmed_lead_id']" position="after">
+                    <field name="is_vefa"/>
+                </xpath>
+            </field>
+        </record>
+        
         <!-- Add boolean Sale Order form view -->
         <record model="ir.ui.view" id="construction_vefa_sale_order">
             <field name="name">sale.order.vefa.view.form</field>
