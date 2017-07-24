@@ -31,6 +31,7 @@
             <field name="arch" type="xml">
                 <xpath expr="//field[@name='confirmed_lead_id']" position="after">
                     <field name="is_vefa"/>
+                    <field name="vefa_bank_account_id"/>
                 </xpath>
             </field>
         </record>
