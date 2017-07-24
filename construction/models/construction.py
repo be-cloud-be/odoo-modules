@@ -83,7 +83,17 @@ class BuildingAsset(models.Model):
     _name = 'construction.building_asset'
     _description = 'Building Asset'
     
-    name = fields.Char(string="Name")
+    title = fields.Char(string="Title")
+    
+    name = fields.Char(string="Name", compute='_compute_name', store=True)
+    
+    @api.one
+    @api.depends('title','partner_id.name')
+    def _compute_name(self):
+        if self.partner_id :
+            self.name = "%s - %s" % (self.title, self.partner_id.name)
+        else:
+            self.name = self.title
     
     state = fields.Selection([
             ('development', 'In development'),
