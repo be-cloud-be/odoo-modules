@@ -104,12 +104,16 @@ class BuildingAsset(models.Model):
     
     confirmed_lead_id = fields.Many2one('crm.lead', string='Confirmed Lead')
     candidate_lead_ids = fields.One2many('crm.lead', 'building_asset_id', string='Candidate Leads', domain=['|',('active','=',True),('active','=',False)])
-    sale_order_ids = fields.One2many('sale.order', 'building_asset_id', string="Sale Orders")
+    
+    sale_order_ids = fields.One2many('sale.order', 'building_asset_id', string="Sale Orders", readonly=True)
+    invoice_ids = fields.One2many('account.invoice','building_asset_id', string="Invoices", readonly=True) 
     
 class SaleOrder(models.Model):
+    '''Sale Order'''
     _inherit = "sale.order"
     
-    building_asset_id = fields.Many2one('construction.building_asset', string='Building Asset', ondelete='set null')
+    building_site_id = fields.Many2one('construction.building_site', string='Building Site', related="building_asset_id.site_id",store=True)
+    building_asset_id = fields.Many2one('construction.building_asset', string='Building Asset', ondelete='restrict')
     
     @api.onchange('state')
     def update_asset_state(self):
@@ -120,17 +124,30 @@ class SaleOrder(models.Model):
             self.building_asset_id.state = 'sold'
             self.confirmed_lead_id.id = self.opportunity_id.id
             
+    @api.multi
+    def _prepare_invoice(self):
+        invoice_vals = super(SaleOrder, self)._prepare_invoice()
+        invoice_vals['building_asset_id'] = self.building_asset_id.id or False
+        return invoice_vals
+            
 class CrmLean(models.Model):
+    '''CRM Lead'''
     _inherit = "crm.lead"
     
-    building_asset_id = fields.Many2one('construction.building_asset', string='Building Asset', ondelete='set null')
     building_site_id = fields.Many2one('construction.building_site', string='Building Site', related="building_asset_id.site_id",store=True)
+    building_asset_id = fields.Many2one('construction.building_asset', string='Building Asset', ondelete='restrict')
+    
+    @api.multi
+    def _convert_opportunity_data(self, customer, team_id=False):
+        res = super(CrmLean, self)._convert_opportunity_data(self, customer, team_id)
+        res['building_asset_id'] = self.building_asset_id.id or False
     
 class Invoice(models.Model):
     '''Invoice'''
     _inherit = 'account.invoice'
     
-    building_asset_id = fields.Many2one('construction.building_asset', string='Building Asset', ondelete='set null')
+    building_site_id = fields.Many2one('construction.building_site', string='Building Site', related="building_asset_id.site_id",store=True)
+    building_asset_id = fields.Many2one('construction.building_asset', string='Building Asset', ondelete='restrict')
     
 class Partner(models.Model):
     '''Partner'''
