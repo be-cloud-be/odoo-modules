@@ -102,8 +102,14 @@ class BuildingAsset(models.Model):
     
     site_id = fields.Many2one('construction.building_site', string='Building Site')
     
+    partner_id = fields.Many2one('res.partner', string='Customer', ondelete='restrict', help="Customer for this asset.")
+    
     confirmed_lead_id = fields.Many2one('crm.lead', string='Confirmed Lead')
     candidate_lead_ids = fields.One2many('crm.lead', 'building_asset_id', string='Candidate Leads', domain=['|',('active','=',True),('active','=',False)])
+    
+    @api.onchange('confirmed_lead_id')
+    def update_confirmed_lead_id(self):
+        self.partner_id = self.confirmed_lead_id.partner_id
     
     sale_order_ids = fields.One2many('sale.order', 'building_asset_id', string="Sale Orders", readonly=True)
     invoice_ids = fields.One2many('account.invoice','building_asset_id', string="Invoices", readonly=True) 
