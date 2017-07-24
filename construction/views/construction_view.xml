@@ -264,6 +264,17 @@
         
         -->
         
+        <!-- Add link to building asset on Sale Order tree view -->
+        <record id="view_order_tree_construction" model="ir.ui.view">
+            <field name="model">sale.order</field>
+            <field name="inherit_id" ref="sale.view_order_tree"/>
+            <field name="arch" type="xml">
+                <field name="partner_id" position="after">
+                    <field name="building_asset_id"/>
+                </field>
+            </field>
+        </record>
+        
         <!-- Add link to building asset on Sale Order form view -->
         <record id="view_sale_order_form_construction" model="ir.ui.view">
             <field name="name">view.sale.order.form.construction</field>
@@ -274,6 +285,17 @@
                 <xpath expr="//field[@name='confirmation_date']" position="after">
                     <field name='building_asset_id' options="{'no_create': True}" />
                 </xpath>
+            </field>
+        </record>
+        
+        <!-- Add link to building asset on Invoice tree view -->
+        <record id="invoice_tree_construction" model="ir.ui.view">
+            <field name="model">account.invoice</field>
+            <field name="inherit_id" ref="account.invoice_tree"/>
+            <field name="arch" type="xml">
+                <field name="partner_id" position="after">
+                    <field name="building_asset_id"/>
+                </field>
             </field>
         </record>
         
@@ -290,7 +312,7 @@
             </field>
         </record>
         
-        <!-- Add link to building asset on Sale Order form view -->
+        <!-- Add link to building asset on CRM Lead form view -->
         <record id="view_crm_lead_form_construction" model="ir.ui.view">
             <field name="name">view.crm.lead.form.construction</field>
             <field name="model">crm.lead</field>
@@ -303,7 +325,7 @@
             </field>
         </record>
         
-        <!-- Add link to building asset on Sale Order form view -->
+        <!-- Add matricule to Partner form view -->
         <record id="res_partner_construction" model="ir.ui.view">
         <field name="name">res.partner.form.inherit.construction</field>
         <field name="model">res.partner</field>
