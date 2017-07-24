@@ -221,6 +221,18 @@
                                     </tree>
                                 </field>
                             </page>
+                            <page string="Invoices">
+                                <field name="invoice_ids" nolabel="1" readonly="1">
+                                    <tree string="Invoices" editable="false">
+                                        <field name="number"/>
+                                        <field name="date_invoice"/>
+                                        <field name="amount_untaxed" string="Untaxed" sum="Untaxed"/>
+                                        <field name="amount_total" string="Total" sum="Total"/>
+                                        <field name="residual"  string="Due" sum="Total Due"/>
+                                        <field name="state"/>
+                                    </tree>
+                                </field>
+                            </page>
                             <page string="Candidate Leads">
                                 <field name="candidate_lead_ids" nolabel="1" >
                                     <tree string="Candidate Leads" editable="false">
