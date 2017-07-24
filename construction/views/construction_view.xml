@@ -271,8 +271,8 @@
             <field name="inherit_id" ref="sale.view_order_form" />
             <field eval="18" name="priority" />
             <field name="arch" type="xml">
-                <xpath expr="//field[@name='project_id']" position="after">
-                    <field name='building_asset_id' />
+                <xpath expr="//field[@name='confirmation_date']" position="after">
+                    <field name='building_asset_id' options="{'no_create': True}" />
                 </xpath>
             </field>
         </record>

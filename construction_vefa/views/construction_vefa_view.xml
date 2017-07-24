@@ -23,92 +23,36 @@
 <openerp>
     <data>
         
-        <record id="view_vefa_tree" model="ir.ui.view">
-            <field name="name">VEFA Tree</field>
-            <field name="model">construction.vefa</field>
+        <!-- Add boolean Sale Order form view -->
+        <record model="ir.ui.view" id="construction_vefa_sale_order">
+            <field name="name">sale.order.vefa.view.form</field>
+            <field name="model">sale.order</field>
+            <field name="inherit_id" ref="sale.view_order_form"/>
             <field name="arch" type="xml">
-                <tree string="VEFA">
-                    <field name="building_asset_id"/>
-                    <field name="partner_id"/>
-                    <field name="state"/>
-                </tree>
+                <xpath expr="//fields[@name='confirmation_date']" position="after">
+                    <field name="is_vefa"/>
+                </xpath>
             </field>
         </record>
         
-        <record id="rvefa_view" model="ir.ui.view">
-            <field name="name">VEFA</field>
-            <field name="model">construction.vefa</field>
-            <field name="arch" type="xml">
-                <form string="VEFA">
-                    <header>
-                        <button name="action_progress" type="object" states="draft" string="Validate" class="oe_highlight" groups="account.group_account_invoice"/>
-                        <button name="action_draft" type="object" states="requested,approved,rejected,archived" string="Reset to Draft" groups="account.group_account_invoice"/>
-                        <button name="action_archive" type="object" states="draft,requested,approved,rejected" string="Archive" groups="account.group_account_invoice"/>
-                        <field name="state" widget="statusbar" nolabel="1" statusbar_visible="draft,progress" />
-                    </header>
-                    <sheet>
-                        <div class="o_title">
-                            <h2>
-                                <field name="name" />
-                            </h2>
-                        </div>
-                        <group col="2">
-                            <field name="agreement_code" />
-                            <field name="partner_id"/>
-                            <field name="agreement_total_amount"/>
-                            <field name="agreement_remaining_amount"/>
-                        </group>
-                        <separator string="Invoices"/>
-                        <field name="invoice_ids" nolabel="1" readonly="1">
-                            <tree string="Invoices" editable="false">
-                                <field name="number"/>
-                                <field name="date_invoice"/>
-                                <field name="amount_untaxed"/>
-                                <field name="state"/>
-                            </tree>
-                        </field>
-                    </sheet>
-                </form>
-            </field>
-        </record>
-        
-        <record id="open_view_reduced_vat_agreement_all" model="ir.actions.act_window">
-            <field name="name">Reduced VAT Agreements</field>
-            <field name="res_model">construction.reduced_vat_agreement</field>
-            <field name="view_type">form</field>
-            <field name="domain">[]</field>
-            <field name="view_mode">list,form</field>
-            <!--<field name="search_view_id" ref="project.view_project_project_filter"/>-->
-            <field name="context">{}</field>
-            <field name="help" type="html">
-                <p class="oe_view_nocontent_create">
-                    Create a new Reduced VAT Agreement.
-                </p><p>
-                    Organize your Reduced VAT Agreements.
-                </p>
-            </field>
-        </record>
-        
-        <menuitem action="open_view_reduced_vat_agreement_all" id="menu_reduced_vat_agreement_all" name="Reduced VAT Agreements" parent="construction.menu_construction" sequence="30"/>
-        
-        <!-- Add link Invoice form view -->
-        <record id="invoice_form_reduced_vat_agreement" model="ir.ui.view">
-            <field name="name">account.invoice.form.reduced_vat_agreement</field>
+        <!-- Add boolean Invoice form view -->
+        <record id="invoice_form_vefa" model="ir.ui.view">
+            <field name="name">account.invoice.form.vefa</field>
             <field name="model">account.invoice</field>
             <field name="inherit_id" ref="account.invoice_form" />
             <field eval="18" name="priority" />
             <field name="arch" type="xml">
                 <xpath expr="//field[@name='date_invoice']" position="after">
-                    <field name='reduced_vat_agreement_id' domain="[('partner_id', '=', partner_id)]" options="{'no_create': True}" />
+                    <field name='is_vefa' />
                 </xpath>
             </field>
         </record>
         
         <template id="report_invoice_document_inherit_sale_stock" inherit_id="account.report_invoice_document">
             <xpath expr="//p[@t-if='o.payment_term_id']" position="after">
-                <t t-if="o.reduced_vat_agreement_id">
+                <t t-if="o.vefa_id">
                 <p>
-                    Agréation TVA : <span t-field="o.reduced_vat_agreement_id.agreement_code"/>
+                    Agréation TVA : <span t-field="o.vefa_id.agreement_code"/>
                 </p>
                 <p>
                     Matricule : <span t-field="o.partner_id.matricule"/>
