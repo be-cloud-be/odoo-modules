@@ -339,15 +339,30 @@
         
         <!-- Add matricule to Partner form view -->
         <record id="res_partner_construction" model="ir.ui.view">
-        <field name="name">res.partner.form.inherit.construction</field>
-        <field name="model">res.partner</field>
-        <field name="inherit_id" ref="base.view_partner_form" />
-        <field name="arch" type="xml">
-            <xpath expr="//field[@name='function']" position="before">
-                <field name='matricule' />
+            <field name="name">res.partner.form.inherit.construction</field>
+            <field name="model">res.partner</field>
+            <field name="inherit_id" ref="base.view_partner_form" />
+            <field name="arch" type="xml">
+                <xpath expr="//field[@name='function']" position="before">
+                    <field name='matricule' />
+                </xpath>
+            </field>
+        </record>
+        
+        <!-- Add asset id and address to invoice -->
+        <template id="report_invoice_document_inherit_construction" inherit_id="account.report_invoice_document">
+            <xpath expr="//p[@t-if='o.payment_term_id']" position="after">
+                <t t-if="o.building_asset_id">
+                <p>
+                    Concerne le chantier : 
+                </p>
+                <div name="invoice_address" class="col-xs-5 col-xs-offset-7">
+                    <address t-field="o.building_asset_id.site_id.address_id"
+                        t-options='{"widget": "contact", "fields": ["address"], "no_marker": True}' />
+                </div>
+                </t>
             </xpath>
-        </field>
-    </record>
+        </template>
         
     </data>
 </openerp>
