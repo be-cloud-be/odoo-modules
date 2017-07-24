@@ -24,7 +24,7 @@
     <data>
         
         <!-- Add boolean Building Asset form view -->
-        <record model="ir.ui.view" id="construction_vefa_sale_order">
+        <record model="ir.ui.view" id="construction_vefa_building_asset_form">
             <field name="name">construction.building_asset.vefa.view.form</field>
             <field name="model">construction.building_asset</field>
             <field name="inherit_id" ref="construction.building_asset_view"/>
