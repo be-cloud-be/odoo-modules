@@ -85,9 +85,6 @@
             <field name="model">construction.building_site</field>
             <field name="arch" type="xml">
                 <form string="Building Site">
-                    <header>
-                        <field name="construction_state" widget="statusbar" statusbar_visible="development,onsale,construction" />
-                    </header>
                     <sheet>
                         <div class="o_title">
                             <h2>
@@ -184,7 +181,6 @@
                     <field name="site_id"/>
                     <field name="name"/>
                     <field name="type"/>
-                    <field name="confirmed_lead_id"/>
                     <field name="state"/>
                 </tree>
             </field>
@@ -195,9 +191,6 @@
             <field name="model">construction.building_asset</field>
             <field name="arch" type="xml">
                 <form string="Building Asset">
-                    <header>
-                        <field name="state" widget="statusbar" statusbar_visible="development,onsale,proposal,sold" />
-                    </header>
                     <sheet>
                         <div class="oe_title">
                             <h2>
@@ -208,6 +201,7 @@
                             <field name="title" class="oe_edit_only"/>
                             <field name="partner_id" />
                             <field name="type" />
+                            <field name="state"/>
                             <field name="confirmed_lead_id" />
                         </group>
                         <notebook>

@@ -107,7 +107,7 @@ class BuildingAsset(models.Model):
             ('duplex', 'Duplex'),
             ('house', 'House'),
             ('contiguous', 'Contiguous House'),
-            ('prking', 'Parking'),
+            ('parking', 'Parking'),
         ], string='Type of asset', required=True, help="")
     
     site_id = fields.Many2one('construction.building_site', string='Building Site')
@@ -120,6 +120,7 @@ class BuildingAsset(models.Model):
     @api.onchange('confirmed_lead_id')
     def update_confirmed_lead_id(self):
         self.partner_id = self.confirmed_lead_id.partner_id
+        self.state = 'sold'
     
     sale_order_ids = fields.One2many('sale.order', 'building_asset_id', string="Sale Orders", readonly=True)
     invoice_ids = fields.One2many('account.invoice','building_asset_id', string="Invoices", readonly=True) 
