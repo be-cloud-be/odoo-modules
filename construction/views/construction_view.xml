@@ -307,7 +307,7 @@
             </field>
         </record>
         
-        <!-- Add link to building asset on Invoice tree view
+        <!-- Add link to building asset on Invoice tree view  -->
         <record id="invoice_tree_construction" model="ir.ui.view">
             <field name="model">account.invoice</field>
             <field name="inherit_id" ref="account.invoice_tree"/>
@@ -317,7 +317,7 @@
                     <field name="building_asset_id"/>
                 </field>
             </field>
-        </record> -->
+        </record>
         
         <!-- Add link to building asset on Invoice form view -->
         <record id="invoice_form_construction" model="ir.ui.view">
