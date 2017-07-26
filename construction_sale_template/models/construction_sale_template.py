@@ -90,6 +90,8 @@ class SaleOrderTemplateLine(models.Model):
         if product.description_sale:
             name += '\n' + product.description_sale
         vals['name'] = name
+        
+        self.update(vals)
 
         self._compute_tax_id()
 
