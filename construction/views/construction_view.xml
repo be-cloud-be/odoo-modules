@@ -29,6 +29,8 @@
             groups="project.group_project_manager,project.group_project_user"
             web_icon="construction,static/description/icon.png"
             sequence="48"/>
+            
+        <menuitem id="menu_building_projects" name="Building Projects" parent="construction.menu_construction" sequence="10"/>
         
         <!--
         
@@ -170,7 +172,7 @@
             </field>
         </record>
         
-        <menuitem action="open_view_building_site_all_config" id="menu_building_projects_config" name="Building Sites" parent="construction.menu_construction" sequence="15"/>
+        <menuitem action="open_view_building_site_all_config" id="menu_building_projects_config" name="Building Sites" parent="construction.menu_building_projects" sequence="15"/>
         
         <!--
         
@@ -268,7 +270,7 @@
             </field>
         </record>
         
-        <menuitem action="open_view_building_asset_all_config" id="menu_building_assets_config" name="Building Assets" parent="construction.menu_construction" sequence="25"/>
+        <menuitem action="open_view_building_asset_all_config" id="menu_building_assets_config" name="Building Assets" parent="construction.menu_building_projects" sequence="25"/>
         
         
         <!--

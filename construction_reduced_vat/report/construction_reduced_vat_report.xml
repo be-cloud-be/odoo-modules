@@ -41,7 +41,7 @@
             <field name="context">{}</field>
         </record>
         
-        <menuitem action="open_view_reduced_vat_agreement_report" id="menu_building_projects_config" name="Reduced VAT Agreements Report" parent="construction.menu_construction" sequence="35"/>
+        <menuitem action="open_view_reduced_vat_agreement_report" id="menu_building_projects_config" name="Quarterly Report" parent="construction.menu_reduced_vat" sequence="50"/>
         
     </data>
 </odoo>
