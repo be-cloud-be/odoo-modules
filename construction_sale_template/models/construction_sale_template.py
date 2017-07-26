@@ -36,7 +36,7 @@ class SaleOrderTemplate(models.Model):
     active = fields.Boolean(string="Active")
     
     company_id = fields.Many2one('res.company', string='Company', change_default=True,
-        required=True, readonly=True, states={'draft': [('readonly', False)]},
+        required=True, readonly=True,
         default=lambda self: self.env['res.company']._company_default_get('account.invoice'))
     
     sale_order_template_line_ids = fields.One2many('construction.sale_order_template.line','sale_order_template_id',string="Sale Order Template Lines")

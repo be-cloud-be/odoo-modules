@@ -39,16 +39,17 @@
             <field name="arch" type="xml">
                 <form string="Sale Order Template">
                     <sheet>
-                        <div class="o_title">
-                            <h2>
-                                <field name="name" />
-                            </h2>
-                        </div>
                         <div class="oe_button_box" name="button_box">
                             <button name="toggle_active" type="object" class="oe_stat_button" icon="fa-archive">
                                 <field name="active" widget="boolean_button" options='{"terminology": "archive"}'/>
                             </button>
                         </div>
+                        <div class="oe_title">
+                            <h2>
+                                <field name="name" />
+                            </h2>
+                        </div>
+                        <field name="company_id" invisible="1" />
                         <field name="sale_order_template_line_ids" nolabel="1" >
                             <tree string="Sale Order Template Lines" editable="bottom">
                                 <field name="sequence" widget="handle"/>
