@@ -34,7 +34,9 @@
     "website": "http://www.be-cloud.be",
     'depends': ['sale','document'],
     'init_xml': [],
-    'data': [],
+    'data': [
+        'sale_invoice_attachements_view.xml',
+    ],
     'installable': True,
     'active': True,
 }
