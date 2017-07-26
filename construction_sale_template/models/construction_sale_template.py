@@ -46,8 +46,8 @@ class SaleOrderTemplate(models.Model):
         res = super(SaleOrderTemplate, self).write(vals)
         for order in self:
             total = sum(order.sale_order_template_line_ids.mapped('percentage'))
-            if total != 100 :
-                raise ValidationError(_('Percentages of the lines must sum up to 100.'))
+            if total != 100 and total != 0 :
+                raise ValidationError(_('Percentages of the lines must sum up to 100 (or 0).'))
         return res
     
 class SaleOrderTemplateLine(models.Model):
@@ -84,8 +84,18 @@ class SaleOrderTemplateLine(models.Model):
             raise ValidationError(_('Percentage must be between 0 and 100 and sum to 100.'))
     
     @api.multi
+    @api.onchange('percentage')
+    def _percentage_change(self):
+        self.price_unit = 0
+        
+    @api.multi
+    @api.onchange('price_unit')
+    def _price_unit_change(self):
+        self.percentage = 0
+        
+    @api.multi
     @api.onchange('product_id')
-    def product_id_change(self):
+    def _product_id_change(self):
         if not self.product_id:
             return {'domain': {'product_uom': []}}
 
