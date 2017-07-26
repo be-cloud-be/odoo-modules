@@ -95,7 +95,7 @@
             </field>
         </record>
         
-        <menuitem action="open_view_reduced_vat_agreement_all" id="menu_reduced_vat_agreement_all" name="Agreements" parent="construction.menu_reduced_vat" sequence="10"/>
+        <menuitem action="open_view_reduced_vat_agreement_all" id="menu_reduced_vat_agreement_all" name="Agreements" parent="construction_reduced_vat.menu_reduced_vat" sequence="10"/>
         
         <!-- Add link Invoice form view -->
         <record id="invoice_form_reduced_vat_agreement" model="ir.ui.view">
