@@ -26,7 +26,7 @@
         <!-- Top menu item -->
         <menuitem name="Construction"
             id="menu_construction"
-            groups="group_project_manager,group_project_user"
+            groups="project.group_project_manager,project.group_project_user"
             web_icon="construction,static/description/icon.png"
             sequence="50"/>
         
