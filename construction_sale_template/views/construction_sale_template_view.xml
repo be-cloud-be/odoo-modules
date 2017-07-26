@@ -67,7 +67,7 @@
                                     <field name="price_unit"
                                         attrs="{'readonly': [('percentage', '&gt;', 0)]}"/>
                                     <field name="tax_id" widget="many2many_tags" domain="[('type_tax_use','=','sale'),('company_id','=',parent.company_id)]"/>
-                                    <field name="percentage" attrs="{'readonly': [('price_unit', '&gt;', 0)]}" />
+                                    <field name="percentage" attrs="{'readonly': [('price_unit', '&gt;', 0)]}" sum="Total"/>
                             </tree>
                         </field>
                     </sheet>

@@ -21,7 +21,7 @@
 import logging
 
 from odoo import api, fields, models, _
-from odoo.exceptions import UserError
+from odoo.exceptions import UserError, ValidationError
 
 import odoo.addons.decimal_precision as dp
 
@@ -33,13 +33,22 @@ class SaleOrderTemplate(models.Model):
     _description = 'Sale Order Template'
     
     name = fields.Char(string="Name")
-    active = fields.Boolean(string="Active")
+    active = fields.Boolean(string="Active", default=True)
     
     company_id = fields.Many2one('res.company', string='Company', change_default=True,
         required=True, readonly=True,
         default=lambda self: self.env['res.company']._company_default_get('account.invoice'))
     
     sale_order_template_line_ids = fields.One2many('construction.sale_order_template.line','sale_order_template_id',string="Sale Order Template Lines")
+    
+    @api.multi
+    def write(self, vals):
+        res = super(SaleOrderTemplate, self).write(vals)
+        for order in self:
+            total = sum(order.sale_order_template_line_ids.mapped('percentage'))
+            if total != 100 :
+                raise ValidationError(_('Percentages of the lines must sum up to 100.'))
+        return res
     
 class SaleOrderTemplateLine(models.Model):
     '''Sale Order Template Line'''
@@ -68,6 +77,11 @@ class SaleOrderTemplateLine(models.Model):
     tax_id = fields.Many2many('account.tax', string='Taxes', domain=['|', ('active', '=', False), ('active', '=', True)])
     
     percentage = fields.Float(string="Percentage", help="Split of the total deduced of the line with a price, total should be 100%.")
+    
+    @api.constrains('percentage')
+    def _check_dates(self):
+        if self.filtered(lambda c: c.percentage < 0 or c.percentage > 100):
+            raise ValidationError(_('Percentage must be between 0 and 100 and sum to 100.'))
     
     @api.multi
     @api.onchange('product_id')
