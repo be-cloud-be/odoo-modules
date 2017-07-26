@@ -147,6 +147,16 @@ class SaleOrder(models.Model):
         invoice_vals['building_asset_id'] = self.building_asset_id.id or False
         return invoice_vals
             
+class SaleOrderLine(models.Model):
+    _inherit = "sale.order.line"
+
+    @api.multi
+    def _prepare_invoice_line(self, qty):
+        res = super(SaleOrderLine, self)._prepare_invoice_line(qty)
+        if self.order_id.building_site_id :
+            res.update({'account_analytic_id': self.order_id.building_site_id.analytic_account_id.id})
+        return res
+            
 class CrmLean(models.Model):
     '''CRM Lead'''
     _inherit = "crm.lead"
