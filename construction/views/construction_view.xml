@@ -313,8 +313,8 @@
             <field name="inherit_id" ref="account.invoice_tree"/>
             <field eval="20" name="priority" />
             <field name="arch" type="xml">
-                <field name="state" position="after">
-                    <field name="attachment_count"/>
+                <field name="partner_id" position="after">
+                    <field name="building_asset_id"/>
                 </field>
             </field>
         </record>
