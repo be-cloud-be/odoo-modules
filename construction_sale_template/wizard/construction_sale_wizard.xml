@@ -27,7 +27,7 @@
         <field name="arch" type="xml">
             <form string="Generate Sale Order">
                 <group cols="2">
-                    <field name="partner_id" domain="[('customer', '=', 1)]"/>
+                    <field name="building_asset_id" domain="[('state', 'in', ['proposal','sold']])]"/>
                     <field name="date"/> 
                     <field name="template_id"/> 
                     <field name="total_untaxed"/>

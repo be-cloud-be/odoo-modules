@@ -30,7 +30,9 @@ _logger = logging.getLogger(__name__)
 class ConstructionSaleWizard(models.TransientModel):
     _name = "construction.sale_wizard"
     
-    partner_id = fields.Many2one('res.partner', string='Customer', required=True)
+    building_asset_id = fields.Many2one('construction.building_asset', string='Building Asset')
+    partner_id = fields.Many2one('res.partner', string='Customer', related="building_asset_id.partner_id")
+    
     date = fields.Date(string='Date', required=True, default=lambda self:fields.Date.from_string(fields.Date.today()))
     template_id = fields.Many2one('construction.sale_order_template', string="Template", required=True)
     total_untaxed = fields.Integer(string="Total Untaxed", required=True)
@@ -64,6 +66,7 @@ class ConstructionSaleWizard(models.TransientModel):
 
         vals = {
             'partner_id' : self.partner_id.id,
+            'building_asset_id' : self.building_asset_id.id,
             'date_order' : self.date,
             'order_line' : lines
         } 
