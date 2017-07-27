@@ -63,6 +63,8 @@ class ConstructionSaleWizard(models.TransientModel):
                 }))
 
         vals = {
+            'partner_id' : self.partner_id.id,
+            'date_order' : fields.Date.to_string(self.date),
             'order_line' : lines
         } 
             
