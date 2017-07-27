@@ -71,9 +71,9 @@ class ConstructionSaleWizard(models.TransientModel):
         so = self.env['sale.order'].create(vals)
         
         return {
-            'name': _('Digital Attachments'),
+            'name': _('Sale Order'),
             'domain': [('res_id', '=', so.id)],
-            'res_model': 'ir.attachment',
+            'res_model': 'sale.order',
             'type': 'ir.actions.act_window',
             'view_mode': 'form',
             'view_type': 'form',
