@@ -93,7 +93,7 @@
             </field>
         </record>
         
-        <menuitem action="open_view_sale_order_template" id="menu_sale_order_template" name="Templates" parent="construction_sale_template.menu_sale_order_template" sequence="90"/>
+        <menuitem action="open_view_sale_order_template" id="menu_sale_order_template_list" name="Templates" parent="construction_sale_template.menu_sale_order_template" sequence="90"/>
         
     </data>
 </openerp>
