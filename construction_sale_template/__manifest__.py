@@ -14,6 +14,7 @@
     'init_xml': [],
     'data': [
         'views/construction_sale_template_view.xml',
+        'wizard/construction_sale_wizard.xml',
         'security/ir.model.access.csv',
     ],
     'installable': True,
