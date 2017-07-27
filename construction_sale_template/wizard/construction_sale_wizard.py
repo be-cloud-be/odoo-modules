@@ -30,8 +30,10 @@ _logger = logging.getLogger(__name__)
 class ConstructionSaleWizard(models.TransientModel):
     _name = "construction.sale_wizard"
     
-    template_id = fields.Many2one('construction.sale_order_template', string="Template")
-    total_untaxed = fields.Integer(string="Total Untaxed")
+    partner_id = fields.Many2one('res.partner', string='Customer', required=True)
+    date = fields.Date(string='Date', required=True, default=lambda self:fields.Date.from_string(fields.Date.today()))
+    template_id = fields.Many2one('construction.sale_order_template', string="Template", required=True)
+    total_untaxed = fields.Integer(string="Total Untaxed", required=True)
     
     @api.multi
     def action_confirm(self):
