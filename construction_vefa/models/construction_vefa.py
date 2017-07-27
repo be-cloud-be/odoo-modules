@@ -39,7 +39,8 @@ class SaleOrder(models.Model):
     '''Sale Order'''
     _inherit = "sale.order"
     
-    is_vefa =fields.Boolean(string="Is VEFA")
+    is_vefa = fields.Boolean(string="Is VEFA")
+    is_asset_vefa = fields.Boolean(related="building_asset_id.is_vefa")
     
     @api.onchange('building_asset_id')
     def update_building_asset_id(self):
@@ -56,3 +57,4 @@ class Invoice(models.Model):
     _inherit = 'account.invoice'
     
     is_vefa =fields.Boolean(string="Is VEFA")
+    is_asset_vefa = fields.Boolean(related="building_asset_id.is_vefa")
