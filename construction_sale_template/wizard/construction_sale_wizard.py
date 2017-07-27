@@ -45,6 +45,7 @@ class ConstructionSaleWizard(models.TransientModel):
         for line in self.template_id.sale_order_template_line_ids.filtered(lambda l: l.price_unit > 0) :
             lines.append(
                 (0,0,{
+                    'sequence': line.sequence, 
                     'name': line.name, 
                     'product_id': line.product_id.id, 
                     'product_uom_qty': line.product_uom_qty, 
