@@ -23,6 +23,8 @@
 <openerp>
     <data>
         
+        <menuitem id="menu_sale_order_template" name="Sale Orders" parent="construction.menu_construction" sequence="35"/>
+        
         <record id="view_construction_sale_template_tree" model="ir.ui.view">
             <field name="name">Sale Order Templates Tree</field>
             <field name="model">construction.sale_order_template</field>
@@ -91,8 +93,7 @@
             </field>
         </record>
         
-        <menuitem action="open_view_sale_order_template" id="menu_sale_order_template" name="Sale Order Templates" parent="construction.menu_construction" sequence="35"/>
-        
+        <menuitem action="open_view_sale_order_template" id="menu_sale_order_template" name="Templates" parent="construction_sale_template.menu_sale_order_template" sequence="90"/>
         
     </data>
 </openerp>
