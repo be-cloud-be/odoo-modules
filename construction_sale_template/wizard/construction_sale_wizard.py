@@ -72,7 +72,7 @@ class ConstructionSaleWizard(models.TransientModel):
         
         return {
             'name': _('Sale Order'),
-            'domain': [('res_id', '=', so.id)],
+            'domain': [('id', '=', so.id)],
             'res_model': 'sale.order',
             'type': 'ir.actions.act_window',
             'view_mode': 'form',
