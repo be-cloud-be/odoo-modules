@@ -37,7 +37,7 @@ odoo.define('document_gdrive.menu_item', function(require) {
             }
         },
         onAuthApiLoad: function() {
-            //odoo.gdrive.oauthToken = utils.get_cookie('odoo.gdrive.oauthToken');
+            odoo.gdrive.oauthToken = readGdriveTokenCookie();
             if (!odoo.gdrive.oauthToken) {
                 var P = new Model('ir.config_parameter');
                 P.call('get_param', ['document.gdrive.client.id']).then(function(id) {
@@ -54,6 +54,7 @@ odoo.define('document_gdrive.menu_item', function(require) {
                                     odoo.gdrive.oauthToken = authResult.access_token
                                     odoo.gdrive.idToken = authResult.id_token;
                                     //utils.set_cookie('odoo.gdrive.oauthToken',odoo.gdrive.oauthToken,24*60*60*365);
+                                    saveGdriveTokenCookie(odoo.gdrive.oauthToken);
                                 }
                                 else {
                                     gapi.auth2.authorize({
@@ -63,6 +64,7 @@ odoo.define('document_gdrive.menu_item', function(require) {
                                     }, function(authResult) {
                                         if (authResult && !authResult.error) {
                                             odoo.gdrive.oauthToken = authResult.access_token;
+                                            saveGdriveTokenCookie(odoo.gdrive.oauthToken);
                                             //utils.set_cookie('odoo.gdrive.oauthToken',odoo.gdrive.oauthToken,24*60*60*365);
                                         }
                                         else {
@@ -197,4 +199,14 @@ odoo.define('document_gdrive.menu_item', function(require) {
         },
     });
 
+    var cookieName = "odoo.gdrive.oauthToken";
+
+    function saveGdriveTokenCookie(oauthToken) {
+        utils.set_cookie(cookieName, oauthToken);
+        return;
+    }
+
+    function readGdriveTokenCookie() {
+        return utils.get_cookie(cookieName);
+    }
 });
