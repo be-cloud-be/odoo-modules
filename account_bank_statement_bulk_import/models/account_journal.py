@@ -31,10 +31,8 @@ class AccountJournal(models.Model):
     @api.multi
     def bulk_import_statement(self):
         """return action to bulk import bank/cash statements. This button should be called only on journals with type =='bank'"""
-        model = 'account.bank.statement'
         action_name = 'action_account_bank_statement_bulk_import'
-        model, action_id = self.env['ir.model.data'].get_object_reference('account_bank_statement_bulk_import', action_name)
-        action = self.env[model].browse(action_id)
+        [action] = self.env.ref('account_bank_statement_import.%s' % action_name).read()
         # Note: this drops action['context'], which is a dict stored as a string, which is not easy to update
         action.update({'context': (u"{'journal_id': " + str(self.id) + u"}")})
         return action
