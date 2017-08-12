@@ -34,7 +34,7 @@ class AccountJournal(models.Model):
         model = 'account.bank.statement'
         action_name = 'action_account_bank_statement_bulk_import'
         model, action_id = self.env['ir.model.data'].get_object_reference('account_bank_statement_bulk_import', action_name)
-        action = self.env[model].read(self._uid, action_id, context=self.env.context)
+        action = self.env[model].browse(action_id)
         # Note: this drops action['context'], which is a dict stored as a string, which is not easy to update
         action.update({'context': (u"{'journal_id': " + str(self.id) + u"}")})
         return action
