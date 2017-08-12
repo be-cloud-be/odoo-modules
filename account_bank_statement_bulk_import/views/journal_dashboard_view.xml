@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+##############################################################################
+#
+#    Copyright (c) 2015 be-cloud.be
+#                       Jerome Sonnet <jerome.sonnet@be-cloud.be>
+#
+#    This program is free software: you can redistribute it and/or modify
+#    it under the terms of the GNU Affero General Public License as
+#    published by the Free Software Foundation, either version 3 of the
+#    License, or (at your option) any later version.
+#
+#    This program is distributed in the hope that it will be useful,
+#    but WITHOUT ANY WARRANTY; without even the implied warranty of
+#    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+#    GNU Affero General Public License for more details.
+#
+#    You should have received a copy of the GNU Affero General Public License
+#    along with this program.  If not, see <http://www.gnu.org/licenses/>.
+#
+##############################################################################
+-->
+<odoo>
+    <record id="journal_dashboard_view_inherit" model="ir.ui.view">
+        <field name="name">account.journal.dashboard.kanban.inherit</field>
+        <field name="model">account.journal</field>
+        <field name="inherit_id" ref="account_bank_statement_import.journal_dashboard_view_inherit"/>
+        <field name="arch" type="xml">
+            <xpath expr='//div[@name="bank_journal_default_cta"]' position='inside'>
+                <br t-if="dashboard.number_to_reconcile == 0"/><a t-if="dashboard.number_to_reconcile == 0" type="object" name="bulk_import_statement" class="oe_inline">Bulk Import Statement</a>
+            </xpath>
+            <xpath expr='//div[@name="bank_journal_cta"]' position='inside'>
+                <a t-if="dashboard.bank_statements_source == 'file_import' &amp;&amp; dashboard.number_to_reconcile == 0" type="object" name="bulk_import_statement" class="oe_inline">Bulk Import Statement</a>
+            </xpath>
+            <xpath expr='//a[@name="import_statement"]' position="after">
+                <t t-if="journal_type == 'bank'">
+                    <a type="object" name="bulk_import_statement">Bulk Import Statement</a>
+                </t>
+            </xpath>
+        </field>
+    </record>
+</odoo>

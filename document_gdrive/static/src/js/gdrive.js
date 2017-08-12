@@ -1,23 +1,8 @@
-// # -*- coding: utf-8 -*-
-// ##############################################################################
-// #
-// #    Copyright (c) 2015 be-cloud.be
-// #                       Jerome Sonnet <jerome.sonnet@be-cloud.be>
-// #
-// #    This program is free software: you can redistribute it and/or modify
-// #    it under the terms of the GNU Affero General Public License as
-// #    published by the Free Software Foundation, either version 3 of the
-// #    License, or (at your option) any later version.
-// #
-// #    This program is distributed in the hope that it will be useful,
-// #    but WITHOUT ANY WARRANTY; without even the implied warranty of
-// #    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-// #    GNU Affero General Public License for more details.
-// #
-// #    You should have received a copy of the GNU Affero General Public License
-// #    along with this program.  If not, see <http://www.gnu.org/licenses/>.
-// #
-// ##############################################################################
+//# -*- coding: utf-8 -*-
+//# Copyright 2015 be-cloud.be Jerome Sonnet <jerome.sonnet@be-cloud.be>
+//# Copyright 2016 Sodexis
+//# License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
+
 odoo.define('document_gdrive.menu_item', function(require) {
     "use strict";
 
@@ -26,6 +11,7 @@ odoo.define('document_gdrive.menu_item', function(require) {
     var Sidebar = require('web.Sidebar');
     var Dialog = require('web.Dialog');
     var ActionManager = require('web.ActionManager');
+    var utils = require('web.utils');
 
     var _t = core._t;
     var QWeb = core.qweb;
@@ -36,74 +22,101 @@ odoo.define('document_gdrive.menu_item', function(require) {
         init: function() {
             this._super.apply(this, arguments);
             odoo.gdrive = {};
-            gapi.load('auth', {
-                'callback': this.onAuthApiLoad
-            });
-            gapi.load('picker', {
-                'callback': function() {
-                    odoo.gdrive.pickerApiLoaded = true;
-                }
-            });
+            try {
+                gapi.load('auth', {
+                    'callback': this.onAuthApiLoad
+                });
+                gapi.load('picker', {
+                    'callback': function() {
+                        odoo.gdrive.pickerApiLoaded = true;
+                    }
+                });
+            }
+            catch(err) {
+                console.log(err);
+            }
 
         },
         onAuthApiLoad: function() {
-            var P = new Model('ir.config_parameter');
-            P.call('get_param', ['document.gdrive.client.id']).then(function(id) {
-                if (id) {
-                    var clientId = id;
-                    window.gapi.auth.authorize({
-                            'client_id': clientId,
-                            'scope': scope,
-                            'immediate': true,
-                            'include_granted_scopes': true
-                        },
-                        function(authResult) {
-                            if (authResult && !authResult.error) {
-                                odoo.gdrive.oauthToken = authResult.access_token;
-                            }
-                            else {
-                                gapi.auth.authorize({
-                                    client_id: clientId,
-                                    scope: scope,
-                                    immediate: false
-                                }, function(authResult) {
-                                    if (authResult && !authResult.error) {
-                                        odoo.gdrive.oauthToken = authResult.access_token;
-                                    }
-                                    else {
-                                        alert("Cannot get authorization token for Google Drive: " + authResult.error_subtype + " - " + authResult.error);
-                                    }
-                                });
-                            }
-                        });
-                }
-                else {
-                    console.log("Cannot access parameter 'document.gdrive.client.id' check your configuration");
-                }
-            });
+            //odoo.gdrive.oauthToken = utils.get_cookie('odoo.gdrive.oauthToken');
+            if (!odoo.gdrive.oauthToken) {
+                var P = new Model('ir.config_parameter');
+                P.call('get_param', ['document.gdrive.client.id']).then(function(id) {
+                    if (id) {
+                        var clientId = id;
+                        window.gapi.auth.authorize({
+                                'client_id': clientId,
+                                'scope': scope,
+                                'immediate': true,
+                                'include_granted_scopes': true
+                            },
+                            function(authResult) {
+                                if (authResult && !authResult.error) {
+                                    odoo.gdrive.oauthToken = authResult.access_token
+                                    //utils.set_cookie('odoo.gdrive.oauthToken',odoo.gdrive.oauthToken,24*60*60*365);
+                                }
+                                else {
+                                    gapi.auth.authorize({
+                                        client_id: clientId,
+                                        scope: scope,
+                                        immediate: false
+                                    }, function(authResult) {
+                                        if (authResult && !authResult.error) {
+                                            odoo.gdrive.oauthToken = authResult.access_token;
+                                            //utils.set_cookie('odoo.gdrive.oauthToken',odoo.gdrive.oauthToken,24*60*60*365);
+                                        }
+                                        else {
+                                            alert("Cannot get authorization token for Google Drive: " + authResult.error_subtype + " - " + authResult.error);
+                                        }
+                                    });
+                                }
+                            });
+                    }
+                    else {
+                        console.log(_t("Cannot access parameter 'document.gdrive.client.id' check your configuration in General Settings"));
+                        alert(_t("Cannot access parameter 'document.gdrive.client.id' check your configuration in General Settings"));
+                    }
+                });
+            }
         },
 
         redraw: function() {
             var self = this;
             this._super.apply(this, arguments);
-            self.$el.find('.oe_sidebar_add_attachment').after(QWeb.render('AddGDriveDocumentItem', {
-                widget: self
-            }))
-            self.$el.find('.oe_file_attachment').attr( "target", "_new" );
-            self.$el.find('.oe_sidebar_add_gdrive').on('click', function(e) {
-                self.on_gdrive_doc();
-            });
+            if(self.$el.find('.oe_sidebar_add_attachment').length > 0) {
+                self.$el.find('.oe_sidebar_add_attachment').after(QWeb.render('AddGDriveDocumentItem', {
+                    widget: self
+                }))
+                self.$el.find('.oe_file_attachment').attr( "target", "_new" );
+                self.$el.find('.oe_sidebar_add_gdrive').on('click', function(e) {
+                    self.on_gdrive_doc();
+                });
+            } else { // WE ARE IN ODOO ENTERPRISE OR V10
+                self.$el.find('.o_sidebar_add_attachment').after(QWeb.render('AddGDriveDocumentItem', {
+                    widget: self
+                }))
+                self.$el.find('.o_file_attachment').attr( "target", "_new" );
+                self.$el.find('.oe_sidebar_add_gdrive').on('click', function(e) {
+                    self.on_gdrive_doc();
+                });
+            }
         },
 
         pickerCallback: function(data) {
             var url = 'nothing';
             if (data[google.picker.Response.ACTION] == google.picker.Action.PICKED) {
-                var doc = data[google.picker.Response.DOCUMENTS][0];
-                var name = doc[google.picker.Document.NAME];
-                url = doc[google.picker.Document.EMBEDDABLE_URL] || doc[google.picker.Document.URL];
+                var docs = data[google.picker.Response.DOCUMENTS]
+                var documents = [];
+                for (var i = 0; i < docs.length; i++) { 
+                    var doc = docs[i];
+                    documents.push({
+                        name: doc[google.picker.Document.NAME],
+                        url: doc[google.picker.Document.EMBEDDABLE_URL] || doc[google.picker.Document.URL]
+                    });
+                }
                 var self = this;
                 var model = new Model("ir.attachment.add_gdrive");
-                model.call('action_add_gdrive', [name, url], {
+                model.call('action_add_gdrive', [documents], {
                     context: this.context
                 }).then(function(result) {
                     if (self.view.ViewManager.views[self.view.ViewManager.active_view]) {
@@ -123,6 +136,10 @@ odoo.define('document_gdrive.menu_item', function(require) {
             var context = this.session.user_context;
             var callback = this.pickerCallback;
 
+            if(!odoo.gdrive.oauthToken) {
+                this.onAuthApiLoad()
+            }
+
             var P = new Model('ir.config_parameter');
             P.call('get_param', ['document.gdrive.upload.dir']).then(function(dir) {
                 if (odoo.gdrive.pickerApiLoaded && odoo.gdrive.oauthToken) {
@@ -133,7 +150,7 @@ odoo.define('document_gdrive.menu_item', function(require) {
                     enableFeature(google.picker.Feature.MULTISELECT_ENABLED).
                     addView(new google.picker.DocsUploadView().setParent(dir)).
                     setOAuthToken(odoo.gdrive.oauthToken).
-                    setLocale('fr'). // TODO set local of the user
+                    setLocale('en'). // TODO set local of the user
                     setCallback(callback).
                     setOrigin(origin).
                     build();

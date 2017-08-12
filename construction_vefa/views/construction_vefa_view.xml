@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!--
+##############################################################################
+#
+#    Copyright (c) 2015 be-cloud.be
+#                       Jerome Sonnet <jerome.sonnet@be-cloud.be>
+#
+#    This program is free software: you can redistribute it and/or modify
+#    it under the terms of the GNU Affero General Public License as
+#    published by the Free Software Foundation, either version 3 of the
+#    License, or (at your option) any later version.
+#
+#    This program is distributed in the hope that it will be useful,
+#    but WITHOUT ANY WARRANTY; without even the implied warranty of
+#    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+#    GNU Affero General Public License for more details.
+#
+#    You should have received a copy of the GNU Affero General Public License
+#    along with this program.  If not, see <http://www.gnu.org/licenses/>.
+#
+##############################################################################
+-->
+<openerp>
+    <data>
+        
+        <!-- Add boolean Building Asset form view -->
+        <record model="ir.ui.view" id="construction_vefa_building_asset_form">
+            <field name="name">construction.building_asset.vefa.view.form</field>
+            <field name="model">construction.building_asset</field>
+            <field name="inherit_id" ref="construction.building_asset_view"/>
+            <field name="arch" type="xml">
+                <xpath expr="//field[@name='confirmed_lead_id']" position="after">
+                    <field name="is_vefa"/>
+                    <field name="vefa_bank_account_id" attrs="{'required':[('is_vefa','=',True)],'invisible': [('is_vefa', '=', False)]}"/>
+                </xpath>
+            </field>
+        </record>
+        
+        <!-- Add boolean Sale Order form view -->
+        <record model="ir.ui.view" id="construction_vefa_sale_order">
+            <field name="name">sale.order.vefa.view.form</field>
+            <field name="model">sale.order</field>
+            <field name="inherit_id" ref="sale.view_order_form"/>
+            <field name="arch" type="xml">
+                <xpath expr="//field[@name='payment_term_id']" position="before">
+                    <field name="is_asset_vefa" invisible="1"/>
+                    <field name="is_vefa" attrs="{'invisible': [('is_asset_vefa', '!=', True)]}"/>
+                </xpath>
+            </field>
+        </record>
+        
+        <!-- Add boolean Invoice form view -->
+        <record id="invoice_form_vefa" model="ir.ui.view">
+            <field name="name">account.invoice.form.vefa</field>
+            <field name="model">account.invoice</field>
+            <field name="inherit_id" ref="account.invoice_form" />
+            <field eval="18" name="priority" />
+            <field name="arch" type="xml">
+                <xpath expr="//field[@name='date_invoice']" position="after">
+                    <field name="is_asset_vefa" invisible="1"/>
+                    <field name='is_vefa' attrs="{'invisible': [('is_asset_vefa', '!=', True)]}"/>
+                </xpath>
+            </field>
+        </record>
+        
+        <template id="report_invoice_document_inherit_vefa" inherit_id="account.report_invoice_document">
+            <xpath expr="//p[@t-if='o.payment_term_id']" position="after">
+                <t t-if="o.is_vefa">
+                <p>
+                    A payer exclusivement sur le compte de la VEFA : <span t-field="o.building_asset_id.vefa_bank_acc_number"/> - <span t-field="o.building_asset_id.vefa_bank_id"/>
+                </p>
+                </t>
+            </xpath>
+        </template>
+        
+    </data>
+</openerp>

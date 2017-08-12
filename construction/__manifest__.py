@@ -1,5 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
-<!--
+# -*- encoding: utf-8 -*-
 ##############################################################################
 #
 #    OpenERP, Open Source Management Solution    
@@ -22,10 +21,27 @@
 #    along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #
 ##############################################################################
--->
-<openerp>
-    <data>
 
-    </data>
-</openerp>
 
+{
+    'name': 'Construction Projects',
+    'version': '0.1',
+    'category': 'Sales',
+    'description': """
+    Manage construction projects
+    """,
+    "author": "be-cloud.be (Jerome Sonnet)",
+    "website": "http://www.be-cloud.be",
+    'depends': ['sale','crm','project'],
+    'init_xml': [],
+    'data': [
+        'views/construction_view.xml',
+        'security/ir.model.access.csv',
+        
+    ],
+    'installable': True,
+    'active': True,
+    'auto_install': False,
+    'application': True,
+}
+# vim:expandtab:smartindent:tabstop=4:softtabstop=4:shiftwidth=4:

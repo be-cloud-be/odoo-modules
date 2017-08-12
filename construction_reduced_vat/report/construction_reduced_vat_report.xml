@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        
+        <record id="view_reduced_vat_agreement_report" model="ir.ui.view">
+            <field name="name">Reduced VAT Agreement Report</field>
+            <field name="model">construction.reduced_vat_agreement_report</field>
+            <field name="arch" type="xml">
+                <tree string="Reduced VAT Agreement Report">
+                    <field name="agreement_code"/>
+                    <field name="matricule"/>
+                    <field name="zip"/>
+                    <field name="date"/>
+                    <field name="number"/>
+                    <field name="amount_untaxed"/>
+                    <field name="amount_tax"/>
+                </tree>
+            </field>
+        </record>
+        
+        <record id="reduced_vat_agreement_report_filter" model="ir.ui.view">
+            <field name="name">reduced_vat_agreement.reduced_vat_agreement_report.select</field>
+            <field name="model">construction.reduced_vat_agreement_report</field>
+            <field name="arch" type="xml">
+                <search string="Search Project">
+                    <field name="partner_id" string="Customer"/>
+                    <filter name="current_quarter" string="Current Quarter" domain="[('current_quarter','=',True)]"/>
+                    <filter name="last_quarter" string="Last Quarter" domain="[('last_quarter','=',True)]"/>
+                    <filter string="Archived" name="inactive" domain="[('active','=',False)]"/>
+                </search>
+            </field>
+        </record>
+        
+        <record id="open_view_reduced_vat_agreement_report" model="ir.actions.act_window">
+            <field name="name">Reduced VAT Agreements Report</field>
+            <field name="res_model">construction.reduced_vat_agreement_report</field>
+            <field name="view_type">form</field>
+            <field name="domain">[]</field>
+            <field name="view_mode">list</field>
+            <field name="search_view_id" ref="construction_reduced_vat.reduced_vat_agreement_report_filter"/>
+            <field name="context">{}</field>
+        </record>
+        
+        <menuitem action="open_view_reduced_vat_agreement_report" id="menu_building_projects_config" name="Quarterly Report" parent="construction_reduced_vat.menu_reduced_vat" sequence="50"/>
+        
+    </data>
+</odoo>
