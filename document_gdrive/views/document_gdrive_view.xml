@@ -10,11 +10,7 @@
 
         <template id="assets_backend" name="google_drive documents" inherit_id="web.assets_backend">
             <xpath expr="." position="inside">
-<<<<<<< HEAD
                 <script type="text/javascript" src="/document_gdrive/static/src/js/gapi.js"></script>
-=======
-            	<script type="text/javascript" src="https://apis.google.com/js/api.js"></script>
->>>>>>> [FIX] used new_api for 9.0 branch
                 <script type="text/javascript" src="/document_gdrive/static/src/js/gdrive.js"></script>
             </xpath>
         </template>
