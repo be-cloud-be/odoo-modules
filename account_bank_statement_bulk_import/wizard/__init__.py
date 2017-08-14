@@ -19,5 +19,4 @@
 #
 ##############################################################################
 
-import models
-import wizard
+import account_bank_statement_bulk_import_wizard
