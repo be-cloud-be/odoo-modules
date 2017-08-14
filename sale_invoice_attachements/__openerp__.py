@@ -34,15 +34,10 @@
     "website": "http://www.be-cloud.be",
     'depends': ['sale','document'],
     'init_xml': [],
-<<<<<<< HEAD
     'data': [
         'sale_invoice_attachements_view.xml',
     ],
     'installable': True,
-=======
-    'data': [],
-    'installable': False,
->>>>>>> b42f872129f13c1833193f7c610eec3bbe7934d2
     'active': True,
 }
 # vim:expandtab:smartindent:tabstop=4:softtabstop=4:shiftwidth=4:
