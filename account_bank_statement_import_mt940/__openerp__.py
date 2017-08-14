@@ -37,5 +37,5 @@ Accounting \ Bank and Cash \ Bank Statements.
     'depends': ['account_bank_statement_import'],
     'demo': [],
     'auto_install': True,
-    'installable': False,
+    'installable': True,
 }
