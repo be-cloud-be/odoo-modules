@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!--
+##############################################################################
+#
+#    Copyright (c) 2015 be-cloud.be
+#                       Jerome Sonnet <jerome.sonnet@be-cloud.be>
+#
+#    This program is free software: you can redistribute it and/or modify
+#    it under the terms of the GNU Affero General Public License as
+#    published by the Free Software Foundation, either version 3 of the
+#    License, or (at your option) any later version.
+#
+#    This program is distributed in the hope that it will be useful,
+#    but WITHOUT ANY WARRANTY; without even the implied warranty of
+#    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+#    GNU Affero General Public License for more details.
+#
+#    You should have received a copy of the GNU Affero General Public License
+#    along with this program.  If not, see <http://www.gnu.org/licenses/>.
+#
+##############################################################################
+-->
+<odoo>
+    <record id="construction_sale_wizard_view" model="ir.ui.view">
+        <field name="name">Generate Sale Order</field>
+        <field name="model">construction.sale_wizard</field>
+        <field name="arch" type="xml">
+            <form string="Generate Sale Order">
+                <group cols="2">
+                    <field name="building_asset_id" domain="[('state', 'in', ('proposal','sold'))]"/>
+                    <field name="date"/> 
+                    <field name="template_id"/> 
+                    <field name="total_untaxed"/>
+                </group>
+                <footer>
+                    <button name="action_confirm" string="Confirm" type="object" default_focus="1" class="oe_highlight" /> or
+                    <button string="Cancel" class="btn-default" special="cancel" />
+                </footer>
+            </form>
+        </field>
+    </record>
+
+    <record id="action_construction_sale_wizard_view" model="ir.actions.act_window">
+        <field name="name">Generate Sale Order</field>
+        <field name="res_model">construction.sale_wizard</field>
+        <field name="type">ir.actions.act_window</field>
+        <field name="view_type">form</field>
+        <field name="view_mode">form</field>
+        <field name="view_id" ref="construction_sale_wizard_view" />
+        <field name="context">{}</field>
+        <field name="target">new</field>
+    </record>
+    
+    <menuitem id="menu_construction_sale_wizard" parent="construction_sale_template.menu_sale_order_template" action="action_construction_sale_wizard_view" sequence="20" />
+    
+</odoo>

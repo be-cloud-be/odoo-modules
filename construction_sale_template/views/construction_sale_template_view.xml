@@ -1,0 +1,99 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!--
+##############################################################################
+#
+#    Copyright (c) 2015 be-cloud.be
+#                       Jerome Sonnet <jerome.sonnet@be-cloud.be>
+#
+#    This program is free software: you can redistribute it and/or modify
+#    it under the terms of the GNU Affero General Public License as
+#    published by the Free Software Foundation, either version 3 of the
+#    License, or (at your option) any later version.
+#
+#    This program is distributed in the hope that it will be useful,
+#    but WITHOUT ANY WARRANTY; without even the implied warranty of
+#    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+#    GNU Affero General Public License for more details.
+#
+#    You should have received a copy of the GNU Affero General Public License
+#    along with this program.  If not, see <http://www.gnu.org/licenses/>.
+#
+##############################################################################
+-->
+<openerp>
+    <data>
+        
+        <menuitem id="menu_sale_order_template" name="Sale Orders" parent="construction.menu_construction" sequence="35"/>
+        
+        <record id="view_construction_sale_template_tree" model="ir.ui.view">
+            <field name="name">Sale Order Templates Tree</field>
+            <field name="model">construction.sale_order_template</field>
+            <field name="arch" type="xml">
+                <tree string="Sale Order Templates">
+                    <field name="name" string="Template Name"/>
+                </tree>
+            </field>
+        </record>
+        
+        <record id="building_site_view" model="ir.ui.view">
+            <field name="name">Sale Order Template Form</field>
+            <field name="model">construction.sale_order_template</field>
+            <field name="arch" type="xml">
+                <form string="Sale Order Template">
+                    <sheet>
+                        <div class="oe_button_box" name="button_box">
+                            <button name="toggle_active" type="object" class="oe_stat_button" icon="fa-archive">
+                                <field name="active" widget="boolean_button" options='{"terminology": "archive"}'/>
+                            </button>
+                        </div>
+                        <div class="oe_title">
+                            <h2>
+                                <field name="name" />
+                            </h2>
+                        </div>
+                        <field name="company_id" invisible="1" />
+                        <field name="sale_order_template_line_ids" nolabel="1" >
+                            <tree string="Sale Order Template Lines" editable="bottom">
+                                <field name="sequence" widget="handle"/>
+                                    <field name="product_id"
+                                        context="{'quantity':product_uom_qty, 'uom':product_uom, 'company_id': parent.company_id}"
+                                       />
+                                    <field name="layout_category_id" groups="sale.group_sale_layout"/>
+                                    <field name="name"/>
+                                    <field name="product_uom" invisible="1"/>
+                                    <field name="product_uom_qty"
+                                        string="Qty"
+                                        context="{'partner_id':parent.partner_id, 'quantity':product_uom_qty, 'pricelist':parent.pricelist_id, 'uom':product_uom, 'company_id': parent.company_id}"
+                                    />
+                                    <field name="analytic_tag_ids" groups="analytic.group_analytic_accounting" widget="many2many_tags"/>
+                                    <field name="price_unit"
+                                        attrs="{'readonly': [('percentage', '&gt;', 0)]}"/>
+                                    <field name="tax_id" widget="many2many_tags" domain="[('type_tax_use','=','sale'),('company_id','=',parent.company_id)]"/>
+                                    <field name="percentage" attrs="{'readonly': [('price_unit', '&gt;', 0)]}" sum="Total"/>
+                            </tree>
+                        </field>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+        
+        <record id="open_view_sale_order_template" model="ir.actions.act_window">
+            <field name="name">Sale Order Template</field>
+            <field name="res_model">construction.sale_order_template</field>
+            <field name="view_type">form</field>
+            <field name="domain">[]</field>
+            <field name="view_mode">list,form</field>
+            <field name="context">{}</field>
+            <field name="help" type="html">
+                <p class="oe_view_nocontent_create">
+                    Create a new template for sale orders.
+                </p><p>
+                    Ease your sale process using sale order templates.
+                </p>
+            </field>
+        </record>
+        
+        <menuitem action="open_view_sale_order_template" id="menu_sale_order_template_list" name="Templates" parent="construction_sale_template.menu_sale_order_template" sequence="90"/>
+        
+    </data>
+</openerp>
