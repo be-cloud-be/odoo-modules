@@ -1,10 +1,9 @@
-# -*- coding: utf-8 -*-
+<?xml version="1.0" encoding="utf-8" ?>
+<!--
 ##############################################################################
 #
 #    Copyright (c) 2015 be-cloud.be
 #                       Jerome Sonnet <jerome.sonnet@be-cloud.be>
-#
-#    Thanks to Alexis Yushin <AYUSHIN@thy.com> for sharing code/ideas
 #
 #    This program is free software: you can redistribute it and/or modify
 #    it under the terms of the GNU Affero General Public License as
@@ -20,5 +19,20 @@
 #    along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #
 ##############################################################################
-
-import account_bank_statement_bulk_import_wizard
+-->
+<openerp>
+    <data>
+        <!-- Add all messages on partner -->
+        <record id="view_mail_all_on_partner" model="ir.ui.view">
+            <field name="name">view.res.partner.mail_all_on_partner</field>
+            <field name="model">res.partner</field>
+            <field name="inherit_id" ref="mail.view_emails_partner_info_form" />
+            <field eval="25" name="priority" />
+            <field name="arch" type="xml">
+                <xpath expr="//field[@name='message_ids']" position="replace">
+                    <field name="all_message_ids" widget="mail_thread" options="{&quot;thread_level&quot;: 1}"/>    
+                </xpath>
+            </field>
+        </record>
+    </data>
+</openerp>

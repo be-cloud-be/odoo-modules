@@ -4,7 +4,6 @@ There is a dependency for this module, please install the following using pip
 
 ## Installation
 
-This module depends on a python library you have to install :
+This modules depends on a library you have to install :
 
-- pip install mt-940 enum34
-
+- pip install mt-940

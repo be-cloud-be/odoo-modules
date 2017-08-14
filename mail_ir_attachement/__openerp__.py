@@ -24,24 +24,20 @@
 
 
 {
-    'name': 'Construction Projects',
+    'name': 'Mail attach ir_attachement',
     'version': '0.1',
-    'category': 'Sales',
+    'category': 'Tools',
     'description': """
-    Manage construction projects
+    This module add the possibility to attach ir_attachement to an email in
+    the composer interface.
     """,
     "author": "be-cloud.be (Jerome Sonnet)",
     "website": "http://www.be-cloud.be",
-    'depends': ['sale','crm','project'],
+    'depends': ['mail'],
     'init_xml': [],
-    'data': [
-        'views/construction_view.xml',
-        'security/ir.model.access.csv',
-        
-    ],
+    'data': ['views/mail_view.xml'],
+    'qweb': ['static/src/xml/*.xml'],
     'installable': False,
     'active': True,
-    'auto_install': False,
-    'application': True,
 }
 # vim:expandtab:smartindent:tabstop=4:softtabstop=4:shiftwidth=4:

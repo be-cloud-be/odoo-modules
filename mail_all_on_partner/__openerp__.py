@@ -24,24 +24,23 @@
 
 
 {
-    'name': 'Construction Projects',
+    'name': 'Mail All On Partner',
     'version': '0.1',
-    'category': 'Sales',
+    'category': 'Tools',
     'description': """
-    Manage construction projects
-    """,
+    This module adds all the emails sent/received in Odoo to the Partner Form View.
+
+    By default only the email sent from the Partner record will be displayed, it makes
+    it difficult to get an overview of the messages sent/received from a partner.
+    
+    This modules allows you to better follow your partners.
+    """, 
     "author": "be-cloud.be (Jerome Sonnet)",
     "website": "http://www.be-cloud.be",
-    'depends': ['sale','crm','project'],
+    'depends': ['mail'],
     'init_xml': [],
-    'data': [
-        'views/construction_view.xml',
-        'security/ir.model.access.csv',
-        
-    ],
+    'data': [ 'views/res_partner_view.xml' ],
     'installable': False,
     'active': True,
-    'auto_install': False,
-    'application': True,
 }
 # vim:expandtab:smartindent:tabstop=4:softtabstop=4:shiftwidth=4:

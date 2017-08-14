@@ -18,5 +18,19 @@
 #    along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #
 ##############################################################################
+import logging
 
-import account_journal
+from openerp import api, fields, models, _
+from openerp.exceptions import UserError
+
+_logger = logging.getLogger(__name__)
+
+class Partner(models.Model):
+    '''Partner'''
+    _inherit = 'res.partner'
+    
+    all_message_ids = fields.One2many('mail.message', compute='_get_all_message_ids')
+    
+    @api.one
+    def _get_all_message_ids(self):
+        self.all_message_ids = self.message_ids + self.env['mail.message'].search(['|','|',('author_id','=',self.id),('partner_ids','in',self.id),('needaction_partner_ids','=',self.id)])

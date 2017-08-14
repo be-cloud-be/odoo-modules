@@ -5,7 +5,6 @@
 
 from odoo import models, fields, api
 
-
 class BaseConfigSettings(models.TransientModel):
     _inherit = 'base.config.settings'
 

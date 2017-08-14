@@ -8,7 +8,7 @@
     'version': '10.0.1.0.0',
     'category': 'Tools',
     'description': """
-Module that allows to attach a Google Drive Document.
+        Module that allows to attach a Google Drive Document.
     """,
     'author': "be-cloud.be (Jerome Sonnet),Sodexis",
     'website': 'http://www.be-cloud.be',
