@@ -1,0 +1,32 @@
+<?xml version="1.0" ?>
+<!--
+# -*- coding: utf-8 -*-
+# Copyright 2015 be-cloud.be Jerome Sonnet <jerome.sonnet@be-cloud.be>
+# Copyright 2016 Sodexis
+# License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
+-->
+
+<odoo>
+
+        <record id="view_general_configuration_inherited" model="ir.ui.view">
+            <field name="name">Configure Base Inherited</field>
+            <field name="model">base.config.settings</field>
+            <field name="priority" eval="16"/>
+            <field name="inherit_id" ref="base_setup.view_general_configuration" />
+            <field name="arch" type="xml">
+                <xpath expr="//div[@name='google_drive']/.." position="after">
+                    <div name="google_drive_document">
+                        <div name="document_gdrive_upload_dir">
+                          <label for="document_gdrive_upload_dir" />
+                          <field name="document_gdrive_upload_dir"/>
+                        </div>
+                        <div name="document_gdrive_client_id">
+                          <label for="document_gdrive_client_id" />
+                          <field name="document_gdrive_client_id"/>
+                        </div>
+                    </div>
+                </xpath>
+            </field>
+        </record>
+
+</odoo>
