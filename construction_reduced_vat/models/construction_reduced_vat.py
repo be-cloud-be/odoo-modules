@@ -82,7 +82,7 @@ class ReducedVATAgreement(models.Model):
     @api.constrains('agreement_total_amount')
     def _check_agreement_total_amount(self):
         if self.agreement_total_amount > 357142.86 :
-            raise ValidationError("Fields name and description must be different")
+            raise ValidationError("The total amount shall not exeed 357.142,86€ (ie 50.000€ of VAT reduction).")
     
     invoice_ids = fields.One2many('account.invoice','reduced_vat_agreement_id',string="Invoices")
     agreement_remaining_amount = fields.Monetary(string="Remaining Amount", compute="_compute_remaining_amount", currency_field='company_currency_id', store=True)
