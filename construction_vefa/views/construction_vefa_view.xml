@@ -70,6 +70,11 @@
                     A payer exclusivement sur le compte de la VEFA : <span t-field="o.building_asset_id.vefa_bank_acc_number"/> - <span t-field="o.building_asset_id.vefa_bank_id"/>
                 </p>
                 </t>
+                <t t-if="not(o.is_vefa)">
+                <p>
+                    A payer sur le compte : <span t-field="company.account_no"/>
+                </p>
+                </t>
             </xpath>
         </template>
         
