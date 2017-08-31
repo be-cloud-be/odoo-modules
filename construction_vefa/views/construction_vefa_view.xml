@@ -72,7 +72,7 @@
                 </t>
                 <t t-if="not(o.is_vefa)">
                 <p>
-                    A payer sur le compte : <span t-field="company.account_no"/>
+                    A payer sur le compte : <span t-field="o.company_id.account_no"/>
                 </p>
                 </t>
             </xpath>
