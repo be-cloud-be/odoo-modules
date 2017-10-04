@@ -59,10 +59,10 @@
             </div>
             <div t-if="o.company_id.id == 15"><!-- MD Constulting -->
                 <div style="position: absolute;top: 75px;left: 45px;" t-if="template_type == 'pdf'">
-                    <img src="/account_invoice_pdf/static/src/img/logo_duez.png"/>
+                    <img src="/account_invoice_pdf/static/src/img/logo_duez.svg"/>
                 </div>
                 <div style="position: absolute;top: 1400px;left: 15px;z-index:-1;">
-                    <img src="/account_invoice_pdf/static/src/img/logo_duez_bottom.png" t-if="template_type == 'pdf'"/>
+                    <img src="/account_invoice_pdf/static/src/img/logo_duez_bottom.svg" t-if="template_type == 'pdf'"/>
                 </div>
             </div>
         </xpath>
