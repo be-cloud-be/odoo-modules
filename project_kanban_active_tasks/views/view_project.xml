@@ -23,13 +23,13 @@
 <odoo>
     <!-- Add config to Task Type form view -->
     <record id="task_type_edit" model="ir.ui.view">
-        <field name="name">project.task.type.form.display_in_kanaban</field>
+        <field name="name">project.task.type.form.display_in_kanban</field>
         <field name="model">project.task.type</field>
         <field name="inherit_id" ref="project.task_type_edit" />
         <field eval="18" name="priority" />
         <field name="arch" type="xml">
             <field name="sequence" position="after">
-                <field name="display_in_kanaban" />
+                <field name="display_in_kanban" />
             </field>
         </field>
     </record>
