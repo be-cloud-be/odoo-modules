@@ -34,4 +34,4 @@ class ProjectProject(models.Model):
     _inherit = 'project.project'
     
     active_task_ids = fields.One2many('project.task', 'project_id', string='Active Tasks',
-        domain=['|', '&', ('stage_id.display_in_kanaban', '=', True), ('stage_id.fold', '=', False), ('stage_id', '=', False)])
+        domain=[('stage_id.display_in_kanaban', '=', True)])
