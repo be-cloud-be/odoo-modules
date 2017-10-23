@@ -33,7 +33,8 @@ class ProjectTaskType(models.Model):
 class ProjectProject(models.Model):
     _inherit = 'project.project'
     
-    is_active_project = fields.Boolean('Active Project',compute = lambda self : len(self.active_task_ids)>0)
+    is_active_project = fields.Boolean('Active Project',compute = lambda self : len(self.active_task_ids)>0,
+        search = lambda self, operator, value : [('stage_id.display_in_kanaban', '=', True)] )
     
     active_task_ids = fields.One2many('project.task', 'project_id', string='Active Tasks',
         domain=[('stage_id.display_in_kanaban', '=', True)])
