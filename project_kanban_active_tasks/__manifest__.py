@@ -32,7 +32,7 @@
     'depends': ['project'],
     'init_xml': [],
     'data': [
-        'views/project_view.xml',
+        'views/view_project.xml',
     ],
     'installable': True,
     'auto_install': False,
