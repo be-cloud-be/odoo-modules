@@ -4,8 +4,7 @@
 #    OpenERP, Open Source Management Solution    
 #    Copyright (c) 2010-2012 Elico Corp. All Rights Reserved.
 #
-#    Author: Yannick Gouin <yannick.gouin@elico-corp.com>
-#            Jerome Sonnet <jerome.sonnet@be-cloud.be> port to 9.0
+#    Author: Jerome Sonnet <jerome.sonnet@be-cloud.be>
 #
 #    This program is free software: you can redistribute it and/or modify
 #    it under the terms of the GNU General Public License as published by
@@ -21,27 +20,22 @@
 #    along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #
 ##############################################################################
-
-
 {
-    'name': 'Construction Projects',
+    'name': 'Project Kanban Active Tasks',
     'version': '0.1',
-    'category': 'Sales',
+    'category': 'Project',
     'description': """
-    Manage construction projects
+    Display active tasks in project kanban
     """,
     "author": "be-cloud.be (Jerome Sonnet)",
     "website": "http://www.be-cloud.be",
-    'depends': ['sale','crm','project'],
+    'depends': ['project'],
     'init_xml': [],
     'data': [
-        'views/construction_view.xml',
-        'security/ir.model.access.csv',
-        
+        'views/project_view.xml',
     ],
-    'installable': False,
-    'active': True,
+    'installable': True,
     'auto_install': False,
-    'application': True,
+    'application': False,
 }
 # vim:expandtab:smartindent:tabstop=4:softtabstop=4:shiftwidth=4:

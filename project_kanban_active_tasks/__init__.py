@@ -1,10 +1,8 @@
-# -*- coding: utf-8 -*-
+# -*- encoding: utf-8 -*-
 ##############################################################################
 #
 #    Copyright (c) 2015 be-cloud.be
 #                       Jerome Sonnet <jerome.sonnet@be-cloud.be>
-#
-#    Thanks to Alexis Yushin <AYUSHIN@thy.com> for sharing code/ideas
 #
 #    This program is free software: you can redistribute it and/or modify
 #    it under the terms of the GNU Affero General Public License as
@@ -20,22 +18,5 @@
 #    along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #
 ##############################################################################
-{
-    'name': 'Import MT940 Bank Statement',
-    'category' : 'Accounting & Finance',
-    'version': '0.1',
-    'author': 'be-cloud.be (Jerome Sonnet)',
-    'description' : """
-Module to import MT940 bank statements.
-======================================
 
-This module allows you to import MT940 files in Odoo: they are parsed and stored in human readable format in
-Accounting \ Bank and Cash \ Bank Statements.
-
-    """,
-    'data': ['account_bank_statement_import_mt940_view.xml'],
-    'depends': ['account_bank_statement_import'],
-    'demo': [],
-    'auto_install': True,
-    'installable': False,
-}
+import models

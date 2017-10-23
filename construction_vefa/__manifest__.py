@@ -16,7 +16,7 @@
         'views/construction_vefa_view.xml',
         'security/ir.model.access.csv',
     ],
-    'installable': True,
+    'installable': False,
     'active': True,
 }
 # vim:expandtab:smartindent:tabstop=4:softtabstop=4:shiftwidth=4:

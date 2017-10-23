@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!--
+##############################################################################
+#
+#    Copyright (c) 2015 be-cloud.be
+#                       Jerome Sonnet <jerome.sonnet@be-cloud.be>
+#
+#    This program is free software: you can redistribute it and/or modify
+#    it under the terms of the GNU Affero General Public License as
+#    published by the Free Software Foundation, either version 3 of the
+#    License, or (at your option) any later version.
+#
+#    This program is distributed in the hope that it will be useful,
+#    but WITHOUT ANY WARRANTY; without even the implied warranty of
+#    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+#    GNU Affero General Public License for more details.
+#
+#    You should have received a copy of the GNU Affero General Public License
+#    along with this program.  If not, see <http://www.gnu.org/licenses/>.
+#
+##############################################################################
+-->
+<odoo>
+    <!-- Add config to Task Type form view -->
+    <record id="task_type_edit" model="ir.ui.view">
+        <field name="name">project.task.type.form.display_in_kanaban/field>
+        <field name="model">project.task.type</field>
+        <field name="inherit_id" ref="project.task_type_edit" />
+        <field eval="18" name="priority" />
+        <field name="arch" type="xml">
+            <field name="sequence" position="after">
+                <field name="display_in_kanaban" />
+            </field>
+        </field>
+    </record>
+    
+    <record id="view_project_kanban" model="ir.ui.view">
+        <field name="name">project.project.kanban.active_tasks/field>
+        <field name="model">project.project</field>
+        <field name="inherit_id" ref="project.view_project_kanban" />
+        <field eval="18" name="priority" />
+        <field name="arch" type="xml">
+            <field name="label_tasks" position="after">
+                <field name="active_task_ids" />
+            </field>
+            <xpath expr="//div[hasclass('o_kanban_primary_left')]" position="after">
+                <div class="o_kanban_primary_left">
+                    <field name="active_task_ids" widget="many2many_tags"/>
+                </div>
+            </xpath>
+        </field>
+    </record>
+    
+</odoo>
