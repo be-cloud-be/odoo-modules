@@ -28,14 +28,14 @@ _logger = logging.getLogger(__name__)
 class ProjectTaskType(models.Model):
     _inherit = 'project.task.type'
     
-    display_in_kanaban = fields.Boolean("Display in Kanaban View", default=False)
+    display_in_kanban = fields.Boolean("Display in Kanaban View", default=False)
 
 class ProjectProject(models.Model):
     _inherit = 'project.project'
     
     is_active_project = fields.Boolean('Active Project',compute = lambda self : len(self.active_task_ids)>0,
-        search = lambda self, operator, value : [('stage_id.display_in_kanaban', '=', True)] )
+        search = lambda self, operator, value : [('task_ids.stage_id.display_in_kanban', '=', value)] )
     
     active_task_ids = fields.One2many('project.task', 'project_id', string='Active Tasks',
-        domain=[('stage_id.display_in_kanaban', '=', True)])
+        domain=[('stage_id.display_in_kanban', '=', True)])
         
