@@ -39,7 +39,7 @@ class SaleOrderTemplate(models.Model):
         required=True, readonly=True,
         default=lambda self: self.env['res.company']._company_default_get('account.invoice'))
     
-    sale_order_template_line_ids = fields.One2many('construction.sale_order_template.line','sale_order_template_id',string="Sale Order Template Lines")
+    sale_order_template_line_ids = fields.One2many('construction.sale_order_template.line','sale_order_template_id',string="Sale Order Template Lines", copy=True)
     
     @api.multi
     def write(self, vals):
